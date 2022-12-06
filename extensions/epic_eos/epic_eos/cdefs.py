@@ -1911,6 +1911,8 @@ class EOS_HPlatform(c_void_p):
         return EOS_Platform_GetApplicationStatus(self)
     def GetAuthInterface(self): # type: () -> EOS_HAuth
         return EOS_Platform_GetAuthInterface(self)
+    def GetConnectInterface(self): # type: () -> EOS_HConnect
+        return EOS_Platform_GetConnectInterface(self)
     def GetDesktopCrossplayStatus(self, Options, OutDesktopCrossplayStatusInfo):
         # type: (POINTER(EOS_Platform_GetDesktopCrossplayStatusOptions), POINTER(EOS_Platform_GetDesktopCrossplayStatusInfo)) -> EOS_EResult
         return EOS_Platform_GetDesktopCrossplayStatus(self, Options, OutDesktopCrossplayStatusInfo)
