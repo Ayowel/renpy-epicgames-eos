@@ -283,20 +283,7 @@ def achievements_querydefinitions_callback(data):
     if data[0].ResultCode.value == epic_eos.cdefs.EOS_Success.value:
         eos_achievements = epic_eos.eos_platform.GetAchievementsInterface()
         cached_achievements_count = eos_achievements.GetAchievementDefinitionCount(epic_eos.cdefs.EOS_Achievements_GetAchievementDefinitionCountOptions())
-        achievement_pt = ctypes.POINTER(epic_eos.cdefs.EOS_Achievements_DefinitionV2)()
-        for i in range(cached_achievements_count):
-            opt = epic_eos.cdefs.EOS_Achievements_CopyAchievementDefinitionV2ByIndexOptions(AchievementIndex = i)
-            read_status = eos_achievements.CopyAchievementDefinitionV2ByIndex(opt, ctypes.byref(achievement_pt))
-            if read_status.value != epic_eos.cdefs.EOS_Success.value:
-                epic_eos.ren.log(500, epic_eos.renpy_category, "Copying achievement with index {} of {} failed: {} - {}".format(i, cached_achievements_count, read_status.value, bytes_to_str(read_status.ToString())))
-                break
-            print("[{}] {}: {}".format(
-                bytes_to_str(achievement_pt[0].AchievementId),
-                bytes_to_str(achievement_pt[0].UnlockedDisplayName),
-                bytes_to_str(achievement_pt[0].UnlockedDescription),
-                ))
-            achievement_pt[0].Release()
-        epic_eos.ren.log(200, epic_eos.renpy_category, "Done loading achievements")
+        epic_eos.ren.log(200, epic_eos.renpy_category, "Done loading {} achievements".format(cached_achievements_count))
     else:
         epic_eos.ren.log(400, epic_eos.renpy_category, "Achievements definitions query received error: {} - {}".format(data[0].ResultCode.value, bytes_to_str(data[0].ResultCode.ToString())))
 
