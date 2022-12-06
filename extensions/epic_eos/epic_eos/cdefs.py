@@ -1963,7 +1963,7 @@ class EOS_HAuth(c_void_p):
         return EOS_Auth_CopyIdToken(self, Options, OutIdToken)
     def CopyUserAuthToken(self, Options, LocalUserId, OutUserAuthToken):
         # type: (POINTER(EOS_Auth_CopyUserAuthTokenOptions), EOS_EpicAccountId, POINTER(POINTER(EOS_Auth_Token))) -> EOS_EResult
-        return EOS_Auth_CopyUserAuthToken(Options, LocalUserId, OutUserAuthToken)
+        return EOS_Auth_CopyUserAuthToken(self, Options, LocalUserId, OutUserAuthToken)
     def DeletePersistentAuth(self, Options, ClientData, CompletionDelegate):
         # type: (POINTER(EOS_Auth_DeletePersistentAuthOptions), c_void_p, EOS_Auth_OnDeletePersistentAuthCallback) -> None
         return EOS_Auth_DeletePersistentAuth(self, Options, ClientData, CompletionDelegate)
@@ -2066,7 +2066,7 @@ class EOS_HConnect(c_void_p):
         return EOS_Connect_LinkAccount(self, Options, ClientData, CompletionDelegate)
     def Login(self, Options, ClientData, CompletionDelegate):
         # type: (POINTER(EOS_Connect_LoginOptions), c_void_p, EOS_Connect_OnLoginCallback) -> None
-        return EOS_Connect_Login(Options, ClientData, CompletionDelegate)
+        return EOS_Connect_Login(self, Options, ClientData, CompletionDelegate)
     def RemoveNotifyAuthExpiration(self, InId):
         # type: (EOS_NotificationId) -> None
         return EOS_Connect_RemoveNotifyAuthExpiration(self, InId)
