@@ -32,4 +32,3 @@ renpy.store.epicapi.__dict__.setdefault('retrieve_stats', epic_eos.compat.retrie
 renpy.store.epicapi.__dict__.setdefault('list_achievements', epic_eos.compat.list_achievements)
 renpy.store.epicapi.__dict__.setdefault('get_achievement', epic_eos.compat.get_achievement)
 renpy.store.epicapi.__dict__.setdefault('grant_achievement', epic_eos.compat.grant_achievement)
-renpy.store.epicapi.__dict__.setdefault('get_local_user_id', epic_eos.compat.get_local_user_id)
