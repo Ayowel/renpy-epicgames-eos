@@ -1,0 +1,70 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      push_itch:
+        description: Update Itch extension archive
+        type: boolean
+        default: true
+      push_github:
+        description: Update GitHub extension archive
+        type: boolean
+        default: true
+  push:
+    tags:
+      - v*
+
+env:
+  RENPY_VERSION: '8.0.3'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        path: project
+    - name: Ren'Py directory cache management
+      uses: actions/cache@v3.0.11
+      id: cache-renpy
+      with:
+        path: renpy
+        key: ${{ runner.os }}-${{ env.RENPY_VERSION }}-primes
+    - name: "Download Ren'Py"
+      if: steps.cache-renpy.outputs.cache-hit != 'true'
+      run: |
+        mkdir renpy
+        curl https://www.renpy.org/dl/${RENPY_VERSION}/renpy-${RENPY_VERSION}-sdk.tar.bz2 | tar -xjC renpy --strip-components 1
+    - name: "Build extensions' archives"
+      working-directory: project/extensions
+      run: |
+        pip3 install -r build-requirements.txt
+        python3 build.py
+    - name: "Validate project"
+      run: |
+        ./renpy/renpy.sh project lint --error-code
+    - name: "Generate release file"
+      working-directory: project
+      run: |
+        find * -type f -print0 | xargs -r0 touch -t 199612050000
+        find EOS_runner.exe EOS_runner.ini game/epic_eos.rpe libs | sort | xargs -r zip ../epic_eos.zip
+    - name: "Get release info"
+      id: release-info
+      working-directory: project
+      run: |
+        echo -n "VERSION=" >>$GITHUB_OUTPUT
+        git describe --always --tags >>$GITHUB_OUTPUT
+    - uses: softprops/action-gh-release@v0.1.14
+      if: ${{ github.event_name == 'push' || github.event.inputs.push_github == 'true' }}
+      with:
+        files: epic_eos.zip
+    - uses: Ayowel/butler-publish-itchio-action@v2.0.0
+      if: ${{ github.event_name == 'push' || github.event.inputs.push_itch == 'true' }}
+      env:
+        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+        CHANNEL: pc
+        ITCH_GAME: renpy-epic-integration
+        ITCH_USER: ayowel
+        PACKAGE: epic_eos.zip
+        VERSION: ${{ steps.release-info.outputs.VERSION }}

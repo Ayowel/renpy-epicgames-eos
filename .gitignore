@@ -1,0 +1,35 @@
+### Renpy ###
+# Don't track content of these folders #
+########################################
+cache/
+saves/
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+
+*.rpyc
+*.rpymc
+
+# Compiled extension #
+######################
+*.rpe
+
+# The log file and other misc things #
+######################################
+log.txt
+errors.txt
+traceback.txt
+files.txt
+
+# Specific assets #
+###################
+/game/epic.rpy
+/game/01epic_dev.rpy
+!/libs/EOSSDK-Win*-Shipping.dll
+!/libs/x*/xaudio2_9redist.dll
+!/EOS_runner.exe

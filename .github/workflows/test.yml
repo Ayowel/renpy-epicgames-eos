@@ -1,0 +1,32 @@
+name: Test and lint
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        renpy_version: ['8.0.3']
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        path: project
+    - name: Ren'Py directory cache management
+      uses: actions/cache@v3.0.11
+      id: cache-renpy
+      with:
+        path: renpy
+        key: ${{ runner.os }}-${{ matrix.renpy_version }}-primes
+    - name: "Download Ren'Py"
+      if: steps.cache-renpy.outputs.cache-hit != 'true'
+      run: |
+        mkdir renpy
+        curl https://www.renpy.org/dl/${{ matrix.renpy_version }}/renpy-${{ matrix.renpy_version }}-sdk.tar.bz2 | tar -xjC renpy --strip-components 1
+    - name: "Build extensions' archives"
+      run: |
+        pip install -r project/extensions/build-requirements.txt
+        python project/extensions/build.py
+    - name: "Lint Ren'Py code"
+      run: |
+        renpy/renpy.sh project lint --compile --error-code
