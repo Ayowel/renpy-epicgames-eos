@@ -27,17 +27,6 @@ def str_to_bytes(string):
     else:
         return string.encode('utf-8')
 
-epic_id_map = {}
-
-def epicaccount_to_productuser(id):
-    global epic_id_map
-    return epic_id_map.get(id, None)
-
-def register_epicaccount_map(epicaccountid, productuserid):
-    global epic_id_map
-    epic_id_map[epicaccountid] = productuserid
-
-
 # Public API functions
 
 def epic_shutdown():
@@ -142,7 +131,7 @@ def epic_init():
 
 def is_logged_in(): # type: () -> None
     if epic_eos.eos_platform is not None:
-        return 0 < epic_eos.eos_platform.GetAuthInterface().GetLoggedInAccountsCount()
+        return 0 < epic_eos.eos_platform.GetConnectInterface().GetLoggedInUsersCount()
     else:
         return False
 
@@ -150,12 +139,9 @@ def retrieve_stats(): # type: () -> None
     if epic_eos.eos_platform is not None:
         eos_achievements = epic_eos.eos_platform.GetAchievementsInterface()
         opts = epic_eos.cdefs.EOS_Achievements_QueryDefinitionsOptions()
-        epic_user = get_local_user_id()
-        user = epicaccount_to_productuser(epic_user)
-        global epic_id_map
-        print("PREPARING RETRIEVE WITH", epic_id_map, epic_user, user)
+        user = get_local_user_id()
         if user:
-            opts.LocalUserId = epic_eos.cdefs.EOS_ProductUserId.FromString(str_to_bytes(user))
+            opts.LocalUserId = user
         eos_achievements.QueryDefinitions(
             ctypes.byref(opts),
             None, epic_eos.compat.achievements_querydefinitions_callback,
@@ -181,9 +167,8 @@ def list_achievements(): # type: () -> List[str]
 def get_achievement(name): # type: (str) -> bool
     is_unlocked = None
     if epic_eos.eos_platform is not None:
-        user_str = get_local_user_id()
-        if user_str:
-            user = epic_eos.cdefs.EOS_ProductUserId(user_str)
+        user = get_local_user_id()
+        if user:
             opts = epic_eos.cdefs.EOS_Achievements_CopyPlayerAchievementByAchievementIdOptions(
                 LocalUserId = user,
                 AchievementId = str_to_bytes(name),
@@ -200,39 +185,39 @@ def get_achievement(name): # type: (str) -> bool
 
 def grant_achievement(name): # type: (str) -> None
     if epic_eos.eos_platform is not None:
-        user_str = epicaccount_to_productuser(get_local_user_id())
-        if user_str:
-            epic_eos.cdefs.EOS_EpicAccountId.FromString(user_str)
+        user = get_local_user_id()
+        if user:
             interface = epic_eos.eos_platform.GetAchievementsInterface()
-            user = epic_eos.cdefs.EOS_ProductUserId.FromString(str_to_bytes(user_str))
-            name_bytes = bytes_to_str(name)
+            name_bytes = ctypes.c_char_p(str_to_bytes(name))
+
             opts = epic_eos.cdefs.EOS_Achievements_UnlockAchievementsOptions(
                 UserId = user,
-                AchievementIds = ctypes.byref(name_bytes),
+                AchievementIds = ctypes.pointer(name_bytes),
                 AchievementsCount = 1,
             )
             status = interface.UnlockAchievements(
                 opts, None, achievements_unlocked_callback
             )
-            if status.value != epic_eos.cdefs.EOS_ESuccess.value:
+            if status.value != epic_eos.cdefs.EOS_Success.value:
                 epic_eos.ren.log(
                     400, epic_eos.renpy_category,
-                    "An error occured while granting an achievement to {}: {} - {}".format(
-                        user_str, status.value, bytes_to_str(status.ToString()))
+                    "An error occured while granting the achievement '{}': {} - {}".format(
+                        name, status.value, bytes_to_str(status.ToString()))
                 )
 
-# Additional public API functions
+# Internal API functions
 
 def get_local_user_id(): # type: () -> str
     # Note that we assume that only one user is locally available and that it is the first connected user
     if epic_eos.eos_platform is not None:
-        interface = epic_eos.eos_platform.GetAuthInterface()
-        account_count = interface.GetLoggedInAccountsCount()
+        interface = epic_eos.eos_platform.GetConnectInterface() # FIXME: use connect interface
+        account_count = interface.GetLoggedInUsersCount()
         if account_count > 0:
-            account = interface.GetLoggedInAccountByIndex(0)
-            epicaccount_buffer = ctypes.create_string_buffer(epic_eos.cdefs.EOS_EPICACCOUNTID_MAX_LENGTH+1)
-            account.ToString(epicaccount_buffer, ctypes.byref(ctypes.c_int32(ctypes.sizeof(epicaccount_buffer))))
-            return bytes_to_str(epicaccount_buffer.value)
+            account = interface.GetLoggedInUserByIndex(0)
+            #account_buffer = ctypes.create_string_buffer(epic_eos.cdefs.EOS_PRODUCTUSERID_MAX_LENGTH+1)
+            #account.ToString(account_buffer, ctypes.byref(ctypes.c_int32(ctypes.sizeof(account_buffer))))
+            #return bytes_to_str(account_buffer.value)
+            return account
     return None
 
 # Generic native callback functions
@@ -242,28 +227,90 @@ def auth_login_callback(login_info):
     # type: (ctypes.POINTER(epic_eos.cdefs.EOS_Auth_LoginCallbackInfo)) -> None
     if not login_info:
         epic_eos.ren.log(500, epic_eos.renpy_category, "Auth login callback did not receive data")
-    else:
-        info = login_info[0]
-        print("AUTH", info.ResultCode.value)
-        if info.ResultCode.value != epic_eos.cdefs.EOS_Success.value:
-            if info.AccountFeatureRestrictedInfo:
-                target_uri = bytes_to_str(info.AccountFeatureRestrictedInfo[0].VerificationURI)
-                epic_eos.ren.log(400, epic_eos.renpy_category, "Auth login callback failed because a manual action is required. Open {}".format(target_uri))
+        return
+    info = login_info[0]
+    if info.ResultCode.value != epic_eos.cdefs.EOS_Success.value:
+        if info.AccountFeatureRestrictedInfo:
+            target_uri = bytes_to_str(info.AccountFeatureRestrictedInfo[0].VerificationURI)
+            epic_eos.ren.log(400, epic_eos.renpy_category, "Auth login callback failed because a manual action is required. Open {}".format(target_uri))
         else:
-            epicaccount_buffer = ctypes.create_string_buffer(epic_eos.cdefs.EOS_EPICACCOUNTID_MAX_LENGTH + 1)
-            info.SelectedAccountId.ToString(epicaccount_buffer, ctypes.byref(ctypes.c_int32(ctypes.sizeof(epicaccount_buffer))))
-            productuser_buffer = ctypes.create_string_buffer(epic_eos.cdefs.EOS_PRODUCTUSERID_MAX_LENGTH + 1)
-            info.LocalUserId.ToString(productuser_buffer, ctypes.byref(ctypes.c_int32(ctypes.sizeof(productuser_buffer))))
+            epic_eos.ren.log(400, epic_eos.renpy_category, "Auth login callback failed with error: {} - {}".format(info.ResultCode.value, bytes_to_str(info.ResultCode.ToString())))
+        return
 
-            print("RECEIVED USER", epicaccount_buffer.value, productuser_buffer.value)
-            register_epicaccount_map(bytes_to_str(epicaccount_buffer.value), bytes_to_str(productuser_buffer.value))
-            retrieve_stats()
+    # EOS_Auth_CopyIdToken EOS_Auth_CopyUserAuthToken
+    token_ref = ctypes.POINTER(epic_eos.cdefs.EOS_Auth_Token)()
+    copy_result = epic_eos.eos_platform.GetAuthInterface().CopyUserAuthToken(
+        epic_eos.cdefs.EOS_Auth_CopyUserAuthTokenOptions(),
+        info.SelectedAccountId,
+        ctypes.byref(token_ref),
+    )
+    if copy_result.value != epic_eos.cdefs.EOS_Success.value:
+        epic_eos.ren.log(500, epic_eos.renpy_category, "Failed to get token in auth login callback")
+        return
+    token = token_ref[0]
+    creds = epic_eos.cdefs.EOS_Connect_Credentials(
+        Token = token.AccessToken,
+        Type = epic_eos.cdefs.EOS_ECT_EPIC,
+    )
+    opts = epic_eos.cdefs.EOS_Connect_LoginOptions(
+        Credentials = ctypes.pointer(creds),
+        UserLoginInfo = None,
+    )
+    connect = epic_eos.eos_platform.GetConnectInterface()
+    connect.Login(ctypes.byref(opts), None, connect_login_callback)
+    token.Release()
 
-@epic_eos.cdefs.EOS_Achievements_OnAchievementsUnlockedCallbackV2
+@epic_eos.cdefs.EOS_Connect_OnLoginCallback
+def connect_login_callback(login_info):
+    # type: (ctypes.POINTER(ctypes.cdefs.EOS_Connect_LoginCallbackInfo)) -> None
+    if not login_info:
+        epic_eos.ren.log(500, epic_eos.renpy_category, "Connect Login callback did not receive data")
+        return
+
+    info = login_info[0]
+    if info.ResultCode.value == epic_eos.cdefs.EOS_Success.value:
+        userid = ctypes.create_string_buffer(epic_eos.cdefs.EOS_PRODUCTUSERID_MAX_LENGTH + 1)
+        info.LocalUserId.ToString(userid, ctypes.byref(ctypes.c_int32(ctypes.sizeof(userid))))
+        epic_eos.ren.log(400, epic_eos.renpy_category, "Connected user {}".format(bytes_to_str(userid.value)))
+        retrieve_stats()
+    elif info.ResultCode.value == epic_eos.cdefs.EOS_InvalidUser.value:
+        opts = epic_eos.cdefs.EOS_Connect_CreateUserOptions()
+        if info.ContinuanceToken:
+            opts.ContinuanceToken = info.ContinuanceToken
+        connect = epic_eos.eos_platform.GetConnectInterface()
+        connect.CreateUser(opts, None, connect_create_callback)
+    else:
+        epic_eos.ren.log(400, epic_eos.renpy_category, "Connect login callback failed with error: {} - {}".format(info.ResultCode.value, bytes_to_str(info.ResultCode.ToString())))
+
+@epic_eos.cdefs.EOS_Connect_OnCreateUserCallback
+def connect_create_callback(create_info):
+    if not create_info:
+        epic_eos.ren.log(500, epic_eos.renpy_category, "Connect OnCreateUser callback did not receive data")
+        return
+
+    info = create_info[0]
+    if info.ResultCode.value == epic_eos.cdefs.EOS_Success.value:
+        epic_eos.ren.log(100, epic_eos.renpy_category, "Created new EOS user")
+        retrieve_stats()
+    else:
+        epic_eos.ren.log(500, epic_eos.renpy_category, "Failed to created new EOS user")
+
+@epic_eos.cdefs.EOS_Achievements_OnUnlockAchievementsCompleteCallback
 def achievements_unlocked_callback(data):
-    # type: (ctypes.POINTER(epic_eos.cdefs.EOS_Achievements_OnAchievementsUnlockedCallbackV2Info)) -> None
+    # type: (epic_eos.cdefs.EOS_Achievements_OnUnlockAchievementsCompleteCallbackInfo) -> None
     if not data:
         epic_eos.ren.log(500, epic_eos.renpy_category, "Achievements unlock callback did not receive data")
+        return
+
+    result = data[0]
+    if result.ResultCode.value != epic_eos.cdefs.EOS_Success.value:
+        epic_eos.ren.log(400, epic_eos.renpy_category, "Achievements unlock callback received error: {} - {}".format(data[0].ResultCode.value, bytes_to_str(data[0].ResultCode.ToString())))
+
+@epic_eos.cdefs.EOS_Achievements_OnAchievementsUnlockedCallbackV2
+def achievements_unlocknotify_callback(data):
+    # type: (ctypes.POINTER(epic_eos.cdefs.EOS_Achievements_OnAchievementsUnlockedCallbackV2Info)) -> None
+    if not data:
+        epic_eos.ren.log(500, epic_eos.renpy_category, "Achievements unlock notification callback did not receive data")
     else:
         achievement_info = data[0]
         productuser_buffer = ctypes.create_string_buffer(epic_eos.cdefs.EOS_PRODUCTUSERID_MAX_LENGTH + 1)
