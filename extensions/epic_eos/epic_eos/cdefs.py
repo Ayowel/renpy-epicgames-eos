@@ -2,7 +2,6 @@ from ctypes import (
     c_int32, c_int64, c_uint8, c_uint32, c_uint64,
     c_char_p, c_void_p, c_double, Structure,
     CFUNCTYPE, POINTER,)
-from ctypes.wintypes import HANDLE
 
 try:
     from typing import Any
@@ -306,11 +305,11 @@ class EOS_PageQuery(Structure):
     ('StartIndex', c_int32),
     ('MaxCount', c_int32),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_PAGEQUERY_API_LATEST,
             StartIndex = 0, MaxCount = EOS_PAGEQUERY_MAXCOUNT_DEFAULT,
             **kwargs):
-        Structure.__init__(self, *args,
+        Structure.__init__(self,
             ApiVersion = ApiVersion, StartIndex = StartIndex,
             MaxCount = MaxCount, **kwargs)
 class EOS_PageResult(Structure):
@@ -405,8 +404,8 @@ class EOS_Platform_ClientCredentials(Structure):
         ('ClientId', c_char_p),
         ('ClientSecret', c_char_p),
     ]
-    def __init__(self, *args, ClientId = None, ClientSecret = None, **kwargs):
-        Structure.__init__(self, *args,
+    def __init__(self, ClientId = None, ClientSecret = None, **kwargs):
+        Structure.__init__(self,
             ClientId = ClientId, ClientSecret = ClientSecret,
             **kwargs)
 
@@ -417,12 +416,12 @@ class EOS_Platform_RTCOptions(Structure):
         ('ApiVersion', c_int32),
         ('PlatformSpecificOptions', c_void_p),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST,
             PlatformSpecificOptions = None,
             **kwargs):
         Structure.__init__(
-            self, *args, ApiVersion = ApiVersion,
+            self, ApiVersion = ApiVersion,
             PlatformSpecificOptions = PlatformSpecificOptions, **kwargs)
     
 EOS_COUNTRYCODE_MAX_LENGTH = 4
@@ -458,13 +457,13 @@ class EOS_Platform_Options(Structure):
         ('RTCOptions', POINTER(EOS_Platform_RTCOptions)),
         ('IntegratedPlatformOptionsContainerHandle', EOS_HIntegratedPlatformOptionsContainer),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST, Reserved = None,
             ProductId = None, SandboxId = None, ClientCredentials = EOS_Platform_ClientCredentials(),
             bIsServer = False, EncryptionKey = None, OverrideCountryCode = None,
             OverrideLocaleCode = None, CacheDirectory = None, TickBudgetInMilliseconds = 0,
             RTCOptions = None, IntegratedPlatformOptionsContainerHandle = None, **kwargs):
-        Structure.__init__(self, *args, 
+        Structure.__init__(self,
             ApiVersion = ApiVersion, Reserved = Reserved,
             ProductId = ProductId, SandboxId = SandboxId,
             ClientCredentials = ClientCredentials, bIsServer = bIsServer,
@@ -504,10 +503,10 @@ EOS_PLATFORM_GETDESKTOPCROSSPLAYSTATUS_API_LATEST = 1
 class EOS_Platform_GetDesktopCrossplayStatusOptions(Structure):
     _pack_ = PACK
     _fields_ = [('ApiVersion', c_int32)]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_PLATFORM_GETDESKTOPCROSSPLAYSTATUS_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 class EOS_Platform_GetDesktopCrossplayStatusInfo(Structure):
     _pack_ = PACK
@@ -610,11 +609,11 @@ class EOS_Initialize_ThreadAffinity(Structure):
         ('HttpRequestIo', c_uint64),
         ('RTCIo', c_uint64),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_INITIALIZE_THREADAFFINITY_API_LATEST,
             NetworkWork = 0, StorageIo = 0, WebSocketIo = 0, P2PIo = 0,
             HttpRequestIo = 0, RTCIo = 0, **kwargs):
-        Structure.__init__(self, *args,
+        Structure.__init__(self,
             ApiVersion = ApiVersion, NetworkWork = NetworkWork, StorageIo = StorageIo,
             WebSocketIo = WebSocketIo, P2PIo = P2PIo, HttpRequestIo = HttpRequestIo,
             RTCIo = RTCIo, **kwargs)
@@ -633,13 +632,13 @@ class EOS_InitializeOptions(Structure):
         ('SystemInitializeOptions', c_void_p),
         ('OverrideThreadAffinity', POINTER(EOS_Initialize_ThreadAffinity)),
     ]
-    def __init__(self, *args,
+    def __init__(self,
         ApiVersion = EOS_INITIALIZE_API_LATEST, AllocateMemoryFunction = None,
         ReallocateMemoryFunction = None, ReleaseMemoryFunction = None,
         Reserved = None, SystemInitializeOptions = None,
         OverrideThreadAffinity = None,
         **kwargs):
-        Structure.__init__(self, *args,
+        Structure.__init__(self,
             ApiVersion = ApiVersion, AllocateMemoryFunction = AllocateMemoryFunction,
             ReallocateMemoryFunction = ReallocateMemoryFunction, ReleaseMemoryFunction = ReleaseMemoryFunction,
             Reserved = Reserved, SystemInitializeOptions = SystemInitializeOptions,
@@ -666,13 +665,13 @@ class EOS_Achievements_QueryDefinitionsOptions(Structure):
         ('HiddenAchievementIds_DEPRECATED', POINTER(c_char_p)),
         ('HiddenAchievementsCount_DEPRECATED', c_uint32),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_ACHIEVEMENTS_QUERYDEFINITIONS_API_LATEST,
             LocalUserId = None,
             EpicUserId_DEPRECATED = None, HiddenAchievementIds_DEPRECATED = None,
             HiddenAchievementsCount_DEPRECATED = 0,
             **kwargs):
-        Structure.__init__(self, *args,
+        Structure.__init__(self,
             ApiVersion = ApiVersion, LocalUserId = LocalUserId,
             EpicUserId_DEPRECATED = EpicUserId_DEPRECATED,
             HiddenAchievementIds_DEPRECATED = HiddenAchievementIds_DEPRECATED,
@@ -688,10 +687,10 @@ class EOS_Achievements_StatThresholds(Structure):
         ('Name', c_char_p),
         ('Threshold', c_int32),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_ACHIEVEMENTS_STATTHRESHOLDS_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_ACHIEVEMENTS_PLAYERSTATINFO_API_LATEST = c_int32(1)
 class EOS_Achievements_PlayerStatInfo(Structure):
@@ -702,10 +701,10 @@ class EOS_Achievements_PlayerStatInfo(Structure):
         ('CurrentValue', c_int32),
         ('ThresholdValue', c_int32),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_ACHIEVEMENTS_PLAYERSTATINFO_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_ACHIEVEMENTS_DEFINITIONV2_API_LATEST = c_int32(2)
 class EOS_Achievements_DefinitionV2(Structure):
@@ -724,10 +723,10 @@ class EOS_Achievements_DefinitionV2(Structure):
         ('StatThresholdsCount', c_uint32),
         ('StatThresholds', POINTER(EOS_Achievements_StatThresholds))
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_ACHIEVEMENTS_DEFINITIONV2_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
     def Release(self):
         EOS_Achievements_DefinitionV2_Release(self)
 EOS_Achievements_DefinitionV2_Release = not_ready
@@ -738,10 +737,10 @@ class EOS_Achievements_GetAchievementDefinitionCountOptions(Structure):
     _fields_ = [
         ('ApiVersion', c_int32),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_ACHIEVEMENTS_GETACHIEVEMENTDEFINITIONCOUNT_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYINDEX_API_LATEST = c_int32(2)
 EOS_ACHIEVEMENTS_COPYDEFINITIONV2BYINDEX_API_LATEST = EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYINDEX_API_LATEST
@@ -751,10 +750,10 @@ class EOS_Achievements_CopyAchievementDefinitionV2ByIndexOptions(Structure):
         ('ApiVersion', c_int32),
         ('AchievementIndex', c_uint32),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYINDEX_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYACHIEVEMENTID_API_LATEST = c_int32(2)
 EOS_ACHIEVEMENTS_COPYDEFINITIONV2BYACHIEVEMENTID_API_LATEST = EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYACHIEVEMENTID_API_LATEST
@@ -764,10 +763,10 @@ class EOS_Achievements_CopyAchievementDefinitionV2ByAchievementIdOptions(Structu
         ('ApiVersion', c_int32),
         ('AchievementId', c_char_p),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYACHIEVEMENTID_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Achievements_OnQueryDefinitionsCompleteCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -785,10 +784,10 @@ class EOS_Achievements_QueryPlayerAchievementsOptions(Structure):
         ('TargetUserId', EOS_ProductUserId),
         ('LocalUserId', EOS_ProductUserId),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_ACHIEVEMENTS_QUERYPLAYERACHIEVEMENTS_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_ACHIEVEMENTS_ACHIEVEMENT_UNLOCKTIME_UNDEFINED = c_int32(-1)
 EOS_ACHIEVEMENTS_PLAYERACHIEVEMENT_API_LATEST = c_int32(2)
@@ -806,12 +805,12 @@ class EOS_Achievements_PlayerAchievement(Structure):
         ('IconURL', c_char_p),
         ('FlavorText', c_char_p),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_ACHIEVEMENTS_PLAYERACHIEVEMENT_API_LATEST,
             UnlockTime = EOS_ACHIEVEMENTS_ACHIEVEMENT_UNLOCKTIME_UNDEFINED,
             IconURL = None, FlavorText = None,
             **kwargs):
-        Structure.__init__(self, *args,
+        Structure.__init__(self,
             ApiVersion = ApiVersion, UnlockTime = UnlockTime,
             IconURL = IconURL, FlavorText = FlavorText,
             **kwargs)
@@ -825,10 +824,10 @@ class EOS_Achievements_GetPlayerAchievementCountOptions(Structure):
         ('ApiVersion', c_int32),
         ('UserId', EOS_ProductUserId),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_ACHIEVEMENTS_GETPLAYERACHIEVEMENTCOUNT_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_ACHIEVEMENTS_COPYPLAYERACHIEVEMENTBYINDEX_API_LATEST = c_int32(2)
 class EOS_Achievements_CopyPlayerAchievementByIndexOptions(Structure):
@@ -839,10 +838,10 @@ class EOS_Achievements_CopyPlayerAchievementByIndexOptions(Structure):
         ('AchievementIndex', c_uint32),
         ('LocalUserId', EOS_ProductUserId),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_ACHIEVEMENTS_COPYPLAYERACHIEVEMENTBYINDEX_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_ACHIEVEMENTS_COPYPLAYERACHIEVEMENTBYACHIEVEMENTID_API_LATEST = c_int32(2)
 class EOS_Achievements_CopyPlayerAchievementByAchievementIdOptions(Structure):
@@ -853,10 +852,10 @@ class EOS_Achievements_CopyPlayerAchievementByAchievementIdOptions(Structure):
         ('AchievementId', c_char_p),
         ('LocalUserId', EOS_ProductUserId),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_ACHIEVEMENTS_COPYPLAYERACHIEVEMENTBYACHIEVEMENTID_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_Achievements_PlayerAchievement_Release = not_ready
 
@@ -879,10 +878,10 @@ class EOS_Achievements_UnlockAchievementsOptions(Structure):
         ('AchievementIds', POINTER(c_char_p)),
         ('AchievementsCount', c_uint32),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_ACHIEVEMENTS_UNLOCKACHIEVEMENTS_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Achievements_OnUnlockAchievementsCompleteCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -900,10 +899,10 @@ class EOS_Achievements_AddNotifyAchievementsUnlockedV2Options(Structure):
     _fields_ = [
         ('ApiVersion', c_int32),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_ACHIEVEMENTS_ADDNOTIFYACHIEVEMENTSUNLOCKEDV2_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Achievements_OnAchievementsUnlockedCallbackV2Info(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1071,8 +1070,8 @@ class EOS_Auth_Token(Structure):
         ('RefreshExpiresIn', c_double),
         ('RefreshExpiresAt', c_char_p),
     ]
-    def __init__(self, *args, ApiVersion = EOS_AUTH_TOKEN_API_LATEST, **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+    def __init__(self, ApiVersion = EOS_AUTH_TOKEN_API_LATEST, **kwargs):
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
     def Release(self):
         return EOS_Auth_Token_Release(self)
 EOS_Auth_Token_Release = not_ready
@@ -1088,8 +1087,8 @@ class EOS_Auth_Credentials(Structure):
         ('SystemAuthCredentialsOptions', c_void_p),
         ('ExternalType', EOS_EExternalCredentialType),
     ]
-    def __init__(self, *args, ApiVersion = EOS_AUTH_CREDENTIALS_API_LATEST, **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+    def __init__(self, ApiVersion = EOS_AUTH_CREDENTIALS_API_LATEST, **kwargs):
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_AUTH_PINGRANTINFO_API_LATEST = 2
 class EOS_Auth_PinGrantInfo(Structure):
@@ -1101,8 +1100,8 @@ class EOS_Auth_PinGrantInfo(Structure):
         ('ExpiresIn', c_int32),
         ('VerificationURIComplete', c_char_p),
     ]
-    def __init__(self, *args, ApiVersion = EOS_AUTH_PINGRANTINFO_API_LATEST, **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+    def __init__(self, ApiVersion = EOS_AUTH_PINGRANTINFO_API_LATEST, **kwargs):
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_AUTH_ACCOUNTFEATURERESTRICTEDINFO_API_LATEST = 1
 class EOS_Auth_AccountFeatureRestrictedInfo(Structure):
@@ -1111,10 +1110,10 @@ class EOS_Auth_AccountFeatureRestrictedInfo(Structure):
         ('ApiVersion', c_int32),
         ('VerificationURI', c_char_p),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_AUTH_ACCOUNTFEATURERESTRICTEDINFO_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 class EOS_EAuthScopeFlags(c_int32):
     pass
@@ -1134,10 +1133,10 @@ class EOS_Auth_LoginOptions(Structure):
         ('Credentials', POINTER(EOS_Auth_Credentials)),
         ('ScopeFlags', EOS_EAuthScopeFlags),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_AUTH_LOGIN_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Auth_LoginCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1159,10 +1158,10 @@ class EOS_Auth_LogoutOptions(Structure):
         ('ApiVersion', c_int32),
         ('LocalUserId', EOS_EpicAccountId),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_AUTH_LOGOUT_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Auth_LogoutCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1187,10 +1186,10 @@ class EOS_Auth_LinkAccountOptions(Structure):
         ('ContinuanceToken', EOS_ContinuanceToken),
         ('LocalUserId', EOS_EpicAccountId),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_AUTH_LINKACCOUNT_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Auth_LinkAccountCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1210,10 +1209,10 @@ class EOS_Auth_VerifyUserAuthOptions(Structure):
         ('ApiVersion', c_int32),
         ('AuthToken', POINTER(EOS_Auth_Token)),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_AUTH_VERIFYUSERAUTH_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Auth_VerifyUserAuthCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1229,10 +1228,10 @@ class EOS_Auth_CopyUserAuthTokenOptions(Structure):
     _fields_ = [
         ('ApiVersion', c_int32),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_AUTH_COPYUSERAUTHTOKEN_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 EOS_AUTH_COPYIDTOKEN_API_LATEST = 1
 class EOS_Auth_CopyIdTokenOptions(Structure):
     _pack_ = PACK
@@ -1240,10 +1239,10 @@ class EOS_Auth_CopyIdTokenOptions(Structure):
         ('ApiVersion', c_int32),
         ('AccountId', EOS_EpicAccountId),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_AUTH_COPYIDTOKEN_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_AUTH_IDTOKEN_API_LATEST = 1
 class EOS_Auth_IdToken(Structure):
@@ -1253,10 +1252,10 @@ class EOS_Auth_IdToken(Structure):
         ('AccountId', EOS_EpicAccountId),
         ('JsonWebToken', c_char_p),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_AUTH_IDTOKEN_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
     def Release(self):
         return EOS_Auth_IdToken_Release(self)
 EOS_Auth_IdToken_Release = not_ready
@@ -1269,10 +1268,10 @@ class EOS_Auth_QueryIdTokenOptions(Structure):
         ('LocalUserId', EOS_EpicAccountId),
         ('TargetAccountId', EOS_EpicAccountId),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_AUTH_QUERYIDTOKEN_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Auth_QueryIdTokenCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1291,10 +1290,10 @@ class EOS_Auth_VerifyIdTokenOptions(Structure):
         ('ApiVersion', c_int32),
         ('IdToken', POINTER(EOS_Auth_IdToken)),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_AUTH_VERIFYIDTOKEN_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Auth_VerifyIdTokenCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1321,10 +1320,10 @@ class EOS_Auth_AddNotifyLoginStatusChangedOptions(Structure):
     _fields_ = [
         ('ApiVersion', c_int32),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_AUTH_ADDNOTIFYLOGINSTATUSCHANGED_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_AUTH_DELETEPERSISTENTAUTH_API_LATEST = 2
 class EOS_Auth_DeletePersistentAuthOptions(Structure):
@@ -1333,10 +1332,10 @@ class EOS_Auth_DeletePersistentAuthOptions(Structure):
         ('ApiVersion', c_int32),
         ('RefreshToken', c_char_p),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_AUTH_DELETEPERSISTENTAUTH_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 class EOS_Auth_DeletePersistentAuthCallbackInfo(Structure):
     _pack_ = PACK
@@ -1393,10 +1392,10 @@ class EOS_Connect_Credentials(Structure):
         ('Token', c_char_p),
         ('Type', EOS_EExternalCredentialType),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_CREDENTIALS_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_CONNECT_USERLOGININFO_DISPLAYNAME_MAX_LENGTH = 32
 EOS_CONNECT_USERLOGININFO_API_LATEST = 1
@@ -1406,10 +1405,10 @@ class EOS_Connect_UserLoginInfo(Structure):
         ('ApiVersion', c_int32),
         ('DisplayName', c_char_p),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_USERLOGININFO_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_CONNECT_LOGIN_API_LATEST = 2
 class EOS_Connect_LoginOptions(Structure):
@@ -1419,10 +1418,10 @@ class EOS_Connect_LoginOptions(Structure):
         ('Credentials', POINTER(EOS_Connect_Credentials)),
         ('UserLoginInfo', POINTER(EOS_Connect_UserLoginInfo)),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_LOGIN_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Connect_LoginCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1441,10 +1440,10 @@ class EOS_Connect_CreateUserOptions(Structure):
         ('ApiVersion', c_int32),
         ('ContinuanceToken', EOS_ContinuanceToken),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_CREATEUSER_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Connect_CreateUserCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1463,10 +1462,10 @@ class EOS_Connect_LinkAccountOptions(Structure):
         ('LocalUserId', EOS_ProductUserId),
         ('ContinuanceToken', EOS_ContinuanceToken),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_LINKACCOUNT_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Connect_LinkAccountCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1484,10 +1483,10 @@ class EOS_Connect_UnlinkAccountOptions(Structure):
         ('ApiVersion', c_int32),
         ('LocalUserId', EOS_ProductUserId),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_UNLINKACCOUNT_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Connect_UnlinkAccountCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1506,10 +1505,10 @@ class EOS_Connect_CreateDeviceIdOptions(Structure):
         ('ApiVersion', c_int32),
         ('DeviceModel', c_char_p),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_CREATEDEVICEID_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Connect_CreateDeviceIdCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1525,10 +1524,10 @@ class EOS_Connect_DeleteDeviceIdOptions(Structure):
     _fields_ = [
         ('ApiVersion', c_int32),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_DELETEDEVICEID_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Connect_DeleteDeviceIdCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1547,10 +1546,10 @@ class EOS_Connect_TransferDeviceIdAccountOptions(Structure):
         ('LocalDeviceUserId', EOS_ProductUserId),
         ('ProductUserIdToPreserve', EOS_ProductUserId),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_TRANSFERDEVICEIDACCOUNT_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Connect_TransferDeviceIdAccountCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1572,10 +1571,10 @@ class EOS_Connect_QueryExternalAccountMappingsOptions(Structure):
         ('ExternalAccountIds', POINTER(c_char_p)),
         ('ExternalAccountIdCount', c_uint32),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_QUERYEXTERNALACCOUNTMAPPINGS_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Connect_QueryExternalAccountMappingsCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1596,10 +1595,10 @@ class EOS_Connect_GetExternalAccountMappingsOptions(Structure):
         ('AccountIdType', EOS_EExternalAccountType),
         ('TargetExternalUserId', c_char_p),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_GETEXTERNALACCOUNTMAPPING_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_CONNECT_QUERYPRODUCTUSERIDMAPPINGS_API_LATEST = 2
 class EOS_Connect_QueryProductUserIdMappingsOptions(Structure):
@@ -1611,10 +1610,10 @@ class EOS_Connect_QueryProductUserIdMappingsOptions(Structure):
         ('ProductUserIds', POINTER(EOS_ProductUserId)),
         ('ProductUserIdCount', c_uint32),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_QUERYPRODUCTUSERIDMAPPINGS_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Connect_QueryProductUserIdMappingsCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1634,10 +1633,10 @@ class EOS_Connect_GetProductUserIdMappingOptions(Structure):
         ('AccountIdType', EOS_EExternalAccountType),
         ('TargetProductUserId', EOS_ProductUserId),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_GETPRODUCTUSERIDMAPPING_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_CONNECT_GETPRODUCTUSEREXTERNALACCOUNTCOUNT_API_LATEST = 1
 class EOS_Connect_GetProductUserExternalAccountCountOptions(Structure):
@@ -1646,10 +1645,10 @@ class EOS_Connect_GetProductUserExternalAccountCountOptions(Structure):
         ('ApiVersion', c_int32),
         ('TargetUserId', EOS_ProductUserId),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_GETPRODUCTUSEREXTERNALACCOUNTCOUNT_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYINDEX_API_LATEST = 1
 class EOS_Connect_CopyProductUserExternalAccountByIndexOptions(Structure):
@@ -1659,10 +1658,10 @@ class EOS_Connect_CopyProductUserExternalAccountByIndexOptions(Structure):
         ('TargetUserId', EOS_ProductUserId),
         ('ExternalAccountInfoIndex', c_uint32),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYINDEX_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYACCOUNTTYPE_API_LATEST = 1
 class EOS_Connect_CopyProductUserExternalAccountByAccountTypeOptions(Structure):
@@ -1672,10 +1671,10 @@ class EOS_Connect_CopyProductUserExternalAccountByAccountTypeOptions(Structure):
         ('TargetUserId', EOS_ProductUserId),
         ('AccountIdType', EOS_EExternalAccountType),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYACCOUNTTYPE_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYACCOUNTID_API_LATEST = 1
 class EOS_Connect_CopyProductUserExternalAccountByAccountIdOptions(Structure):
@@ -1685,10 +1684,10 @@ class EOS_Connect_CopyProductUserExternalAccountByAccountIdOptions(Structure):
         ('TargetUserId', EOS_ProductUserId),
         ('AccountId', c_char_p),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYACCOUNTID_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_CONNECT_COPYPRODUCTUSERINFO_API_LATEST = 1
 class EOS_Connect_CopyProductUserInfoOptions(Structure):
@@ -1697,10 +1696,10 @@ class EOS_Connect_CopyProductUserInfoOptions(Structure):
         ('ApiVersion', c_int32),
         ('TargetUserId', EOS_ProductUserId),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_COPYPRODUCTUSERINFO_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_CONNECT_TIME_UNDEFINED = -1
 EOS_CONNECT_EXTERNALACCOUNTINFO_API_LATEST = 1
@@ -1714,10 +1713,10 @@ class EOS_Connect_ExternalAccountInfo(Structure):
         ('AccountIdType', EOS_EExternalAccountType),
         ('LastLoginTime', c_int64),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_EXTERNALACCOUNTINFO_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
     def Release(self): # type: () -> None
         return EOS_Connect_ExternalAccountInfo_Release(self)
 EOS_Connect_ExternalAccountInfo_Release = not_ready
@@ -1728,10 +1727,10 @@ class EOS_Connect_AddNotifyAuthExpirationOptions(Structure):
     _fields_ = [
         ('ApiVersion', c_int32),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_ADDNOTIFYAUTHEXPIRATION_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_CONNECT_ONAUTHEXPIRATIONCALLBACK_API_LATEST = 1 # deprecated
 class EOS_Connect_AuthExpirationCallbackInfo(Structure):
@@ -1749,10 +1748,10 @@ class EOS_Connect_AddNotifyLoginStatusChangedOptions(Structure):
     _fields_ = [
         ('ApiVersion', c_int32),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_ADDNOTIFYLOGINSTATUSCHANGED_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Connect_LoginStatusChangedCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1772,10 +1771,10 @@ class EOS_Connect_IdToken(Structure):
         ('ProductUserId', EOS_ProductUserId),
         ('JsonWebToken', c_char_p),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_IDTOKEN_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
     def Release(self): # type: () -> None
         return EOS_Connect_IdToken_Release(self)
 EOS_Connect_IdToken_Release = not_ready
@@ -1787,10 +1786,10 @@ class EOS_Connect_CopyIdTokenOptions(Structure):
         ('ApiVersion', c_int32),
         ('LocalUserId', EOS_ProductUserId),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_COPYIDTOKEN_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_CONNECT_VERIFYIDTOKEN_API_LATEST = 1
 class EOS_Connect_VerifyIdTokenOptions(Structure):
@@ -1799,10 +1798,10 @@ class EOS_Connect_VerifyIdTokenOptions(Structure):
         ('ApiVersion', c_int32),
         ('IdToken', POINTER(EOS_Connect_IdToken)),
     ]
-    def __init__(self, *args,
+    def __init__(self,
             ApiVersion = EOS_CONNECT_VERIFYIDTOKEN_API_LATEST,
             **kwargs):
-        Structure.__init__(self, *args, ApiVersion = ApiVersion, **kwargs)
+        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 class EOS_Connect_VerifyIdTokenCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [

@@ -1,3 +1,4 @@
+from builtins import str
 import ctypes
 from datetime import datetime
 import epic_eos
@@ -124,7 +125,8 @@ def epic_init():
     if config.enable_epic_achievements:
         retrieve_stats()
 
-    if epic_shutdown not in config.at_exit_callbacks:
+
+    if hasattr(config, 'at_exit_callbacks') and epic_shutdown not in config.at_exit_callbacks:
         config.at_exit_callbacks.append(epic_shutdown)
 
 # Steam-like API functions

@@ -1,3 +1,4 @@
+from __future__ import print_function
 import epic_eos
 import os
 import renpy as r
@@ -93,7 +94,11 @@ def resolve_dlls(list):
                 break
     return dll_paths
 
-class EpicBackend(renpy.revertable.RevertableObject): #Backend):
+try:
+    obj = renpy.revertable.RevertableObject
+except:# 7.4.X or older
+    obj = renpy.python.RevertableObject
+class EpicBackend(obj): # TODO: migrate to rpy file to inherit Backend
     """
     A backend that sends achievements to Epic. This is only used if Epic
     has loaded and initialized successfully.
