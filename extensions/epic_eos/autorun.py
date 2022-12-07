@@ -1,6 +1,21 @@
 import epic_eos
 import renpy
 
+if not hasattr(renpy.arguments, 'epic_arguments'):
+    # We're on an old Ren'Py version without epic launcher support
+    # This is based on changes made in 3429731ca5fb8447ed925a82d12517265f6eff80 in Ren'Py
+    import sys
+    has_epic_args = True
+    for i in sys.argv[1:]:
+        if i.lower().startswith("-epicapp="):
+            break
+    else:
+        has_epic_args = False
+
+    if has_epic_args:
+        renpy.arguments.epic_arguments = sys.argv[1:]
+        sys.argv = [ sys.argv[0] ]
+
 # Add 'mandatory' config
 renpy.store.config.epic_client = None
 renpy.store.config.epic_clientsecret = None
