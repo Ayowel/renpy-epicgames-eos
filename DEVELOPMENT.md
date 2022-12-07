@@ -16,21 +16,7 @@ terminal is in this repository's directory.
 ## Environment setup
 
 * Follow the Epic Games Setup instructions in the README
-* Create a new `game/epic.rpy` file (see usage instructions in README)
-* Create a new `game/01epic_dev.rpy` with the following content:
-
-```py
-define config.epic_log_console = True # Enable console logging
-define config.epic_userlogin = 'localhost:6547' # Dev auth tool address:port
-define config.epic_userpassword = 'username_key' # The username key configured in the dev auth tool
-define config.epic_authtype = 'developer' # Enable dev auth tool usage
-
-init python:
-    # Remove dev file from release
-    build.classify('game/01epic_dev.rpy', None)
-    build.classify('game/01epic_dev.rpyc', None)
-```
-
+* Create new `game/epic.rpy` and `game/01epic_dev.rpy` files (see instructions in README)
 * Install extension build requirements
 
 ```sh

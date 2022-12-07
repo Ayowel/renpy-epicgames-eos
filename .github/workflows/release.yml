@@ -7,6 +7,10 @@ on:
         description: Update Itch extension archive
         type: boolean
         default: true
+      push_itch_doc:
+        description: Update Itch documentation archive
+        type: boolean
+        default: true
       push_github:
         description: Update GitHub extension archive
         type: boolean
@@ -49,6 +53,12 @@ jobs:
       run: |
         find * -type f -print0 | xargs -r0 touch -t 199612050000
         find EOS_runner.exe EOS_runner.ini game/epic_eos.rpe libs | sort | xargs -r zip ../epic_eos.zip
+    - name: "Install documentation dependencies"
+      run: |
+        sudo apt-get install -y asciidoctor ruby-rouge
+    - name: "Generate documentation files"
+      run: |
+        asciidoctor project/README.adoc -o README.html
     - name: "Get release info"
       id: release-info
       working-directory: project
@@ -58,7 +68,9 @@ jobs:
     - uses: softprops/action-gh-release@v0.1.14
       if: ${{ github.event_name == 'push' || github.event.inputs.push_github == 'true' }}
       with:
-        files: epic_eos.zip
+        files: |
+          epic_eos.zip
+          README.html
     - uses: Ayowel/butler-publish-itchio-action@v2.0.0
       if: ${{ github.event_name == 'push' || github.event.inputs.push_itch == 'true' }}
       env:
@@ -67,4 +79,13 @@ jobs:
         ITCH_GAME: renpy-epic-integration
         ITCH_USER: ayowel
         PACKAGE: epic_eos.zip
+        VERSION: ${{ steps.release-info.outputs.VERSION }}
+    - uses: Ayowel/butler-publish-itchio-action@v2.0.0
+      if: ${{ github.event_name == 'push' || github.event.inputs.push_itch_doc == 'true' }}
+      env:
+        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
+        CHANNEL: doc
+        ITCH_GAME: renpy-epic-integration
+        ITCH_USER: ayowel
+        PACKAGE: README.html
         VERSION: ${{ steps.release-info.outputs.VERSION }}
