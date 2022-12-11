@@ -1850,6 +1850,145 @@ EOS_Connect_CopyIdToken = not_ready
 EOS_Connect_VerifyIdToken = not_ready
 
 #####
+# Stats
+#####
+
+# Stats types
+
+EOS_STATS_INGESTDATA_API_LATEST = 1
+class EOS_Stats_IngestData(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('StatName', c_char_p),
+        ('IngestAmount', c_int32),
+    ]
+    def __init__(self,
+        ApiVersion = EOS_STATS_INGESTDATA_API_LATEST,
+        **kwargs):
+        Structure.__init__(self, ApiVersion, **kwargs)
+
+EOS_STATS_MAX_INGEST_STATS = 3000
+EOS_STATS_INGESTSTAT_API_LATEST = 3
+class EOS_Stats_IngestStatOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Stats', POINTER(EOS_Stats_IngestData)),
+        ('StatsCount', c_uint32),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self,
+        ApiVersion = EOS_STATS_INGESTSTAT_API_LATEST,
+        **kwargs):
+        Structure.__init__(self, ApiVersion, **kwargs)
+class EOS_Stats_IngestStatCompleteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+EOS_Stats_OnIngestStatCompleteCallback = CFUNCTYPE(
+    None, POINTER(EOS_Stats_IngestStatCompleteCallbackInfo))
+
+EOS_STATS_MAX_QUERY_STATS = 1000
+EOS_STATS_QUERYSTATS_API_LATEST = 3
+class EOS_Stats_QueryStatsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('StartTime', c_int64),
+        ('EndTime', c_int64),
+        ('StatNames', POINTER(c_char_p)),
+        ('StatNamesCount', c_uint32),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self,
+        ApiVersion = EOS_STATS_QUERYSTATS_API_LATEST,
+        **kwargs):
+        Structure.__init__(self, ApiVersion, **kwargs)
+
+EOS_STATS_TIME_UNDEFINED = -1
+EOS_STATS_STAT_API_LATEST = 1
+class EOS_Stats_Stat(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Name', c_char_p),
+        ('StartTime', c_int64),
+        ('EndTime', c_int64),
+        ('Value', c_int32),
+    ]
+    def __init__(self,
+        ApiVersion = EOS_STATS_STAT_API_LATEST,
+        **kwargs):
+        Structure.__init__(self, ApiVersion, **kwargs)
+    def Release(self):
+        return EOS_Stats_Stat_Release(self)
+
+EOS_STATS_GETSTATSCOUNT_API_LATEST = 1
+EOS_STATS_GETSTATCOUNT_API_LATEST = EOS_STATS_GETSTATSCOUNT_API_LATEST
+class EOS_Stats_GetStatCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self,
+        ApiVersion = EOS_STATS_GETSTATSCOUNT_API_LATEST,
+        **kwargs):
+        Structure.__init__(self, ApiVersion, **kwargs)
+
+EOS_STATS_COPYSTATBYINDEX_API_LATEST = 1
+class EOS_Stats_CopyStatByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+        ('StatIndex', c_uint32),
+    ]
+    def __init__(self,
+        ApiVersion = EOS_STATS_COPYSTATBYINDEX_API_LATEST,
+        **kwargs):
+        Structure.__init__(self, ApiVersion, **kwargs)
+
+EOS_STATS_COPYSTATBYNAME_API_LATEST = 1
+class EOS_Stats_CopyStatByNameOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+        ('Name', c_char_p),
+    ]
+    def __init__(self,
+        ApiVersion = EOS_STATS_COPYSTATBYNAME_API_LATEST,
+        **kwargs):
+        Structure.__init__(self, ApiVersion, **kwargs)
+EOS_Stats_Stat_Release = not_ready
+class EOS_Stats_OnQueryStatsCompleteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+EOS_Stats_OnQueryStatsCompleteCallback = CFUNCTYPE(
+    None, POINTER(EOS_Stats_OnQueryStatsCompleteCallbackInfo))
+
+# Stats functions
+
+EOS_Stats_IngestStat = not_ready
+EOS_Stats_QueryStats = not_ready
+EOS_Stats_GetStatsCount = not_ready
+EOS_Stats_CopyStatByIndex = not_ready
+EOS_Stats_CopyStatByName = not_ready
+
+#####
 # SDK
 #####
 
@@ -1917,6 +2056,8 @@ class EOS_HPlatform(c_void_p):
         return EOS_Platform_GetDesktopCrossplayStatus(self, Options, OutDesktopCrossplayStatusInfo)
     def GetUserInfoInterface(self): # type: () -> EOS_HUserInfo
         return EOS_Platform_GetUserInfoInterface(self)
+    def GetStatsInterface(self): # type: () -> EOS_HStats
+        return EOS_Platform_GetStatsInterface(self)
     def Tick(self): # type: () -> None
         return EOS_Platform_Tick(self)
 
@@ -2111,7 +2252,22 @@ class EOS_HPlayerDataStorage(c_void_p):
 class EOS_HTitleStorage(c_void_p):
     pass
 class EOS_HStats(c_void_p):
-    pass
+    def IngestStat(self, Options, ClientData, CompletionDelegate):
+        # type: (POINTER(EOS_Stats_IngestStatOptions), c_void_p, EOS_Stats_OnIngestStatCompleteCallback) -> None
+        return EOS_Stats_IngestStat(self, Options, ClientData, CompletionDelegate)
+    def QueryStats(self, Options, ClientData, CompletionDelegate):
+        # type: (POINTER(EOS_Stats_QueryStatsOptions), c_void_p, EOS_Stats_OnQueryStatsCompleteCallback) -> None
+        return EOS_Stats_QueryStats(self, Options, ClientData, CompletionDelegate)
+    def GetStatsCount(self, Options):
+        # type: (POINTER(EOS_Stats_GetStatCountOptions)) -> c_uint32
+        return EOS_Stats_GetStatsCount(self, Options)
+    def EOS_Stats_CopyStatByIndex(self, Options, OutStat):
+        # type: (POINTER(EOS_Stats_CopyStatByIndexOptions), POINTER(POINTER(EOS_Stats_Stat))) -> EOS_EResult
+        return EOS_Stats_CopyStatByIndex(self, Options, OutStat)
+    def EOS_Stats_CopyStatByName(self, Options, OutStat):
+        # type: (POINTER(EOS_Stats_CopyStatByNameOptions), POINTER(POINTER(EOS_Stats_Stat))) -> EOS_EResult
+        return EOS_Stats_CopyStatByIndex(self, Options, OutStat)
+
 class EOS_HLeaderboards(c_void_p):
     pass
 class EOS_HMods(c_void_p):
@@ -2570,6 +2726,38 @@ def load(dll):
     EOS_Connect_VerifyIdToken = dll.EOS_Connect_VerifyIdToken
     EOS_Connect_VerifyIdToken.argtypes = [EOS_HConnect, POINTER(EOS_Connect_VerifyIdTokenOptions), c_void_p, EOS_Connect_OnVerifyIdTokenCallback]
     EOS_Connect_VerifyIdToken.restype = None
+
+    # Stats
+
+    global EOS_Stats_Stat_Release
+    EOS_Stats_Stat_Release = dll.EOS_Stats_Stat_Release
+    EOS_Stats_Stat_Release.argtypes = [POINTER(EOS_Stats_Stat)]
+    EOS_Stats_Stat_Release.restype = None
+
+    global EOS_Stats_IngestStat
+    EOS_Stats_IngestStat = dll.EOS_Stats_IngestStat
+    EOS_Stats_IngestStat.argtypes = [EOS_HStats, POINTER(EOS_Stats_IngestStatOptions), c_void_p, EOS_Stats_OnIngestStatCompleteCallback]
+    EOS_Stats_IngestStat.restype = None
+
+    global EOS_Stats_QueryStats
+    EOS_Stats_QueryStats = dll.EOS_Stats_QueryStats
+    EOS_Stats_QueryStats.argtypes = [EOS_HStats, POINTER(EOS_Stats_QueryStatsOptions), c_void_p, EOS_Stats_OnQueryStatsCompleteCallback]
+    EOS_Stats_QueryStats.restype = None
+
+    global EOS_Stats_GetStatsCount
+    EOS_Stats_GetStatsCount = dll.EOS_Stats_GetStatsCount
+    EOS_Stats_GetStatsCount.argtypes = [EOS_HStats, POINTER(EOS_Stats_GetStatCountOptions)]
+    EOS_Stats_GetStatsCount.restype = c_uint32
+
+    global EOS_Stats_CopyStatByIndex
+    EOS_Stats_CopyStatByIndex = dll.EOS_Stats_CopyStatByIndex
+    EOS_Stats_CopyStatByIndex.argtypes = [EOS_HStats, POINTER(EOS_Stats_CopyStatByIndexOptions), POINTER(POINTER(EOS_Stats_Stat))]
+    EOS_Stats_CopyStatByIndex.restype = EOS_EResult
+
+    global EOS_Stats_CopyStatByName
+    EOS_Stats_CopyStatByName = dll.EOS_Stats_CopyStatByName
+    EOS_Stats_CopyStatByName.argtypes = [EOS_HStats, POINTER(EOS_Stats_CopyStatByNameOptions), POINTER(POINTER(EOS_Stats_Stat))]
+    EOS_Stats_CopyStatByName.restype = EOS_EResult
 
     # SDK
 

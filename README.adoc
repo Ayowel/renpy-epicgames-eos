@@ -79,7 +79,7 @@ When developing with the EOS SDK, additional downloads are required:
 * Create a new `game/01epic_dev.rpy` in your game with the following content (edit it if you did not use the recommend values before):
 
 [source, py]
---
+-- 
 define config.epic_userlogin = 'localhost:6547' # Dev auth tool address:port
 define config.epic_userpassword = 'username_key' # The username key configured in the dev auth tool
 define config.epic_authtype = 'developer' # Enable dev auth tool usage
@@ -152,3 +152,15 @@ _Note that when running a game from the Epic Games Store, only the `config.epic_
 ** Provide the Achievement ID as `epic` in your `achievement.register` call
 
 _The ID that should be referenced in your game is the `Achievement ID` provided in the form/the `Achievement Name` visible in the achievements' page's table._
+
+=== Creating stats
+
+* Go to https://dev.epicgames.com/portal/ to connect to your developer portal
+** Select the product to update in the left menu
+** Go to `Game Services` -> `Progression` -> `Stats` in the left menu
+** Press `Create Achievement`
+** Press `Next` when prompted to create stats
+** Fill-in the stat form and press `Create`
+* In your ren'py project, where you declare your achievements:
+** Provide the Stat ID as `epic_stat` in your `achievement.register` call.
+** Epic only supports integer stats, do not use floating values or they will be truncated

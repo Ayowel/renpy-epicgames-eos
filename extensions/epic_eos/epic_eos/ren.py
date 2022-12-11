@@ -115,6 +115,8 @@ class EpicBackend(obj): # TODO: migrate to rpy file to inherit Backend
     def register(self, name, epic=None, epic_stat=None, stat_max=None, stat_modulo=1, **kwargs):
         if epic is not None:
             self.names[name] = epic
+        if epic_stat is None:
+            epic_stat = epic or name
 
         self.stats[name] = (epic_stat, stat_max, stat_modulo)
 
@@ -132,7 +134,6 @@ class EpicBackend(obj): # TODO: migrate to rpy file to inherit Backend
 
     def progress(self, name, completed):
 
-        orig_name = name
 
         completed = int(completed)
 
@@ -141,13 +142,13 @@ class EpicBackend(obj): # TODO: migrate to rpy file to inherit Backend
                 raise Exception("To report progress, you must register {} with a stat_max.".format(name))
             else:
                 return
-        # TODO: Add stat/progress support
 
 
         # current = persistent._achievement_progress.get(name, 0)
 
-        # steam_stat, stat_max, stat_modulo = self.stats[name]
+        epic_stat, stat_max, stat_modulo = self.stats[name]
 
+        epic_eos.compat.set_int_stat(epic_stat, completed)
         # name = self.names.get(name, name)
 
         # if (current is not None) and (current >= completed):

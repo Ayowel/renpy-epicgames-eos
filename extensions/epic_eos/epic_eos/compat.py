@@ -125,7 +125,6 @@ def epic_init():
     if config.enable_epic_achievements:
         retrieve_stats()
 
-
     if hasattr(config, 'at_exit_callbacks') and epic_shutdown not in config.at_exit_callbacks:
         config.at_exit_callbacks.append(epic_shutdown)
 
@@ -139,6 +138,7 @@ def is_logged_in(): # type: () -> None
 
 def retrieve_stats(): # type: () -> None
     if epic_eos.eos_platform is not None:
+        # FIXME: this should retrieve stats, not achievements
         eos_achievements = epic_eos.eos_platform.GetAchievementsInterface()
         opts = epic_eos.cdefs.EOS_Achievements_QueryDefinitionsOptions()
         user = get_local_user_id()
@@ -206,6 +206,23 @@ def grant_achievement(name): # type: (str) -> None
                     "An error occured while granting the achievement '{}': {} - {}".format(
                         name, status.value, bytes_to_str(status.ToString()))
                 )
+
+def set_int_stat(name, value):
+    if epic_eos.eos_platform is not None:
+        user = get_local_user_id()
+        if user:
+            interface = epic_eos.eos_platform.GetStatsInterface()
+            stat = epic_eos.cdefs.EOS_Stats_IngestData(
+                StatName = str_to_bytes(name),
+                IngestAmount = value,
+            )
+            opts = epic_eos.cdefs.EOS_Stats_IngestStatOptions(
+                LocalUserId = user,
+                TargetUserId = user,
+                Stats = ctypes.pointer(stat),
+                StatsCount = 1,
+            )
+            interface.IngestStat(opts, None, stats_ingest_callback)
 
 # Internal API functions
 
@@ -335,6 +352,16 @@ def achievements_querydefinitions_callback(data):
         epic_eos.ren.log(200, epic_eos.renpy_category, "Done loading {} achievements".format(cached_achievements_count))
     else:
         epic_eos.ren.log(400, epic_eos.renpy_category, "Achievements definitions query received error: {} - {}".format(data[0].ResultCode.value, bytes_to_str(data[0].ResultCode.ToString())))
+
+@epic_eos.cdefs.EOS_Stats_OnIngestStatCompleteCallback
+def stats_ingest_callback(data):
+    if not data:
+        epic_eos.ren.log(500, epic_eos.renpy_category, "Stats ingest notification callback did not receive data")
+    else:
+        if data[0].ResultCode.value == epic_eos.cdefs.EOS_Success.value:
+            epic_eos.ren.log(200, epic_eos.renpy_category, "Done ingesting stats")
+        else:
+            epic_eos.ren.log(400, epic_eos.renpy_category, "Failed to ingest stats: {} - {}".format(data[0].ResultCode.value, bytes_to_str(data[0].ResultCode.ToString())))
 
 @epic_eos.cdefs.EOS_LogMessageFunc
 def epic_logger(message):
