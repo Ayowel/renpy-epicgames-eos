@@ -16,7 +16,8 @@ The end goal is to provide a thin ctypes wrapper around all EOS functions as wel
 == Installation
 
 [start]
-. Unpack the archive of the extension in your game's directory
+. Download the https://github.com/Ayowel/renpy-epicgames-eos/releases/latest[latest release] of `epic_eos.zip`
+. Unpack the release archive in your game's directory
 . Update `EOS_runner.ini` to point towards the game's generated exe file. This is most easily done and maintained by setting `define build.executable_name = "MyGameName"` in `game/options.rpy`.
 . Create a new `game/epic.rpy` file with the following information:
 
@@ -46,7 +47,7 @@ init python in epicapi:
     init()
 --
 
-[start=4]
+[start=5]
 . Add the library files to your packaging rules file (usually `game/options.rpy`):
 
 [source, py]
