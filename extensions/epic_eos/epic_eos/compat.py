@@ -52,13 +52,14 @@ def epic_init():
 
     if not dll_paths:
         epic_eos.ren.log(500, epic_eos.renpy_category, "Could not find EOS library to load for current system")
-        return
+        return False
 
     # Load DLL
     try:
         dll = ctypes.cdll[os.path.abspath(dll_paths[0])]
     except Exception as e:
         epic_eos.ren.log(500, epic_eos.renpy_category, "Failed to load library from '{}'. This is usually caused by a missing vcredist DLL.".format(dll_paths[0]), e)
+        return False
 
     epic_eos.cdefs.load(dll)
 
@@ -70,7 +71,7 @@ def epic_init():
     if init_status.value not in (epic_eos.cdefs.EOS_Success.value, epic_eos.cdefs.EOS_AlreadyConfigured.value):
         # Init failed and was not already configured
         epic_eos.ren.log(500, epic_eos.renpy_category, "Failed to initialize EOS ({})".format(init_status.value))
-        return
+        return False
 
     # Configure logging
     logging_status = epic_eos.cdefs.EOS_Logging_SetCallback(epic_eos.compat.epic_logger)
@@ -127,6 +128,8 @@ def epic_init():
 
     if hasattr(config, 'at_exit_callbacks') and epic_shutdown not in config.at_exit_callbacks:
         config.at_exit_callbacks.append(epic_shutdown)
+
+    return True
 
 # Steam-like API functions
 
