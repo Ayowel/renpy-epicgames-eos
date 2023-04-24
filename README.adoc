@@ -31,9 +31,13 @@ define config.epic_deployment = '456789abcdef0123456789abcdef0123'
 define config.epic_client = 'AbCdEfGhIjKlMnOpQrStUv0123456789'
 define config.epic_clientsecret = 'OT60Kvx3QM0ivZTncg8+yypmnNC1bcawfmQQ5C+8AGX'
 
-# The client's policy must have the following Achievements features:
+# The client's policy should have the following Achievements features:
 # findAchievementsForLocalUser, unlockAchievementForLocalUser,
 # findAchievementDefinitions, readAchievementDefinition
+#
+# The client's policy should have the following Stats features to use stats:
+# findStatsForLocalUser, ingestForLocalUser,
+# findStats, readStats
 define config.enable_epic_achievements = True
 
 # The requested permissions. See EOS_EAuthScopeFlags for potential value
@@ -41,13 +45,20 @@ define config.epic_scopes = 0x0
 
 init -1499 python:
     achievement.backends.insert(0, epicapi.EpicBackend())
-
-init python in epicapi:
-    # Start the Epic EOS handler here
-    init()
 --
 
 [start=5]
+. Start epic at the start of your `splashscreen` label (or create one if you don't have any):
+
+[source, py]
+--
+label splashscreen:
+    if 'epicapi' in globals():
+        $ epicapi.init()
+    return
+--
+
+[start=6]
 . Add the library files to your packaging rules file (usually `game/options.rpy`):
 
 [source, py]

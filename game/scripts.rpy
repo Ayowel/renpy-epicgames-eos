@@ -7,6 +7,11 @@ label start:
             "Restarting"
             jump start
 
+label splashscreen:
+    if 'epicapi' in globals():
+        $ epicapi.init()
+    return
+
 screen yesno_prompt(message='Are you sure?', yes_action = [], no_action = []):
     image 'black'
     vbox:
