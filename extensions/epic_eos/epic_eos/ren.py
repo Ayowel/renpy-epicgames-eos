@@ -98,6 +98,7 @@ try:
     obj = renpy.revertable.RevertableObject
 except:# 7.4.X or older
     obj = renpy.python.RevertableObject
+
 class EpicBackend(obj): # TODO: migrate to rpy file to inherit Backend
     """
     A backend that sends achievements to Epic. This is only used if Epic
@@ -124,25 +125,22 @@ class EpicBackend(obj): # TODO: migrate to rpy file to inherit Backend
         name = self.names.get(name, name)
 
         renpy.store.epicapi.grant_achievement(name)
-        # steam.store_stats()
 
     def clear(self, name):
-        pass # Clearing achievements is not supported at the moment
+        pass # Clearing achievements is not supported by Epic at the moment
 
     def clear_all(self):
-        pass # Clearing achievements is not supported at the moment
+        pass # Clearing achievements is not supported by Epic at the moment
 
     def progress(self, name, completed):
-
-
+        # Epic games only support integer stat variations
         completed = int(completed)
 
         if name not in self.stats:
             if config.developer:
-                raise Exception("To report progress, you must register {} with a stat_max.".format(name))
+                raise Exception("To report progress, you must register the stat {} first.".format(name))
             else:
                 return
-
 
         # current = persistent._achievement_progress.get(name, 0)
 
