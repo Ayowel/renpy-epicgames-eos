@@ -31,6 +31,7 @@ renpy.store.config.epic_scopes = None
 
 # Add development flags and config
 renpy.store.config.epic_log_console = False
+renpy.store.config.epic_report_achievements_status = True
 renpy.store.config.epic_userlogin = None
 renpy.store.config.epic_userpassword = None
 renpy.store.config.epic_authtype = None

@@ -95,6 +95,7 @@ When developing with the EOS SDK, additional downloads are required:
 define config.epic_userlogin = 'localhost:6547' # Dev auth tool address:port
 define config.epic_userpassword = 'username_key' # The username key configured in the dev auth tool
 define config.epic_authtype = 'developer' # Enable dev auth tool usage
+#define config.epic_report_achievements_status = False # Do not use Epic when checking achievement status
 
 init python:
     # Remove dev file from release
