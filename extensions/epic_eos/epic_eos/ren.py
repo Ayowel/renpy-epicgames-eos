@@ -32,6 +32,7 @@ def get_epic_args():
     argset.userid = None
     argset.username = ''
     argset.env = 'Dev'
+    argset.appid = ''
     argset.locale = None
     argset.is_portal = False
 
@@ -45,7 +46,7 @@ def get_epic_args():
             elif arg.startswith('-AUTH_TYPE='):
                 argset.authtype = arg.split('=')[1]
             elif arg.startswith('-epicapp='):
-                argset.product = arg.split('=')[1]
+                argset.appid = arg.split('=')[1]
             elif arg.startswith('-epicenv='):
                 argset.env = arg.split('=')[1]
             elif arg == '-EpicPortal':
