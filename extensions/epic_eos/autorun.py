@@ -36,6 +36,9 @@ renpy.store.config.epic_userlogin = None
 renpy.store.config.epic_userpassword = None
 renpy.store.config.epic_authtype = None
 
+# Add handler delegation
+renpy.store.config.epic_logger = epic_eos.ren.log
+
 # Add store context
 renpy.python.create_store('store.epicapi')
 renpy.store.epicapi.__dict__.setdefault('init', epic_eos.epic_init)

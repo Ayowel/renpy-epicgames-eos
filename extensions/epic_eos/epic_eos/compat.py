@@ -370,5 +370,10 @@ def stats_ingest_callback(data):
 @epic_eos.cdefs.EOS_LogMessageFunc
 def epic_logger(message):
     # type: (ctypes.POINTER(epic_eos.cdefs.EOS_LogMessage)) -> None
-    m = message[0]
-    epic_eos.ren.log(m.Level.value, bytes_to_str(m.Category), bytes_to_str(m.Message))
+    m = message.contents
+    import renpy
+    try:
+        renpy.store.config.epic_logger(m.Level.value, bytes_to_str(m.Category), bytes_to_str(m.Message))
+    except:
+        print("[500] LogEOSRenpy - An error occured while logging a message")
+        pass
