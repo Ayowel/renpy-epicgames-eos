@@ -16,7 +16,7 @@ The end goal is to provide a thin ctypes wrapper around all EOS functions as wel
 == Installation
 
 [start]
-. Download the https://github.com/Ayowel/renpy-epicgames-eos/releases/latest[latest release] of `epic_eos.zip`
+. Download the https://github.com/Ayowel/renpy-epicgames-eos/releases/latest[latest release] (The file's name is `epic_eos.zip`)
 . Unpack the release archive in your game's directory
 . Update `EOS_runner.ini` to point towards the game's generated exe file. This is most easily done and maintained by setting `define build.executable_name = "MyGameName"` in `game/options.rpy`.
 . Create a new `game/epic.rpy` file with the following information:
@@ -81,7 +81,7 @@ _Loading the Epic DLL on windows requires that the player has the https://learn.
 
 == Epic SDK game development
 
-When developing with the EOS SDK, additional downloads are required:
+When developing with the EOS SDK, additional downloads are required to ensure that your game behaves as expected:
 
 * Download the EOS SDK on the Epic Games Portal
 * Extract the Epic Games EOS SDK dev Authentication tool from the SDK (under `SDK/Tools/EOS_DevAuthTool-*.zip` in the archive)
@@ -105,75 +105,4 @@ init python:
 
 * Run the game you're developping
 
-Note that the authentication tool should always be running and configured during development._
-
-== Game configuration in Epic Games Store
-
-Creating a new game in the Epic Games Store and configuring it to be useable can be tricky. The following instructions will lead you step by step in the creation and configuration of a client for a new game.
-
-=== Portal connection configuration
-
-* Go to https://dev.epicgames.com/portal/ to connect to your developer portal
-* Create a new game:
-** Press `+ Create Product` in the left menu to create a new product
-** Input an arbitrary name and follow the setup instructions
-** Click on the new product in the left menu to access its configuration
-* Create a new game client:
-** Go to `Product Settings` in the left menu
-** Open the `Clients` tab
-** Press `Add new client`
-** Input an arbitrary client name
-** Create a new client policy (or select an existing one):
-*** Press `Add new client policy`
-*** Input an arbitrary client policy name
-*** Select the `Custom` client policy type
-*** Set the `User required` client policy condition
-*** Enable the following achievements features:
-**** `findAchievementsForLocalUser`
-**** `unlockAchievementForLocalUser`
-*** Press `Save & Exit`
-** Press `Save & Exit`
-* Bind the new client to your application:
-** Go to `Epic Account Services` in the left menu
-** Press `Linked Clients` on your application
-** Select the new client and press `Save changes`
-* Ensure that permissions are configured:
-** Go to `Epic Account Services` in the left menu
-** Press `Permissions` on your application
-** Press `Save changes`
-* Update Ren'Py configuration:
-** Go to `Product Settings`
-** Open the `SDK Download & Credentials` tab
-** Scroll down to view all the IDs that should be updated in `game/epic.rpy`:
-*** Set `config.epic_product` to your `Product ID`
-*** Set `config.epic_sandbox` to your `Sandbox ID`
-*** Set `config.epic_deployment` to your `Deployment ID`
-*** Set `config.epic_client` to your `Client ID`
-*** Set `config.epic_clientsecret` to your `Client Secret`
-
-_Note that when running a game from the Epic Games Store, only the `config.epic_client` and `config.epic_clientsecret` are used as all other values are provided as parameters by Epic and the configuration is ignored._
-
-=== Creating achievements
-
-* Go to https://dev.epicgames.com/portal/ to connect to your developer portal
-** Select the product to update in the left menu
-** Go to `Game Services` -> `Progression` -> `Achievements` in the left menu
-** Press `Create Achievement`
-** Press `Next` when prompted to create stats
-** Fill-in the achievement form and press `Create`
-* In your ren'py project, where you declare your achievements:
-** Provide the Achievement ID as `epic` in your `achievement.register` call
-
-_The ID that should be referenced in your game is the `Achievement ID` provided in the form/the `Achievement Name` visible in the achievements' page's table._
-
-=== Creating stats
-
-* Go to https://dev.epicgames.com/portal/ to connect to your developer portal
-** Select the product to update in the left menu
-** Go to `Game Services` -> `Progression` -> `Stats` in the left menu
-** Press `Create Achievement`
-** Press `Next` when prompted to create stats
-** Fill-in the stat form and press `Create`
-* In your ren'py project, where you declare your achievements:
-** Provide the Stat ID as `epic_stat` in your `achievement.register` call.
-** Epic only supports integer stats, do not use floating values or they will be truncated
+Note that the authentication tool should always be running and configured during development or your game won't be able to connect.
