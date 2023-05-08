@@ -9,7 +9,7 @@ except ImportError:
     pass
 
 def not_ready(*args): # type: (...) -> Any
-    raise RuntimeError("Please call steamapi.load() before this function.")
+    raise RuntimeError("Please call epic_eos.cdefs.load() before this function.")
 
 # Alignement is statically enforced in the lib
 PACK = 8
@@ -262,10 +262,13 @@ EOS_ByteArray_ToString = not_ready
 class EOS_EpicAccountId(c_void_p):
     @staticmethod
     def FromString(AccountIdString):
+        # type: (c_char_p) -> EOS_EpicAccountId
         return EOS_EpicAccountId_FromString(AccountIdString)
     def ToString(self, OutBuffer, InOutBufferLength):
+        # type: (EOS_EpicAccountId, c_char_p, POINTER(c_int32))
         return EOS_EpicAccountId_ToString(self, OutBuffer, InOutBufferLength)
     def IsValid(self):
+        # type: (EOS_EpicAccountId) -> EOS_Bool
         return EOS_EpicAccountId_IsValid(self)
 EOS_EpicAccountId_IsValid = not_ready
 EOS_EpicAccountId_ToString = not_ready
@@ -275,10 +278,13 @@ EOS_EPICACCOUNTID_MAX_LENGTH = 32
 class EOS_ProductUserId(c_void_p):
     @staticmethod
     def FromString(ProductUserIdString):
+        # type: (c_char_p) -> EOS_ProductUserId
         return EOS_ProductUserId_FromString(ProductUserIdString)
     def ToString(self, OutBuffer, InOutBufferLength):
+        # type: (EOS_ProductUserId, c_char_p, POINTER(c_int32))
         return EOS_ProductUserId_ToString(self, OutBuffer, InOutBufferLength)
     def IsValid(self):
+        # type: (EOS_ProductUserId) -> EOS_Bool
         return EOS_ProductUserId_IsValid(self)
 EOS_ProductUserId_IsValid = not_ready
 EOS_ProductUserId_ToString = not_ready
