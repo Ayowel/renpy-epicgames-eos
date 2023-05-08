@@ -176,6 +176,7 @@ def get_achievement(name): # type: (str) -> bool
         if user:
             opts = epic_eos.cdefs.EOS_Achievements_CopyPlayerAchievementByAchievementIdOptions(
                 LocalUserId = user,
+                TargetUserId = user,
                 AchievementId = str_to_bytes(name),
             )
             achievement_ref = ctypes.POINTER(epic_eos.cdefs.EOS_Achievements_PlayerAchievement)()
