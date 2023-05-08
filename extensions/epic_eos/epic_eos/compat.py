@@ -216,8 +216,8 @@ def get_achievement(name): # type: (str) -> bool
                 opts, ctypes.byref(achievement_ref)
             )
             if achievement_ref:
-                achievement = achievement_ref[0]
-                is_unlocked = achievement.UnlockTime != epic_eos.cdefs.EOS_ACHIEVEMENTS_ACHIEVEMENT_UNLOCKTIME_UNDEFINED
+                achievement = achievement_ref.contents
+                is_unlocked = achievement.UnlockTime != epic_eos.cdefs.EOS_ACHIEVEMENTS_ACHIEVEMENT_UNLOCKTIME_UNDEFINED.value
                 achievement.Release()
     return is_unlocked
 
