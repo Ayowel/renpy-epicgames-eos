@@ -25,8 +25,6 @@ The end goal is to provide a thin ctypes wrapper around all EOS functions as wel
 # Get all attribute values under "Product Settings" -> "SDK Download & Credentials" at dev.epicgames.com
 # You may need to create an EOS client for your game in "Product Settings" -> "Clients"
 define config.epic_product = '0123456789abcdef0123456789abcdef'
-define config.epic_sandbox = 'abcdef0123456789abcdef0123456789'
-define config.epic_deployment = '456789abcdef0123456789abcdef0123'
 define config.epic_client = 'AbCdEfGhIjKlMnOpQrStUv0123456789'
 define config.epic_clientsecret = 'OT60Kvx3QM0ivZTncg8+yypmnNC1bcawfmQQ5C+8AGX'
 
@@ -91,6 +89,8 @@ When developing with the EOS SDK, additional downloads are required to ensure th
 
 [source, py]
 -- 
+define config.epic_sandbox = 'abcdef0123456789abcdef0123456789' # Game Sandbox ID, provided by epic when running from the store
+define config.epic_deployment = '456789abcdef0123456789abcdef0123' # Game Deployment ID, provided by epic when running from the store
 define config.epic_userlogin = 'localhost:6547' # Dev auth tool address:port
 define config.epic_userpassword = 'username_key' # The username key configured in the dev auth tool
 define config.epic_authtype = 'developer' # Enable dev auth tool usage
