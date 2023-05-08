@@ -32,4 +32,3 @@ files.txt
 /game/01epic_dev.rpy
 !/libs/EOSSDK-Win*-Shipping.dll
 !/libs/x*/xaudio2_9redist.dll
-!/EOS_runner.exe

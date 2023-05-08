@@ -53,7 +53,7 @@ jobs:
       working-directory: project
       run: |
         find * -type f -print0 | xargs -r0 touch -t 199612050000
-        find EOS_runner.exe EOS_runner.ini game/epic_eos.rpe libs | sort | xargs -r zip ../epic_eos.zip
+        find game/epic_eos.rpe libs | sort | xargs -r zip ../epic_eos.zip
     - name: "Install documentation dependencies"
       run: |
         sudo apt-get install -y asciidoctor ruby-rouge

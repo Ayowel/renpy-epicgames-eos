@@ -18,7 +18,6 @@ The end goal is to provide a thin ctypes wrapper around all EOS functions as wel
 [start]
 . Download the https://github.com/Ayowel/renpy-epicgames-eos/releases/latest[latest release] (The file's name is `epic_eos.zip`)
 . Unpack the release archive in your game's directory
-. Update `EOS_runner.ini` to point towards the game's generated exe file. This is most easily done and maintained by setting `define build.executable_name = "MyGameName"` in `game/options.rpy`.
 . Create a new `game/epic.rpy` file with the following information:
 
 [source, py]
@@ -47,7 +46,7 @@ init -1499 python:
     achievement.backends.insert(0, epicapi.EpicBackend())
 --
 
-[start=5]
+[start=4]
 . Start epic at the start of your `splashscreen` label (or create one if you don't have any):
 
 [source, py]
@@ -58,7 +57,7 @@ label splashscreen:
     return
 --
 
-[start=6]
+[start=5]
 . Add the library files to your packaging rules file (usually `game/options.rpy`):
 
 [source, py]
@@ -67,15 +66,15 @@ init python:
     ## Epic support, none of those files may be in an archive
     # Epic extension
     build.classify('game/epic_eos.rpe', 'all')
-    # Renamed EOSBootstrapperTool.exe from the SDK
-    build.classify('EOS_runner.exe', 'windows')
-    build.classify('EOS_runner.ini', 'windows')
     # Epic libs
     build.classify('libs/EOSSDK-Win*-Shipping.dll', 'windows')
     build.classify('libs/*/xaudio2_9redist.dll', 'windows')
     build.classify('libs/libEOSSDK-Linux-Shipping.so', 'linux')
     build.classify('libs/libEOSSDK-Mac-Shipping.dylib', 'mac')
 --
+
+[start=6]
+. Follow the https://github.com/Ayowel/renpy-epicgames-eos/wiki/Configure-your-game-in-the-Epic-Games-Dev[wiki's instructions] to configure your game in Epic's web interface
 
 _Loading the Epic DLL on windows requires that the player has the https://learn.microsoft.com/en-US/cpp/windows/latest-supported-vc-redist[Visual C++ Redistributable] installed._
 

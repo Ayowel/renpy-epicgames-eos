@@ -14,9 +14,6 @@ init python:
     ## Epic support, none of those files may be in an archive
     # Epic extension
     build.classify('game/epic_eos.rpe', 'all')
-    # Renamed EOSBootstrapperTool.exe from the SDK
-    build.classify('EOS_runner.exe', 'windows')
-    build.classify('EOS_runner.ini', 'windows')
     # Epic libs
     build.classify('libs/EOSSDK-Win*-Shipping.dll', 'windows')
     build.classify('libs/*/xaudio2_9redist.dll', 'windows')
