@@ -28,6 +28,18 @@ def str_to_bytes(string):
     else:
         return string.encode('utf-8')
 
+# Used to store allocated data that needs to be persisted through calls (UserData parameters)
+# FIXME: values are never deallocated
+ctypes_allocated_data = []
+
+def id_to_c_char_p(eos_id, length):
+    eos_id_size = ctypes.c_int32(length+1)
+    eos_id_buffer = ctypes.create_string_buffer(eos_id_size.value)
+    retval = eos_id.ToString(eos_id_buffer, ctypes.byref(eos_id_size))
+    if retval.value != epic_eos.cdefs.EOS_Success.value:
+        return None
+    return ctypes.c_char_p(eos_id_buffer.value)
+
 # Public API functions
 
 def epic_shutdown():
@@ -38,30 +50,34 @@ def epic_shutdown():
         epic_eos.eos_platform.Release()
         epic_eos.eos_platform = None
 
+def load():
+    # Search for the dll in preset locations
+    # Only try to load if the dll is not already loaded
+    if epic_eos.cdefs.EOS_Initialize is epic_eos.cdefs.not_ready:
+        dll_paths = epic_eos.ren.resolve_dlls(epic_eos.ren.get_dlls_for(
+            # TODO: do only one function call, this is ridiculous
+            renpy.windows and (sys.maxsize > (1 << 32)),
+            renpy.windows and (sys.maxsize <= (1 << 32)),
+            not renpy.windows and not renpy.macintosh,
+            renpy.macintosh,
+            ))
+
+        if not dll_paths:
+            epic_eos.ren.log(500, epic_eos.renpy_category, "Could not find EOS library to load for current system")
+            return False
+
+        # Load DLL
+        try:
+            dll = ctypes.cdll[os.path.abspath(dll_paths[0])]
+        except Exception as e:
+            epic_eos.ren.log(500, epic_eos.renpy_category, "Failed to load library from '{}'. This is usually caused by a missing vcredist DLL.".format(dll_paths[0]), e)
+            return False
+
+        epic_eos.cdefs.load(dll)
+
 def epic_init():
     # type: () -> None
-    # TODO: Keep session alive on restart
-    # Search for the dll in preset locations
-    dll_paths = epic_eos.ren.resolve_dlls(epic_eos.ren.get_dlls_for(
-        # TODO: do only one function call, this is ridiculous
-        renpy.windows and (sys.maxsize > (1 << 32)),
-        renpy.windows and (sys.maxsize <= (1 << 32)),
-        not renpy.windows and not renpy.macintosh,
-        renpy.macintosh,
-        ))
-
-    if not dll_paths:
-        epic_eos.ren.log(500, epic_eos.renpy_category, "Could not find EOS library to load for current system")
-        return False
-
-    # Load DLL
-    try:
-        dll = ctypes.cdll[os.path.abspath(dll_paths[0])]
-    except Exception as e:
-        epic_eos.ren.log(500, epic_eos.renpy_category, "Failed to load library from '{}'. This is usually caused by a missing vcredist DLL.".format(dll_paths[0]), e)
-        return False
-
-    epic_eos.cdefs.load(dll)
+    load()
 
     # Initialize EOS context
     init_opts = epic_eos.cdefs.EOS_InitializeOptions(
@@ -83,45 +99,61 @@ def epic_init():
         renpy.config.periodic_callbacks.append(epic_eos.ren.periodic)
 
     # Configure Platform
-    eos_args = epic_eos.ren.get_epic_args()
-    eos_connexion_clientinfo = epic_eos.cdefs.EOS_Platform_ClientCredentials()
-    if eos_args.client and eos_args.clientsecret:
-        eos_connexion_clientinfo.ClientId = str_to_bytes(eos_args.client)
-        eos_connexion_clientinfo.ClientSecret = str_to_bytes(eos_args.clientsecret)
-    init_opts = epic_eos.cdefs.EOS_Platform_Options(
-        ProductId = str_to_bytes(eos_args.product),
-        SandboxId = str_to_bytes(eos_args.sandbox),
-        DeploymentId = str_to_bytes(eos_args.deployment),
-        ClientCredentials = eos_connexion_clientinfo,
-        Flags = epic_eos.cdefs.EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL if renpy.windows else epic_eos.cdefs.EOS_PF_DISABLE_OVERLAY,
-    )
-    epic_eos.eos_platform = epic_eos.cdefs.EOS_HPlatform.Create(ctypes.byref(init_opts))
-
-    epic_eos.ren.log(300, epic_eos.renpy_category, "Started Epic Online Services v{} with status {}".format(bytes_to_str(epic_eos.cdefs.EOS_GetVersion()), epic_eos.eos_platform.GetApplicationStatus().value))
-
-    # Try to use epic login if available
-    if eos_args.authtype:
-        eos_auth = epic_eos.eos_platform.GetAuthInterface()
-        if eos_args.authtype == 'exchangecode':
-            # https://dev.epicgames.com/docs/epic-account-services/auth-interface#epic-games-launcher
-            eos_credentials = epic_eos.cdefs.EOS_Auth_Credentials(
-                Token = str_to_bytes(eos_args.password),
-                Type = epic_eos.cdefs.EOS_LCT_ExchangeCode,
-            )
-        elif eos_args.authtype == 'developer':
-            # https://dev.epicgames.com/docs/epic-account-services/developer-authentication-tool
-            eos_credentials = epic_eos.cdefs.EOS_Auth_Credentials(
-                Id = str_to_bytes(eos_args.user),
-                Token = str_to_bytes(eos_args.password),
-                Type = epic_eos.cdefs.EOS_LCT_Developer,
-            )
-        else:
-            raise Exception("Unsupported Epic authtype: {}".format(eos_args.authtype))
-        login_info = epic_eos.cdefs.EOS_Auth_LoginOptions(
-            Credentials = ctypes.pointer(eos_credentials),
-            ScopeFlags = epic_eos.cdefs.EOS_EAuthScopeFlags(config.epic_scopes if config.epic_scopes is not None else epic_eos.cdefs.EOS_AS_NoFlags.value),
+    # Do not recreate on reload if a platform already exists because the token provided
+    # by the Epic Games Store would probably have expired
+    if epic_eos.eos_platform is None:
+        eos_args = epic_eos.ren.get_epic_args()
+        eos_connexion_clientinfo = epic_eos.cdefs.EOS_Platform_ClientCredentials()
+        if eos_args.client and eos_args.clientsecret:
+            eos_connexion_clientinfo.ClientId = str_to_bytes(eos_args.client)
+            eos_connexion_clientinfo.ClientSecret = str_to_bytes(eos_args.clientsecret)
+        init_opts = epic_eos.cdefs.EOS_Platform_Options(
+            ProductId = str_to_bytes(eos_args.product),
+            SandboxId = str_to_bytes(eos_args.sandbox),
+            DeploymentId = str_to_bytes(eos_args.deployment),
+            ClientCredentials = eos_connexion_clientinfo,
+            Flags = epic_eos.cdefs.EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL if renpy.windows else epic_eos.cdefs.EOS_PF_DISABLE_OVERLAY,
         )
-        eos_auth.Login(login_info, None, auth_login_callback)
+        epic_eos.eos_platform = epic_eos.cdefs.EOS_HPlatform.Create(ctypes.byref(init_opts))
+
+        epic_eos.ren.log(300, epic_eos.renpy_category, "Started Epic Online Services v{} with status {}".format(bytes_to_str(epic_eos.cdefs.EOS_GetVersion()), epic_eos.eos_platform.GetApplicationStatus().value))
+
+        # Try to use epic login if available
+        if eos_args.authtype:
+            eos_auth = epic_eos.eos_platform.GetAuthInterface()
+            if eos_args.authtype == 'exchangecode':
+                # https://dev.epicgames.com/docs/epic-account-services/auth-interface#epic-games-launcher
+                eos_credentials = epic_eos.cdefs.EOS_Auth_Credentials(
+                    Token = str_to_bytes(eos_args.password),
+                    Type = epic_eos.cdefs.EOS_LCT_ExchangeCode,
+                )
+            elif eos_args.authtype == 'developer':
+                # https://dev.epicgames.com/docs/epic-account-services/developer-authentication-tool
+                eos_credentials = epic_eos.cdefs.EOS_Auth_Credentials(
+                    Id = str_to_bytes(eos_args.user),
+                    Token = str_to_bytes(eos_args.password),
+                    Type = epic_eos.cdefs.EOS_LCT_Developer,
+                )
+            else:
+                if config.developer:
+                    raise Exception("Unsupported Epic authtype: {}".format(eos_args.authtype))
+                else:
+                    epic_eos.ren.log(500, epic_eos.renpy_category, "Unsupported Epic authtype: {}".format(eos_args.authtype))
+            login_info = epic_eos.cdefs.EOS_Auth_LoginOptions(
+                Credentials = ctypes.pointer(eos_credentials),
+                ScopeFlags = epic_eos.cdefs.EOS_EAuthScopeFlags(config.epic_scopes if config.epic_scopes is not None else epic_eos.cdefs.EOS_AS_NoFlags.value),
+            )
+            eos_auth.Login(login_info, None, auth_login_callback)
+
+        # Configure session keep-alive
+        connect = epic_eos.eos_platform.GetConnectInterface().AddNotifyAuthExpiration(
+            epic_eos.cdefs.EOS_Connect_AddNotifyAuthExpirationOptions(),
+            None,
+            session_keep_alive
+        )
+    else:
+        epic_eos.ren.log(300, epic_eos.renpy_category, "Skipped platform creation and login because Epic Online Services v{} is already started (status: {})".format(bytes_to_str(epic_eos.cdefs.EOS_GetVersion()), epic_eos.eos_platform.GetApplicationStatus().value))
+
 
     if config.enable_epic_achievements:
         retrieve_stats()
@@ -228,7 +260,54 @@ def set_int_stat(name, value):
             )
             interface.IngestStat(opts, None, stats_ingest_callback)
 
-# Internal API functions
+# Internal API functions and data
+
+account_id_map = {} # map a ProductUserId string to an EpicAccountId string
+
+def map_product_user_to_epic_account(product_user):
+    # type: (epic_eos.cdefs.EOS_ProductUserId) -> epic_eos.cdefs.EOS_EpicAccountId|None
+    product_user_buffer_size = ctypes.c_int32(epic_eos.cdefs.EOS_PRODUCTUSERID_MAX_LENGTH+1)
+    product_user_buffer = ctypes.create_string_buffer(product_user_buffer_size.value)
+    retval = product_user.ToString(product_user_buffer, ctypes.byref(product_user_buffer_size))
+    if retval.value != epic_eos.cdefs.EOS_Success.value:
+        epic_eos.ren.log(500, epic_eos.renpy_category, "Failed to convert Product User ID to string")
+        return None
+
+    product_user_string = ctypes.c_char_p(product_user_buffer).value
+    global account_id_map
+    epic_accounts = account_id_map.get(product_user_string, set())
+    if epic_accounts:
+        for epic_account_string in epic_accounts:
+            epic_account_string = account_id_map[product_user_string]
+            epic_account = ctypes.c_char_p(epic_account_string.encode('utf-8'))
+            epic_account_object = epic_eos.cdefs.EOS_EpicAccountId.FromString()
+            if epic_account_object.IsValid().value == epic_eos.cdefs.EOS_TRUE.value:
+                epic_eos.ren.log(500, epic_eos.renpy_category, "Invalid epic account ID {} for local user {}".format(epic_account_string, product_user_string))
+                continue
+            return epic_account_object
+    return None
+
+def set_product_user_to_epic_account_mapping(product_user, epic_account):
+    # type: (epic_eos.cdefs.EOS_ProductUserId, epic_eos.cdefs.EOS_EpicAccountId) -> None
+    product_user_buffer_size = ctypes.c_int32(epic_eos.cdefs.EOS_PRODUCTUSERID_MAX_LENGTH+1)
+    product_user_buffer = ctypes.create_string_buffer(product_user_buffer_size.value)
+    retval = product_user.ToString(product_user_buffer, ctypes.byref(product_user_buffer_size))
+    if retval.value != epic_eos.cdefs.EOS_Success.value:
+        epic_eos.ren.log(500, epic_eos.renpy_category, "Failed to convert Product User ID to string")
+        return
+
+    epic_account_buffer_size = ctypes.c_int32(epic_eos.cdefs.EOS_EPICACCOUNTID_MAX_LENGTH+1)
+    epic_account_buffer = ctypes.create_string_buffer(epic_account_buffer_size.value)
+    retval = epic_account.ToString(epic_account_buffer, ctypes.byref(epic_account_buffer_size))
+    if retval.value != epic_eos.cdefs.EOS_Success.value:
+        epic_eos.ren.log(500, epic_eos.renpy_category, "Failed to convert Epic Account ID to string")
+        return
+
+    global account_id_map
+    product_user_string = ctypes.c_char_p(product_user_buffer).value
+    if product_user_string not in account_id_map:
+        account_id_map[product_user_string] = set()
+    account_id_map[product_user_string] = ctypes.c_char_p(epic_account_buffer).value
 
 def get_local_user_id(): # type: () -> str
     # Note that we assume that only one user is locally available and that it is the first connected user
@@ -270,9 +349,18 @@ def auth_login_callback(login_info):
     if copy_result.value != epic_eos.cdefs.EOS_Success.value:
         epic_eos.ren.log(500, epic_eos.renpy_category, "Failed to get token in auth login callback")
         return
-    token = token_ref[0]
+
+    # Get Epic account ID as string for storage and pass-down
+    epic_account_id = id_to_c_char_p(info.SelectedAccountId, epic_eos.cdefs.EOS_EPICACCOUNTID_MAX_LENGTH)
+    if not epic_account_id:
+        epic_eos.ren.log(500, epic_eos.renpy_category, "Failed to stringify epic account ID ({})".format(write_result.value))
+        return
+    global ctypes_allocated_data
+    ctypes_allocated_data.append(epic_account_id)
+
+    # Login with connect interface
     creds = epic_eos.cdefs.EOS_Connect_Credentials(
-        Token = token.AccessToken,
+        Token = token_ref.contents.AccessToken,
         Type = epic_eos.cdefs.EOS_ECT_EPIC,
     )
     opts = epic_eos.cdefs.EOS_Connect_LoginOptions(
@@ -280,8 +368,8 @@ def auth_login_callback(login_info):
         UserLoginInfo = None,
     )
     connect = epic_eos.eos_platform.GetConnectInterface()
-    connect.Login(ctypes.byref(opts), None, connect_login_callback)
-    token.Release()
+    connect.Login(ctypes.byref(opts), epic_account_id, connect_login_callback)
+    token_ref.contents.Release()
 
 @epic_eos.cdefs.EOS_Connect_OnLoginCallback
 def connect_login_callback(login_info):
@@ -290,18 +378,23 @@ def connect_login_callback(login_info):
         epic_eos.ren.log(500, epic_eos.renpy_category, "Connect Login callback did not receive data")
         return
 
-    info = login_info[0]
+    info = login_info.contents
     if info.ResultCode.value == epic_eos.cdefs.EOS_Success.value:
         userid = ctypes.create_string_buffer(epic_eos.cdefs.EOS_PRODUCTUSERID_MAX_LENGTH + 1)
         info.LocalUserId.ToString(userid, ctypes.byref(ctypes.c_int32(ctypes.sizeof(userid))))
         epic_eos.ren.log(400, epic_eos.renpy_category, "Connected user {}".format(bytes_to_str(userid.value)))
+        if info.ClientData: # ClientData is a c_char_p of the EpicAccountId
+            epic_account_id_string = ctypes.cast(info.ClientData, ctypes.c_char_p)
+            product_user_id = id_to_c_char_p(info.LocalUserId, epic_eos.cdefs.EOS_PRODUCTUSERID_MAX_LENGTH)
+            global account_id_map
+            account_id_map[product_user_id.value] = epic_account_id_string.value
         retrieve_stats()
     elif info.ResultCode.value == epic_eos.cdefs.EOS_InvalidUser.value:
         opts = epic_eos.cdefs.EOS_Connect_CreateUserOptions()
         if info.ContinuanceToken:
             opts.ContinuanceToken = info.ContinuanceToken
         connect = epic_eos.eos_platform.GetConnectInterface()
-        connect.CreateUser(opts, None, connect_create_callback)
+        connect.CreateUser(opts, login_info.ClientData, connect_create_callback)
     else:
         epic_eos.ren.log(400, epic_eos.renpy_category, "Connect login callback failed with error: {} - {}".format(info.ResultCode.value, bytes_to_str(info.ResultCode.ToString())))
 
@@ -311,9 +404,14 @@ def connect_create_callback(create_info):
         epic_eos.ren.log(500, epic_eos.renpy_category, "Connect OnCreateUser callback did not receive data")
         return
 
-    info = create_info[0]
+    info = create_info.contents
     if info.ResultCode.value == epic_eos.cdefs.EOS_Success.value:
         epic_eos.ren.log(100, epic_eos.renpy_category, "Created new EOS user")
+        if info.ClientData: # ClientData is a c_char_p of the EpicAccountId
+            epic_account_id_string = ctypes.cast(info.ClientData, ctypes.c_char_p)
+            product_user_id = id_to_c_char_p(info.LocalUserId, epic_eos.cdefs.EOS_PRODUCTUSERID_MAX_LENGTH)
+            global account_id_map
+            account_id_map[product_user_id.value] = epic_account_id_string.value
         retrieve_stats()
     else:
         epic_eos.ren.log(500, epic_eos.renpy_category, "Failed to created new EOS user")
@@ -359,13 +457,67 @@ def achievements_querydefinitions_callback(data):
 
 @epic_eos.cdefs.EOS_Stats_OnIngestStatCompleteCallback
 def stats_ingest_callback(data):
+    # type: (ctypes.POINTER(epic_eos.cdefs.EOS_Stats_IngestStatCompleteCallbackInfo)) -> None
     if not data:
         epic_eos.ren.log(500, epic_eos.renpy_category, "Stats ingest notification callback did not receive data")
     else:
-        if data[0].ResultCode.value == epic_eos.cdefs.EOS_Success.value:
+        if data.contents.ResultCode.value == epic_eos.cdefs.EOS_Success.value:
             epic_eos.ren.log(200, epic_eos.renpy_category, "Done ingesting stats")
         else:
-            epic_eos.ren.log(400, epic_eos.renpy_category, "Failed to ingest stats: {} - {}".format(data[0].ResultCode.value, bytes_to_str(data[0].ResultCode.ToString())))
+            epic_eos.ren.log(400, epic_eos.renpy_category, "Failed to ingest stats: {} - {}".format(data.contents.ResultCode.value, bytes_to_str(data.contents.ResultCode.ToString())))
+
+@epic_eos.cdefs.EOS_Connect_OnAuthExpirationCallback
+def session_keep_alive(data):
+    # type: (ctypes.POINTER(EOS_Connect_AuthExpirationCallbackInfo)) -> None
+    if epic_eos.eos_platform is not None:
+        # Map local ID to Epic ID
+        local_user_id_string = id_to_c_char_p(data.contents.LocalUserId, epic_eos.cdefs.EOS_PRODUCTUSERID_MAX_LENGTH)
+        global account_id_map
+        if local_user_id_string.value not in account_id_map:
+            epic_eos.ren.log(500, epic_eos.renpy_category, "Failed to renew session for local user {} - no matching Epic Accound ID found".format(local_user_id_string.value))
+            return
+        epic_account_id = epic_eos.cdefs.EOS_EpicAccountId.FromString(ctypes.c_char_p(account_id_map[local_user_id_string.value]))
+
+        # Get Token for Epic ID
+        auth = epic_eos.eos_platform.GetAuthInterface()
+        epic_account_token = ctypes.POINTER(epic_eos.cdefs.EOS_Auth_Token)()
+
+        retval = auth.CopyUserAuthToken(
+            epic_eos.cdefs.EOS_Auth_CopyUserAuthTokenOptions(),
+            epic_account_id,
+            ctypes.byref(epic_account_token),
+        )
+        if retval.value != epic_eos.cdefs.EOS_Success.value:
+            epic_eos.ren.log(
+                500, epic_eos.renpy_category,
+                "Failed to get token for local user {} with Epic Accound {} (error {})".format(
+                    local_user_id_string.value,
+                    account_id_map[local_user_id_string.value],
+                    retval.value,
+                    )
+                )
+            return
+
+        # Renew Connect session
+        connect = epic_eos.eos_platform.GetConnectInterface()
+        creds = epic_eos.cdefs.EOS_Connect_Credentials(
+            Token = epic_account_token.contents.AccessToken,
+            Type = epic_eos.cdefs.EOS_ECT_EPIC,
+        )
+        opts = epic_eos.cdefs.EOS_Connect_LoginOptions(
+            Credentials = ctypes.pointer(creds),
+            UserLoginInfo = None,
+        )
+        connect = epic_eos.eos_platform.GetConnectInterface()
+        connect.Login(ctypes.byref(opts), None, connect_login_callback)
+        epic_eos.ren.log(
+            300, epic_eos.renpy_category,
+            "Starting update flow for local user {} with Epic Accound {}".format(
+                local_user_id_string.value,
+                account_id_map[local_user_id_string.value],
+                )
+            )
+        epic_account_token.contents.Release()
 
 @epic_eos.cdefs.EOS_LogMessageFunc
 def epic_logger(message):
