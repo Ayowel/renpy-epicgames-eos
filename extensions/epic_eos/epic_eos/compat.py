@@ -394,7 +394,7 @@ def connect_login_callback(login_info):
         if info.ContinuanceToken:
             opts.ContinuanceToken = info.ContinuanceToken
         connect = epic_eos.eos_platform.GetConnectInterface()
-        connect.CreateUser(opts, login_info.ClientData, connect_create_callback)
+        connect.CreateUser(opts, info.ClientData, connect_create_callback)
     else:
         epic_eos.ren.log(400, epic_eos.renpy_category, "Connect login callback failed with error: {} - {}".format(info.ResultCode.value, bytes_to_str(info.ResultCode.ToString())))
 
