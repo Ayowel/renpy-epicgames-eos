@@ -6,7 +6,7 @@ https://ayowel.itch.io/renpy-epic-integration[image:https://img.shields.io/badge
 https://github.com/Ayowel/renpy-epicgames-eos/releases/latest[image:https://shields.io/github/v/release/ayowel/renpy-epicgames-eos?label=latest-version[]]
 https://www.apache.org/licenses/LICENSE-2.0.html[image:https://shields.io/github/license/ayowel/renpy-epicgames-eos?color=red[]]
 https://github.com/Ayowel/renpy-epicgames-eos/issues[image:https://shields.io/github/issues/ayowel/renpy-epicgames-eos?color=orange[]]
-https://dev.epicgames.com/portal/en-US/home/sdk-download?versionType=sdk&versionId=478[image:https://img.shields.io/badge/EOS SDK-1.15.4-lightblue[]]
+https://dev.epicgames.com/en-US/sdk[image:https://img.shields.io/badge/EOS SDK-1.16.1-lightblue[]]
 
 This extension adds Epic Games achievements support to Ren'Py. Ensure that you have accepted the usage conditions for the https://dev.epicgames.com/portal/en-US/home/sdk-download[Epic Games SDK] on the Epic Games Dev Portal before using this extension.
 

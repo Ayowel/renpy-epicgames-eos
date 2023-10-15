@@ -1,6 +1,7 @@
 from ctypes import (
+    Array,
     c_int32, c_int64, c_uint8, c_uint32, c_uint64,
-    c_char_p, c_void_p, c_double, Structure,
+    c_char, c_char_p, c_void_p, c_double, Structure,
     CFUNCTYPE, POINTER,)
 
 try:
@@ -27,11 +28,16 @@ EOS_FALSE = EOS_Bool(0)
 # Version
 EOS_GetVersion = not_ready
 
+EOS_MINOR_VERSION = 16
+EOS_PATCH_VERSION = 1
+
 # Common
 class EOS_EResult(c_int32):
     def ToString(self):
+        # type: () -> c_char_p
         return EOS_EResult_ToString(self)
     def IsOperationComplete(self):
+        # type: () -> EOS_Bool
         return EOS_EResult_IsOperationComplete(self)
 EOS_Success = EOS_EResult(0)
 EOS_NoConnection = EOS_EResult(1)
@@ -110,6 +116,7 @@ EOS_Auth_AccountNotActive = EOS_EResult(1050)
 EOS_Auth_MFARequired = EOS_EResult(1060)
 EOS_Auth_ParentalControls = EOS_EResult(1070)
 EOS_Auth_NoRealId = EOS_EResult(1080)
+EOS_Auth_UserInterfaceRequired = EOS_EResult(1090)
 EOS_Friends_InviteAwaitingAcceptance = EOS_EResult(2000)
 EOS_Friends_NoInvitation = EOS_EResult(2001)
 EOS_Friends_AlreadyFriends = EOS_EResult(2003)
@@ -132,6 +139,7 @@ EOS_Ecom_CatalogOfferStale = EOS_EResult(4001)
 EOS_Ecom_CatalogItemStale = EOS_EResult(4002)
 EOS_Ecom_CatalogOfferPriceInvalid = EOS_EResult(4003)
 EOS_Ecom_CheckoutLoadError = EOS_EResult(4004)
+EOS_Ecom_PurchaseProcessing = EOS_EResult(4005)
 EOS_Sessions_SessionInProgress = EOS_EResult(5000)
 EOS_Sessions_TooManyPlayers = EOS_EResult(5001)
 EOS_Sessions_NoPermission = EOS_EResult(5002)
@@ -197,6 +205,7 @@ EOS_Lobby_NotAllowed = EOS_EResult(9016)
 EOS_Lobby_MemberUpdateOnly = EOS_EResult(9017)
 EOS_Lobby_PresenceLobbyExists = EOS_EResult(9018)
 EOS_Lobby_VoiceNotEnabled = EOS_EResult(9019)
+EOS_Lobby_PlatformNotAllowed = EOS_EResult(9020)
 EOS_TitleStorage_UserErrorFromDataCallback = EOS_EResult(10000)
 EOS_TitleStorage_EncryptionKeyNotSet = EOS_EResult(10001)
 EOS_TitleStorage_FileCorrupted = EOS_EResult(10002)
@@ -253,6 +262,8 @@ EOS_DesktopCrossplay_ApplicationNotBootstrapped = EOS_EResult(19000)
 EOS_DesktopCrossplay_ServiceNotInstalled = EOS_EResult(19001)
 EOS_DesktopCrossplay_ServiceStartFailed = EOS_EResult(19002)
 EOS_DesktopCrossplay_ServiceNotRunning = EOS_EResult(19003)
+EOS_CustomInvites_InviteFailed = EOS_EResult(20000)
+EOS_UserInfo_BestDisplayNameIndeterminate = EOS_EResult(22000)
 EOS_UnexpectedError = EOS_EResult(0x7FFFFFFF)
 
 EOS_EResult_ToString = not_ready
@@ -265,7 +276,7 @@ class EOS_EpicAccountId(c_void_p):
         # type: (c_char_p) -> EOS_EpicAccountId
         return EOS_EpicAccountId_FromString(AccountIdString)
     def ToString(self, OutBuffer, InOutBufferLength):
-        # type: (EOS_EpicAccountId, c_char_p, POINTER(c_int32))
+        # type: (EOS_EpicAccountId, c_char_p, POINTER(c_int32)) -> c_char_p
         return EOS_EpicAccountId_ToString(self, OutBuffer, InOutBufferLength)
     def IsValid(self):
         # type: (EOS_EpicAccountId) -> EOS_Bool
@@ -281,7 +292,7 @@ class EOS_ProductUserId(c_void_p):
         # type: (c_char_p) -> EOS_ProductUserId
         return EOS_ProductUserId_FromString(ProductUserIdString)
     def ToString(self, OutBuffer, InOutBufferLength):
-        # type: (EOS_ProductUserId, c_char_p, POINTER(c_int32))
+        # type: (EOS_ProductUserId, c_char_p, POINTER(c_int32)) -> c_char_p
         return EOS_ProductUserId_ToString(self, OutBuffer, InOutBufferLength)
     def IsValid(self):
         # type: (EOS_ProductUserId) -> EOS_Bool
@@ -297,6 +308,7 @@ EOS_INVALID_NOTIFICATIONID = EOS_NotificationId(0)
 
 class EOS_ContinuanceToken(c_void_p):
     def ToString(self, OutBuffer, InOutBufferLength):
+        # type: (Array[c_char], POINTER(c_int32)) -> EOS_EResult
         return EOS_ContinuanceToken_ToString(OutBuffer, InOutBufferLength)
 EOS_ContinuanceToken_ToString = not_ready
 
@@ -399,11 +411,23 @@ EOS_ECT_STEAM_SESSION_TICKET = EOS_EExternalCredentialType(18)
 EOS_IntegratedPlatformType = c_char_p
 EOS_IPT_Unknown = c_char_p(None)
 
+class EOS_OnlinePlatformType(c_uint32):
+    pass
+EOS_OPT_Unknown = EOS_OnlinePlatformType(0)
+EOS_OPT_Epic = EOS_OnlinePlatformType(100)
+EOS_OPT_Steam = EOS_OnlinePlatformType(4000)
+
 # Integrated Platform types
 class EOS_HIntegratedPlatformOptionsContainer(c_void_p):
     pass
+class EOS_HIntegratedPlatform(c_void_p):
+    pass
 
 # Global types
+
+EOS_PLATFORM_CLIENTCREDENTIALS_CLIENTID_MAX_LENGTH = 64
+EOS_PLATFORM_CLIENTCREDENTIALS_CLIENTSECRET_MAX_LENGTH = 64
+
 class EOS_Platform_ClientCredentials(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -415,7 +439,12 @@ class EOS_Platform_ClientCredentials(Structure):
             ClientId = ClientId, ClientSecret = ClientSecret,
             **kwargs)
 
-EOS_PLATFORM_RTCOPTIONS_API_LATEST = 1
+class EOS_ERTCBackgroundMode(c_int32):
+    pass
+EOS_RTCBM_LeaveRooms = EOS_ERTCBackgroundMode(0)
+EOS_RTCBM_KeepRoomsAlive = EOS_ERTCBackgroundMode(1)
+
+EOS_PLATFORM_RTCOPTIONS_API_LATEST = 2
 class EOS_Platform_RTCOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -434,7 +463,7 @@ EOS_COUNTRYCODE_MAX_LENGTH = 4
 EOS_COUNTRYCODE_MAX_BUFFER_LEN = (EOS_COUNTRYCODE_MAX_LENGTH + 1)
 EOS_LOCALECODE_MAX_LENGTH = 9
 EOS_LOCALECODE_MAX_BUFFER_LEN = (EOS_LOCALECODE_MAX_LENGTH + 1)
-EOS_PLATFORM_OPTIONS_API_LATEST = 12
+EOS_PLATFORM_OPTIONS_API_LATEST = 13
 
 EOS_PF_LOADING_IN_EDITOR = 0x00001
 EOS_PF_DISABLE_OVERLAY = 0x00002
@@ -443,6 +472,12 @@ EOS_PF_RESERVED1 = 0x00008
 EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9 = 0x00010
 EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10 = 0x00020
 EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL = 0x00040
+EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING = 0x00080
+
+EOS_PLATFORM_OPTIONS_PRODUCTID_MAX_LENGTH = 64
+EOS_PLATFORM_OPTIONS_SANDBOXID_MAX_LENGTH = 64
+EOS_PLATFORM_OPTIONS_ENCRYPTIONKEY_LENGTH = 64
+EOS_PLATFORM_OPTIONS_DEPLOYMENTID_MAX_LENGTH = 64
 
 class EOS_Platform_Options(Structure):
     _pack_ = PACK
@@ -462,13 +497,15 @@ class EOS_Platform_Options(Structure):
         ('TickBudgetInMilliseconds', c_uint32),
         ('RTCOptions', POINTER(EOS_Platform_RTCOptions)),
         ('IntegratedPlatformOptionsContainerHandle', EOS_HIntegratedPlatformOptionsContainer),
+        ('SystemSpecificOptions', c_void_p),
     ]
     def __init__(self,
             ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST, Reserved = None,
             ProductId = None, SandboxId = None, ClientCredentials = EOS_Platform_ClientCredentials(),
             bIsServer = False, EncryptionKey = None, OverrideCountryCode = None,
             OverrideLocaleCode = None, CacheDirectory = None, TickBudgetInMilliseconds = 0,
-            RTCOptions = None, IntegratedPlatformOptionsContainerHandle = None, **kwargs):
+            RTCOptions = None, IntegratedPlatformOptionsContainerHandle = None,
+            SystemSpecificOptions = None, **kwargs):
         Structure.__init__(self,
             ApiVersion = ApiVersion, Reserved = Reserved,
             ProductId = ProductId, SandboxId = SandboxId,
@@ -477,20 +514,29 @@ class EOS_Platform_Options(Structure):
             OverrideLocaleCode = OverrideLocaleCode, CacheDirectory = CacheDirectory,
             TickBudgetInMilliseconds = TickBudgetInMilliseconds, RTCOptions = RTCOptions,
             IntegratedPlatformOptionsContainerHandle = IntegratedPlatformOptionsContainerHandle,
+            SystemSpecificOptions = SystemSpecificOptions,
             **kwargs)
 
 class EOS_EApplicationStatus(c_int32):
-    pass
+    def ToString(self):
+        # type: () -> c_char_p
+        return EOS_EApplicationStatus_ToString(self)
 EOS_AS_BackgroundConstrained = EOS_EApplicationStatus(0)
 EOS_AS_BackgroundUnconstrained = EOS_EApplicationStatus(1)
 EOS_AS_BackgroundSuspended = EOS_EApplicationStatus(2)
 EOS_AS_Foreground = EOS_EApplicationStatus(3)
 
+EOS_EApplicationStatus_ToString = not_ready
+
 class EOS_ENetworkStatus(c_int32):
-    pass
+    def ToString(self):
+        # type: () -> c_char_p
+        return EOS_ENetworkStatus_ToString(self)
 EOS_NS_Disabled = EOS_ENetworkStatus(0)
 EOS_NS_Offline = EOS_ENetworkStatus(1)
 EOS_NS_Online = EOS_ENetworkStatus(2)
+
+EOS_ENetworkStatus_ToString = not_ready
 
 class EOS_EDesktopCrossplayStatus(c_int32):
     pass
@@ -514,12 +560,16 @@ class EOS_Platform_GetDesktopCrossplayStatusOptions(Structure):
             **kwargs):
         Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
-class EOS_Platform_GetDesktopCrossplayStatusInfo(Structure):
+class EOS_Platform_DesktopCrossplayStatusInfo(Structure):
     _pack_ = PACK
     _fields_ = [
         ('Status', EOS_EDesktopCrossplayStatus),
         ('ServiceInitResult', c_int32),
     ]
+# DEPRECATED
+EOS_Platform_GetDesktopCrossplayStatusInfo = EOS_Platform_DesktopCrossplayStatusInfo
+
+EOS_PLATFORM_CHECKFORLAUNCHERANDRESTART_ENV_VAR = "EOS_LAUNCHED_BY_EPIC"
 
 #####
 # Logging
@@ -625,6 +675,8 @@ class EOS_Initialize_ThreadAffinity(Structure):
             RTCIo = RTCIo, **kwargs)
 
 EOS_INITIALIZE_API_LATEST = 4
+EOS_INITIALIZEOPTIONS_PRODUCTNAME_MAX_LENGTH = 64
+EOS_INITIALIZEOPTIONS_PRODUCTVERSION_MAX_LENGTH = 64
 class EOS_InitializeOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -733,7 +785,7 @@ class EOS_Achievements_DefinitionV2(Structure):
             ApiVersion = EOS_ACHIEVEMENTS_DEFINITIONV2_API_LATEST,
             **kwargs):
         Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-    def Release(self):
+    def Release(self): # type: () -> None
         EOS_Achievements_DefinitionV2_Release(self)
 EOS_Achievements_DefinitionV2_Release = not_ready
 
@@ -820,7 +872,7 @@ class EOS_Achievements_PlayerAchievement(Structure):
             ApiVersion = ApiVersion, UnlockTime = UnlockTime,
             IconURL = IconURL, FlavorText = FlavorText,
             **kwargs)
-    def Release(self):
+    def Release(self): # type: () -> None
         return EOS_Achievements_PlayerAchievement_Release(self)
 
 EOS_ACHIEVEMENTS_GETPLAYERACHIEVEMENTCOUNT_API_LATEST = c_int32(1)
@@ -940,7 +992,7 @@ class EOS_Achievements_Definition(Structure):
         ('StatThresholdsCount', c_int32),
         ('StatThresholds', POINTER(EOS_Achievements_StatThresholds)),
     ]
-    def Release(self):
+    def Release(self): # type: () -> None
         return EOS_Achievements_Definition_Release(self)
 EOS_Achievements_Definition_Release = not_ready
 
@@ -968,7 +1020,7 @@ class EOS_Achievements_UnlockedAchievement(Structure):
         ('AchievementId', c_char_p),
         ('UnlockTime', c_int64),
     ]
-    def Release(self):
+    def Release(self): # type: () -> None
         return EOS_Achievements_UnlockedAchievement_Release(self)
 
 EOS_ACHIEVEMENTS_GETUNLOCKEDACHIEVEMENTCOUNT_API_LATEST = 1
@@ -1078,11 +1130,11 @@ class EOS_Auth_Token(Structure):
     ]
     def __init__(self, ApiVersion = EOS_AUTH_TOKEN_API_LATEST, **kwargs):
         Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-    def Release(self):
+    def Release(self): # type: () -> None
         return EOS_Auth_Token_Release(self)
 EOS_Auth_Token_Release = not_ready
 
-EOS_AUTH_CREDENTIALS_API_LATEST = 3
+EOS_AUTH_CREDENTIALS_API_LATEST = 4
 class EOS_Auth_Credentials(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1109,7 +1161,9 @@ class EOS_Auth_PinGrantInfo(Structure):
     def __init__(self, ApiVersion = EOS_AUTH_PINGRANTINFO_API_LATEST, **kwargs):
         Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
+# DEPRECATED
 EOS_AUTH_ACCOUNTFEATURERESTRICTEDINFO_API_LATEST = 1
+# DEPRECATED
 class EOS_Auth_AccountFeatureRestrictedInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1131,7 +1185,9 @@ EOS_AS_FriendsManagement = EOS_EAuthScopeFlags(0x8)
 EOS_AS_Email = EOS_EAuthScopeFlags(0x10)
 EOS_AS_Country = EOS_EAuthScopeFlags(0x20)
 
-EOS_AUTH_LOGIN_API_LATEST = 2
+EOS_LF_NO_USER_INTERFACE = 0x00001
+
+EOS_AUTH_LOGIN_API_LATEST = 3
 class EOS_Auth_LoginOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1262,7 +1318,7 @@ class EOS_Auth_IdToken(Structure):
             ApiVersion = EOS_AUTH_IDTOKEN_API_LATEST,
             **kwargs):
         Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-    def Release(self):
+    def Release(self): # type: () -> None
         return EOS_Auth_IdToken_Release(self)
 EOS_Auth_IdToken_Release = not_ready
 
@@ -1404,12 +1460,13 @@ class EOS_Connect_Credentials(Structure):
         Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
 
 EOS_CONNECT_USERLOGININFO_DISPLAYNAME_MAX_LENGTH = 32
-EOS_CONNECT_USERLOGININFO_API_LATEST = 1
+EOS_CONNECT_USERLOGININFO_API_LATEST = 2
 class EOS_Connect_UserLoginInfo(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ApiVersion', c_int32),
         ('DisplayName', c_char_p),
+        ('NsaIdToken', c_char_p),
     ]
     def __init__(self,
             ApiVersion = EOS_CONNECT_USERLOGININFO_API_LATEST,
@@ -1933,7 +1990,7 @@ class EOS_Stats_Stat(Structure):
         ApiVersion = EOS_STATS_STAT_API_LATEST,
         **kwargs):
         Structure.__init__(self, ApiVersion, **kwargs)
-    def Release(self):
+    def Release(self): # type: () -> None
         return EOS_Stats_Stat_Release(self)
 
 EOS_STATS_GETSTATSCOUNT_API_LATEST = 1
@@ -2027,6 +2084,7 @@ EOS_Platform_GetReportsInterface = not_ready
 EOS_Platform_GetSanctionsInterface = not_ready
 EOS_Platform_GetKWSInterface = not_ready
 EOS_Platform_GetCustomInvitesInterface = not_ready
+EOS_Platform_GetIntegratedPlatformInterface = not_ready
 EOS_Platform_GetActiveCountryCode = not_ready
 EOS_Platform_GetActiveLocaleCode = not_ready
 EOS_Platform_GetOverrideCountryCode = not_ready
@@ -2058,7 +2116,7 @@ class EOS_HPlatform(c_void_p):
     def GetConnectInterface(self): # type: () -> EOS_HConnect
         return EOS_Platform_GetConnectInterface(self)
     def GetDesktopCrossplayStatus(self, Options, OutDesktopCrossplayStatusInfo):
-        # type: (POINTER(EOS_Platform_GetDesktopCrossplayStatusOptions), POINTER(EOS_Platform_GetDesktopCrossplayStatusInfo)) -> EOS_EResult
+        # type: (POINTER(EOS_Platform_GetDesktopCrossplayStatusOptions), POINTER(EOS_Platform_DesktopCrossplayStatusInfo)) -> EOS_EResult
         return EOS_Platform_GetDesktopCrossplayStatus(self, Options, OutDesktopCrossplayStatusInfo)
     def GetUserInfoInterface(self): # type: () -> EOS_HUserInfo
         return EOS_Platform_GetUserInfoInterface(self)
@@ -2353,6 +2411,18 @@ def load(dll):
     EOS_ContinuanceToken_ToString = dll.EOS_ContinuanceToken_ToString
     EOS_ContinuanceToken_ToString.argtypes = [EOS_ContinuanceToken, c_char_p, POINTER(c_int32)]
     EOS_ContinuanceToken_ToString.restype = EOS_EResult
+
+    # Types
+
+    global EOS_EApplicationStatus_ToString
+    EOS_EApplicationStatus_ToString = dll.EOS_EApplicationStatus_ToString
+    EOS_EApplicationStatus_ToString.argtypes = [EOS_EApplicationStatus]
+    EOS_EApplicationStatus_ToString.restype = c_char_p
+
+    global EOS_ENetworkStatus_ToString
+    EOS_ENetworkStatus_ToString = dll.EOS_ENetworkStatus_ToString
+    EOS_ENetworkStatus_ToString.argtypes = [EOS_EApplicationStatus]
+    EOS_ENetworkStatus_ToString.restype = c_char_p
 
     # Logging
 
@@ -2902,6 +2972,11 @@ def load(dll):
     EOS_Platform_GetCustomInvitesInterface.argtypes = [EOS_HPlatform]
     EOS_Platform_GetCustomInvitesInterface.restype = EOS_HCustomInvites
 
+    global EOS_Platform_GetIntegratedPlatformInterface
+    EOS_Platform_GetIntegratedPlatformInterface = dll.EOS_Platform_GetIntegratedPlatformInterface
+    EOS_Platform_GetIntegratedPlatformInterface.argtypes = [EOS_HPlatform]
+    EOS_Platform_GetIntegratedPlatformInterface.restype = EOS_HIntegratedPlatform
+
     global EOS_Platform_GetActiveCountryCode
     EOS_Platform_GetActiveCountryCode = dll.EOS_Platform_GetActiveCountryCode
     EOS_Platform_GetActiveCountryCode.argtypes = [EOS_HPlatform, EOS_EpicAccountId, c_char_p, POINTER(c_int32)]
@@ -2939,7 +3014,7 @@ def load(dll):
 
     global EOS_Platform_GetDesktopCrossplayStatus
     EOS_Platform_GetDesktopCrossplayStatus = dll.EOS_Platform_GetDesktopCrossplayStatus
-    EOS_Platform_GetDesktopCrossplayStatus.argtypes = [EOS_HPlatform, POINTER(EOS_Platform_GetDesktopCrossplayStatusOptions), POINTER(EOS_Platform_GetDesktopCrossplayStatusInfo)]
+    EOS_Platform_GetDesktopCrossplayStatus.argtypes = [EOS_HPlatform, POINTER(EOS_Platform_GetDesktopCrossplayStatusOptions), POINTER(EOS_Platform_DesktopCrossplayStatusInfo)]
     EOS_Platform_GetDesktopCrossplayStatus.restype = EOS_EResult
 
     global EOS_Platform_SetApplicationStatus
