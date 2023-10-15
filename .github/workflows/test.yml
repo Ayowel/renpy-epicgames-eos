@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        renpy_version: ['7.4.11', '7.5.3', '8.0.3']
+        renpy_version: ['7.4.11', '7.5.3', '8.0.3', '8.1.3']
     steps:
     - uses: actions/checkout@v3
       with:
