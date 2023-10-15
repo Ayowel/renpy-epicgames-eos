@@ -19,10 +19,12 @@ jobs:
         path: renpy
         key: ${{ runner.os }}-${{ matrix.renpy_version }}-primes
     - name: "Download Ren'Py"
+      uses: Ayowel/renpy-setup-action@v2
       if: steps.cache-renpy.outputs.cache-hit != 'true'
-      run: |
-        mkdir renpy
-        curl https://www.renpy.org/dl/${{ matrix.renpy_version }}/renpy-${{ matrix.renpy_version }}-sdk.tar.bz2 | tar -xjC renpy --strip-components 1
+      with:
+        action: install
+        version: ${{ matrix.renpy_version }}
+        path: renpy
     - name: "Build extensions' archives"
       run: |
         pip install -r project/extensions/build-requirements.txt

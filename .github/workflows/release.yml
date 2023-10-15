@@ -20,7 +20,7 @@ on:
       - v*
 
 env:
-  RENPY_VERSION: '8.0.3'
+  RENPY_VERSION: '8.1.3'
 
 jobs:
   build:
@@ -37,10 +37,12 @@ jobs:
         path: renpy
         key: ${{ runner.os }}-${{ env.RENPY_VERSION }}-primes
     - name: "Download Ren'Py"
+      uses: Ayowel/renpy-setup-action@v2
       if: steps.cache-renpy.outputs.cache-hit != 'true'
-      run: |
-        mkdir renpy
-        curl https://www.renpy.org/dl/${RENPY_VERSION}/renpy-${RENPY_VERSION}-sdk.tar.bz2 | tar -xjC renpy --strip-components 1
+      with:
+        action: install
+        version: ${{ env.RENPY_VERSION }}
+        path: renpy
     - name: "Build extensions' archives"
       working-directory: project/extensions
       run: |
