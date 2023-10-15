@@ -42,7 +42,7 @@ jobs:
       with:
         action: install
         version: ${{ env.RENPY_VERSION }}
-        path: renpy
+        install_dir: renpy
     - name: "Build extensions' archives"
       working-directory: project/extensions
       run: |

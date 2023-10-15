@@ -24,7 +24,7 @@ jobs:
       with:
         action: install
         version: ${{ matrix.renpy_version }}
-        path: renpy
+        install_dir: renpy
     - name: "Build extensions' archives"
       run: |
         pip install -r project/extensions/build-requirements.txt
