@@ -1,5 +1,5 @@
 
-__version__ = '0.1.0'
+__version__ = '0.2.2'
 __eos_version__ = '1.15.4'
 
 eos_platform = None # type: epic_eos.cdefs.EOS_HPlatform
