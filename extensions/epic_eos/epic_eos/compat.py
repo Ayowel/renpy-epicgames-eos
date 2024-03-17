@@ -376,12 +376,10 @@ def connect_login_callback(login_info):
 
     info = login_info.contents
     if info.ResultCode.value == epic_eos.cdefs.EOS_Success.value:
-        userid = ctypes.create_string_buffer(epic_eos.cdefs.EOS_PRODUCTUSERID_MAX_LENGTH + 1)
-        info.LocalUserId.ToString(userid, ctypes.byref(ctypes.c_int32(ctypes.sizeof(userid))))
-        epic_eos.ren.log(400, epic_eos.renpy_category, "Connected user {}".format(bytes_to_str(userid.value)))
+        product_user_id = id_to_c_char_p(info.LocalUserId, epic_eos.cdefs.EOS_PRODUCTUSERID_MAX_LENGTH)
+        epic_eos.ren.log(400, epic_eos.renpy_category, "Connected user {}".format(product_user_id.value))
         if info.ClientData: # ClientData is a c_char_p of the EpicAccountId
             epic_account_id_string = ctypes.cast(info.ClientData, ctypes.c_char_p)
-            product_user_id = id_to_c_char_p(info.LocalUserId, epic_eos.cdefs.EOS_PRODUCTUSERID_MAX_LENGTH)
             global account_id_map
             account_id_map[product_user_id.value] = epic_account_id_string.value
         retrieve_stats()
@@ -402,10 +400,10 @@ def connect_create_callback(create_info):
 
     info = create_info.contents
     if info.ResultCode.value == epic_eos.cdefs.EOS_Success.value:
-        epic_eos.ren.log(100, epic_eos.renpy_category, "Created new EOS user")
+        product_user_id = id_to_c_char_p(info.LocalUserId, epic_eos.cdefs.EOS_PRODUCTUSERID_MAX_LENGTH)
+        epic_eos.ren.log(100, epic_eos.renpy_category, "Created new EOS user {}".format(product_user_id.value))
         if info.ClientData: # ClientData is a c_char_p of the EpicAccountId
             epic_account_id_string = ctypes.cast(info.ClientData, ctypes.c_char_p)
-            product_user_id = id_to_c_char_p(info.LocalUserId, epic_eos.cdefs.EOS_PRODUCTUSERID_MAX_LENGTH)
             global account_id_map
             account_id_map[product_user_id.value] = epic_account_id_string.value
         retrieve_stats()
