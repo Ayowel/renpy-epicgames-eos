@@ -458,7 +458,7 @@ def stats_ingest_callback(data):
         epic_eos.ren.log(500, epic_eos.renpy_category, "Stats ingest notification callback did not receive data")
     else:
         if data.contents.ResultCode.value == epic_eos.cdefs.EOS_Success.value:
-            epic_eos.ren.log(200, epic_eos.renpy_category, "Done ingesting stats")
+            epic_eos.ren.log(100, epic_eos.renpy_category, "Done ingesting stats")
         else:
             epic_eos.ren.log(400, epic_eos.renpy_category, "Failed to ingest stats: {} - {}".format(data.contents.ResultCode.value, bytes_to_str(data.contents.ResultCode.ToString())))
 
