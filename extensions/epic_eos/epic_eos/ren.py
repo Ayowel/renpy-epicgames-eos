@@ -143,25 +143,8 @@ class EpicBackend(obj): # TODO: migrate to rpy file to inherit Backend
             else:
                 return
 
-        # current = persistent._achievement_progress.get(name, 0)
-
         epic_stat, stat_max, stat_modulo = self.stats[name]
-
-        epic_eos.compat.set_int_stat(epic_stat, completed)
-        # name = self.names.get(name, name)
-
-        # if (current is not None) and (current >= completed):
-        #     return
-
-        # renpy.maximum_framerate(steam_maximum_framerate)
-
-        # if completed >= stat_max:
-        #     steam.grant_achievement(name)
-        # else:
-        #     if (stat_modulo is None) or (completed % stat_modulo) == 0:
-        #         steam.indicate_achievement_progress(name, completed, stat_max)
-
-        # steam.store_stats()
+        epic_eos.compat.add_int_stat(epic_stat, completed)
 
     def has(self, name):
         name = self.names.get(name, name)

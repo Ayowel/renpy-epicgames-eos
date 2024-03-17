@@ -239,7 +239,7 @@ def grant_achievement(name): # type: (str) -> None
                         name, status.value, bytes_to_str(status.ToString()))
                 )
 
-def set_int_stat(name, value):
+def add_int_stat(name, value):
     if epic_eos.eos_platform is not None:
         user = get_local_user_id()
         if user:
