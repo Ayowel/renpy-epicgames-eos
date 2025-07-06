@@ -139,6 +139,7 @@ def epic_init():
                     raise Exception("Unsupported Epic authtype: {}".format(eos_args.authtype))
                 else:
                     epic_eos.ren.log(500, epic_eos.renpy_category, "Unsupported Epic authtype: {}".format(eos_args.authtype))
+                    return False
             login_info = epic_eos.cdefs.EOS_Auth_LoginOptions(
                 Credentials = ctypes.pointer(eos_credentials),
                 ScopeFlags = epic_eos.cdefs.EOS_EAuthScopeFlags(config.epic_scopes if config.epic_scopes is not None else epic_eos.cdefs.EOS_AS_NoFlags.value),
@@ -276,7 +277,7 @@ def map_product_user_to_epic_account(product_user):
         for epic_account_string in epic_accounts:
             epic_account_string = account_id_map[product_user_string]
             epic_account = ctypes.c_char_p(epic_account_string.encode('utf-8'))
-            epic_account_object = epic_eos.cdefs.EOS_EpicAccountId.FromString()
+            epic_account_object = epic_eos.cdefs.EOS_EpicAccountId.FromString(epic_account)
             if epic_account_object.IsValid().value == epic_eos.cdefs.EOS_TRUE.value:
                 epic_eos.ren.log(500, epic_eos.renpy_category, "Invalid epic account ID {} for local user {}".format(epic_account_string, product_user_string))
                 continue
@@ -316,6 +317,8 @@ def get_local_user_id(): # type: () -> str
             #account.ToString(account_buffer, ctypes.byref(ctypes.c_int32(ctypes.sizeof(account_buffer))))
             #return bytes_to_str(account_buffer.value)
             return account
+        else:
+            epic_eos.ren.log(200, epic_eos.renpy_category, "Tried to get local user ID but no account was available")
     return None
 
 # Generic native callback functions
@@ -349,7 +352,7 @@ def auth_login_callback(login_info):
     # Get Epic account ID as string for storage and pass-down
     epic_account_id = id_to_c_char_p(info.SelectedAccountId, epic_eos.cdefs.EOS_EPICACCOUNTID_MAX_LENGTH)
     if not epic_account_id:
-        epic_eos.ren.log(500, epic_eos.renpy_category, "Failed to stringify epic account ID ({})".format(write_result.value))
+        epic_eos.ren.log(500, epic_eos.renpy_category, "Failed to stringify epic account ID ({})".format(info.SelectedAccountId))
         return
     global ctypes_allocated_data
     ctypes_allocated_data.append(epic_account_id)
