@@ -26,6 +26,9 @@ errors.txt
 traceback.txt
 files.txt
 
+# Ignore python-generated files
+__pycache__
+
 # Specific assets #
 ###################
 /game/epic.rpy
