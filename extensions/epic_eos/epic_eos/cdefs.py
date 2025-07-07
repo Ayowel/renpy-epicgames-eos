@@ -1,8 +1,13 @@
+#!/usr/bin/env python3
+"""Epic Game's API interface for Python"""
+
+# pylint: disable
+
 from ctypes import (
-    Array,
-    c_int32, c_int64, c_uint8, c_uint32, c_uint64,
-    c_char, c_char_p, c_void_p, c_double, Structure,
-    CFUNCTYPE, POINTER,)
+    Array, Structure, Union, CFUNCTYPE, POINTER,
+    c_int16, c_int32, c_int64, c_uint8, c_uint16, c_uint32, c_uint64,
+    c_char, c_char_p, c_void_p, c_float, c_double, c_size_t,
+    )
 
 try:
     from typing import Any
@@ -12,33 +17,1331 @@ except ImportError:
 def not_ready(*args): # type: (...) -> Any
     raise RuntimeError("Please call epic_eos.cdefs.load() before this function.")
 
-# Alignement is statically enforced in the lib
 PACK = 8
 
-#####
-# Commons
-#####
-
-# Base
-class EOS_Bool(c_int32):
-    pass
-EOS_TRUE = EOS_Bool(1)
-EOS_FALSE = EOS_Bool(0)
-
-# Version
 EOS_GetVersion = not_ready
+EOS_EResult_ToString = not_ready
+EOS_EResult_IsOperationComplete = not_ready
+EOS_ByteArray_ToString = not_ready
+EOS_EpicAccountId_IsValid = not_ready
+EOS_EpicAccountId_ToString = not_ready
+EOS_EpicAccountId_FromString = not_ready
+EOS_ProductUserId_IsValid = not_ready
+EOS_ProductUserId_ToString = not_ready
+EOS_ProductUserId_FromString = not_ready
+EOS_ContinuanceToken_ToString = not_ready
+EOS_Connect_ExternalAccountInfo_Release = not_ready
+EOS_Connect_IdToken_Release = not_ready
+EOS_Ecom_Entitlement_Release = not_ready
+EOS_Ecom_CatalogItem_Release = not_ready
+EOS_Ecom_CatalogOffer_Release = not_ready
+EOS_Ecom_KeyImageInfo_Release = not_ready
+EOS_Ecom_CatalogRelease_Release = not_ready
+EOS_Ecom_Transaction_Release = not_ready
+EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer = not_ready
+EOS_IntegratedPlatformOptionsContainer_Release = not_ready
+EOS_KWS_PermissionStatus_Release = not_ready
+EOS_Leaderboards_LeaderboardDefinition_Release = not_ready
+EOS_Logging_SetLogLevel = not_ready
+EOS_Mods_ModInfo_Release = not_ready
+EOS_PlayerDataStorage_FileMetadata_Release = not_ready
+EOS_PlayerDataStorageFileTransferRequest_Release = not_ready
+EOS_RTCAdmin_UserToken_Release = not_ready
+EOS_Sanctions_PlayerSanction_Release = not_ready
+EOS_Stats_Stat_Release = not_ready
+EOS_TitleStorage_FileMetadata_Release = not_ready
+EOS_TitleStorageFileTransferRequest_Release = not_ready
+EOS_EApplicationStatus_ToString = not_ready
+EOS_ENetworkStatus_ToString = not_ready
+EOS_UserInfo_Release = not_ready
+EOS_UserInfo_ExternalUserInfo_Release = not_ready
+EOS_UserInfo_BestDisplayName_Release = not_ready
+EOS_Achievements_UnlockedAchievement_Release = not_ready
+EOS_Connect_GetExternalAccountMapping = not_ready
+EOS_Connect_GetProductUserIdMapping = not_ready
+EOS_Connect_GetProductUserExternalAccountCount = not_ready
+EOS_Connect_CopyProductUserExternalAccountByIndex = not_ready
+EOS_Connect_CopyProductUserExternalAccountByAccountType = not_ready
+EOS_Connect_CopyProductUserExternalAccountByAccountId = not_ready
+EOS_Connect_CopyProductUserInfo = not_ready
+EOS_Connect_GetLoggedInUsersCount = not_ready
+EOS_Connect_GetLoggedInUserByIndex = not_ready
+EOS_Connect_GetLoginStatus = not_ready
+EOS_Connect_RemoveNotifyAuthExpiration = not_ready
+EOS_Connect_RemoveNotifyLoginStatusChanged = not_ready
+EOS_Connect_CopyIdToken = not_ready
+EOS_Ecom_GetLastRedeemedEntitlementsCount = not_ready
+EOS_Ecom_CopyLastRedeemedEntitlementByIndex = not_ready
+EOS_Ecom_GetEntitlementsCount = not_ready
+EOS_Ecom_GetEntitlementsByNameCount = not_ready
+EOS_Ecom_CopyEntitlementByIndex = not_ready
+EOS_Ecom_CopyEntitlementByNameAndIndex = not_ready
+EOS_Ecom_CopyEntitlementById = not_ready
+EOS_Ecom_GetOfferCount = not_ready
+EOS_Ecom_CopyOfferByIndex = not_ready
+EOS_Ecom_CopyOfferById = not_ready
+EOS_Ecom_GetOfferItemCount = not_ready
+EOS_Ecom_CopyOfferItemByIndex = not_ready
+EOS_Ecom_CopyItemById = not_ready
+EOS_Ecom_GetOfferImageInfoCount = not_ready
+EOS_Ecom_CopyOfferImageInfoByIndex = not_ready
+EOS_Ecom_GetItemImageInfoCount = not_ready
+EOS_Ecom_CopyItemImageInfoByIndex = not_ready
+EOS_Ecom_GetItemReleaseCount = not_ready
+EOS_Ecom_CopyItemReleaseByIndex = not_ready
+EOS_Ecom_GetTransactionCount = not_ready
+EOS_Ecom_CopyTransactionByIndex = not_ready
+EOS_Ecom_CopyTransactionById = not_ready
+EOS_Ecom_Transaction_GetTransactionId = not_ready
+EOS_Ecom_Transaction_GetEntitlementsCount = not_ready
+EOS_Ecom_Transaction_CopyEntitlementByIndex = not_ready
+EOS_Friends_GetFriendsCount = not_ready
+EOS_Friends_GetFriendAtIndex = not_ready
+EOS_Friends_GetStatus = not_ready
+EOS_Friends_RemoveNotifyFriendsUpdate = not_ready
+EOS_Friends_GetBlockedUsersCount = not_ready
+EOS_Friends_GetBlockedUserAtIndex = not_ready
+EOS_Friends_RemoveNotifyBlockedUsersUpdate = not_ready
+EOS_Initialize = not_ready
+EOS_Shutdown = not_ready
+EOS_Platform_Create = not_ready
+EOS_Platform_Release = not_ready
+EOS_IntegratedPlatformOptionsContainer_Add = not_ready
+EOS_IntegratedPlatform_SetUserLoginStatus = not_ready
+EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged = not_ready
+EOS_IntegratedPlatform_ClearUserPreLogoutCallback = not_ready
+EOS_IntegratedPlatform_FinalizeDeferredUserLogout = not_ready
+EOS_KWS_GetPermissionsCount = not_ready
+EOS_KWS_CopyPermissionByIndex = not_ready
+EOS_KWS_GetPermissionByKey = not_ready
+EOS_KWS_RemoveNotifyPermissionsUpdateReceived = not_ready
+EOS_Leaderboards_Definition_Release = not_ready
+EOS_Leaderboards_LeaderboardUserScore_Release = not_ready
+EOS_Leaderboards_LeaderboardRecord_Release = not_ready
+EOS_LobbyModification_Release = not_ready
+EOS_LobbyDetails_Release = not_ready
+EOS_LobbySearch_Release = not_ready
+EOS_LobbyDetails_Info_Release = not_ready
+EOS_Lobby_Attribute_Release = not_ready
+EOS_LobbyDetails_MemberInfo_Release = not_ready
+EOS_Metrics_BeginPlayerSession = not_ready
+EOS_Metrics_EndPlayerSession = not_ready
+EOS_Mods_CopyModInfo = not_ready
+EOS_P2P_SendPacket = not_ready
+EOS_P2P_GetNextReceivedPacketSize = not_ready
+EOS_P2P_ReceivePacket = not_ready
+EOS_P2P_RemoveNotifyPeerConnectionRequest = not_ready
+EOS_P2P_RemoveNotifyPeerConnectionEstablished = not_ready
+EOS_P2P_RemoveNotifyPeerConnectionInterrupted = not_ready
+EOS_P2P_RemoveNotifyPeerConnectionClosed = not_ready
+EOS_P2P_AcceptConnection = not_ready
+EOS_P2P_CloseConnection = not_ready
+EOS_P2P_CloseConnections = not_ready
+EOS_P2P_GetNATType = not_ready
+EOS_P2P_SetRelayControl = not_ready
+EOS_P2P_GetRelayControl = not_ready
+EOS_P2P_SetPortRange = not_ready
+EOS_P2P_GetPortRange = not_ready
+EOS_P2P_SetPacketQueueSize = not_ready
+EOS_P2P_GetPacketQueueInfo = not_ready
+EOS_P2P_RemoveNotifyIncomingPacketQueueFull = not_ready
+EOS_P2P_ClearPacketQueue = not_ready
+EOS_PlayerDataStorage_CopyFileMetadataByFilename = not_ready
+EOS_PlayerDataStorage_GetFileMetadataCount = not_ready
+EOS_PlayerDataStorage_CopyFileMetadataAtIndex = not_ready
+EOS_PlayerDataStorageFileTransferRequest_GetFileRequestState = not_ready
+EOS_PlayerDataStorageFileTransferRequest_GetFilename = not_ready
+EOS_PlayerDataStorageFileTransferRequest_CancelRequest = not_ready
+EOS_Presence_Info_Release = not_ready
+EOS_PresenceModification_Release = not_ready
+EOS_ProgressionSnapshot_BeginSnapshot = not_ready
+EOS_ProgressionSnapshot_AddProgression = not_ready
+EOS_ProgressionSnapshot_EndSnapshot = not_ready
+EOS_RTCAdmin_CopyUserTokenByIndex = not_ready
+EOS_RTCAdmin_CopyUserTokenByUserId = not_ready
+EOS_RTCAudio_InputDeviceInformation_Release = not_ready
+EOS_RTCAudio_OutputDeviceInformation_Release = not_ready
+EOS_RTCData_RemoveNotifyDataReceived = not_ready
+EOS_RTCData_SendData = not_ready
+EOS_RTCData_RemoveNotifyParticipantUpdated = not_ready
+EOS_Sanctions_GetPlayerSanctionCount = not_ready
+EOS_Sanctions_CopyPlayerSanctionByIndex = not_ready
+EOS_SessionModification_Release = not_ready
+EOS_ActiveSession_Release = not_ready
+EOS_SessionDetails_Release = not_ready
+EOS_SessionSearch_Release = not_ready
+EOS_SessionDetails_Attribute_Release = not_ready
+EOS_SessionDetails_Info_Release = not_ready
+EOS_ActiveSession_Info_Release = not_ready
+EOS_Stats_GetStatsCount = not_ready
+EOS_Stats_CopyStatByIndex = not_ready
+EOS_Stats_CopyStatByName = not_ready
+EOS_TitleStorage_CopyFileMetadataByFilename = not_ready
+EOS_TitleStorage_GetFileMetadataCount = not_ready
+EOS_TitleStorage_CopyFileMetadataAtIndex = not_ready
+EOS_TitleStorageFileTransferRequest_GetFileRequestState = not_ready
+EOS_TitleStorageFileTransferRequest_GetFilename = not_ready
+EOS_TitleStorageFileTransferRequest_CancelRequest = not_ready
+EOS_UI_GetFriendsVisible = not_ready
+EOS_UI_GetFriendsExclusiveInput = not_ready
+EOS_UI_RemoveNotifyDisplaySettingsUpdated = not_ready
+EOS_UI_SetToggleFriendsKey = not_ready
+EOS_UI_GetToggleFriendsKey = not_ready
+EOS_UI_IsValidKeyCombination = not_ready
+EOS_UI_SetToggleFriendsButton = not_ready
+EOS_UI_GetToggleFriendsButton = not_ready
+EOS_UI_IsValidButtonCombination = not_ready
+EOS_UI_SetDisplayPreference = not_ready
+EOS_UI_GetNotificationLocationPreference = not_ready
+EOS_UI_AcknowledgeEventId = not_ready
+EOS_UI_ReportInputState = not_ready
+EOS_UI_PrePresent = not_ready
+EOS_UI_PauseSocialOverlay = not_ready
+EOS_UI_IsSocialOverlayPaused = not_ready
+EOS_UI_RemoveNotifyMemoryMonitor = not_ready
+EOS_UserInfo_CopyUserInfo = not_ready
+EOS_UserInfo_GetExternalUserInfoCount = not_ready
+EOS_UserInfo_CopyExternalUserInfoByIndex = not_ready
+EOS_UserInfo_CopyExternalUserInfoByAccountType = not_ready
+EOS_UserInfo_CopyExternalUserInfoByAccountId = not_ready
+EOS_UserInfo_CopyBestDisplayName = not_ready
+EOS_UserInfo_CopyBestDisplayNameWithPlatform = not_ready
+EOS_UserInfo_GetLocalPlatformType = not_ready
+EOS_Achievements_DefinitionV2_Release = not_ready
+EOS_Achievements_PlayerAchievement_Release = not_ready
+EOS_AntiCheatServer_RemoveNotifyMessageToClient = not_ready
+EOS_AntiCheatServer_RemoveNotifyClientActionRequired = not_ready
+EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged = not_ready
+EOS_AntiCheatServer_BeginSession = not_ready
+EOS_AntiCheatServer_EndSession = not_ready
+EOS_AntiCheatServer_RegisterClient = not_ready
+EOS_AntiCheatServer_UnregisterClient = not_ready
+EOS_AntiCheatServer_ReceiveMessageFromClient = not_ready
+EOS_AntiCheatServer_SetClientDetails = not_ready
+EOS_AntiCheatServer_SetGameSessionId = not_ready
+EOS_AntiCheatServer_SetClientNetworkState = not_ready
+EOS_AntiCheatServer_GetProtectMessageOutputLength = not_ready
+EOS_AntiCheatServer_ProtectMessage = not_ready
+EOS_AntiCheatServer_UnprotectMessage = not_ready
+EOS_AntiCheatServer_RegisterEvent = not_ready
+EOS_AntiCheatServer_LogEvent = not_ready
+EOS_AntiCheatServer_LogGameRoundStart = not_ready
+EOS_AntiCheatServer_LogGameRoundEnd = not_ready
+EOS_AntiCheatServer_LogPlayerSpawn = not_ready
+EOS_AntiCheatServer_LogPlayerDespawn = not_ready
+EOS_AntiCheatServer_LogPlayerRevive = not_ready
+EOS_AntiCheatServer_LogPlayerTick = not_ready
+EOS_AntiCheatServer_LogPlayerUseWeapon = not_ready
+EOS_AntiCheatServer_LogPlayerUseAbility = not_ready
+EOS_AntiCheatServer_LogPlayerTakeDamage = not_ready
+EOS_Auth_Token_Release = not_ready
+EOS_Auth_IdToken_Release = not_ready
+EOS_CustomInvites_SetCustomInvite = not_ready
+EOS_CustomInvites_RemoveNotifyCustomInviteReceived = not_ready
+EOS_CustomInvites_RemoveNotifyCustomInviteAccepted = not_ready
+EOS_CustomInvites_RemoveNotifyCustomInviteRejected = not_ready
+EOS_CustomInvites_FinalizeInvite = not_ready
+EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived = not_ready
+EOS_CustomInvites_RemoveNotifyRequestToJoinReceived = not_ready
+EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested = not_ready
+EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted = not_ready
+EOS_CustomInvites_RemoveNotifyRequestToJoinRejected = not_ready
+EOS_Leaderboards_GetLeaderboardDefinitionCount = not_ready
+EOS_Leaderboards_CopyLeaderboardDefinitionByIndex = not_ready
+EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId = not_ready
+EOS_Leaderboards_GetLeaderboardRecordCount = not_ready
+EOS_Leaderboards_CopyLeaderboardRecordByIndex = not_ready
+EOS_Leaderboards_CopyLeaderboardRecordByUserId = not_ready
+EOS_Leaderboards_GetLeaderboardUserScoreCount = not_ready
+EOS_Leaderboards_CopyLeaderboardUserScoreByIndex = not_ready
+EOS_Leaderboards_CopyLeaderboardUserScoreByUserId = not_ready
+EOS_Lobby_UpdateLobbyModification = not_ready
+EOS_Lobby_RemoveNotifyLobbyUpdateReceived = not_ready
+EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived = not_ready
+EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived = not_ready
+EOS_Lobby_GetInviteCount = not_ready
+EOS_Lobby_GetInviteIdByIndex = not_ready
+EOS_Lobby_CreateLobbySearch = not_ready
+EOS_Lobby_RemoveNotifyLobbyInviteReceived = not_ready
+EOS_Lobby_RemoveNotifyLobbyInviteAccepted = not_ready
+EOS_Lobby_RemoveNotifyLobbyInviteRejected = not_ready
+EOS_Lobby_RemoveNotifyJoinLobbyAccepted = not_ready
+EOS_Lobby_RemoveNotifySendLobbyNativeInviteRequested = not_ready
+EOS_Lobby_CopyLobbyDetailsHandleByInviteId = not_ready
+EOS_Lobby_CopyLobbyDetailsHandleByUiEventId = not_ready
+EOS_Lobby_CopyLobbyDetailsHandle = not_ready
+EOS_Lobby_GetRTCRoomName = not_ready
+EOS_Lobby_IsRTCRoomConnected = not_ready
+EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged = not_ready
+EOS_Lobby_GetConnectString = not_ready
+EOS_Lobby_ParseConnectString = not_ready
+EOS_Lobby_RemoveNotifyLeaveLobbyRequested = not_ready
+EOS_LobbyModification_SetBucketId = not_ready
+EOS_LobbyModification_SetPermissionLevel = not_ready
+EOS_LobbyModification_SetMaxMembers = not_ready
+EOS_LobbyModification_SetInvitesAllowed = not_ready
+EOS_LobbyModification_AddAttribute = not_ready
+EOS_LobbyModification_RemoveAttribute = not_ready
+EOS_LobbyModification_AddMemberAttribute = not_ready
+EOS_LobbyModification_RemoveMemberAttribute = not_ready
+EOS_LobbyModification_SetAllowedPlatformIds = not_ready
+EOS_LobbyDetails_GetLobbyOwner = not_ready
+EOS_LobbyDetails_CopyInfo = not_ready
+EOS_LobbyDetails_CopyMemberInfo = not_ready
+EOS_LobbyDetails_GetAttributeCount = not_ready
+EOS_LobbyDetails_CopyAttributeByIndex = not_ready
+EOS_LobbyDetails_CopyAttributeByKey = not_ready
+EOS_LobbyDetails_GetMemberCount = not_ready
+EOS_LobbyDetails_GetMemberByIndex = not_ready
+EOS_LobbyDetails_GetMemberAttributeCount = not_ready
+EOS_LobbyDetails_CopyMemberAttributeByIndex = not_ready
+EOS_LobbyDetails_CopyMemberAttributeByKey = not_ready
+EOS_LobbySearch_SetLobbyId = not_ready
+EOS_LobbySearch_SetTargetUserId = not_ready
+EOS_LobbySearch_SetParameter = not_ready
+EOS_LobbySearch_RemoveParameter = not_ready
+EOS_LobbySearch_SetMaxResults = not_ready
+EOS_LobbySearch_GetSearchResultCount = not_ready
+EOS_LobbySearch_CopySearchResultByIndex = not_ready
+EOS_Presence_HasPresence = not_ready
+EOS_Presence_CopyPresence = not_ready
+EOS_Presence_CreatePresenceModification = not_ready
+EOS_Presence_RemoveNotifyOnPresenceChanged = not_ready
+EOS_Presence_RemoveNotifyJoinGameAccepted = not_ready
+EOS_Presence_GetJoinInfo = not_ready
+EOS_PresenceModification_SetStatus = not_ready
+EOS_PresenceModification_SetRawRichText = not_ready
+EOS_PresenceModification_SetData = not_ready
+EOS_PresenceModification_DeleteData = not_ready
+EOS_PresenceModification_SetJoinInfo = not_ready
+EOS_RTC_GetAudioInterface = not_ready
+EOS_RTC_GetDataInterface = not_ready
+EOS_RTC_RemoveNotifyDisconnected = not_ready
+EOS_RTC_RemoveNotifyParticipantStatusChanged = not_ready
+EOS_RTC_SetSetting = not_ready
+EOS_RTC_SetRoomSetting = not_ready
+EOS_RTC_RemoveNotifyRoomStatisticsUpdated = not_ready
+EOS_RTCAudio_SendAudio = not_ready
+EOS_RTCAudio_RemoveNotifyParticipantUpdated = not_ready
+EOS_RTCAudio_RemoveNotifyAudioDevicesChanged = not_ready
+EOS_RTCAudio_RemoveNotifyAudioInputState = not_ready
+EOS_RTCAudio_RemoveNotifyAudioOutputState = not_ready
+EOS_RTCAudio_RemoveNotifyAudioBeforeSend = not_ready
+EOS_RTCAudio_RemoveNotifyAudioBeforeRender = not_ready
+EOS_RTCAudio_GetInputDevicesCount = not_ready
+EOS_RTCAudio_CopyInputDeviceInformationByIndex = not_ready
+EOS_RTCAudio_GetOutputDevicesCount = not_ready
+EOS_RTCAudio_CopyOutputDeviceInformationByIndex = not_ready
+EOS_RTCAudio_RegisterPlatformAudioUser = not_ready
+EOS_RTCAudio_UnregisterPlatformAudioUser = not_ready
+EOS_RTCAudio_GetAudioInputDevicesCount = not_ready
+EOS_RTCAudio_GetAudioInputDeviceByIndex = not_ready
+EOS_RTCAudio_GetAudioOutputDevicesCount = not_ready
+EOS_RTCAudio_GetAudioOutputDeviceByIndex = not_ready
+EOS_RTCAudio_SetAudioInputSettings = not_ready
+EOS_RTCAudio_SetAudioOutputSettings = not_ready
+EOS_Platform_Tick = not_ready
+EOS_Platform_GetMetricsInterface = not_ready
+EOS_Platform_GetAuthInterface = not_ready
+EOS_Platform_GetConnectInterface = not_ready
+EOS_Platform_GetEcomInterface = not_ready
+EOS_Platform_GetUIInterface = not_ready
+EOS_Platform_GetFriendsInterface = not_ready
+EOS_Platform_GetPresenceInterface = not_ready
+EOS_Platform_GetSessionsInterface = not_ready
+EOS_Platform_GetLobbyInterface = not_ready
+EOS_Platform_GetUserInfoInterface = not_ready
+EOS_Platform_GetP2PInterface = not_ready
+EOS_Platform_GetRTCInterface = not_ready
+EOS_Platform_GetRTCAdminInterface = not_ready
+EOS_Platform_GetPlayerDataStorageInterface = not_ready
+EOS_Platform_GetTitleStorageInterface = not_ready
+EOS_Platform_GetAchievementsInterface = not_ready
+EOS_Platform_GetStatsInterface = not_ready
+EOS_Platform_GetLeaderboardsInterface = not_ready
+EOS_Platform_GetModsInterface = not_ready
+EOS_Platform_GetAntiCheatClientInterface = not_ready
+EOS_Platform_GetAntiCheatServerInterface = not_ready
+EOS_Platform_GetProgressionSnapshotInterface = not_ready
+EOS_Platform_GetReportsInterface = not_ready
+EOS_Platform_GetSanctionsInterface = not_ready
+EOS_Platform_GetKWSInterface = not_ready
+EOS_Platform_GetCustomInvitesInterface = not_ready
+EOS_Platform_GetIntegratedPlatformInterface = not_ready
+EOS_Platform_GetActiveCountryCode = not_ready
+EOS_Platform_GetActiveLocaleCode = not_ready
+EOS_Platform_GetOverrideCountryCode = not_ready
+EOS_Platform_GetOverrideLocaleCode = not_ready
+EOS_Platform_SetOverrideCountryCode = not_ready
+EOS_Platform_SetOverrideLocaleCode = not_ready
+EOS_Platform_CheckForLauncherAndRestart = not_ready
+EOS_Platform_GetDesktopCrossplayStatus = not_ready
+EOS_Platform_SetApplicationStatus = not_ready
+EOS_Platform_GetApplicationStatus = not_ready
+EOS_Platform_SetNetworkStatus = not_ready
+EOS_Platform_GetNetworkStatus = not_ready
+EOS_Sessions_CreateSessionModification = not_ready
+EOS_Sessions_UpdateSessionModification = not_ready
+EOS_Sessions_GetInviteCount = not_ready
+EOS_Sessions_GetInviteIdByIndex = not_ready
+EOS_Sessions_CreateSessionSearch = not_ready
+EOS_Sessions_CopyActiveSessionHandle = not_ready
+EOS_Sessions_RemoveNotifySessionInviteReceived = not_ready
+EOS_Sessions_RemoveNotifySessionInviteAccepted = not_ready
+EOS_Sessions_RemoveNotifySessionInviteRejected = not_ready
+EOS_Sessions_RemoveNotifyJoinSessionAccepted = not_ready
+EOS_Sessions_CopySessionHandleByInviteId = not_ready
+EOS_Sessions_CopySessionHandleByUiEventId = not_ready
+EOS_Sessions_CopySessionHandleForPresence = not_ready
+EOS_Sessions_IsUserInSession = not_ready
+EOS_Sessions_DumpSessionState = not_ready
+EOS_Sessions_RemoveNotifyLeaveSessionRequested = not_ready
+EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested = not_ready
+EOS_SessionModification_SetBucketId = not_ready
+EOS_SessionModification_SetHostAddress = not_ready
+EOS_SessionModification_SetPermissionLevel = not_ready
+EOS_SessionModification_SetJoinInProgressAllowed = not_ready
+EOS_SessionModification_SetMaxPlayers = not_ready
+EOS_SessionModification_SetInvitesAllowed = not_ready
+EOS_SessionModification_SetAllowedPlatformIds = not_ready
+EOS_SessionModification_AddAttribute = not_ready
+EOS_SessionModification_RemoveAttribute = not_ready
+EOS_ActiveSession_CopyInfo = not_ready
+EOS_ActiveSession_GetRegisteredPlayerCount = not_ready
+EOS_ActiveSession_GetRegisteredPlayerByIndex = not_ready
+EOS_SessionDetails_CopyInfo = not_ready
+EOS_SessionDetails_GetSessionAttributeCount = not_ready
+EOS_SessionDetails_CopySessionAttributeByIndex = not_ready
+EOS_SessionDetails_CopySessionAttributeByKey = not_ready
+EOS_SessionSearch_SetSessionId = not_ready
+EOS_SessionSearch_SetTargetUserId = not_ready
+EOS_SessionSearch_SetParameter = not_ready
+EOS_SessionSearch_RemoveParameter = not_ready
+EOS_SessionSearch_SetMaxResults = not_ready
+EOS_SessionSearch_GetSearchResultCount = not_ready
+EOS_SessionSearch_CopySearchResultByIndex = not_ready
+EOS_Achievements_GetAchievementDefinitionCount = not_ready
+EOS_Achievements_CopyAchievementDefinitionV2ByIndex = not_ready
+EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId = not_ready
+EOS_Achievements_GetPlayerAchievementCount = not_ready
+EOS_Achievements_CopyPlayerAchievementByIndex = not_ready
+EOS_Achievements_CopyPlayerAchievementByAchievementId = not_ready
+EOS_Achievements_RemoveNotifyAchievementsUnlocked = not_ready
+EOS_Achievements_GetUnlockedAchievementCount = not_ready
+EOS_Achievements_CopyUnlockedAchievementByIndex = not_ready
+EOS_Achievements_CopyUnlockedAchievementByAchievementId = not_ready
+EOS_AntiCheatClient_RemoveNotifyMessageToServer = not_ready
+EOS_AntiCheatClient_RemoveNotifyMessageToPeer = not_ready
+EOS_AntiCheatClient_RemoveNotifyPeerActionRequired = not_ready
+EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged = not_ready
+EOS_AntiCheatClient_RemoveNotifyClientIntegrityViolated = not_ready
+EOS_AntiCheatClient_BeginSession = not_ready
+EOS_AntiCheatClient_EndSession = not_ready
+EOS_AntiCheatClient_PollStatus = not_ready
+EOS_AntiCheatClient_Reserved01 = not_ready
+EOS_AntiCheatClient_AddExternalIntegrityCatalog = not_ready
+EOS_AntiCheatClient_ReceiveMessageFromServer = not_ready
+EOS_AntiCheatClient_GetProtectMessageOutputLength = not_ready
+EOS_AntiCheatClient_ProtectMessage = not_ready
+EOS_AntiCheatClient_UnprotectMessage = not_ready
+EOS_AntiCheatClient_RegisterPeer = not_ready
+EOS_AntiCheatClient_UnregisterPeer = not_ready
+EOS_AntiCheatClient_ReceiveMessageFromPeer = not_ready
+EOS_Auth_GetLoggedInAccountsCount = not_ready
+EOS_Auth_GetLoggedInAccountByIndex = not_ready
+EOS_Auth_GetLoginStatus = not_ready
+EOS_Auth_CopyUserAuthToken = not_ready
+EOS_Auth_CopyIdToken = not_ready
+EOS_Auth_GetSelectedAccountId = not_ready
+EOS_Auth_GetMergedAccountsCount = not_ready
+EOS_Auth_GetMergedAccountByIndex = not_ready
+EOS_Auth_RemoveNotifyLoginStatusChanged = not_ready
+EOS_Logging_SetCallback = not_ready
+EOS_Achievements_Definition_Release = not_ready
+EOS_Connect_Login = not_ready
+EOS_Connect_Logout = not_ready
+EOS_Connect_CreateUser = not_ready
+EOS_Connect_LinkAccount = not_ready
+EOS_Connect_UnlinkAccount = not_ready
+EOS_Connect_CreateDeviceId = not_ready
+EOS_Connect_DeleteDeviceId = not_ready
+EOS_Connect_TransferDeviceIdAccount = not_ready
+EOS_Connect_QueryExternalAccountMappings = not_ready
+EOS_Connect_QueryProductUserIdMappings = not_ready
+EOS_Connect_AddNotifyAuthExpiration = not_ready
+EOS_Connect_AddNotifyLoginStatusChanged = not_ready
+EOS_Connect_VerifyIdToken = not_ready
+EOS_Ecom_QueryOwnership = not_ready
+EOS_Ecom_QueryOwnershipBySandboxIds = not_ready
+EOS_Ecom_QueryOwnershipToken = not_ready
+EOS_Ecom_QueryEntitlements = not_ready
+EOS_Ecom_QueryEntitlementToken = not_ready
+EOS_Ecom_QueryOffers = not_ready
+EOS_Ecom_Checkout = not_ready
+EOS_Ecom_RedeemEntitlements = not_ready
+EOS_Friends_QueryFriends = not_ready
+EOS_Friends_SendInvite = not_ready
+EOS_Friends_AcceptInvite = not_ready
+EOS_Friends_RejectInvite = not_ready
+EOS_Friends_AddNotifyFriendsUpdate = not_ready
+EOS_Friends_AddNotifyBlockedUsersUpdate = not_ready
+EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged = not_ready
+EOS_IntegratedPlatform_SetUserPreLogoutCallback = not_ready
+EOS_KWS_QueryAgeGate = not_ready
+EOS_KWS_CreateUser = not_ready
+EOS_KWS_QueryPermissions = not_ready
+EOS_KWS_UpdateParentEmail = not_ready
+EOS_KWS_RequestPermissions = not_ready
+EOS_KWS_AddNotifyPermissionsUpdateReceived = not_ready
+EOS_Mods_InstallMod = not_ready
+EOS_Mods_UninstallMod = not_ready
+EOS_Mods_EnumerateMods = not_ready
+EOS_Mods_UpdateMod = not_ready
+EOS_P2P_AddNotifyPeerConnectionRequest = not_ready
+EOS_P2P_AddNotifyPeerConnectionEstablished = not_ready
+EOS_P2P_AddNotifyPeerConnectionInterrupted = not_ready
+EOS_P2P_AddNotifyPeerConnectionClosed = not_ready
+EOS_P2P_QueryNATType = not_ready
+EOS_P2P_AddNotifyIncomingPacketQueueFull = not_ready
+EOS_PlayerDataStorage_QueryFile = not_ready
+EOS_PlayerDataStorage_QueryFileList = not_ready
+EOS_PlayerDataStorage_DuplicateFile = not_ready
+EOS_PlayerDataStorage_DeleteFile = not_ready
+EOS_PlayerDataStorage_ReadFile = not_ready
+EOS_PlayerDataStorage_WriteFile = not_ready
+EOS_PlayerDataStorage_DeleteCache = not_ready
+EOS_ProgressionSnapshot_SubmitSnapshot = not_ready
+EOS_ProgressionSnapshot_DeleteSnapshot = not_ready
+EOS_Reports_SendPlayerBehaviorReport = not_ready
+EOS_RTCAdmin_QueryJoinRoomToken = not_ready
+EOS_RTCAdmin_Kick = not_ready
+EOS_RTCAdmin_SetParticipantHardMute = not_ready
+EOS_RTCData_AddNotifyDataReceived = not_ready
+EOS_RTCData_UpdateSending = not_ready
+EOS_RTCData_UpdateReceiving = not_ready
+EOS_RTCData_AddNotifyParticipantUpdated = not_ready
+EOS_Sanctions_QueryActivePlayerSanctions = not_ready
+EOS_Sanctions_CreatePlayerSanctionAppeal = not_ready
+EOS_Stats_IngestStat = not_ready
+EOS_Stats_QueryStats = not_ready
+EOS_TitleStorage_QueryFile = not_ready
+EOS_TitleStorage_QueryFileList = not_ready
+EOS_TitleStorage_ReadFile = not_ready
+EOS_TitleStorage_DeleteCache = not_ready
+EOS_UI_ShowFriends = not_ready
+EOS_UI_HideFriends = not_ready
+EOS_UI_AddNotifyDisplaySettingsUpdated = not_ready
+EOS_UI_ShowBlockPlayer = not_ready
+EOS_UI_ShowReportPlayer = not_ready
+EOS_UI_AddNotifyMemoryMonitor = not_ready
+EOS_UI_ShowNativeProfile = not_ready
+EOS_UserInfo_QueryUserInfo = not_ready
+EOS_UserInfo_QueryUserInfoByDisplayName = not_ready
+EOS_UserInfo_QueryUserInfoByExternalAccount = not_ready
+EOS_AntiCheatServer_AddNotifyMessageToClient = not_ready
+EOS_AntiCheatServer_AddNotifyClientActionRequired = not_ready
+EOS_AntiCheatServer_AddNotifyClientAuthStatusChanged = not_ready
+EOS_CustomInvites_SendCustomInvite = not_ready
+EOS_CustomInvites_AddNotifyCustomInviteReceived = not_ready
+EOS_CustomInvites_AddNotifyCustomInviteAccepted = not_ready
+EOS_CustomInvites_AddNotifyCustomInviteRejected = not_ready
+EOS_CustomInvites_SendRequestToJoin = not_ready
+EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived = not_ready
+EOS_CustomInvites_AddNotifyRequestToJoinReceived = not_ready
+EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested = not_ready
+EOS_CustomInvites_AddNotifyRequestToJoinAccepted = not_ready
+EOS_CustomInvites_AddNotifyRequestToJoinRejected = not_ready
+EOS_CustomInvites_AcceptRequestToJoin = not_ready
+EOS_CustomInvites_RejectRequestToJoin = not_ready
+EOS_Leaderboards_QueryLeaderboardDefinitions = not_ready
+EOS_Leaderboards_QueryLeaderboardRanks = not_ready
+EOS_Leaderboards_QueryLeaderboardUserScores = not_ready
+EOS_Lobby_CreateLobby = not_ready
+EOS_Lobby_DestroyLobby = not_ready
+EOS_Lobby_JoinLobby = not_ready
+EOS_Lobby_JoinLobbyById = not_ready
+EOS_Lobby_LeaveLobby = not_ready
+EOS_Lobby_UpdateLobby = not_ready
+EOS_Lobby_PromoteMember = not_ready
+EOS_Lobby_KickMember = not_ready
+EOS_Lobby_HardMuteMember = not_ready
+EOS_Lobby_AddNotifyLobbyUpdateReceived = not_ready
+EOS_Lobby_AddNotifyLobbyMemberUpdateReceived = not_ready
+EOS_Lobby_AddNotifyLobbyMemberStatusReceived = not_ready
+EOS_Lobby_SendInvite = not_ready
+EOS_Lobby_RejectInvite = not_ready
+EOS_Lobby_QueryInvites = not_ready
+EOS_Lobby_AddNotifyLobbyInviteReceived = not_ready
+EOS_Lobby_AddNotifyLobbyInviteAccepted = not_ready
+EOS_Lobby_AddNotifyLobbyInviteRejected = not_ready
+EOS_Lobby_AddNotifyJoinLobbyAccepted = not_ready
+EOS_Lobby_AddNotifySendLobbyNativeInviteRequested = not_ready
+EOS_Lobby_JoinRTCRoom = not_ready
+EOS_Lobby_LeaveRTCRoom = not_ready
+EOS_Lobby_AddNotifyRTCRoomConnectionChanged = not_ready
+EOS_Lobby_AddNotifyLeaveLobbyRequested = not_ready
+EOS_LobbySearch_Find = not_ready
+EOS_Presence_QueryPresence = not_ready
+EOS_Presence_SetPresence = not_ready
+EOS_Presence_AddNotifyOnPresenceChanged = not_ready
+EOS_Presence_AddNotifyJoinGameAccepted = not_ready
+EOS_RTC_JoinRoom = not_ready
+EOS_RTC_LeaveRoom = not_ready
+EOS_RTC_BlockParticipant = not_ready
+EOS_RTC_AddNotifyDisconnected = not_ready
+EOS_RTC_AddNotifyParticipantStatusChanged = not_ready
+EOS_RTC_AddNotifyRoomStatisticsUpdated = not_ready
+EOS_RTCAudio_UpdateSending = not_ready
+EOS_RTCAudio_UpdateReceiving = not_ready
+EOS_RTCAudio_UpdateSendingVolume = not_ready
+EOS_RTCAudio_UpdateReceivingVolume = not_ready
+EOS_RTCAudio_UpdateParticipantVolume = not_ready
+EOS_RTCAudio_AddNotifyParticipantUpdated = not_ready
+EOS_RTCAudio_AddNotifyAudioDevicesChanged = not_ready
+EOS_RTCAudio_AddNotifyAudioInputState = not_ready
+EOS_RTCAudio_AddNotifyAudioOutputState = not_ready
+EOS_RTCAudio_AddNotifyAudioBeforeSend = not_ready
+EOS_RTCAudio_AddNotifyAudioBeforeRender = not_ready
+EOS_RTCAudio_RegisterPlatformUser = not_ready
+EOS_RTCAudio_UnregisterPlatformUser = not_ready
+EOS_RTCAudio_QueryInputDevicesInformation = not_ready
+EOS_RTCAudio_QueryOutputDevicesInformation = not_ready
+EOS_RTCAudio_SetInputDeviceSettings = not_ready
+EOS_RTCAudio_SetOutputDeviceSettings = not_ready
+EOS_Sessions_UpdateSession = not_ready
+EOS_Sessions_DestroySession = not_ready
+EOS_Sessions_JoinSession = not_ready
+EOS_Sessions_StartSession = not_ready
+EOS_Sessions_EndSession = not_ready
+EOS_Sessions_RegisterPlayers = not_ready
+EOS_Sessions_UnregisterPlayers = not_ready
+EOS_Sessions_SendInvite = not_ready
+EOS_Sessions_RejectInvite = not_ready
+EOS_Sessions_QueryInvites = not_ready
+EOS_Sessions_AddNotifySessionInviteReceived = not_ready
+EOS_Sessions_AddNotifySessionInviteAccepted = not_ready
+EOS_Sessions_AddNotifySessionInviteRejected = not_ready
+EOS_Sessions_AddNotifyJoinSessionAccepted = not_ready
+EOS_Sessions_AddNotifyLeaveSessionRequested = not_ready
+EOS_Sessions_AddNotifySendSessionNativeInviteRequested = not_ready
+EOS_SessionSearch_Find = not_ready
+EOS_Achievements_QueryDefinitions = not_ready
+EOS_Achievements_QueryPlayerAchievements = not_ready
+EOS_Achievements_UnlockAchievements = not_ready
+EOS_Achievements_AddNotifyAchievementsUnlockedV2 = not_ready
+EOS_Achievements_CopyAchievementDefinitionByIndex = not_ready
+EOS_Achievements_CopyAchievementDefinitionByAchievementId = not_ready
+EOS_Achievements_AddNotifyAchievementsUnlocked = not_ready
+EOS_AntiCheatClient_AddNotifyMessageToServer = not_ready
+EOS_AntiCheatClient_AddNotifyMessageToPeer = not_ready
+EOS_AntiCheatClient_AddNotifyPeerActionRequired = not_ready
+EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged = not_ready
+EOS_AntiCheatClient_AddNotifyClientIntegrityViolated = not_ready
+EOS_Auth_Login = not_ready
+EOS_Auth_Logout = not_ready
+EOS_Auth_LinkAccount = not_ready
+EOS_Auth_DeletePersistentAuth = not_ready
+EOS_Auth_VerifyUserAuth = not_ready
+EOS_Auth_QueryIdToken = not_ready
+EOS_Auth_VerifyIdToken = not_ready
+EOS_Auth_AddNotifyLoginStatusChanged = not_ready
+EOS_MAJOR_VERSION = 1
+EOS_MINOR_VERSION = 17
+EOS_PATCH_VERSION = 0
+EOS_COMPANY_NAME = "Epic Games, Inc."
+EOS_COPYRIGHT_STRING = "Copyright Epic Games, Inc. All Rights Reserved."
+EOS_PRODUCT_NAME = "Epic Online Services SDK"
+EOS_PRODUCT_IDENTIFIER = "Epic Online Services SDK"
+EOS_EPICACCOUNTID_MAX_LENGTH = 32
+EOS_PRODUCTUSERID_MAX_LENGTH = 32
+EOS_PAGEQUERY_API_LATEST = 1
+EOS_PAGINATION_API_LATEST = EOS_PAGEQUERY_API_LATEST
+EOS_PAGEQUERY_MAXCOUNT_DEFAULT = 10
+EOS_PAGEQUERY_MAXCOUNT_MAXIMUM = 100
+EOS_IPT_Unknown = None
+EOS_OPT_Unknown = 0
+EOS_OPT_Epic = 100
+EOS_OPT_PSN = 1000
+EOS_OPT_Nintendo = 2000
+EOS_OPT_XBL = 3000
+EOS_OPT_Steam = 4000
+EOS_CONNECT_EXTERNAL_ACCOUNT_ID_MAX_LENGTH = 256
+EOS_CONNECT_CREDENTIALS_API_LATEST = 1
+EOS_CONNECT_USERLOGININFO_DISPLAYNAME_MAX_LENGTH = 32
+EOS_CONNECT_USERLOGININFO_API_LATEST = 2
+EOS_CONNECT_LOGIN_API_LATEST = 2
+EOS_CONNECT_LOGOUT_API_LATEST = 1
+EOS_CONNECT_CREATEUSER_API_LATEST = 1
+EOS_CONNECT_LINKACCOUNT_API_LATEST = 1
+EOS_CONNECT_UNLINKACCOUNT_API_LATEST = 1
+EOS_CONNECT_CREATEDEVICEID_API_LATEST = 1
+EOS_CONNECT_CREATEDEVICEID_DEVICEMODEL_MAX_LENGTH = 64
+EOS_CONNECT_DELETEDEVICEID_API_LATEST = 1
+EOS_CONNECT_TRANSFERDEVICEIDACCOUNT_API_LATEST = 1
+EOS_CONNECT_QUERYEXTERNALACCOUNTMAPPINGS_API_LATEST = 1
+EOS_CONNECT_QUERYEXTERNALACCOUNTMAPPINGS_MAX_ACCOUNT_IDS = 128
+EOS_CONNECT_GETEXTERNALACCOUNTMAPPING_API_LATEST = 1
+EOS_CONNECT_GETEXTERNALACCOUNTMAPPINGS_API_LATEST = EOS_CONNECT_GETEXTERNALACCOUNTMAPPING_API_LATEST
+EOS_CONNECT_QUERYPRODUCTUSERIDMAPPINGS_API_LATEST = 2
+EOS_CONNECT_GETPRODUCTUSERIDMAPPING_API_LATEST = 1
+EOS_CONNECT_GETPRODUCTUSEREXTERNALACCOUNTCOUNT_API_LATEST = 1
+EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYINDEX_API_LATEST = 1
+EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYACCOUNTTYPE_API_LATEST = 1
+EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYACCOUNTID_API_LATEST = 1
+EOS_CONNECT_COPYPRODUCTUSERINFO_API_LATEST = 1
+EOS_CONNECT_TIME_UNDEFINED = -1
+EOS_CONNECT_EXTERNALACCOUNTINFO_API_LATEST = 1
+EOS_CONNECT_ADDNOTIFYAUTHEXPIRATION_API_LATEST = 1
+EOS_CONNECT_ONAUTHEXPIRATIONCALLBACK_API_LATEST = 1
+EOS_CONNECT_ADDNOTIFYLOGINSTATUSCHANGED_API_LATEST = 1
+EOS_CONNECT_IDTOKEN_API_LATEST = 1
+EOS_CONNECT_COPYIDTOKEN_API_LATEST = 1
+EOS_CONNECT_VERIFYIDTOKEN_API_LATEST = 1
+EOS_ECOM_ENTITLEMENT_API_LATEST = 2
+EOS_ECOM_ENTITLEMENT_ENDTIMESTAMP_UNDEFINED = -1
+EOS_ECOM_ITEMOWNERSHIP_API_LATEST = 1
+EOS_ECOM_CATALOGITEM_API_LATEST = 1
+EOS_ECOM_CATALOGITEM_ENTITLEMENTENDTIMESTAMP_UNDEFINED = -1
+EOS_ECOM_CATALOGOFFER_API_LATEST = 5
+EOS_ECOM_CATALOGOFFER_EXPIRATIONTIMESTAMP_UNDEFINED = -1
+EOS_ECOM_CATALOGOFFER_RELEASEDATETIMESTAMP_UNDEFINED = -1
+EOS_ECOM_CATALOGOFFER_EFFECTIVEDATETIMESTAMP_UNDEFINED = -1
+EOS_ECOM_KEYIMAGEINFO_API_LATEST = 1
+EOS_ECOM_CATALOGRELEASE_API_LATEST = 1
+EOS_ECOM_CHECKOUTENTRY_API_LATEST = 1
+EOS_ECOM_QUERYOWNERSHIP_API_LATEST = 2
+EOS_ECOM_QUERYOWNERSHIP_MAX_CATALOG_IDS = 400
+EOS_ECOM_QUERYOWNERSHIPBYSANDBOXIDSOPTIONS_API_LATEST = 1
+EOS_ECOM_QUERYOWNERSHIP_MAX_SANDBOX_IDS = 10
+EOS_ECOM_QUERYOWNERSHIPTOKEN_API_LATEST = 2
+EOS_ECOM_QUERYOWNERSHIPTOKEN_MAX_CATALOGITEM_IDS = 32
+EOS_ECOM_QUERYENTITLEMENTS_API_LATEST = 3
+EOS_ECOM_QUERYENTITLEMENTS_MAX_ENTITLEMENT_IDS = 256
+EOS_ECOM_QUERYENTITLEMENTTOKEN_API_LATEST = 1
+EOS_ECOM_QUERYENTITLEMENTTOKEN_MAX_ENTITLEMENT_IDS = 32
+EOS_ECOM_QUERYOFFERS_API_LATEST = 1
+EOS_ECOM_CHECKOUT_API_LATEST = 2
+EOS_ECOM_CHECKOUT_MAX_ENTRIES = 10
+EOS_ECOM_TRANSACTIONID_MAXIMUM_LENGTH = 64
+EOS_ECOM_REDEEMENTITLEMENTS_API_LATEST = 2
+EOS_ECOM_REDEEMENTITLEMENTS_MAX_IDS = 32
+EOS_ECOM_ENTITLEMENTID_MAX_LENGTH = 32
+EOS_ECOM_GETLASTREDEEMEDENTITLEMENTSCOUNT_API_LATEST = 1
+EOS_ECOM_COPYLASTREDEEMEDENTITLEMENTBYINDEX_API_LATEST = 1
+EOS_ECOM_GETENTITLEMENTSCOUNT_API_LATEST = 1
+EOS_ECOM_GETENTITLEMENTSBYNAMECOUNT_API_LATEST = 1
+EOS_ECOM_COPYENTITLEMENTBYINDEX_API_LATEST = 1
+EOS_ECOM_COPYENTITLEMENTBYNAMEANDINDEX_API_LATEST = 1
+EOS_ECOM_COPYENTITLEMENTBYID_API_LATEST = 2
+EOS_ECOM_GETOFFERCOUNT_API_LATEST = 1
+EOS_ECOM_COPYOFFERBYINDEX_API_LATEST = 3
+EOS_ECOM_COPYOFFERBYID_API_LATEST = 3
+EOS_ECOM_GETOFFERITEMCOUNT_API_LATEST = 1
+EOS_ECOM_COPYOFFERITEMBYINDEX_API_LATEST = 1
+EOS_ECOM_COPYITEMBYID_API_LATEST = 1
+EOS_ECOM_GETOFFERIMAGEINFOCOUNT_API_LATEST = 1
+EOS_ECOM_COPYOFFERIMAGEINFOBYINDEX_API_LATEST = 1
+EOS_ECOM_GETITEMIMAGEINFOCOUNT_API_LATEST = 1
+EOS_ECOM_COPYITEMIMAGEINFOBYINDEX_API_LATEST = 1
+EOS_ECOM_GETITEMRELEASECOUNT_API_LATEST = 1
+EOS_ECOM_COPYITEMRELEASEBYINDEX_API_LATEST = 1
+EOS_ECOM_GETTRANSACTIONCOUNT_API_LATEST = 1
+EOS_ECOM_COPYTRANSACTIONBYINDEX_API_LATEST = 1
+EOS_ECOM_COPYTRANSACTIONBYID_API_LATEST = 1
+EOS_ECOM_TRANSACTION_GETENTITLEMENTSCOUNT_API_LATEST = 1
+EOS_ECOM_TRANSACTION_COPYENTITLEMENTBYINDEX_API_LATEST = 1
+EOS_FRIENDS_QUERYFRIENDS_API_LATEST = 1
+EOS_FRIENDS_SENDINVITE_API_LATEST = 1
+EOS_FRIENDS_ACCEPTINVITE_API_LATEST = 1
+EOS_FRIENDS_REJECTINVITE_API_LATEST = 1
+EOS_FRIENDS_GETFRIENDSCOUNT_API_LATEST = 1
+EOS_FRIENDS_GETFRIENDATINDEX_API_LATEST = 1
+EOS_FRIENDS_GETSTATUS_API_LATEST = 1
+EOS_FRIENDS_ADDNOTIFYFRIENDSUPDATE_API_LATEST = 1
+EOS_FRIENDS_GETBLOCKEDUSERSCOUNT_API_LATEST = 1
+EOS_FRIENDS_GETBLOCKEDUSERATINDEX_API_LATEST = 1
+EOS_FRIENDS_ADDNOTIFYBLOCKEDUSERSUPDATE_API_LATEST = 1
+EOS_IPT_Steam = "STEAM"
+EOS_INTEGRATEDPLATFORM_OPTIONS_API_LATEST = 1
+EOS_INTEGRATEDPLATFORM_STEAM_OPTIONS_API_LATEST = 3
+EOS_INTEGRATEDPLATFORM_STEAM_MAX_STEAMAPIINTERFACEVERSIONSARRAY_SIZE = 4096
+EOS_INTEGRATEDPLATFORM_CREATEINTEGRATEDPLATFORMOPTIONSCONTAINER_API_LATEST = 1
+EOS_INTEGRATEDPLATFORMOPTIONSCONTAINER_ADD_API_LATEST = 1
+EOS_INTEGRATEDPLATFORM_SETUSERLOGINSTATUS_API_LATEST = 1
+EOS_INTEGRATEDPLATFORM_ADDNOTIFYUSERLOGINSTATUSCHANGED_API_LATEST = 1
+EOS_INTEGRATEDPLATFORM_SETUSERPRELOGOUTCALLBACK_API_LATEST = 1
+EOS_INTEGRATEDPLATFORM_CLEARUSERPRELOGOUTCALLBACK_API_LATEST = 1
+EOS_INTEGRATEDPLATFORM_FINALIZEDEFERREDUSERLOGOUT_API_LATEST = 1
+EOS_KWS_MAX_PERMISSIONS = 16
+EOS_KWS_MAX_PERMISSION_LENGTH = 32
+EOS_KWS_PERMISSIONSTATUS_API_LATEST = 1
+EOS_KWS_QUERYAGEGATE_API_LATEST = 1
+EOS_KWS_CREATEUSER_API_LATEST = 1
+EOS_KWS_QUERYPERMISSIONS_API_LATEST = 1
+EOS_KWS_UPDATEPARENTEMAIL_API_LATEST = 1
+EOS_KWS_REQUESTPERMISSIONS_API_LATEST = 1
+EOS_KWS_GETPERMISSIONSCOUNT_API_LATEST = 1
+EOS_KWS_COPYPERMISSIONBYINDEX_API_LATEST = 1
+EOS_KWS_GETPERMISSIONBYKEY_API_LATEST = 1
+EOS_KWS_ADDNOTIFYPERMISSIONSUPDATERECEIVED_API_LATEST = 1
+EOS_METRICS_BEGINPLAYERSESSION_API_LATEST = 1
+EOS_METRICS_ENDPLAYERSESSION_API_LATEST = 1
+EOS_MOD_IDENTIFIER_API_LATEST = 1
+EOS_MODS_INSTALLMOD_API_LATEST = 1
+EOS_MODS_UNINSTALLMOD_API_LATEST = 1
+EOS_MODS_ENUMERATEMODS_API_LATEST = 1
+EOS_MODS_COPYMODINFO_API_LATEST = 1
+EOS_MODS_MODINFO_API_LATEST = 1
+EOS_MODS_UPDATEMOD_API_LATEST = 1
+EOS_P2P_MAX_PACKET_SIZE = 1170
+EOS_P2P_MAX_CONNECTIONS = 32
+EOS_P2P_SOCKETID_API_LATEST = 1
+EOS_P2P_SOCKETID_SOCKETNAME_SIZE = 33
+EOS_P2P_SENDPACKET_API_LATEST = 3
+EOS_P2P_GETNEXTRECEIVEDPACKETSIZE_API_LATEST = 2
+EOS_P2P_RECEIVEPACKET_API_LATEST = 2
+EOS_P2P_ADDNOTIFYPEERCONNECTIONREQUEST_API_LATEST = 1
+EOS_P2P_ADDNOTIFYPEERCONNECTIONESTABLISHED_API_LATEST = 1
+EOS_P2P_ADDNOTIFYPEERCONNECTIONINTERRUPTED_API_LATEST = 1
+EOS_P2P_ADDNOTIFYPEERCONNECTIONCLOSED_API_LATEST = 1
+EOS_P2P_ACCEPTCONNECTION_API_LATEST = 1
+EOS_P2P_CLOSECONNECTION_API_LATEST = 1
+EOS_P2P_CLOSECONNECTIONS_API_LATEST = 1
+EOS_P2P_QUERYNATTYPE_API_LATEST = 1
+EOS_P2P_GETNATTYPE_API_LATEST = 1
+EOS_P2P_SETRELAYCONTROL_API_LATEST = 1
+EOS_P2P_GETRELAYCONTROL_API_LATEST = 1
+EOS_P2P_SETPORTRANGE_API_LATEST = 1
+EOS_P2P_GETPORTRANGE_API_LATEST = 1
+EOS_P2P_MAX_QUEUE_SIZE_UNLIMITED = 0
+EOS_P2P_SETPACKETQUEUESIZE_API_LATEST = 1
+EOS_P2P_GETPACKETQUEUEINFO_API_LATEST = 1
+EOS_P2P_ADDNOTIFYINCOMINGPACKETQUEUEFULL_API_LATEST = 1
+EOS_P2P_CLEARPACKETQUEUE_API_LATEST = 1
+EOS_PLAYERDATASTORAGE_FILENAME_MAX_LENGTH_BYTES = 64
+EOS_PLAYERDATASTORAGE_TIME_UNDEFINED = -1
+EOS_PLAYERDATASTORAGE_FILEMETADATA_API_LATEST = 3
+EOS_PLAYERDATASTORAGE_QUERYFILE_API_LATEST = 1
+EOS_PLAYERDATASTORAGE_QUERYFILEOPTIONS_API_LATEST = EOS_PLAYERDATASTORAGE_QUERYFILE_API_LATEST
+EOS_PLAYERDATASTORAGE_QUERYFILELIST_API_LATEST = 2
+EOS_PLAYERDATASTORAGE_QUERYFILELISTOPTIONS_API_LATEST = EOS_PLAYERDATASTORAGE_QUERYFILELIST_API_LATEST
+EOS_PLAYERDATASTORAGE_GETFILEMETADATACOUNT_API_LATEST = 1
+EOS_PLAYERDATASTORAGE_GETFILEMETADATACOUNTOPTIONS_API_LATEST = EOS_PLAYERDATASTORAGE_GETFILEMETADATACOUNT_API_LATEST
+EOS_PLAYERDATASTORAGE_COPYFILEMETADATAATINDEX_API_LATEST = 1
+EOS_PLAYERDATASTORAGE_COPYFILEMETADATAATINDEXOPTIONS_API_LATEST = EOS_PLAYERDATASTORAGE_COPYFILEMETADATAATINDEX_API_LATEST
+EOS_PLAYERDATASTORAGE_COPYFILEMETADATABYFILENAME_API_LATEST = 1
+EOS_PLAYERDATASTORAGE_COPYFILEMETADATABYFILENAMEOPTIONS_API_LATEST = EOS_PLAYERDATASTORAGE_COPYFILEMETADATABYFILENAME_API_LATEST
+EOS_PLAYERDATASTORAGE_DUPLICATEFILE_API_LATEST = 1
+EOS_PLAYERDATASTORAGE_DUPLICATEFILEOPTIONS_API_LATEST = EOS_PLAYERDATASTORAGE_DUPLICATEFILE_API_LATEST
+EOS_PLAYERDATASTORAGE_DELETEFILE_API_LATEST = 1
+EOS_PLAYERDATASTORAGE_DELETEFILEOPTIONS_API_LATEST = EOS_PLAYERDATASTORAGE_DELETEFILE_API_LATEST
+EOS_PLAYERDATASTORAGE_READFILE_API_LATEST = 2
+EOS_PLAYERDATASTORAGE_READFILEOPTIONS_API_LATEST = EOS_PLAYERDATASTORAGE_READFILE_API_LATEST
+EOS_PLAYERDATASTORAGE_WRITEFILE_API_LATEST = 2
+EOS_PLAYERDATASTORAGE_WRITEFILEOPTIONS_API_LATEST = EOS_PLAYERDATASTORAGE_WRITEFILE_API_LATEST
+EOS_PLAYERDATASTORAGE_DELETECACHE_API_LATEST = 1
+EOS_PLAYERDATASTORAGE_DELETECACHEOPTIONS_API_LATEST = EOS_PLAYERDATASTORAGE_DELETECACHE_API_LATEST
+EOS_INVALID_PROGRESSIONSNAPSHOTID = 0
+EOS_PROGRESSIONSNAPSHOT_BEGINSNAPSHOT_API_LATEST = 1
+EOS_PROGRESSIONSNAPSHOT_ADDPROGRESSION_API_LATEST = 1
+EOS_PROGRESSIONSNAPSHOT_SUBMITSNAPSHOT_API_LATEST = 1
+EOS_PROGRESSIONSNAPSHOT_ENDSNAPSHOT_API_LATEST = 1
+EOS_PROGRESSIONSNAPSHOT_DELETESNAPSHOT_API_LATEST = 1
+EOS_REPORTS_REPORTMESSAGE_MAX_LENGTH = 512
+EOS_REPORTS_REPORTCONTEXT_MAX_LENGTH = 4096
+EOS_REPORTS_SENDPLAYERBEHAVIORREPORT_API_LATEST = 2
+EOS_RTCADMIN_QUERYJOINROOMTOKEN_API_LATEST = 2
+EOS_RTCADMIN_USERTOKEN_API_LATEST = 1
+EOS_RTCADMIN_COPYUSERTOKENBYINDEX_API_LATEST = 2
+EOS_RTCADMIN_COPYUSERTOKENBYUSERID_API_LATEST = 2
+EOS_RTCADMIN_KICK_API_LATEST = 1
+EOS_RTCADMIN_SETPARTICIPANTHARDMUTE_API_LATEST = 1
+EOS_RTCAUDIO_REGISTERPLATFORMAUDIOUSER_API_LATEST = 1
+EOS_RTCAUDIO_UNREGISTERPLATFORMAUDIOUSER_API_LATEST = 1
+EOS_RTCAUDIO_GETAUDIOINPUTDEVICESCOUNT_API_LATEST = 1
+EOS_RTCAUDIO_GETAUDIOINPUTDEVICEBYINDEX_API_LATEST = 1
+EOS_RTCAUDIO_AUDIOINPUTDEVICEINFO_API_LATEST = 1
+EOS_RTCAUDIO_GETAUDIOOUTPUTDEVICESCOUNT_API_LATEST = 1
+EOS_RTCAUDIO_GETAUDIOOUTPUTDEVICEBYINDEX_API_LATEST = 1
+EOS_RTCAUDIO_AUDIOOUTPUTDEVICEINFO_API_LATEST = 1
+EOS_RTCAUDIO_SETAUDIOINPUTSETTINGS_API_LATEST = 1
+EOS_RTCAUDIO_SETAUDIOOUTPUTSETTINGS_API_LATEST = 1
+EOS_RTCDATA_MAX_PACKET_SIZE = 1170
+EOS_RTCDATA_SENDDATA_API_LATEST = 1
+EOS_RTCDATA_ADDNOTIFYPARTICIPANTUPDATED_API_LATEST = 1
+EOS_RTCDATA_ADDNOTIFYDATARECEIVED_API_LATEST = 1
+EOS_RTCDATA_UPDATESENDING_API_LATEST = 1
+EOS_RTCDATA_UPDATERECEIVING_API_LATEST = 1
+EOS_RTC_JOINROOM_API_LATEST = 1
+EOS_RTC_JOINROOMFLAGS_ENABLE_ECHO = 0x01
+EOS_RTC_JOINROOMFLAGS_ENABLE_DATACHANNEL = 0x04
+EOS_RTC_OPTION_KEY_MAXCHARCOUNT = 256
+EOS_RTC_OPTION_VALUE_MAXCHARCOUNT = 256
+EOS_RTC_OPTION_API_LATEST = 1
+EOS_RTC_LEAVEROOM_API_LATEST = 1
+EOS_RTC_BLOCKPARTICIPANT_API_LATEST = 1
+EOS_RTC_ADDNOTIFYDISCONNECTED_API_LATEST = 1
+EOS_RTC_PARTICIPANTMETADATA_KEY_MAXCHARCOUNT = 256
+EOS_RTC_PARTICIPANTMETADATA_VALUE_MAXCHARCOUNT = 256
+EOS_RTC_PARTICIPANTMETADATA_API_LATEST = 1
+EOS_RTC_ADDNOTIFYPARTICIPANTSTATUSCHANGED_API_LATEST = 1
+EOS_RTC_SETSETTING_API_LATEST = 1
+EOS_RTC_SETROOMSETTING_API_LATEST = 1
+EOS_RTC_ADDNOTIFYROOMSTATISTICSUPDATED_API_LATEST = 1
+EOS_SANCTIONS_PLAYERSANCTION_API_LATEST = 2
+EOS_SANCTIONS_QUERYACTIVEPLAYERSANCTIONS_API_LATEST = 2
+EOS_SANCTIONS_GETPLAYERSANCTIONCOUNT_API_LATEST = 1
+EOS_SANCTIONS_COPYPLAYERSANCTIONBYINDEX_API_LATEST = 1
+EOS_SANCTIONS_CREATEPLAYERSANCTIONAPPEAL_API_LATEST = 1
+EOS_STATS_INGESTDATA_API_LATEST = 1
+EOS_STATS_MAX_INGEST_STATS = 3000
+EOS_STATS_INGESTSTAT_API_LATEST = 3
+EOS_STATS_MAX_QUERY_STATS = 1000
+EOS_STATS_QUERYSTATS_API_LATEST = 3
+EOS_STATS_TIME_UNDEFINED = -1
+EOS_STATS_STAT_API_LATEST = 1
+EOS_STATS_GETSTATSCOUNT_API_LATEST = 1
+EOS_STATS_GETSTATCOUNT_API_LATEST = EOS_STATS_GETSTATSCOUNT_API_LATEST
+EOS_STATS_COPYSTATBYINDEX_API_LATEST = 1
+EOS_STATS_COPYSTATBYNAME_API_LATEST = 1
+EOS_TITLESTORAGE_FILENAME_MAX_LENGTH_BYTES = 64
+EOS_TITLESTORAGE_FILEMETADATA_API_LATEST = 2
+EOS_TITLESTORAGE_QUERYFILE_API_LATEST = 1
+EOS_TITLESTORAGE_QUERYFILEOPTIONS_API_LATEST = EOS_TITLESTORAGE_QUERYFILE_API_LATEST
+EOS_TITLESTORAGE_QUERYFILELIST_API_LATEST = 1
+EOS_TITLESTORAGE_QUERYFILELISTOPTIONS_API_LATEST = EOS_TITLESTORAGE_QUERYFILELIST_API_LATEST
+EOS_TITLESTORAGE_GETFILEMETADATACOUNT_API_LATEST = 1
+EOS_TITLESTORAGE_GETFILEMETADATACOUNTOPTIONS_API_LATEST = EOS_TITLESTORAGE_GETFILEMETADATACOUNT_API_LATEST
+EOS_TITLESTORAGE_COPYFILEMETADATAATINDEX_API_LATEST = 1
+EOS_TITLESTORAGE_COPYFILEMETADATAATINDEXOPTIONS_API_LATEST = EOS_TITLESTORAGE_COPYFILEMETADATAATINDEX_API_LATEST
+EOS_TITLESTORAGE_COPYFILEMETADATABYFILENAME_API_LATEST = 1
+EOS_TITLESTORAGE_COPYFILEMETADATABYFILENAMEOPTIONS_API_LATEST = EOS_TITLESTORAGE_COPYFILEMETADATABYFILENAME_API_LATEST
+EOS_TITLESTORAGE_READFILE_API_LATEST = 2
+EOS_TITLESTORAGE_READFILEOPTIONS_API_LATEST = EOS_TITLESTORAGE_READFILE_API_LATEST
+EOS_TITLESTORAGE_DELETECACHE_API_LATEST = 1
+EOS_TITLESTORAGE_DELETECACHEOPTIONS_API_LATEST = EOS_TITLESTORAGE_DELETECACHE_API_LATEST
+EOS_PLATFORM_CLIENTCREDENTIALS_CLIENTID_MAX_LENGTH = 64
+EOS_PLATFORM_CLIENTCREDENTIALS_CLIENTSECRET_MAX_LENGTH = 64
+EOS_PLATFORM_RTCOPTIONS_API_LATEST = 2
+EOS_COUNTRYCODE_MAX_LENGTH = 4
+EOS_COUNTRYCODE_MAX_BUFFER_LEN = (EOS_COUNTRYCODE_MAX_LENGTH + 1)
+EOS_LOCALECODE_MAX_LENGTH = 9
+EOS_LOCALECODE_MAX_BUFFER_LEN = (EOS_LOCALECODE_MAX_LENGTH + 1)
+EOS_PLATFORM_OPTIONS_API_LATEST = 14
+EOS_PF_LOADING_IN_EDITOR = 0x00001
+EOS_PF_DISABLE_OVERLAY = 0x00002
+EOS_PF_DISABLE_SOCIAL_OVERLAY = 0x00004
+EOS_PF_RESERVED1 = 0x00008
+EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9 = 0x00010
+EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10 = 0x00020
+EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL = 0x00040
+EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING = 0x00080
+EOS_PLATFORM_OPTIONS_PRODUCTID_MAX_LENGTH = 64
+EOS_PLATFORM_OPTIONS_SANDBOXID_MAX_LENGTH = 64
+EOS_PLATFORM_OPTIONS_ENCRYPTIONKEY_LENGTH = 64
+EOS_PLATFORM_OPTIONS_DEPLOYMENTID_MAX_LENGTH = 64
+EOS_PLATFORM_GETDESKTOPCROSSPLAYSTATUS_API_LATEST = 1
+EOS_PLATFORM_CHECKFORLAUNCHERANDRESTART_ENV_VAR = "EOS_LAUNCHED_BY_EPIC"
+EOS_UI_EVENTID_INVALID = 0
+EOS_UI_SHOWFRIENDS_API_LATEST = 1
+EOS_UI_HIDEFRIENDS_API_LATEST = 1
+EOS_UI_GETFRIENDSVISIBLE_API_LATEST = 1
+EOS_UI_GETFRIENDSEXCLUSIVEINPUT_API_LATEST = 1
+EOS_UI_ADDNOTIFYDISPLAYSETTINGSUPDATED_API_LATEST = 1
+EOS_UI_SETTOGGLEFRIENDSKEY_API_LATEST = 1
+EOS_UI_GETTOGGLEFRIENDSKEY_API_LATEST = 1
+EOS_UI_SETTOGGLEFRIENDSBUTTON_API_LATEST = 1
+EOS_UI_GETTOGGLEFRIENDSBUTTON_API_LATEST = 1
+EOS_UI_SETDISPLAYPREFERENCE_API_LATEST = 1
+EOS_UI_ACKNOWLEDGEEVENTID_API_LATEST = 1
+EOS_UI_ACKNOWLEDGECORRELATIONID_API_LATEST = EOS_UI_ACKNOWLEDGEEVENTID_API_LATEST
+EOS_UI_REPORTINPUTSTATE_API_LATEST = 2
+EOS_UI_PREPRESENT_API_LATEST = 1
+EOS_UI_SHOWBLOCKPLAYER_API_LATEST = 1
+EOS_UI_SHOWREPORTPLAYER_API_LATEST = 1
+EOS_UI_SHOWNATIVEPROFILE_API_LATEST = 1
+EOS_UI_PAUSESOCIALOVERLAY_API_LATEST = 1
+EOS_UI_ISSOCIALOVERLAYPAUSED_API_LATEST = 1
+EOS_UI_RECT_API_LATEST = 1
+EOS_UI_MEMORYMONITORCALLBACKINFO_API_LATEST = 1
+EOS_UI_ADDNOTIFYMEMORYMONITOR_API_LATEST = 1
+EOS_UI_ADDNOTIFYMEMORYMONITOROPTIONS_API_LATEST = EOS_UI_ADDNOTIFYMEMORYMONITOR_API_LATEST
+EOS_USERINFO_QUERYUSERINFO_API_LATEST = 1
+EOS_USERINFO_QUERYUSERINFOBYDISPLAYNAME_API_LATEST = 1
+EOS_USERINFO_QUERYUSERINFOBYEXTERNALACCOUNT_API_LATEST = 1
+EOS_USERINFO_MAX_DISPLAYNAME_CHARACTERS = 16
+EOS_USERINFO_MAX_DISPLAYNAME_UTF8_LENGTH = 64
+EOS_USERINFO_COPYUSERINFO_API_LATEST = 3
+EOS_USERINFO_EXTERNALUSERINFO_API_LATEST = 2
+EOS_USERINFO_GETEXTERNALUSERINFOCOUNT_API_LATEST = 1
+EOS_USERINFO_COPYEXTERNALUSERINFOBYINDEX_API_LATEST = 1
+EOS_USERINFO_COPYEXTERNALUSERINFOBYACCOUNTTYPE_API_LATEST = 1
+EOS_USERINFO_COPYEXTERNALUSERINFOBYACCOUNTID_API_LATEST = 1
+EOS_USERINFO_BESTDISPLAYNAME_API_LATEST = 1
+EOS_USERINFO_COPYBESTDISPLAYNAME_API_LATEST = 1
+EOS_USERINFO_COPYBESTDISPLAYNAMEWITHPLATFORM_API_LATEST = 1
+EOS_USERINFO_GETLOCALPLATFORMTYPE_API_LATEST = 1
+EOS_WINDOWS_RTCOPTIONS_API_LATEST = 1
+EOS_ACHIEVEMENTS_DEFINITION_API_LATEST = 1
+EOS_ACHIEVEMENTS_COPYDEFINITIONBYINDEX_API_LATEST = 1
+EOS_ACHIEVEMENTS_COPYDEFINITIONBYACHIEVEMENTID_API_LATEST = 1
+EOS_ACHIEVEMENTS_UNLOCKEDACHIEVEMENT_API_LATEST = 1
+EOS_ACHIEVEMENTS_GETUNLOCKEDACHIEVEMENTCOUNT_API_LATEST = 1
+EOS_ACHIEVEMENTS_COPYUNLOCKEDACHIEVEMENTBYINDEX_API_LATEST = 1
+EOS_ACHIEVEMENTS_COPYUNLOCKEDACHIEVEMENTBYACHIEVEMENTID_API_LATEST = 1
+EOS_ACHIEVEMENTS_ADDNOTIFYACHIEVEMENTSUNLOCKED_API_LATEST = 1
+EOS_ANTICHEATCLIENT_POLLSTATUS_API_LATEST = 1
+EOS_ANTICHEATCOMMON_SETCLIENTDETAILS_API_LATEST = 1
+EOS_ANTICHEATCOMMON_SETGAMESESSIONID_API_LATEST = 1
+EOS_ANTICHEATCOMMON_REGISTEREVENT_API_LATEST = 1
+EOS_ANTICHEATCOMMON_REGISTEREVENT_CUSTOMEVENTBASE = 0x10000000
+EOS_ANTICHEATCOMMON_REGISTEREVENT_MAX_PARAMDEFSCOUNT = 12
+EOS_ANTICHEATCOMMON_LOGEVENT_API_LATEST = 1
+EOS_ANTICHEATCOMMON_LOGEVENT_STRING_MAX_LENGTH = 39
+EOS_ANTICHEATCOMMON_LOGGAMEROUNDSTART_API_LATEST = 2
+EOS_ANTICHEATCOMMON_LOGGAMEROUNDEND_API_LATEST = 1
+EOS_ANTICHEATCOMMON_LOGPLAYERSPAWN_API_LATEST = 1
+EOS_ANTICHEATCOMMON_LOGPLAYERDESPAWN_API_LATEST = 1
+EOS_ANTICHEATCOMMON_LOGPLAYERREVIVE_API_LATEST = 1
+EOS_ANTICHEATCOMMON_LOGPLAYERTICK_API_LATEST = 3
+EOS_ANTICHEATCOMMON_LOGPLAYERUSEWEAPON_API_LATEST = 2
+EOS_ANTICHEATCOMMON_LOGPLAYERUSEWEAPON_WEAPONNAME_MAX_LENGTH = 16
+EOS_ANTICHEATCOMMON_LOGPLAYERUSEABILITY_API_LATEST = 1
+EOS_ANTICHEATCOMMON_LOGPLAYERTAKEDAMAGE_API_LATEST = 4
+EOS_ANTICHEATSERVER_ONMESSAGETOCLIENTCALLBACK_MAX_MESSAGE_SIZE = 512
+EOS_ANTICHEATSERVER_ADDNOTIFYMESSAGETOCLIENT_API_LATEST = 1
+EOS_ANTICHEATSERVER_ADDNOTIFYCLIENTACTIONREQUIRED_API_LATEST = 1
+EOS_ANTICHEATSERVER_ADDNOTIFYCLIENTAUTHSTATUSCHANGED_API_LATEST = 1
+EOS_ANTICHEATSERVER_BEGINSESSION_MIN_REGISTERTIMEOUT = 10
+EOS_ANTICHEATSERVER_BEGINSESSION_MAX_REGISTERTIMEOUT = 120
+EOS_ANTICHEATSERVER_BEGINSESSION_API_LATEST = 3
+EOS_ANTICHEATSERVER_ENDSESSION_API_LATEST = 1
+EOS_ANTICHEATSERVER_REGISTERCLIENT_API_LATEST = 3
+EOS_ANTICHEATSERVER_UNREGISTERCLIENT_API_LATEST = 1
+EOS_ANTICHEATSERVER_RECEIVEMESSAGEFROMCLIENT_API_LATEST = 1
+EOS_ANTICHEATSERVER_SETCLIENTNETWORKSTATE_API_LATEST = 1
+EOS_ANTICHEATSERVER_GETPROTECTMESSAGEOUTPUTLENGTH_API_LATEST = 1
+EOS_ANTICHEATSERVER_PROTECTMESSAGE_API_LATEST = 1
+EOS_ANTICHEATSERVER_UNPROTECTMESSAGE_API_LATEST = 1
+EOS_AUTH_ACCOUNTFEATURERESTRICTEDINFO_API_LATEST = 1
+EOS_CUSTOMINVITES_MAX_PAYLOAD_LENGTH = 500
+EOS_CUSTOMINVITES_SETCUSTOMINVITE_API_LATEST = 1
+EOS_CUSTOMINVITES_SENDCUSTOMINVITE_API_LATEST = 1
+EOS_CUSTOMINVITES_ADDNOTIFYCUSTOMINVITERECEIVED_API_LATEST = 1
+EOS_CUSTOMINVITES_ADDNOTIFYCUSTOMINVITEACCEPTED_API_LATEST = 1
+EOS_CUSTOMINVITES_ADDNOTIFYCUSTOMINVITEREJECTED_API_LATEST = 1
+EOS_CUSTOMINVITES_FINALIZEINVITE_API_LATEST = 1
+EOS_CUSTOMINVITES_SENDREQUESTTOJOIN_API_LATEST = 1
+EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINRESPONSERECEIVED_API_LATEST = 1
+EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINRECEIVED_API_LATEST = 1
+EOS_CUSTOMINVITES_ACCEPTREQUESTTOJOIN_API_LATEST = 1
+EOS_CUSTOMINVITES_REJECTREQUESTTOJOIN_API_LATEST = 1
+EOS_CUSTOMINVITES_ADDNOTIFYSENDCUSTOMNATIVEINVITEREQUESTED_API_LATEST = 1
+EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINACCEPTED_API_LATEST = 1
+EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINREJECTED_API_LATEST = 1
+EOS_INITIALIZE_THREADAFFINITY_API_LATEST = 3
+EOS_INITIALIZE_API_LATEST = 4
+EOS_INITIALIZEOPTIONS_PRODUCTNAME_MAX_LENGTH = 64
+EOS_INITIALIZEOPTIONS_PRODUCTVERSION_MAX_LENGTH = 64
+EOS_LEADERBOARDS_TIME_UNDEFINED = -1
+EOS_LEADERBOARDS_QUERYLEADERBOARDDEFINITIONS_API_LATEST = 2
+EOS_LEADERBOARDS_DEFINITION_API_LATEST = 1
+EOS_LEADERBOARDS_GETLEADERBOARDDEFINITIONCOUNT_API_LATEST = 1
+EOS_LEADERBOARDS_COPYLEADERBOARDDEFINITIONBYINDEX_API_LATEST = 1
+EOS_LEADERBOARDS_COPYLEADERBOARDDEFINITIONBYLEADERBOARDID_API_LATEST = 1
+EOS_LEADERBOARDS_USERSCORESQUERYSTATINFO_API_LATEST = 1
+EOS_LEADERBOARDS_QUERYLEADERBOARDUSERSCORES_API_LATEST = 2
+EOS_LEADERBOARDS_LEADERBOARDUSERSCORE_API_LATEST = 1
+EOS_LEADERBOARDS_GETLEADERBOARDUSERSCORECOUNT_API_LATEST = 1
+EOS_LEADERBOARDS_COPYLEADERBOARDUSERSCOREBYINDEX_API_LATEST = 1
+EOS_LEADERBOARDS_COPYLEADERBOARDUSERSCOREBYUSERID_API_LATEST = 1
+EOS_LEADERBOARDS_QUERYLEADERBOARDRANKS_API_LATEST = 2
+EOS_LEADERBOARDS_LEADERBOARDRECORD_API_LATEST = 2
+EOS_LEADERBOARDS_GETLEADERBOARDRECORDCOUNT_API_LATEST = 1
+EOS_LEADERBOARDS_COPYLEADERBOARDRECORDBYINDEX_API_LATEST = 2
+EOS_LEADERBOARDS_COPYLEADERBOARDRECORDBYUSERID_API_LATEST = 2
+EOS_LOBBY_MAX_LOBBIES = 16
+EOS_LOBBY_MAX_LOBBY_MEMBERS = 64
+EOS_LOBBY_MAX_SEARCH_RESULTS = 200
+EOS_LOBBY_MIN_LOBBYIDOVERRIDE_LENGTH = 4
+EOS_LOBBY_MAX_LOBBYIDOVERRIDE_LENGTH = 60
+EOS_LOBBYMODIFICATION_MAX_ATTRIBUTES = 64
+EOS_LOBBYMODIFICATION_MAX_ATTRIBUTE_LENGTH = 64
+EOS_LOBBYDETAILS_INFO_API_LATEST = 3
+EOS_LOBBY_LOCALRTCOPTIONS_API_LATEST = 1
+EOS_LOBBY_CREATELOBBY_API_LATEST = 10
+EOS_LOBBY_DESTROYLOBBY_API_LATEST = 1
+EOS_LOBBY_JOINLOBBY_API_LATEST = 5
+EOS_LOBBY_JOINLOBBYBYID_API_LATEST = 3
+EOS_LOBBY_LEAVELOBBY_API_LATEST = 1
+EOS_LOBBY_UPDATELOBBYMODIFICATION_API_LATEST = 1
+EOS_LOBBY_UPDATELOBBY_API_LATEST = 1
+EOS_LOBBY_JOINRTCROOM_API_LATEST = 1
+EOS_LOBBY_LEAVERTCROOM_API_LATEST = 1
+EOS_LOBBY_PROMOTEMEMBER_API_LATEST = 1
+EOS_LOBBY_KICKMEMBER_API_LATEST = 1
+EOS_LOBBY_HARDMUTEMEMBER_API_LATEST = 1
+EOS_LOBBY_ADDNOTIFYLOBBYUPDATERECEIVED_API_LATEST = 1
+EOS_LOBBY_ADDNOTIFYLOBBYMEMBERUPDATERECEIVED_API_LATEST = 1
+EOS_LOBBY_ADDNOTIFYLOBBYMEMBERSTATUSRECEIVED_API_LATEST = 1
+EOS_LOBBY_INVITEID_MAX_LENGTH = 64
+EOS_LOBBY_ADDNOTIFYLOBBYINVITERECEIVED_API_LATEST = 1
+EOS_LOBBY_ADDNOTIFYLOBBYINVITEACCEPTED_API_LATEST = 1
+EOS_LOBBY_ADDNOTIFYJOINLOBBYACCEPTED_API_LATEST = 1
+EOS_LOBBY_ADDNOTIFYLOBBYINVITEREJECTED_API_LATEST = 1
+EOS_LOBBY_ADDNOTIFYSENDLOBBYNATIVEINVITEREQUESTED_API_LATEST = 1
+EOS_LOBBY_COPYLOBBYDETAILSHANDLEBYINVITEID_API_LATEST = 1
+EOS_LOBBY_COPYLOBBYDETAILSHANDLEBYUIEVENTID_API_LATEST = 1
+EOS_LOBBY_CREATELOBBYSEARCH_API_LATEST = 1
+EOS_LOBBY_SENDINVITE_API_LATEST = 1
+EOS_LOBBY_REJECTINVITE_API_LATEST = 1
+EOS_LOBBY_QUERYINVITES_API_LATEST = 1
+EOS_LOBBY_GETINVITECOUNT_API_LATEST = 1
+EOS_LOBBY_GETINVITEIDBYINDEX_API_LATEST = 1
+EOS_LOBBY_COPYLOBBYDETAILSHANDLE_API_LATEST = 1
+EOS_LOBBY_GETRTCROOMNAME_API_LATEST = 1
+EOS_LOBBY_ISRTCROOMCONNECTED_API_LATEST = 1
+EOS_LOBBY_ADDNOTIFYRTCROOMCONNECTIONCHANGED_API_LATEST = 2
+EOS_LOBBY_SEARCH_BUCKET_ID = "bucket"
+EOS_LOBBY_SEARCH_MINCURRENTMEMBERS = "mincurrentmembers"
+EOS_LOBBY_SEARCH_MINSLOTSAVAILABLE = "minslotsavailable"
+EOS_LOBBY_ATTRIBUTEDATA_API_LATEST = 1
+EOS_LOBBY_ATTRIBUTE_API_LATEST = 1
+EOS_LOBBY_GETCONNECTSTRING_API_LATEST = 1
+EOS_LOBBY_GETCONNECTSTRING_BUFFER_SIZE = 256
+EOS_LOBBY_PARSECONNECTSTRING_API_LATEST = 1
+EOS_LOBBY_PARSECONNECTSTRING_BUFFER_SIZE = 256
+EOS_LOBBYMODIFICATION_SETBUCKETID_API_LATEST = 1
+EOS_LOBBYMODIFICATION_SETPERMISSIONLEVEL_API_LATEST = 1
+EOS_LOBBYMODIFICATION_SETMAXMEMBERS_API_LATEST = 1
+EOS_LOBBYMODIFICATION_SETINVITESALLOWED_API_LATEST = 1
+EOS_LOBBYMODIFICATION_ADDATTRIBUTE_API_LATEST = 2
+EOS_LOBBYMODIFICATION_REMOVEATTRIBUTE_API_LATEST = 1
+EOS_LOBBYMODIFICATION_ADDMEMBERATTRIBUTE_API_LATEST = 2
+EOS_LOBBYMODIFICATION_REMOVEMEMBERATTRIBUTE_API_LATEST = 1
+EOS_LOBBYMODIFICATION_SETALLOWEDPLATFORMIDS_API_LATEST = 1
+EOS_LOBBYDETAILS_GETLOBBYOWNER_API_LATEST = 1
+EOS_LOBBYDETAILS_COPYINFO_API_LATEST = 1
+EOS_LOBBYDETAILS_GETATTRIBUTECOUNT_API_LATEST = 1
+EOS_LOBBYDETAILS_COPYATTRIBUTEBYINDEX_API_LATEST = 1
+EOS_LOBBYDETAILS_COPYATTRIBUTEBYKEY_API_LATEST = 1
+EOS_LOBBYDETAILS_GETMEMBERATTRIBUTECOUNT_API_LATEST = 1
+EOS_LOBBYDETAILS_COPYMEMBERATTRIBUTEBYINDEX_API_LATEST = 1
+EOS_LOBBYDETAILS_COPYMEMBERATTRIBUTEBYKEY_API_LATEST = 1
+EOS_LOBBYDETAILS_GETMEMBERCOUNT_API_LATEST = 1
+EOS_LOBBYDETAILS_GETMEMBERBYINDEX_API_LATEST = 1
+EOS_LOBBYSEARCH_FIND_API_LATEST = 1
+EOS_LOBBYSEARCH_SETLOBBYID_API_LATEST = 1
+EOS_LOBBYSEARCH_SETTARGETUSERID_API_LATEST = 1
+EOS_LOBBYSEARCH_SETPARAMETER_API_LATEST = 1
+EOS_LOBBYSEARCH_REMOVEPARAMETER_API_LATEST = 1
+EOS_LOBBYSEARCH_SETMAXRESULTS_API_LATEST = 1
+EOS_LOBBYSEARCH_GETSEARCHRESULTCOUNT_API_LATEST = 1
+EOS_LOBBYSEARCH_COPYSEARCHRESULTBYINDEX_API_LATEST = 1
+EOS_LOBBYDETAILS_COPYMEMBERINFO_API_LATEST = 1
+EOS_LOBBYDETAILS_MEMBERINFO_API_LATEST = 1
+EOS_LOBBY_ADDNOTIFYLEAVELOBBYREQUESTED_API_LATEST = 1
+EOS_PRESENCE_DATARECORD_API_LATEST = 1
+EOS_PRESENCE_INFO_API_LATEST = 3
+EOS_PRESENCE_QUERYPRESENCE_API_LATEST = 1
+EOS_PRESENCE_HASPRESENCE_API_LATEST = 1
+EOS_PRESENCE_COPYPRESENCE_API_LATEST = 3
+EOS_PRESENCE_CREATEPRESENCEMODIFICATION_API_LATEST = 1
+EOS_PRESENCE_SETPRESENCE_API_LATEST = 1
+EOS_PRESENCE_ADDNOTIFYONPRESENCECHANGED_API_LATEST = 1
+EOS_PRESENCE_ADDNOTIFYJOINGAMEACCEPTED_API_LATEST = 2
+EOS_PRESENCE_GETJOININFO_API_LATEST = 1
+EOS_PRESENCEMODIFICATION_SETJOININFO_API_LATEST = 1
+EOS_PRESENCE_DATA_MAX_KEYS = 32
+EOS_PRESENCE_DATA_MAX_KEY_LENGTH = 64
+EOS_PRESENCE_DATA_MAX_VALUE_LENGTH = 255
+EOS_PRESENCE_RICH_TEXT_MAX_VALUE_LENGTH = 255
+EOS_PRESENCE_KEY_PLATFORM_PRESENCE = "EOS_PlatformPresence"
+EOS_PRESENCEMODIFICATION_SETSTATUS_API_LATEST = 1
+EOS_PRESENCE_SETSTATUS_API_LATEST = EOS_PRESENCEMODIFICATION_SETSTATUS_API_LATEST
+EOS_PRESENCEMODIFICATION_SETRAWRICHTEXT_API_LATEST = 1
+EOS_PRESENCE_SETRAWRICHTEXT_API_LATEST = EOS_PRESENCEMODIFICATION_SETRAWRICHTEXT_API_LATEST
+EOS_PRESENCEMODIFICATION_SETDATA_API_LATEST = 1
+EOS_PRESENCE_SETDATA_API_LATEST = EOS_PRESENCEMODIFICATION_SETDATA_API_LATEST
+EOS_PRESENCEMODIFICATION_DATARECORDID_API_LATEST = 1
+EOS_PRESENCEMODIFICATION_DELETEDATA_API_LATEST = 1
+EOS_PRESENCE_DELETEDATA_API_LATEST = EOS_PRESENCEMODIFICATION_DELETEDATA_API_LATEST
+EOS_RTCAUDIO_ADDNOTIFYPARTICIPANTUPDATED_API_LATEST = 1
+EOS_RTCAUDIO_ADDNOTIFYAUDIODEVICESCHANGED_API_LATEST = 1
+EOS_RTCAUDIO_ADDNOTIFYAUDIOINPUTSTATE_API_LATEST = 1
+EOS_RTCAUDIO_ADDNOTIFYAUDIOOUTPUTSTATE_API_LATEST = 1
+EOS_RTCAUDIO_ADDNOTIFYAUDIOBEFORESEND_API_LATEST = 1
+EOS_RTCAUDIO_AUDIOBUFFER_API_LATEST = 1
+EOS_RTCAUDIO_ADDNOTIFYAUDIOBEFORERENDER_API_LATEST = 1
+EOS_RTCAUDIO_SENDAUDIO_API_LATEST = 1
+EOS_RTCAUDIO_UPDATESENDING_API_LATEST = 1
+EOS_RTCAUDIO_UPDATERECEIVING_API_LATEST = 1
+EOS_RTCAUDIO_UPDATESENDINGVOLUME_API_LATEST = 1
+EOS_RTCAUDIO_UPDATERECEIVINGVOLUME_API_LATEST = 1
+EOS_RTCAUDIO_UPDATEPARTICIPANTVOLUME_API_LATEST = 1
+EOS_RTCAUDIO_REGISTERPLATFORMUSER_API_LATEST = 1
+EOS_RTCAUDIO_UNREGISTERPLATFORMUSER_API_LATEST = 1
+EOS_RTCAUDIO_QUERYINPUTDEVICESINFORMATION_API_LATEST = 1
+EOS_RTCAUDIO_GETINPUTDEVICESCOUNT_API_LATEST = 1
+EOS_RTCAUDIO_COPYINPUTDEVICEINFORMATIONBYINDEX_API_LATEST = 1
+EOS_RTCAUDIO_INPUTDEVICEINFORMATION_API_LATEST = 1
+EOS_RTCAUDIO_QUERYOUTPUTDEVICESINFORMATION_API_LATEST = 1
+EOS_RTCAUDIO_GETOUTPUTDEVICESCOUNT_API_LATEST = 1
+EOS_RTCAUDIO_COPYOUTPUTDEVICEINFORMATIONBYINDEX_API_LATEST = 1
+EOS_RTCAUDIO_OUTPUTDEVICEINFORMATION_API_LATEST = 1
+EOS_RTCAUDIO_SETINPUTDEVICESETTINGS_API_LATEST = 1
+EOS_RTCAUDIO_SETOUTPUTDEVICESETTINGS_API_LATEST = 1
+EOS_SESSIONMODIFICATION_MAX_SESSION_ATTRIBUTES = 64
+EOS_SESSIONMODIFICATION_MAX_SESSION_ATTRIBUTE_LENGTH = 64
+EOS_SESSIONMODIFICATION_MIN_SESSIONIDOVERRIDE_LENGTH = 16
+EOS_SESSIONMODIFICATION_MAX_SESSIONIDOVERRIDE_LENGTH = 64
+EOS_SESSIONS_CREATESESSIONMODIFICATION_API_LATEST = 5
+EOS_SESSIONS_UPDATESESSIONMODIFICATION_API_LATEST = 1
+EOS_SESSIONS_INVITEID_MAX_LENGTH = 64
+EOS_SESSIONS_SENDINVITE_API_LATEST = 1
+EOS_SESSIONS_REJECTINVITE_API_LATEST = 1
+EOS_SESSIONS_QUERYINVITES_API_LATEST = 1
+EOS_SESSIONS_GETINVITECOUNT_API_LATEST = 1
+EOS_SESSIONS_GETINVITEIDBYINDEX_API_LATEST = 1
+EOS_SESSIONS_CREATESESSIONSEARCH_API_LATEST = 1
+EOS_SESSIONS_UPDATESESSION_API_LATEST = 1
+EOS_SESSIONS_DESTROYSESSION_API_LATEST = 1
+EOS_SESSIONS_JOINSESSION_API_LATEST = 2
+EOS_SESSIONS_STARTSESSION_API_LATEST = 1
+EOS_SESSIONS_ENDSESSION_API_LATEST = 1
+EOS_SESSIONS_REGISTERPLAYERS_API_LATEST = 3
+EOS_SESSIONS_UNREGISTERPLAYERS_API_LATEST = 2
+EOS_SESSIONMODIFICATION_SETBUCKETID_API_LATEST = 1
+EOS_SESSIONMODIFICATION_SETHOSTADDRESS_API_LATEST = 1
+EOS_SESSIONMODIFICATION_SETPERMISSIONLEVEL_API_LATEST = 1
+EOS_SESSIONMODIFICATION_SETJOININPROGRESSALLOWED_API_LATEST = 1
+EOS_SESSIONS_MAXREGISTEREDPLAYERS = 1000
+EOS_SESSIONMODIFICATION_SETMAXPLAYERS_API_LATEST = 1
+EOS_SESSIONMODIFICATION_SETINVITESALLOWED_API_LATEST = 1
+EOS_SESSIONMODIFICATION_SETALLOWEDPLATFORMIDS_API_LATEST = 1
+EOS_SESSIONS_SEARCH_BUCKET_ID = "bucket"
+EOS_SESSIONS_SEARCH_EMPTY_SERVERS_ONLY = "emptyonly"
+EOS_SESSIONS_SEARCH_NONEMPTY_SERVERS_ONLY = "nonemptyonly"
+EOS_SESSIONS_SEARCH_MINSLOTSAVAILABLE = "minslotsavailable"
+EOS_SESSIONS_ATTRIBUTEDATA_API_LATEST = 1
+EOS_SESSIONS_SESSIONATTRIBUTEDATA_API_LATEST = EOS_SESSIONS_ATTRIBUTEDATA_API_LATEST
+EOS_ACTIVESESSION_COPYINFO_API_LATEST = 1
+EOS_ACTIVESESSION_GETREGISTEREDPLAYERCOUNT_API_LATEST = 1
+EOS_ACTIVESESSION_GETREGISTEREDPLAYERBYINDEX_API_LATEST = 1
+EOS_SESSIONDETAILS_ATTRIBUTE_API_LATEST = 1
+EOS_SESSIONS_SESSIONATTRIBUTE_API_LATEST = EOS_SESSIONDETAILS_ATTRIBUTE_API_LATEST
+EOS_SESSIONMODIFICATION_ADDATTRIBUTE_API_LATEST = 2
+EOS_SESSIONMODIFICATION_REMOVEATTRIBUTE_API_LATEST = 1
+EOS_SESSIONS_MAX_SEARCH_RESULTS = 200
+EOS_SESSIONSEARCH_SETMAXSEARCHRESULTS_API_LATEST = 1
+EOS_SESSIONSEARCH_FIND_API_LATEST = 2
+EOS_SESSIONSEARCH_GETSEARCHRESULTCOUNT_API_LATEST = 1
+EOS_SESSIONSEARCH_COPYSEARCHRESULTBYINDEX_API_LATEST = 1
+EOS_SESSIONSEARCH_SETSESSIONID_API_LATEST = 1
+EOS_SESSIONSEARCH_SETTARGETUSERID_API_LATEST = 1
+EOS_SESSIONSEARCH_SETPARAMETER_API_LATEST = 1
+EOS_SESSIONSEARCH_REMOVEPARAMETER_API_LATEST = 1
+EOS_SESSIONDETAILS_SETTINGS_API_LATEST = 4
+EOS_SESSIONDETAILS_INFO_API_LATEST = 2
+EOS_SESSIONDETAILS_COPYINFO_API_LATEST = 1
+EOS_SESSIONDETAILS_GETSESSIONATTRIBUTECOUNT_API_LATEST = 1
+EOS_SESSIONDETAILS_COPYSESSIONATTRIBUTEBYINDEX_API_LATEST = 1
+EOS_SESSIONDETAILS_COPYSESSIONATTRIBUTEBYKEY_API_LATEST = 1
+EOS_ACTIVESESSION_INFO_API_LATEST = 1
+EOS_SESSIONS_COPYACTIVESESSIONHANDLE_API_LATEST = 1
+EOS_SESSIONS_ADDNOTIFYSESSIONINVITERECEIVED_API_LATEST = 1
+EOS_SESSIONS_ADDNOTIFYSESSIONINVITEACCEPTED_API_LATEST = 1
+EOS_SESSIONS_ADDNOTIFYSESSIONINVITEREJECTED_API_LATEST = 1
+EOS_SESSIONS_ADDNOTIFYJOINSESSIONACCEPTED_API_LATEST = 1
+EOS_SESSIONS_COPYSESSIONHANDLEBYINVITEID_API_LATEST = 1
+EOS_SESSIONS_COPYSESSIONHANDLEBYUIEVENTID_API_LATEST = 1
+EOS_SESSIONS_COPYSESSIONHANDLEFORPRESENCE_API_LATEST = 1
+EOS_SESSIONS_ISUSERINSESSION_API_LATEST = 1
+EOS_SESSIONS_DUMPSESSIONSTATE_API_LATEST = 1
+EOS_SESSIONS_ADDNOTIFYLEAVESESSIONREQUESTED_API_LATEST = 1
+EOS_SESSIONS_ADDNOTIFYSENDSESSIONNATIVEINVITEREQUESTED_API_LATEST = 1
+EOS_ACHIEVEMENTS_QUERYDEFINITIONS_API_LATEST = 3
+EOS_ACHIEVEMENTS_STATTHRESHOLDS_API_LATEST = 1
+EOS_ACHIEVEMENTS_STATTHRESHOLD_API_LATEST = EOS_ACHIEVEMENTS_STATTHRESHOLDS_API_LATEST
+EOS_ACHIEVEMENTS_PLAYERSTATINFO_API_LATEST = 1
+EOS_ACHIEVEMENTS_DEFINITIONV2_API_LATEST = 2
+EOS_ACHIEVEMENTS_GETACHIEVEMENTDEFINITIONCOUNT_API_LATEST = 1
+EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYINDEX_API_LATEST = 2
+EOS_ACHIEVEMENTS_COPYDEFINITIONV2BYINDEX_API_LATEST = EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYINDEX_API_LATEST
+EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYACHIEVEMENTID_API_LATEST = 2
+EOS_ACHIEVEMENTS_COPYDEFINITIONV2BYACHIEVEMENTID_API_LATEST = EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYACHIEVEMENTID_API_LATEST
+EOS_ACHIEVEMENTS_QUERYPLAYERACHIEVEMENTS_API_LATEST = 2
+EOS_ACHIEVEMENTS_ACHIEVEMENT_UNLOCKTIME_UNDEFINED = -1
+EOS_ACHIEVEMENTS_PLAYERACHIEVEMENT_API_LATEST = 2
+EOS_ACHIEVEMENTS_GETPLAYERACHIEVEMENTCOUNT_API_LATEST = 1
+EOS_ACHIEVEMENTS_COPYPLAYERACHIEVEMENTBYINDEX_API_LATEST = 2
+EOS_ACHIEVEMENTS_COPYPLAYERACHIEVEMENTBYACHIEVEMENTID_API_LATEST = 2
+EOS_ACHIEVEMENTS_UNLOCKACHIEVEMENTS_API_LATEST = 1
+EOS_ACHIEVEMENTS_ADDNOTIFYACHIEVEMENTSUNLOCKEDV2_API_LATEST = 2
+EOS_ANTICHEATCLIENT_ONMESSAGETOSERVERCALLBACK_MAX_MESSAGE_SIZE = 512
+EOS_ANTICHEATCLIENT_ONMESSAGETOPEERCALLBACK_MAX_MESSAGE_SIZE = 512
+EOS_ANTICHEATCLIENT_ADDNOTIFYMESSAGETOSERVER_API_LATEST = 1
+EOS_ANTICHEATCLIENT_ADDNOTIFYMESSAGETOPEER_API_LATEST = 1
+EOS_ANTICHEATCLIENT_ADDNOTIFYPEERACTIONREQUIRED_API_LATEST = 1
+EOS_ANTICHEATCLIENT_ADDNOTIFYPEERAUTHSTATUSCHANGED_API_LATEST = 1
+EOS_ANTICHEATCLIENT_ADDNOTIFYCLIENTINTEGRITYVIOLATED_API_LATEST = 1
+EOS_ANTICHEATCLIENT_BEGINSESSION_API_LATEST = 3
+EOS_ANTICHEATCLIENT_ENDSESSION_API_LATEST = 1
+EOS_ANTICHEATCLIENT_RESERVED01_API_LATEST = 1
+EOS_ANTICHEATCLIENT_ADDEXTERNALINTEGRITYCATALOG_API_LATEST = 1
+EOS_ANTICHEATCLIENT_RECEIVEMESSAGEFROMSERVER_API_LATEST = 1
+EOS_ANTICHEATCLIENT_GETPROTECTMESSAGEOUTPUTLENGTH_API_LATEST = 1
+EOS_ANTICHEATCLIENT_PROTECTMESSAGE_API_LATEST = 1
+EOS_ANTICHEATCLIENT_UNPROTECTMESSAGE_API_LATEST = 1
+EOS_ANTICHEATCLIENT_REGISTERPEER_MIN_AUTHENTICATIONTIMEOUT = 40
+EOS_ANTICHEATCLIENT_REGISTERPEER_MAX_AUTHENTICATIONTIMEOUT = 120
+EOS_ANTICHEATCLIENT_REGISTERPEER_API_LATEST = 3
+EOS_ANTICHEATCLIENT_UNREGISTERPEER_API_LATEST = 1
+EOS_ANTICHEATCLIENT_RECEIVEMESSAGEFROMPEER_API_LATEST = 1
+EOS_AUTH_TOKEN_API_LATEST = 2
+EOS_AUTH_CREDENTIALS_API_LATEST = 4
+EOS_AUTH_PINGRANTINFO_API_LATEST = 2
+EOS_LF_NO_USER_INTERFACE = 0x00001
+EOS_AUTH_LOGIN_API_LATEST = 3
+EOS_AUTH_LOGOUT_API_LATEST = 1
+EOS_AUTH_LINKACCOUNT_API_LATEST = 1
+EOS_AUTH_VERIFYUSERAUTH_API_LATEST = 1
+EOS_AUTH_COPYUSERAUTHTOKEN_API_LATEST = 1
+EOS_AUTH_COPYIDTOKEN_API_LATEST = 1
+EOS_AUTH_IDTOKEN_API_LATEST = 1
+EOS_AUTH_QUERYIDTOKEN_API_LATEST = 1
+EOS_AUTH_VERIFYIDTOKEN_API_LATEST = 1
+EOS_AUTH_ADDNOTIFYLOGINSTATUSCHANGED_API_LATEST = 1
+EOS_AUTH_DELETEPERSISTENTAUTH_API_LATEST = 2
 
-EOS_MINOR_VERSION = 16
-EOS_PATCH_VERSION = 1
-
-# Common
 class EOS_EResult(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EResult(~self.value)
+    def __or__(self, other):
+        return EOS_EResult(self.value | other)
+    def __ror__(self, other):
+        return EOS_EResult(other | self.value)
+    def __int__(self):
+        return self.value
     def ToString(self):
-        # type: () -> c_char_p
+        # type: (EOS_EResult) -> c_char_p
         return EOS_EResult_ToString(self)
     def IsOperationComplete(self):
-        # type: () -> EOS_Bool
+        # type: (EOS_EResult) -> EOS_Bool
         return EOS_EResult_IsOperationComplete(self)
+
 EOS_Success = EOS_EResult(0)
 EOS_NoConnection = EOS_EResult(1)
 EOS_InvalidCredentials = EOS_EResult(2)
@@ -185,6 +1488,7 @@ EOS_Connect_ExternalServiceUnavailable = EOS_EResult(7006)
 EOS_Connect_ExternalServiceConfigurationFailure = EOS_EResult(7007)
 EOS_Connect_LinkAccountFailedMissingNintendoIdAccount_DEPRECATED = EOS_EResult(7008)
 EOS_UI_SocialOverlayLoadError = EOS_EResult(8000)
+EOS_UI_InconsistentVirtualMemoryFunctions = EOS_EResult(8001)
 EOS_Lobby_NotOwner = EOS_EResult(9000)
 EOS_Lobby_InvalidLock = EOS_EResult(9001)
 EOS_Lobby_LobbyAlreadyExists = EOS_EResult(9002)
@@ -251,6 +1555,8 @@ EOS_ProgressionSnapshot_SnapshotIdUnavailable = EOS_EResult(14000)
 EOS_KWS_ParentEmailMissing = EOS_EResult(15000)
 EOS_KWS_UserGraduated = EOS_EResult(15001)
 EOS_Android_JavaVMNotStored = EOS_EResult(17000)
+EOS_Android_ReservedMustReferenceLocalVM = EOS_EResult(17001)
+EOS_Android_ReservedMustBeNull = EOS_EResult(17002)
 EOS_Permission_RequiredPatchAvailable = EOS_EResult(18000)
 EOS_Permission_RequiredSystemUpdate = EOS_EResult(18001)
 EOS_Permission_AgeRestrictionFailure = EOS_EResult(18002)
@@ -264,97 +1570,267 @@ EOS_DesktopCrossplay_ServiceStartFailed = EOS_EResult(19002)
 EOS_DesktopCrossplay_ServiceNotRunning = EOS_EResult(19003)
 EOS_CustomInvites_InviteFailed = EOS_EResult(20000)
 EOS_UserInfo_BestDisplayNameIndeterminate = EOS_EResult(22000)
+EOS_ConsoleInit_OnNetworkRequestedDeprecatedCallbackNotSet = EOS_EResult(23000)
+EOS_ConsoleInit_CacheStorage_SizeKBNotMultipleOf16 = EOS_EResult(23001)
+EOS_ConsoleInit_CacheStorage_SizeKBBelowMinimumSize = EOS_EResult(23002)
+EOS_ConsoleInit_CacheStorage_SizeKBExceedsMaximumSize = EOS_EResult(23003)
+EOS_ConsoleInit_CacheStorage_IndexOutOfRangeRange = EOS_EResult(23004)
 EOS_UnexpectedError = EOS_EResult(0x7FFFFFFF)
 
-EOS_EResult_ToString = not_ready
-EOS_EResult_IsOperationComplete = not_ready
-EOS_ByteArray_ToString = not_ready
 
-class EOS_EpicAccountId(c_void_p):
-    @staticmethod
-    def FromString(AccountIdString):
-        # type: (c_char_p) -> EOS_EpicAccountId
-        return EOS_EpicAccountId_FromString(AccountIdString)
-    def ToString(self, OutBuffer, InOutBufferLength):
-        # type: (EOS_EpicAccountId, c_char_p, POINTER(c_int32)) -> c_char_p
-        return EOS_EpicAccountId_ToString(self, OutBuffer, InOutBufferLength)
-    def IsValid(self):
-        # type: (EOS_EpicAccountId) -> EOS_Bool
-        return EOS_EpicAccountId_IsValid(self)
-EOS_EpicAccountId_IsValid = not_ready
-EOS_EpicAccountId_ToString = not_ready
-EOS_EpicAccountId_FromString = not_ready
-EOS_EPICACCOUNTID_MAX_LENGTH = 32
+class EOS_UI_EKeyCombination(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_UI_EKeyCombination(~self.value)
+    def __or__(self, other):
+        return EOS_UI_EKeyCombination(self.value | other)
+    def __ror__(self, other):
+        return EOS_UI_EKeyCombination(other | self.value)
+    def __int__(self):
+        return self.value
 
-class EOS_ProductUserId(c_void_p):
-    @staticmethod
-    def FromString(ProductUserIdString):
-        # type: (c_char_p) -> EOS_ProductUserId
-        return EOS_ProductUserId_FromString(ProductUserIdString)
-    def ToString(self, OutBuffer, InOutBufferLength):
-        # type: (EOS_ProductUserId, c_char_p, POINTER(c_int32)) -> c_char_p
-        return EOS_ProductUserId_ToString(self, OutBuffer, InOutBufferLength)
-    def IsValid(self):
-        # type: (EOS_ProductUserId) -> EOS_Bool
-        return EOS_ProductUserId_IsValid(self)
-EOS_ProductUserId_IsValid = not_ready
-EOS_ProductUserId_ToString = not_ready
-EOS_ProductUserId_FromString = not_ready
-EOS_PRODUCTUSERID_MAX_LENGTH = 32
+EOS_UIK_ModifierShift = EOS_UI_EKeyCombination(16)
+EOS_UIK_KeyTypeMask = EOS_UI_EKeyCombination((1 << EOS_UIK_ModifierShift) - 1)
+EOS_UIK_ModifierMask = EOS_UI_EKeyCombination(~EOS_UIK_KeyTypeMask)
+EOS_UIK_Shift = EOS_UI_EKeyCombination((1 << EOS_UIK_ModifierShift))
+EOS_UIK_Control = EOS_UI_EKeyCombination((2 << EOS_UIK_ModifierShift))
+EOS_UIK_Alt = EOS_UI_EKeyCombination((4 << EOS_UIK_ModifierShift))
+EOS_UIK_Meta = EOS_UI_EKeyCombination((8 << EOS_UIK_ModifierShift))
+EOS_UIK_ValidModifierMask = EOS_UI_EKeyCombination((EOS_UIK_Shift | EOS_UIK_Control | EOS_UIK_Alt | EOS_UIK_Meta))
+EOS_UIK_None = EOS_UI_EKeyCombination(0)
+EOS_UIK_Space = EOS_UI_EKeyCombination(1)
+EOS_UIK_Backspace = EOS_UI_EKeyCombination(2)
+EOS_UIK_Tab = EOS_UI_EKeyCombination(3)
+EOS_UIK_Escape = EOS_UI_EKeyCombination(4)
+EOS_UIK_PageUp = EOS_UI_EKeyCombination(5)
+EOS_UIK_PageDown = EOS_UI_EKeyCombination(6)
+EOS_UIK_End = EOS_UI_EKeyCombination(7)
+EOS_UIK_Home = EOS_UI_EKeyCombination(8)
+EOS_UIK_Insert = EOS_UI_EKeyCombination(9)
+EOS_UIK_Delete = EOS_UI_EKeyCombination(10)
+EOS_UIK_Left = EOS_UI_EKeyCombination(11)
+EOS_UIK_Up = EOS_UI_EKeyCombination(12)
+EOS_UIK_Right = EOS_UI_EKeyCombination(13)
+EOS_UIK_Down = EOS_UI_EKeyCombination(14)
+EOS_UIK_Key0 = EOS_UI_EKeyCombination(15)
+EOS_UIK_Key1 = EOS_UI_EKeyCombination(16)
+EOS_UIK_Key2 = EOS_UI_EKeyCombination(17)
+EOS_UIK_Key3 = EOS_UI_EKeyCombination(18)
+EOS_UIK_Key4 = EOS_UI_EKeyCombination(19)
+EOS_UIK_Key5 = EOS_UI_EKeyCombination(20)
+EOS_UIK_Key6 = EOS_UI_EKeyCombination(21)
+EOS_UIK_Key7 = EOS_UI_EKeyCombination(22)
+EOS_UIK_Key8 = EOS_UI_EKeyCombination(23)
+EOS_UIK_Key9 = EOS_UI_EKeyCombination(24)
+EOS_UIK_KeyA = EOS_UI_EKeyCombination(25)
+EOS_UIK_KeyB = EOS_UI_EKeyCombination(26)
+EOS_UIK_KeyC = EOS_UI_EKeyCombination(27)
+EOS_UIK_KeyD = EOS_UI_EKeyCombination(28)
+EOS_UIK_KeyE = EOS_UI_EKeyCombination(29)
+EOS_UIK_KeyF = EOS_UI_EKeyCombination(30)
+EOS_UIK_KeyG = EOS_UI_EKeyCombination(31)
+EOS_UIK_KeyH = EOS_UI_EKeyCombination(32)
+EOS_UIK_KeyI = EOS_UI_EKeyCombination(33)
+EOS_UIK_KeyJ = EOS_UI_EKeyCombination(34)
+EOS_UIK_KeyK = EOS_UI_EKeyCombination(35)
+EOS_UIK_KeyL = EOS_UI_EKeyCombination(36)
+EOS_UIK_KeyM = EOS_UI_EKeyCombination(37)
+EOS_UIK_KeyN = EOS_UI_EKeyCombination(38)
+EOS_UIK_KeyO = EOS_UI_EKeyCombination(39)
+EOS_UIK_KeyP = EOS_UI_EKeyCombination(40)
+EOS_UIK_KeyQ = EOS_UI_EKeyCombination(41)
+EOS_UIK_KeyR = EOS_UI_EKeyCombination(42)
+EOS_UIK_KeyS = EOS_UI_EKeyCombination(43)
+EOS_UIK_KeyT = EOS_UI_EKeyCombination(44)
+EOS_UIK_KeyU = EOS_UI_EKeyCombination(45)
+EOS_UIK_KeyV = EOS_UI_EKeyCombination(46)
+EOS_UIK_KeyW = EOS_UI_EKeyCombination(47)
+EOS_UIK_KeyX = EOS_UI_EKeyCombination(48)
+EOS_UIK_KeyY = EOS_UI_EKeyCombination(49)
+EOS_UIK_KeyZ = EOS_UI_EKeyCombination(50)
+EOS_UIK_Numpad0 = EOS_UI_EKeyCombination(51)
+EOS_UIK_Numpad1 = EOS_UI_EKeyCombination(52)
+EOS_UIK_Numpad2 = EOS_UI_EKeyCombination(53)
+EOS_UIK_Numpad3 = EOS_UI_EKeyCombination(54)
+EOS_UIK_Numpad4 = EOS_UI_EKeyCombination(55)
+EOS_UIK_Numpad5 = EOS_UI_EKeyCombination(56)
+EOS_UIK_Numpad6 = EOS_UI_EKeyCombination(57)
+EOS_UIK_Numpad7 = EOS_UI_EKeyCombination(58)
+EOS_UIK_Numpad8 = EOS_UI_EKeyCombination(59)
+EOS_UIK_Numpad9 = EOS_UI_EKeyCombination(60)
+EOS_UIK_NumpadAsterisk = EOS_UI_EKeyCombination(61)
+EOS_UIK_NumpadPlus = EOS_UI_EKeyCombination(62)
+EOS_UIK_NumpadMinus = EOS_UI_EKeyCombination(63)
+EOS_UIK_NumpadPeriod = EOS_UI_EKeyCombination(64)
+EOS_UIK_NumpadDivide = EOS_UI_EKeyCombination(65)
+EOS_UIK_F1 = EOS_UI_EKeyCombination(66)
+EOS_UIK_F2 = EOS_UI_EKeyCombination(67)
+EOS_UIK_F3 = EOS_UI_EKeyCombination(68)
+EOS_UIK_F4 = EOS_UI_EKeyCombination(69)
+EOS_UIK_F5 = EOS_UI_EKeyCombination(70)
+EOS_UIK_F6 = EOS_UI_EKeyCombination(71)
+EOS_UIK_F7 = EOS_UI_EKeyCombination(72)
+EOS_UIK_F8 = EOS_UI_EKeyCombination(73)
+EOS_UIK_F9 = EOS_UI_EKeyCombination(74)
+EOS_UIK_F10 = EOS_UI_EKeyCombination(75)
+EOS_UIK_F11 = EOS_UI_EKeyCombination(76)
+EOS_UIK_F12 = EOS_UI_EKeyCombination(77)
+EOS_UIK_F13 = EOS_UI_EKeyCombination(78)
+EOS_UIK_F14 = EOS_UI_EKeyCombination(79)
+EOS_UIK_F15 = EOS_UI_EKeyCombination(80)
+EOS_UIK_F16 = EOS_UI_EKeyCombination(81)
+EOS_UIK_F17 = EOS_UI_EKeyCombination(82)
+EOS_UIK_F18 = EOS_UI_EKeyCombination(83)
+EOS_UIK_F19 = EOS_UI_EKeyCombination(84)
+EOS_UIK_F20 = EOS_UI_EKeyCombination(85)
+EOS_UIK_F21 = EOS_UI_EKeyCombination(86)
+EOS_UIK_F22 = EOS_UI_EKeyCombination(87)
+EOS_UIK_F23 = EOS_UI_EKeyCombination(88)
+EOS_UIK_F24 = EOS_UI_EKeyCombination(89)
+EOS_UIK_OemPlus = EOS_UI_EKeyCombination(90)
+EOS_UIK_OemComma = EOS_UI_EKeyCombination(91)
+EOS_UIK_OemMinus = EOS_UI_EKeyCombination(92)
+EOS_UIK_OemPeriod = EOS_UI_EKeyCombination(93)
+EOS_UIK_Oem1 = EOS_UI_EKeyCombination(94)
+EOS_UIK_Oem2 = EOS_UI_EKeyCombination(95)
+EOS_UIK_Oem3 = EOS_UI_EKeyCombination(96)
+EOS_UIK_Oem4 = EOS_UI_EKeyCombination(97)
+EOS_UIK_Oem5 = EOS_UI_EKeyCombination(98)
+EOS_UIK_Oem6 = EOS_UI_EKeyCombination(99)
+EOS_UIK_Oem7 = EOS_UI_EKeyCombination(100)
+EOS_UIK_Oem8 = EOS_UI_EKeyCombination(101)
+EOS_UIK_MaxKeyType = EOS_UI_EKeyCombination(102)
 
-class EOS_NotificationId(c_uint64):
-    pass
-EOS_INVALID_NOTIFICATIONID = EOS_NotificationId(0)
 
-class EOS_ContinuanceToken(c_void_p):
-    def ToString(self, OutBuffer, InOutBufferLength):
-        # type: (Array[c_char], POINTER(c_int32)) -> EOS_EResult
-        return EOS_ContinuanceToken_ToString(OutBuffer, InOutBufferLength)
-EOS_ContinuanceToken_ToString = not_ready
+class EOS_UI_EInputStateButtonFlags(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_UI_EInputStateButtonFlags(~self.value)
+    def __or__(self, other):
+        return EOS_UI_EInputStateButtonFlags(self.value | other)
+    def __ror__(self, other):
+        return EOS_UI_EInputStateButtonFlags(other | self.value)
+    def __int__(self):
+        return self.value
 
-EOS_PAGEQUERY_API_LATEST = 1
-EOS_PAGINATION_API_LATEST = EOS_PAGEQUERY_API_LATEST
-EOS_PAGEQUERY_MAXCOUNT_DEFAULT = 10
-EOS_PAGEQUERY_MAXCOUNT_MAXIMUM = 100
-class EOS_PageQuery(Structure):
-    _pack_ = PACK
-    _fields_ = [
-    ('ApiVersion', c_int32),
-    ('StartIndex', c_int32),
-    ('MaxCount', c_int32),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_PAGEQUERY_API_LATEST,
-            StartIndex = 0, MaxCount = EOS_PAGEQUERY_MAXCOUNT_DEFAULT,
-            **kwargs):
-        Structure.__init__(self,
-            ApiVersion = ApiVersion, StartIndex = StartIndex,
-            MaxCount = MaxCount, **kwargs)
-class EOS_PageResult(Structure):
-    _pack_ = PACK
-    _fields_ = [
-    ('StartIndex', c_int32),
-    ('Count', c_int32),
-    ('TotalCount', c_int32),
-    ]
+EOS_UISBF_None = EOS_UI_EInputStateButtonFlags(0)
+EOS_UISBF_DPad_Left = EOS_UI_EInputStateButtonFlags((1 << 0))
+EOS_UISBF_DPad_Right = EOS_UI_EInputStateButtonFlags((1 << 1))
+EOS_UISBF_DPad_Down = EOS_UI_EInputStateButtonFlags((1 << 2))
+EOS_UISBF_DPad_Up = EOS_UI_EInputStateButtonFlags((1 << 3))
+EOS_UISBF_FaceButton_Left = EOS_UI_EInputStateButtonFlags((1 << 4))
+EOS_UISBF_FaceButton_Right = EOS_UI_EInputStateButtonFlags((1 << 5))
+EOS_UISBF_FaceButton_Bottom = EOS_UI_EInputStateButtonFlags((1 << 6))
+EOS_UISBF_FaceButton_Top = EOS_UI_EInputStateButtonFlags((1 << 7))
+EOS_UISBF_LeftShoulder = EOS_UI_EInputStateButtonFlags((1 << 8))
+EOS_UISBF_RightShoulder = EOS_UI_EInputStateButtonFlags((1 << 9))
+EOS_UISBF_LeftTrigger = EOS_UI_EInputStateButtonFlags((1 << 10))
+EOS_UISBF_RightTrigger = EOS_UI_EInputStateButtonFlags((1 << 11))
+EOS_UISBF_Special_Left = EOS_UI_EInputStateButtonFlags((1 << 12))
+EOS_UISBF_Special_Right = EOS_UI_EInputStateButtonFlags((1 << 13))
+EOS_UISBF_LeftThumbstick = EOS_UI_EInputStateButtonFlags((1 << 14))
+EOS_UISBF_RightThumbstick = EOS_UI_EInputStateButtonFlags((1 << 15))
+
 
 class EOS_ELoginStatus(c_int32):
-    pass
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ELoginStatus(~self.value)
+    def __or__(self, other):
+        return EOS_ELoginStatus(self.value | other)
+    def __ror__(self, other):
+        return EOS_ELoginStatus(other | self.value)
+    def __int__(self):
+        return self.value
+
 EOS_LS_NotLoggedIn = EOS_ELoginStatus(0)
 EOS_LS_UsingLocalProfile = EOS_ELoginStatus(1)
 EOS_LS_LoggedIn = EOS_ELoginStatus(2)
 
+
 class EOS_EAttributeType(c_int32):
-    pass
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAttributeType(~self.value)
+    def __or__(self, other):
+        return EOS_EAttributeType(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAttributeType(other | self.value)
+    def __int__(self):
+        return self.value
+
 EOS_AT_BOOLEAN = EOS_EAttributeType(0)
 EOS_AT_INT64 = EOS_EAttributeType(1)
 EOS_AT_DOUBLE = EOS_EAttributeType(2)
 EOS_AT_STRING = EOS_EAttributeType(3)
-EOS_ESessionAttributeType = EOS_EAttributeType
-EOS_ELobbyAttributeType = EOS_EAttributeType
+
 
 class EOS_EComparisonOp(c_int32):
-    pass
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EComparisonOp(~self.value)
+    def __or__(self, other):
+        return EOS_EComparisonOp(self.value | other)
+    def __ror__(self, other):
+        return EOS_EComparisonOp(other | self.value)
+    def __int__(self):
+        return self.value
+
 EOS_CO_EQUAL = EOS_EComparisonOp(0)
 EOS_CO_NOTEQUAL = EOS_EComparisonOp(1)
 EOS_CO_GREATERTHAN = EOS_EComparisonOp(2)
@@ -367,10 +1843,30 @@ EOS_CO_NOTANYOF = EOS_EComparisonOp(8)
 EOS_CO_ONEOF = EOS_EComparisonOp(9)
 EOS_CO_NOTONEOF = EOS_EComparisonOp(10)
 EOS_CO_CONTAINS = EOS_EComparisonOp(11)
-EOS_EOnlineComparisonOp = EOS_EComparisonOp
+
 
 class EOS_EExternalAccountType(c_int32):
-    pass
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EExternalAccountType(~self.value)
+    def __or__(self, other):
+        return EOS_EExternalAccountType(self.value | other)
+    def __ror__(self, other):
+        return EOS_EExternalAccountType(other | self.value)
+    def __int__(self):
+        return self.value
+
 EOS_EAT_EPIC = EOS_EExternalAccountType(0)
 EOS_EAT_STEAM = EOS_EExternalAccountType(1)
 EOS_EAT_PSN = EOS_EExternalAccountType(2)
@@ -385,9 +1881,31 @@ EOS_EAT_GOOGLE = EOS_EExternalAccountType(10)
 EOS_EAT_OCULUS = EOS_EExternalAccountType(11)
 EOS_EAT_ITCHIO = EOS_EExternalAccountType(12)
 EOS_EAT_AMAZON = EOS_EExternalAccountType(13)
+EOS_EAT_VIVEPORT = EOS_EExternalAccountType(14)
+
 
 class EOS_EExternalCredentialType(c_int32):
-    pass
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EExternalCredentialType(~self.value)
+    def __or__(self, other):
+        return EOS_EExternalCredentialType(self.value | other)
+    def __ror__(self, other):
+        return EOS_EExternalCredentialType(other | self.value)
+    def __int__(self):
+        return self.value
+
 EOS_ECT_EPIC = EOS_EExternalCredentialType(0)
 EOS_ECT_STEAM_APP_TICKET = EOS_EExternalCredentialType(1)
 EOS_ECT_PSN_ID_TOKEN = EOS_EExternalCredentialType(2)
@@ -407,178 +1925,224 @@ EOS_ECT_ITCHIO_KEY = EOS_EExternalCredentialType(15)
 EOS_ECT_EPIC_ID_TOKEN = EOS_EExternalCredentialType(16)
 EOS_ECT_AMAZON_ACCESS_TOKEN = EOS_EExternalCredentialType(17)
 EOS_ECT_STEAM_SESSION_TICKET = EOS_EExternalCredentialType(18)
+EOS_ECT_VIVEPORT_USER_TOKEN = EOS_EExternalCredentialType(19)
 
-EOS_IntegratedPlatformType = c_char_p
-EOS_IPT_Unknown = c_char_p(None)
 
-class EOS_OnlinePlatformType(c_uint32):
-    pass
-EOS_OPT_Unknown = EOS_OnlinePlatformType(0)
-EOS_OPT_Epic = EOS_OnlinePlatformType(100)
-EOS_OPT_Steam = EOS_OnlinePlatformType(4000)
+class EOS_EOwnershipStatus(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EOwnershipStatus(~self.value)
+    def __or__(self, other):
+        return EOS_EOwnershipStatus(self.value | other)
+    def __ror__(self, other):
+        return EOS_EOwnershipStatus(other | self.value)
+    def __int__(self):
+        return self.value
 
-# Integrated Platform types
-class EOS_HIntegratedPlatformOptionsContainer(c_void_p):
-    pass
-class EOS_HIntegratedPlatform(c_void_p):
-    pass
+EOS_OS_NotOwned = EOS_EOwnershipStatus(0)
+EOS_OS_Owned = EOS_EOwnershipStatus(1)
 
-# Global types
 
-EOS_PLATFORM_CLIENTCREDENTIALS_CLIENTID_MAX_LENGTH = 64
-EOS_PLATFORM_CLIENTCREDENTIALS_CLIENTSECRET_MAX_LENGTH = 64
+class EOS_EEcomItemType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EEcomItemType(~self.value)
+    def __or__(self, other):
+        return EOS_EEcomItemType(self.value | other)
+    def __ror__(self, other):
+        return EOS_EEcomItemType(other | self.value)
+    def __int__(self):
+        return self.value
 
-class EOS_Platform_ClientCredentials(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ClientId', c_char_p),
-        ('ClientSecret', c_char_p),
-    ]
-    def __init__(self, ClientId = None, ClientSecret = None, **kwargs):
-        Structure.__init__(self,
-            ClientId = ClientId, ClientSecret = ClientSecret,
-            **kwargs)
+EOS_EIT_Durable = EOS_EEcomItemType(0)
+EOS_EIT_Consumable = EOS_EEcomItemType(1)
+EOS_EIT_Other = EOS_EEcomItemType(2)
 
-class EOS_ERTCBackgroundMode(c_int32):
-    pass
-EOS_RTCBM_LeaveRooms = EOS_ERTCBackgroundMode(0)
-EOS_RTCBM_KeepRoomsAlive = EOS_ERTCBackgroundMode(1)
 
-EOS_PLATFORM_RTCOPTIONS_API_LATEST = 2
-class EOS_Platform_RTCOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('PlatformSpecificOptions', c_void_p),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST,
-            PlatformSpecificOptions = None,
-            **kwargs):
-        Structure.__init__(
-            self, ApiVersion = ApiVersion,
-            PlatformSpecificOptions = PlatformSpecificOptions, **kwargs)
-    
-EOS_COUNTRYCODE_MAX_LENGTH = 4
-EOS_COUNTRYCODE_MAX_BUFFER_LEN = (EOS_COUNTRYCODE_MAX_LENGTH + 1)
-EOS_LOCALECODE_MAX_LENGTH = 9
-EOS_LOCALECODE_MAX_BUFFER_LEN = (EOS_LOCALECODE_MAX_LENGTH + 1)
-EOS_PLATFORM_OPTIONS_API_LATEST = 13
+class EOS_ECheckoutOrientation(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ECheckoutOrientation(~self.value)
+    def __or__(self, other):
+        return EOS_ECheckoutOrientation(self.value | other)
+    def __ror__(self, other):
+        return EOS_ECheckoutOrientation(other | self.value)
+    def __int__(self):
+        return self.value
 
-EOS_PF_LOADING_IN_EDITOR = 0x00001
-EOS_PF_DISABLE_OVERLAY = 0x00002
-EOS_PF_DISABLE_SOCIAL_OVERLAY = 0x00004
-EOS_PF_RESERVED1 = 0x00008
-EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9 = 0x00010
-EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10 = 0x00020
-EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL = 0x00040
-EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING = 0x00080
+EOS_ECO_Default = EOS_ECheckoutOrientation(0)
+EOS_ECO_Portrait = EOS_ECheckoutOrientation(1)
+EOS_ECO_Landscape = EOS_ECheckoutOrientation(2)
 
-EOS_PLATFORM_OPTIONS_PRODUCTID_MAX_LENGTH = 64
-EOS_PLATFORM_OPTIONS_SANDBOXID_MAX_LENGTH = 64
-EOS_PLATFORM_OPTIONS_ENCRYPTIONKEY_LENGTH = 64
-EOS_PLATFORM_OPTIONS_DEPLOYMENTID_MAX_LENGTH = 64
 
-class EOS_Platform_Options(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('Reserved', c_void_p),
-        ('ProductId', c_char_p),
-        ('SandboxId', c_char_p),
-        ('ClientCredentials', EOS_Platform_ClientCredentials),
-        ('bIsServer', EOS_Bool),
-        ('EncryptionKey', c_char_p),
-        ('OverrideCountryCode', c_char_p),
-        ('OverrideLocaleCode', c_char_p),
-        ('DeploymentId', c_char_p),
-        ('Flags', c_uint64),
-        ('CacheDirectory', c_char_p),
-        ('TickBudgetInMilliseconds', c_uint32),
-        ('RTCOptions', POINTER(EOS_Platform_RTCOptions)),
-        ('IntegratedPlatformOptionsContainerHandle', EOS_HIntegratedPlatformOptionsContainer),
-        ('SystemSpecificOptions', c_void_p),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST, Reserved = None,
-            ProductId = None, SandboxId = None, ClientCredentials = EOS_Platform_ClientCredentials(),
-            bIsServer = False, EncryptionKey = None, OverrideCountryCode = None,
-            OverrideLocaleCode = None, CacheDirectory = None, TickBudgetInMilliseconds = 0,
-            RTCOptions = None, IntegratedPlatformOptionsContainerHandle = None,
-            SystemSpecificOptions = None, **kwargs):
-        Structure.__init__(self,
-            ApiVersion = ApiVersion, Reserved = Reserved,
-            ProductId = ProductId, SandboxId = SandboxId,
-            ClientCredentials = ClientCredentials, bIsServer = bIsServer,
-            EncryptionKey = EncryptionKey, OverrideCountryCode = OverrideCountryCode,
-            OverrideLocaleCode = OverrideLocaleCode, CacheDirectory = CacheDirectory,
-            TickBudgetInMilliseconds = TickBudgetInMilliseconds, RTCOptions = RTCOptions,
-            IntegratedPlatformOptionsContainerHandle = IntegratedPlatformOptionsContainerHandle,
-            SystemSpecificOptions = SystemSpecificOptions,
-            **kwargs)
+class EOS_EFriendsStatus(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EFriendsStatus(~self.value)
+    def __or__(self, other):
+        return EOS_EFriendsStatus(self.value | other)
+    def __ror__(self, other):
+        return EOS_EFriendsStatus(other | self.value)
+    def __int__(self):
+        return self.value
 
-class EOS_EApplicationStatus(c_int32):
-    def ToString(self):
-        # type: () -> c_char_p
-        return EOS_EApplicationStatus_ToString(self)
-EOS_AS_BackgroundConstrained = EOS_EApplicationStatus(0)
-EOS_AS_BackgroundUnconstrained = EOS_EApplicationStatus(1)
-EOS_AS_BackgroundSuspended = EOS_EApplicationStatus(2)
-EOS_AS_Foreground = EOS_EApplicationStatus(3)
+EOS_FS_NotFriends = EOS_EFriendsStatus(0)
+EOS_FS_InviteSent = EOS_EFriendsStatus(1)
+EOS_FS_InviteReceived = EOS_EFriendsStatus(2)
+EOS_FS_Friends = EOS_EFriendsStatus(3)
 
-EOS_EApplicationStatus_ToString = not_ready
 
-class EOS_ENetworkStatus(c_int32):
-    def ToString(self):
-        # type: () -> c_char_p
-        return EOS_ENetworkStatus_ToString(self)
-EOS_NS_Disabled = EOS_ENetworkStatus(0)
-EOS_NS_Offline = EOS_ENetworkStatus(1)
-EOS_NS_Online = EOS_ENetworkStatus(2)
+class EOS_EIntegratedPlatformManagementFlags(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EIntegratedPlatformManagementFlags(~self.value)
+    def __or__(self, other):
+        return EOS_EIntegratedPlatformManagementFlags(self.value | other)
+    def __ror__(self, other):
+        return EOS_EIntegratedPlatformManagementFlags(other | self.value)
+    def __int__(self):
+        return self.value
 
-EOS_ENetworkStatus_ToString = not_ready
+EOS_IPMF_Disabled = EOS_EIntegratedPlatformManagementFlags(0x0001)
+EOS_IPMF_LibraryManagedByApplication = EOS_EIntegratedPlatformManagementFlags(0x0002)
+EOS_IPMF_LibraryManagedBySDK = EOS_EIntegratedPlatformManagementFlags(0x0004)
+EOS_IPMF_DisablePresenceMirroring = EOS_EIntegratedPlatformManagementFlags(0x0008)
+EOS_IPMF_DisableSDKManagedSessions = EOS_EIntegratedPlatformManagementFlags(0x0010)
+EOS_IPMF_PreferEOSIdentity = EOS_EIntegratedPlatformManagementFlags(0x0020)
+EOS_IPMF_PreferIntegratedIdentity = EOS_EIntegratedPlatformManagementFlags(0x0040)
+EOS_IPMF_ApplicationManagedIdentityLogin = EOS_EIntegratedPlatformManagementFlags(0x0080)
 
-class EOS_EDesktopCrossplayStatus(c_int32):
-    pass
-EOS_DCS_OK = EOS_EDesktopCrossplayStatus(0)
-EOS_DCS_ApplicationNotBootstrapped = EOS_EDesktopCrossplayStatus(1)
-EOS_DCS_ServiceNotInstalled = EOS_EDesktopCrossplayStatus(2)
-EOS_DCS_ServiceStartFailed = EOS_EDesktopCrossplayStatus(3)
-EOS_DCS_ServiceNotRunning = EOS_EDesktopCrossplayStatus(4)
-EOS_DCS_OverlayDisabled = EOS_EDesktopCrossplayStatus(5)
-EOS_DCS_OverlayNotInstalled = EOS_EDesktopCrossplayStatus(6)
-EOS_DCS_OverlayTrustCheckFailed = EOS_EDesktopCrossplayStatus(7)
-EOS_DCS_OverlayLoadFailed = EOS_EDesktopCrossplayStatus(8)
 
-EOS_PLATFORM_GETDESKTOPCROSSPLAYSTATUS_API_LATEST = 1
+class EOS_EIntegratedPlatformPreLogoutAction(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EIntegratedPlatformPreLogoutAction(~self.value)
+    def __or__(self, other):
+        return EOS_EIntegratedPlatformPreLogoutAction(self.value | other)
+    def __ror__(self, other):
+        return EOS_EIntegratedPlatformPreLogoutAction(other | self.value)
+    def __int__(self):
+        return self.value
 
-class EOS_Platform_GetDesktopCrossplayStatusOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [('ApiVersion', c_int32)]
-    def __init__(self,
-            ApiVersion = EOS_PLATFORM_GETDESKTOPCROSSPLAYSTATUS_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
+EOS_IPLA_ProcessLogoutImmediately = EOS_EIntegratedPlatformPreLogoutAction(0)
+EOS_IPLA_DeferLogout = EOS_EIntegratedPlatformPreLogoutAction(1)
 
-class EOS_Platform_DesktopCrossplayStatusInfo(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('Status', EOS_EDesktopCrossplayStatus),
-        ('ServiceInitResult', c_int32),
-    ]
-# DEPRECATED
-EOS_Platform_GetDesktopCrossplayStatusInfo = EOS_Platform_DesktopCrossplayStatusInfo
 
-EOS_PLATFORM_CHECKFORLAUNCHERANDRESTART_ENV_VAR = "EOS_LAUNCHED_BY_EPIC"
+class EOS_EKWSPermissionStatus(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EKWSPermissionStatus(~self.value)
+    def __or__(self, other):
+        return EOS_EKWSPermissionStatus(self.value | other)
+    def __ror__(self, other):
+        return EOS_EKWSPermissionStatus(other | self.value)
+    def __int__(self):
+        return self.value
 
-#####
-# Logging
-#####
+EOS_KPS_GRANTED = EOS_EKWSPermissionStatus(0)
+EOS_KPS_REJECTED = EOS_EKWSPermissionStatus(1)
+EOS_KPS_PENDING = EOS_EKWSPermissionStatus(2)
 
-# Logging types
 
 class EOS_ELogLevel(c_int32):
-    pass
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ELogLevel(~self.value)
+    def __or__(self, other):
+        return EOS_ELogLevel(self.value | other)
+    def __ror__(self, other):
+        return EOS_ELogLevel(other | self.value)
+    def __int__(self):
+        return self.value
+
 EOS_LOG_Off = EOS_ELogLevel(0)
 EOS_LOG_Fatal = EOS_ELogLevel(100)
 EOS_LOG_Error = EOS_ELogLevel(200)
@@ -587,8 +2151,29 @@ EOS_LOG_Info = EOS_ELogLevel(400)
 EOS_LOG_Verbose = EOS_ELogLevel(500)
 EOS_LOG_VeryVerbose = EOS_ELogLevel(600)
 
+
 class EOS_ELogCategory(c_int32):
-    pass
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ELogCategory(~self.value)
+    def __or__(self, other):
+        return EOS_ELogCategory(self.value | other)
+    def __ror__(self, other):
+        return EOS_ELogCategory(other | self.value)
+    def __int__(self):
+        return self.value
+
 EOS_LC_Core = EOS_ELogCategory(0)
 EOS_LC_Auth = EOS_ELogCategory(1)
 EOS_LC_Friends = EOS_ELogCategory(2)
@@ -623,6 +2208,4630 @@ EOS_LC_RTCAdmin = EOS_ELogCategory(30)
 EOS_LC_CustomInvites = EOS_ELogCategory(31)
 EOS_LC_ALL_CATEGORIES = EOS_ELogCategory(0x7fffffff)
 
+
+class EOS_EUserControllerType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EUserControllerType(~self.value)
+    def __or__(self, other):
+        return EOS_EUserControllerType(self.value | other)
+    def __ror__(self, other):
+        return EOS_EUserControllerType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_UCT_Unknown = EOS_EUserControllerType(0)
+EOS_UCT_MouseKeyboard = EOS_EUserControllerType(1)
+EOS_UCT_GamepadControl = EOS_EUserControllerType(2)
+EOS_UCT_TouchControl = EOS_EUserControllerType(3)
+
+
+class EOS_EMetricsAccountIdType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EMetricsAccountIdType(~self.value)
+    def __or__(self, other):
+        return EOS_EMetricsAccountIdType(self.value | other)
+    def __ror__(self, other):
+        return EOS_EMetricsAccountIdType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_MAIT_Epic = EOS_EMetricsAccountIdType(0)
+EOS_MAIT_External = EOS_EMetricsAccountIdType(1)
+
+
+class EOS_EModEnumerationType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EModEnumerationType(~self.value)
+    def __or__(self, other):
+        return EOS_EModEnumerationType(self.value | other)
+    def __ror__(self, other):
+        return EOS_EModEnumerationType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_MET_INSTALLED = EOS_EModEnumerationType(0)
+EOS_MET_ALL_AVAILABLE = EOS_EModEnumerationType(1)
+
+
+class EOS_ENATType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ENATType(~self.value)
+    def __or__(self, other):
+        return EOS_ENATType(self.value | other)
+    def __ror__(self, other):
+        return EOS_ENATType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_NAT_Unknown = EOS_ENATType(0)
+EOS_NAT_Open = EOS_ENATType(1)
+EOS_NAT_Moderate = EOS_ENATType(2)
+EOS_NAT_Strict = EOS_ENATType(3)
+
+
+class EOS_EPacketReliability(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EPacketReliability(~self.value)
+    def __or__(self, other):
+        return EOS_EPacketReliability(self.value | other)
+    def __ror__(self, other):
+        return EOS_EPacketReliability(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_PR_UnreliableUnordered = EOS_EPacketReliability(0)
+EOS_PR_ReliableUnordered = EOS_EPacketReliability(1)
+EOS_PR_ReliableOrdered = EOS_EPacketReliability(2)
+
+
+class EOS_EConnectionEstablishedType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EConnectionEstablishedType(~self.value)
+    def __or__(self, other):
+        return EOS_EConnectionEstablishedType(self.value | other)
+    def __ror__(self, other):
+        return EOS_EConnectionEstablishedType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_CET_NewConnection = EOS_EConnectionEstablishedType(0)
+EOS_CET_Reconnection = EOS_EConnectionEstablishedType(1)
+
+
+class EOS_ENetworkConnectionType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ENetworkConnectionType(~self.value)
+    def __or__(self, other):
+        return EOS_ENetworkConnectionType(self.value | other)
+    def __ror__(self, other):
+        return EOS_ENetworkConnectionType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_NCT_NoConnection = EOS_ENetworkConnectionType(0)
+EOS_NCT_DirectConnection = EOS_ENetworkConnectionType(1)
+EOS_NCT_RelayedConnection = EOS_ENetworkConnectionType(2)
+
+
+class EOS_EConnectionClosedReason(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EConnectionClosedReason(~self.value)
+    def __or__(self, other):
+        return EOS_EConnectionClosedReason(self.value | other)
+    def __ror__(self, other):
+        return EOS_EConnectionClosedReason(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_CCR_Unknown = EOS_EConnectionClosedReason(0)
+EOS_CCR_ClosedByLocalUser = EOS_EConnectionClosedReason(1)
+EOS_CCR_ClosedByPeer = EOS_EConnectionClosedReason(2)
+EOS_CCR_TimedOut = EOS_EConnectionClosedReason(3)
+EOS_CCR_TooManyConnections = EOS_EConnectionClosedReason(4)
+EOS_CCR_InvalidMessage = EOS_EConnectionClosedReason(5)
+EOS_CCR_InvalidData = EOS_EConnectionClosedReason(6)
+EOS_CCR_ConnectionFailed = EOS_EConnectionClosedReason(7)
+EOS_CCR_ConnectionClosed = EOS_EConnectionClosedReason(8)
+EOS_CCR_NegotiationFailed = EOS_EConnectionClosedReason(9)
+EOS_CCR_UnexpectedError = EOS_EConnectionClosedReason(10)
+EOS_CCR_ConnectionIgnored = EOS_EConnectionClosedReason(11)
+
+
+class EOS_ERelayControl(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ERelayControl(~self.value)
+    def __or__(self, other):
+        return EOS_ERelayControl(self.value | other)
+    def __ror__(self, other):
+        return EOS_ERelayControl(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_RC_NoRelays = EOS_ERelayControl(0)
+EOS_RC_AllowRelays = EOS_ERelayControl(1)
+EOS_RC_ForceRelays = EOS_ERelayControl(2)
+
+
+class EOS_PlayerDataStorage_EReadResult(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_PlayerDataStorage_EReadResult(~self.value)
+    def __or__(self, other):
+        return EOS_PlayerDataStorage_EReadResult(self.value | other)
+    def __ror__(self, other):
+        return EOS_PlayerDataStorage_EReadResult(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_RR_ContinueReading = EOS_PlayerDataStorage_EReadResult(1)
+EOS_RR_FailRequest = EOS_PlayerDataStorage_EReadResult(2)
+EOS_RR_CancelRequest = EOS_PlayerDataStorage_EReadResult(3)
+
+
+class EOS_PlayerDataStorage_EWriteResult(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_PlayerDataStorage_EWriteResult(~self.value)
+    def __or__(self, other):
+        return EOS_PlayerDataStorage_EWriteResult(self.value | other)
+    def __ror__(self, other):
+        return EOS_PlayerDataStorage_EWriteResult(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_WR_ContinueWriting = EOS_PlayerDataStorage_EWriteResult(1)
+EOS_WR_CompleteRequest = EOS_PlayerDataStorage_EWriteResult(2)
+EOS_WR_FailRequest = EOS_PlayerDataStorage_EWriteResult(3)
+EOS_WR_CancelRequest = EOS_PlayerDataStorage_EWriteResult(4)
+
+
+class EOS_EPlayerReportsCategory(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EPlayerReportsCategory(~self.value)
+    def __or__(self, other):
+        return EOS_EPlayerReportsCategory(self.value | other)
+    def __ror__(self, other):
+        return EOS_EPlayerReportsCategory(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_PRC_Invalid = EOS_EPlayerReportsCategory(0)
+EOS_PRC_Cheating = EOS_EPlayerReportsCategory(1)
+EOS_PRC_Exploiting = EOS_EPlayerReportsCategory(2)
+EOS_PRC_OffensiveProfile = EOS_EPlayerReportsCategory(3)
+EOS_PRC_VerbalAbuse = EOS_EPlayerReportsCategory(4)
+EOS_PRC_Scamming = EOS_EPlayerReportsCategory(5)
+EOS_PRC_Spamming = EOS_EPlayerReportsCategory(6)
+EOS_PRC_Other = EOS_EPlayerReportsCategory(7)
+
+
+class EOS_ERTCDataStatus(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ERTCDataStatus(~self.value)
+    def __or__(self, other):
+        return EOS_ERTCDataStatus(self.value | other)
+    def __ror__(self, other):
+        return EOS_ERTCDataStatus(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_RTCDS_Unsupported = EOS_ERTCDataStatus(0)
+EOS_RTCDS_Enabled = EOS_ERTCDataStatus(1)
+EOS_RTCDS_Disabled = EOS_ERTCDataStatus(2)
+
+
+class EOS_ERTCParticipantStatus(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ERTCParticipantStatus(~self.value)
+    def __or__(self, other):
+        return EOS_ERTCParticipantStatus(self.value | other)
+    def __ror__(self, other):
+        return EOS_ERTCParticipantStatus(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_RTCPS_Joined = EOS_ERTCParticipantStatus(0)
+EOS_RTCPS_Left = EOS_ERTCParticipantStatus(1)
+
+
+class EOS_ESanctionAppealReason(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ESanctionAppealReason(~self.value)
+    def __or__(self, other):
+        return EOS_ESanctionAppealReason(self.value | other)
+    def __ror__(self, other):
+        return EOS_ESanctionAppealReason(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_SAR_Invalid = EOS_ESanctionAppealReason(0)
+EOS_SAR_IncorrectSanction = EOS_ESanctionAppealReason(1)
+EOS_SAR_CompromisedAccount = EOS_ESanctionAppealReason(2)
+EOS_SAR_UnfairPunishment = EOS_ESanctionAppealReason(3)
+EOS_SAR_AppealForForgiveness = EOS_ESanctionAppealReason(4)
+
+
+class EOS_TitleStorage_EReadResult(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_TitleStorage_EReadResult(~self.value)
+    def __or__(self, other):
+        return EOS_TitleStorage_EReadResult(self.value | other)
+    def __ror__(self, other):
+        return EOS_TitleStorage_EReadResult(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_TS_RR_ContinueReading = EOS_TitleStorage_EReadResult(1)
+EOS_TS_RR_FailRequest = EOS_TitleStorage_EReadResult(2)
+EOS_TS_RR_CancelRequest = EOS_TitleStorage_EReadResult(3)
+
+
+class EOS_ERTCBackgroundMode(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ERTCBackgroundMode(~self.value)
+    def __or__(self, other):
+        return EOS_ERTCBackgroundMode(self.value | other)
+    def __ror__(self, other):
+        return EOS_ERTCBackgroundMode(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_RTCBM_LeaveRooms = EOS_ERTCBackgroundMode(0)
+EOS_RTCBM_KeepRoomsAlive = EOS_ERTCBackgroundMode(1)
+
+
+class EOS_EApplicationStatus(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EApplicationStatus(~self.value)
+    def __or__(self, other):
+        return EOS_EApplicationStatus(self.value | other)
+    def __ror__(self, other):
+        return EOS_EApplicationStatus(other | self.value)
+    def __int__(self):
+        return self.value
+    def ToString(self):
+        # type: (EOS_EApplicationStatus) -> c_char_p
+        return EOS_EApplicationStatus_ToString(self)
+
+EOS_AS_BackgroundConstrained = EOS_EApplicationStatus(0)
+EOS_AS_BackgroundUnconstrained = EOS_EApplicationStatus(1)
+EOS_AS_BackgroundSuspended = EOS_EApplicationStatus(2)
+EOS_AS_Foreground = EOS_EApplicationStatus(3)
+
+
+class EOS_ENetworkStatus(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ENetworkStatus(~self.value)
+    def __or__(self, other):
+        return EOS_ENetworkStatus(self.value | other)
+    def __ror__(self, other):
+        return EOS_ENetworkStatus(other | self.value)
+    def __int__(self):
+        return self.value
+    def ToString(self):
+        # type: (EOS_ENetworkStatus) -> c_char_p
+        return EOS_ENetworkStatus_ToString(self)
+
+EOS_NS_Disabled = EOS_ENetworkStatus(0)
+EOS_NS_Offline = EOS_ENetworkStatus(1)
+EOS_NS_Online = EOS_ENetworkStatus(2)
+
+
+class EOS_EDesktopCrossplayStatus(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EDesktopCrossplayStatus(~self.value)
+    def __or__(self, other):
+        return EOS_EDesktopCrossplayStatus(self.value | other)
+    def __ror__(self, other):
+        return EOS_EDesktopCrossplayStatus(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_DCS_OK = EOS_EDesktopCrossplayStatus(0)
+EOS_DCS_ApplicationNotBootstrapped = EOS_EDesktopCrossplayStatus(1)
+EOS_DCS_ServiceNotInstalled = EOS_EDesktopCrossplayStatus(2)
+EOS_DCS_ServiceStartFailed = EOS_EDesktopCrossplayStatus(3)
+EOS_DCS_ServiceNotRunning = EOS_EDesktopCrossplayStatus(4)
+EOS_DCS_OverlayDisabled = EOS_EDesktopCrossplayStatus(5)
+EOS_DCS_OverlayNotInstalled = EOS_EDesktopCrossplayStatus(6)
+EOS_DCS_OverlayTrustCheckFailed = EOS_EDesktopCrossplayStatus(7)
+EOS_DCS_OverlayLoadFailed = EOS_EDesktopCrossplayStatus(8)
+
+
+class EOS_UI_ENotificationLocation(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_UI_ENotificationLocation(~self.value)
+    def __or__(self, other):
+        return EOS_UI_ENotificationLocation(self.value | other)
+    def __ror__(self, other):
+        return EOS_UI_ENotificationLocation(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_UNL_TopLeft = EOS_UI_ENotificationLocation(0)
+EOS_UNL_TopRight = EOS_UI_ENotificationLocation(1)
+EOS_UNL_BottomLeft = EOS_UI_ENotificationLocation(2)
+EOS_UNL_BottomRight = EOS_UI_ENotificationLocation(3)
+
+
+class EOS_EAntiCheatCommonClientType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAntiCheatCommonClientType(~self.value)
+    def __or__(self, other):
+        return EOS_EAntiCheatCommonClientType(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAntiCheatCommonClientType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ACCCT_ProtectedClient = EOS_EAntiCheatCommonClientType(0)
+EOS_ACCCT_UnprotectedClient = EOS_EAntiCheatCommonClientType(1)
+EOS_ACCCT_AIBot = EOS_EAntiCheatCommonClientType(2)
+
+
+class EOS_EAntiCheatCommonClientPlatform(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAntiCheatCommonClientPlatform(~self.value)
+    def __or__(self, other):
+        return EOS_EAntiCheatCommonClientPlatform(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAntiCheatCommonClientPlatform(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ACCCP_Unknown = EOS_EAntiCheatCommonClientPlatform(0)
+EOS_ACCCP_Windows = EOS_EAntiCheatCommonClientPlatform(1)
+EOS_ACCCP_Mac = EOS_EAntiCheatCommonClientPlatform(2)
+EOS_ACCCP_Linux = EOS_EAntiCheatCommonClientPlatform(3)
+EOS_ACCCP_Xbox = EOS_EAntiCheatCommonClientPlatform(4)
+EOS_ACCCP_PlayStation = EOS_EAntiCheatCommonClientPlatform(5)
+EOS_ACCCP_Nintendo = EOS_EAntiCheatCommonClientPlatform(6)
+EOS_ACCCP_iOS = EOS_EAntiCheatCommonClientPlatform(7)
+EOS_ACCCP_Android = EOS_EAntiCheatCommonClientPlatform(8)
+
+
+class EOS_EAntiCheatCommonClientAction(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAntiCheatCommonClientAction(~self.value)
+    def __or__(self, other):
+        return EOS_EAntiCheatCommonClientAction(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAntiCheatCommonClientAction(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ACCCA_Invalid = EOS_EAntiCheatCommonClientAction(0)
+EOS_ACCCA_RemovePlayer = EOS_EAntiCheatCommonClientAction(1)
+
+
+class EOS_EAntiCheatCommonClientActionReason(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAntiCheatCommonClientActionReason(~self.value)
+    def __or__(self, other):
+        return EOS_EAntiCheatCommonClientActionReason(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAntiCheatCommonClientActionReason(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ACCCAR_Invalid = EOS_EAntiCheatCommonClientActionReason(0)
+EOS_ACCCAR_InternalError = EOS_EAntiCheatCommonClientActionReason(1)
+EOS_ACCCAR_InvalidMessage = EOS_EAntiCheatCommonClientActionReason(2)
+EOS_ACCCAR_AuthenticationFailed = EOS_EAntiCheatCommonClientActionReason(3)
+EOS_ACCCAR_NullClient = EOS_EAntiCheatCommonClientActionReason(4)
+EOS_ACCCAR_HeartbeatTimeout = EOS_EAntiCheatCommonClientActionReason(5)
+EOS_ACCCAR_ClientViolation = EOS_EAntiCheatCommonClientActionReason(6)
+EOS_ACCCAR_BackendViolation = EOS_EAntiCheatCommonClientActionReason(7)
+EOS_ACCCAR_TemporaryCooldown = EOS_EAntiCheatCommonClientActionReason(8)
+EOS_ACCCAR_TemporaryBanned = EOS_EAntiCheatCommonClientActionReason(9)
+EOS_ACCCAR_PermanentBanned = EOS_EAntiCheatCommonClientActionReason(10)
+
+
+class EOS_EAntiCheatCommonClientAuthStatus(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAntiCheatCommonClientAuthStatus(~self.value)
+    def __or__(self, other):
+        return EOS_EAntiCheatCommonClientAuthStatus(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAntiCheatCommonClientAuthStatus(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ACCCAS_Invalid = EOS_EAntiCheatCommonClientAuthStatus(0)
+EOS_ACCCAS_LocalAuthComplete = EOS_EAntiCheatCommonClientAuthStatus(1)
+EOS_ACCCAS_RemoteAuthComplete = EOS_EAntiCheatCommonClientAuthStatus(2)
+
+
+class EOS_EAntiCheatCommonClientFlags(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAntiCheatCommonClientFlags(~self.value)
+    def __or__(self, other):
+        return EOS_EAntiCheatCommonClientFlags(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAntiCheatCommonClientFlags(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ACCCF_None = EOS_EAntiCheatCommonClientFlags(0)
+EOS_ACCCF_Admin = EOS_EAntiCheatCommonClientFlags((1 << 0))
+
+
+class EOS_EAntiCheatCommonClientInput(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAntiCheatCommonClientInput(~self.value)
+    def __or__(self, other):
+        return EOS_EAntiCheatCommonClientInput(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAntiCheatCommonClientInput(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ACCCI_Unknown = EOS_EAntiCheatCommonClientInput(0)
+EOS_ACCCI_MouseKeyboard = EOS_EAntiCheatCommonClientInput(1)
+EOS_ACCCI_Gamepad = EOS_EAntiCheatCommonClientInput(2)
+EOS_ACCCI_TouchInput = EOS_EAntiCheatCommonClientInput(3)
+
+
+class EOS_EAntiCheatCommonEventType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAntiCheatCommonEventType(~self.value)
+    def __or__(self, other):
+        return EOS_EAntiCheatCommonEventType(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAntiCheatCommonEventType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ACCET_Invalid = EOS_EAntiCheatCommonEventType(0)
+EOS_ACCET_GameEvent = EOS_EAntiCheatCommonEventType(1)
+EOS_ACCET_PlayerEvent = EOS_EAntiCheatCommonEventType(2)
+
+
+class EOS_EAntiCheatCommonEventParamType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAntiCheatCommonEventParamType(~self.value)
+    def __or__(self, other):
+        return EOS_EAntiCheatCommonEventParamType(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAntiCheatCommonEventParamType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ACCEPT_Invalid = EOS_EAntiCheatCommonEventParamType(0)
+EOS_ACCEPT_ClientHandle = EOS_EAntiCheatCommonEventParamType(1)
+EOS_ACCEPT_String = EOS_EAntiCheatCommonEventParamType(2)
+EOS_ACCEPT_UInt32 = EOS_EAntiCheatCommonEventParamType(3)
+EOS_ACCEPT_Int32 = EOS_EAntiCheatCommonEventParamType(4)
+EOS_ACCEPT_UInt64 = EOS_EAntiCheatCommonEventParamType(5)
+EOS_ACCEPT_Int64 = EOS_EAntiCheatCommonEventParamType(6)
+EOS_ACCEPT_Vector3f = EOS_EAntiCheatCommonEventParamType(7)
+EOS_ACCEPT_Quat = EOS_EAntiCheatCommonEventParamType(8)
+EOS_ACCEPT_Float = EOS_EAntiCheatCommonEventParamType(9)
+
+
+class EOS_EAntiCheatCommonGameRoundCompetitionType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAntiCheatCommonGameRoundCompetitionType(~self.value)
+    def __or__(self, other):
+        return EOS_EAntiCheatCommonGameRoundCompetitionType(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAntiCheatCommonGameRoundCompetitionType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ACCGRCT_None = EOS_EAntiCheatCommonGameRoundCompetitionType(0)
+EOS_ACCGRCT_Casual = EOS_EAntiCheatCommonGameRoundCompetitionType(1)
+EOS_ACCGRCT_Ranked = EOS_EAntiCheatCommonGameRoundCompetitionType(2)
+EOS_ACCGRCT_Competitive = EOS_EAntiCheatCommonGameRoundCompetitionType(3)
+
+
+class EOS_EAntiCheatCommonPlayerMovementState(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAntiCheatCommonPlayerMovementState(~self.value)
+    def __or__(self, other):
+        return EOS_EAntiCheatCommonPlayerMovementState(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAntiCheatCommonPlayerMovementState(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ACCPMS_None = EOS_EAntiCheatCommonPlayerMovementState(0)
+EOS_ACCPMS_Crouching = EOS_EAntiCheatCommonPlayerMovementState(1)
+EOS_ACCPMS_Prone = EOS_EAntiCheatCommonPlayerMovementState(2)
+EOS_ACCPMS_Mounted = EOS_EAntiCheatCommonPlayerMovementState(3)
+EOS_ACCPMS_Swimming = EOS_EAntiCheatCommonPlayerMovementState(4)
+EOS_ACCPMS_Falling = EOS_EAntiCheatCommonPlayerMovementState(5)
+EOS_ACCPMS_Flying = EOS_EAntiCheatCommonPlayerMovementState(6)
+EOS_ACCPMS_OnLadder = EOS_EAntiCheatCommonPlayerMovementState(7)
+
+
+class EOS_EAntiCheatCommonPlayerTakeDamageSource(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAntiCheatCommonPlayerTakeDamageSource(~self.value)
+    def __or__(self, other):
+        return EOS_EAntiCheatCommonPlayerTakeDamageSource(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAntiCheatCommonPlayerTakeDamageSource(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ACCPTDS_None = EOS_EAntiCheatCommonPlayerTakeDamageSource(0)
+EOS_ACCPTDS_Player = EOS_EAntiCheatCommonPlayerTakeDamageSource(1)
+EOS_ACCPTDS_NonPlayerCharacter = EOS_EAntiCheatCommonPlayerTakeDamageSource(2)
+EOS_ACCPTDS_World = EOS_EAntiCheatCommonPlayerTakeDamageSource(3)
+
+
+class EOS_EAntiCheatCommonPlayerTakeDamageType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAntiCheatCommonPlayerTakeDamageType(~self.value)
+    def __or__(self, other):
+        return EOS_EAntiCheatCommonPlayerTakeDamageType(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAntiCheatCommonPlayerTakeDamageType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ACCPTDT_None = EOS_EAntiCheatCommonPlayerTakeDamageType(0)
+EOS_ACCPTDT_PointDamage = EOS_EAntiCheatCommonPlayerTakeDamageType(1)
+EOS_ACCPTDT_RadialDamage = EOS_EAntiCheatCommonPlayerTakeDamageType(2)
+EOS_ACCPTDT_DamageOverTime = EOS_EAntiCheatCommonPlayerTakeDamageType(3)
+
+
+class EOS_EAntiCheatCommonPlayerTakeDamageResult(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAntiCheatCommonPlayerTakeDamageResult(~self.value)
+    def __or__(self, other):
+        return EOS_EAntiCheatCommonPlayerTakeDamageResult(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAntiCheatCommonPlayerTakeDamageResult(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ACCPTDR_None = EOS_EAntiCheatCommonPlayerTakeDamageResult(0)
+EOS_ACCPTDR_Downed_DEPRECATED = EOS_EAntiCheatCommonPlayerTakeDamageResult(1)
+EOS_ACCPTDR_Eliminated_DEPRECATED = EOS_EAntiCheatCommonPlayerTakeDamageResult(2)
+EOS_ACCPTDR_NormalToDowned = EOS_EAntiCheatCommonPlayerTakeDamageResult(3)
+EOS_ACCPTDR_NormalToEliminated = EOS_EAntiCheatCommonPlayerTakeDamageResult(4)
+EOS_ACCPTDR_DownedToEliminated = EOS_EAntiCheatCommonPlayerTakeDamageResult(5)
+
+
+class EOS_ERequestToJoinResponse(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ERequestToJoinResponse(~self.value)
+    def __or__(self, other):
+        return EOS_ERequestToJoinResponse(self.value | other)
+    def __ror__(self, other):
+        return EOS_ERequestToJoinResponse(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_RTJR_ACCEPTED = EOS_ERequestToJoinResponse(0)
+EOS_RTJR_REJECTED = EOS_ERequestToJoinResponse(1)
+
+
+class EOS_ELeaderboardAggregation(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ELeaderboardAggregation(~self.value)
+    def __or__(self, other):
+        return EOS_ELeaderboardAggregation(self.value | other)
+    def __ror__(self, other):
+        return EOS_ELeaderboardAggregation(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_LA_Min = EOS_ELeaderboardAggregation(0)
+EOS_LA_Max = EOS_ELeaderboardAggregation(1)
+EOS_LA_Sum = EOS_ELeaderboardAggregation(2)
+EOS_LA_Latest = EOS_ELeaderboardAggregation(3)
+
+
+class EOS_ELobbyPermissionLevel(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ELobbyPermissionLevel(~self.value)
+    def __or__(self, other):
+        return EOS_ELobbyPermissionLevel(self.value | other)
+    def __ror__(self, other):
+        return EOS_ELobbyPermissionLevel(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_LPL_PUBLICADVERTISED = EOS_ELobbyPermissionLevel(0)
+EOS_LPL_JOINVIAPRESENCE = EOS_ELobbyPermissionLevel(1)
+EOS_LPL_INVITEONLY = EOS_ELobbyPermissionLevel(2)
+
+
+class EOS_ELobbyAttributeVisibility(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ELobbyAttributeVisibility(~self.value)
+    def __or__(self, other):
+        return EOS_ELobbyAttributeVisibility(self.value | other)
+    def __ror__(self, other):
+        return EOS_ELobbyAttributeVisibility(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_LAT_PUBLIC = EOS_ELobbyAttributeVisibility(0)
+EOS_LAT_PRIVATE = EOS_ELobbyAttributeVisibility(1)
+
+
+class EOS_ELobbyMemberStatus(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ELobbyMemberStatus(~self.value)
+    def __or__(self, other):
+        return EOS_ELobbyMemberStatus(self.value | other)
+    def __ror__(self, other):
+        return EOS_ELobbyMemberStatus(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_LMS_JOINED = EOS_ELobbyMemberStatus(0)
+EOS_LMS_LEFT = EOS_ELobbyMemberStatus(1)
+EOS_LMS_DISCONNECTED = EOS_ELobbyMemberStatus(2)
+EOS_LMS_KICKED = EOS_ELobbyMemberStatus(3)
+EOS_LMS_PROMOTED = EOS_ELobbyMemberStatus(4)
+EOS_LMS_CLOSED = EOS_ELobbyMemberStatus(5)
+
+
+class EOS_ELobbyRTCRoomJoinActionType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ELobbyRTCRoomJoinActionType(~self.value)
+    def __or__(self, other):
+        return EOS_ELobbyRTCRoomJoinActionType(self.value | other)
+    def __ror__(self, other):
+        return EOS_ELobbyRTCRoomJoinActionType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_LRRJAT_AutomaticJoin = EOS_ELobbyRTCRoomJoinActionType(0)
+EOS_LRRJAT_ManualJoin = EOS_ELobbyRTCRoomJoinActionType(1)
+
+
+class EOS_Presence_EStatus(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_Presence_EStatus(~self.value)
+    def __or__(self, other):
+        return EOS_Presence_EStatus(self.value | other)
+    def __ror__(self, other):
+        return EOS_Presence_EStatus(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_PS_Offline = EOS_Presence_EStatus(0)
+EOS_PS_Online = EOS_Presence_EStatus(1)
+EOS_PS_Away = EOS_Presence_EStatus(2)
+EOS_PS_ExtendedAway = EOS_Presence_EStatus(3)
+EOS_PS_DoNotDisturb = EOS_Presence_EStatus(4)
+
+
+class EOS_ERTCAudioStatus(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ERTCAudioStatus(~self.value)
+    def __or__(self, other):
+        return EOS_ERTCAudioStatus(self.value | other)
+    def __ror__(self, other):
+        return EOS_ERTCAudioStatus(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_RTCAS_Unsupported = EOS_ERTCAudioStatus(0)
+EOS_RTCAS_Enabled = EOS_ERTCAudioStatus(1)
+EOS_RTCAS_Disabled = EOS_ERTCAudioStatus(2)
+EOS_RTCAS_AdminDisabled = EOS_ERTCAudioStatus(3)
+EOS_RTCAS_NotListeningDisabled = EOS_ERTCAudioStatus(4)
+
+
+class EOS_ERTCAudioInputStatus(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ERTCAudioInputStatus(~self.value)
+    def __or__(self, other):
+        return EOS_ERTCAudioInputStatus(self.value | other)
+    def __ror__(self, other):
+        return EOS_ERTCAudioInputStatus(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_RTCAIS_Idle = EOS_ERTCAudioInputStatus(0)
+EOS_RTCAIS_Recording = EOS_ERTCAudioInputStatus(1)
+EOS_RTCAIS_RecordingSilent = EOS_ERTCAudioInputStatus(2)
+EOS_RTCAIS_RecordingDisconnected = EOS_ERTCAudioInputStatus(3)
+EOS_RTCAIS_Failed = EOS_ERTCAudioInputStatus(4)
+
+
+class EOS_ERTCAudioOutputStatus(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ERTCAudioOutputStatus(~self.value)
+    def __or__(self, other):
+        return EOS_ERTCAudioOutputStatus(self.value | other)
+    def __ror__(self, other):
+        return EOS_ERTCAudioOutputStatus(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_RTCAOS_Idle = EOS_ERTCAudioOutputStatus(0)
+EOS_RTCAOS_Playing = EOS_ERTCAudioOutputStatus(1)
+EOS_RTCAOS_Failed = EOS_ERTCAudioOutputStatus(2)
+
+
+class EOS_EOnlineSessionState(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EOnlineSessionState(~self.value)
+    def __or__(self, other):
+        return EOS_EOnlineSessionState(self.value | other)
+    def __ror__(self, other):
+        return EOS_EOnlineSessionState(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_OSS_NoSession = EOS_EOnlineSessionState(0)
+EOS_OSS_Creating = EOS_EOnlineSessionState(1)
+EOS_OSS_Pending = EOS_EOnlineSessionState(2)
+EOS_OSS_Starting = EOS_EOnlineSessionState(3)
+EOS_OSS_InProgress = EOS_EOnlineSessionState(4)
+EOS_OSS_Ending = EOS_EOnlineSessionState(5)
+EOS_OSS_Ended = EOS_EOnlineSessionState(6)
+EOS_OSS_Destroying = EOS_EOnlineSessionState(7)
+
+
+class EOS_ESessionAttributeAdvertisementType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ESessionAttributeAdvertisementType(~self.value)
+    def __or__(self, other):
+        return EOS_ESessionAttributeAdvertisementType(self.value | other)
+    def __ror__(self, other):
+        return EOS_ESessionAttributeAdvertisementType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_SAAT_DontAdvertise = EOS_ESessionAttributeAdvertisementType(0)
+EOS_SAAT_Advertise = EOS_ESessionAttributeAdvertisementType(1)
+
+
+class EOS_EOnlineSessionPermissionLevel(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EOnlineSessionPermissionLevel(~self.value)
+    def __or__(self, other):
+        return EOS_EOnlineSessionPermissionLevel(self.value | other)
+    def __ror__(self, other):
+        return EOS_EOnlineSessionPermissionLevel(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_OSPF_PublicAdvertised = EOS_EOnlineSessionPermissionLevel(0)
+EOS_OSPF_JoinViaPresence = EOS_EOnlineSessionPermissionLevel(1)
+EOS_OSPF_InviteOnly = EOS_EOnlineSessionPermissionLevel(2)
+
+
+class EOS_EAntiCheatClientMode(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAntiCheatClientMode(~self.value)
+    def __or__(self, other):
+        return EOS_EAntiCheatClientMode(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAntiCheatClientMode(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ACCM_Invalid = EOS_EAntiCheatClientMode(0)
+EOS_ACCM_ClientServer = EOS_EAntiCheatClientMode(1)
+EOS_ACCM_PeerToPeer = EOS_EAntiCheatClientMode(2)
+
+
+class EOS_EAntiCheatClientViolationType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAntiCheatClientViolationType(~self.value)
+    def __or__(self, other):
+        return EOS_EAntiCheatClientViolationType(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAntiCheatClientViolationType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ACCVT_Invalid = EOS_EAntiCheatClientViolationType(0)
+EOS_ACCVT_IntegrityCatalogNotFound = EOS_EAntiCheatClientViolationType(1)
+EOS_ACCVT_IntegrityCatalogError = EOS_EAntiCheatClientViolationType(2)
+EOS_ACCVT_IntegrityCatalogCertificateRevoked = EOS_EAntiCheatClientViolationType(3)
+EOS_ACCVT_IntegrityCatalogMissingMainExecutable = EOS_EAntiCheatClientViolationType(4)
+EOS_ACCVT_GameFileMismatch = EOS_EAntiCheatClientViolationType(5)
+EOS_ACCVT_RequiredGameFileNotFound = EOS_EAntiCheatClientViolationType(6)
+EOS_ACCVT_UnknownGameFileForbidden = EOS_EAntiCheatClientViolationType(7)
+EOS_ACCVT_SystemFileUntrusted = EOS_EAntiCheatClientViolationType(8)
+EOS_ACCVT_ForbiddenModuleLoaded = EOS_EAntiCheatClientViolationType(9)
+EOS_ACCVT_CorruptedMemory = EOS_EAntiCheatClientViolationType(10)
+EOS_ACCVT_ForbiddenToolDetected = EOS_EAntiCheatClientViolationType(11)
+EOS_ACCVT_InternalAntiCheatViolation = EOS_EAntiCheatClientViolationType(12)
+EOS_ACCVT_CorruptedNetworkMessageFlow = EOS_EAntiCheatClientViolationType(13)
+EOS_ACCVT_VirtualMachineNotAllowed = EOS_EAntiCheatClientViolationType(14)
+EOS_ACCVT_ForbiddenSystemConfiguration = EOS_EAntiCheatClientViolationType(15)
+
+
+class EOS_ELoginCredentialType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ELoginCredentialType(~self.value)
+    def __or__(self, other):
+        return EOS_ELoginCredentialType(self.value | other)
+    def __ror__(self, other):
+        return EOS_ELoginCredentialType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_LCT_Password = EOS_ELoginCredentialType(0)
+EOS_LCT_ExchangeCode = EOS_ELoginCredentialType(1)
+EOS_LCT_PersistentAuth = EOS_ELoginCredentialType(2)
+EOS_LCT_DeviceCode = EOS_ELoginCredentialType(3)
+EOS_LCT_Developer = EOS_ELoginCredentialType(4)
+EOS_LCT_RefreshToken = EOS_ELoginCredentialType(5)
+EOS_LCT_AccountPortal = EOS_ELoginCredentialType(6)
+EOS_LCT_ExternalAuth = EOS_ELoginCredentialType(7)
+
+
+class EOS_EAuthTokenType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAuthTokenType(~self.value)
+    def __or__(self, other):
+        return EOS_EAuthTokenType(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAuthTokenType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ATT_Client = EOS_EAuthTokenType(0)
+EOS_ATT_User = EOS_EAuthTokenType(1)
+
+
+class EOS_EAuthScopeFlags(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EAuthScopeFlags(~self.value)
+    def __or__(self, other):
+        return EOS_EAuthScopeFlags(self.value | other)
+    def __ror__(self, other):
+        return EOS_EAuthScopeFlags(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_AS_NoFlags = EOS_EAuthScopeFlags(0x0)
+EOS_AS_BasicProfile = EOS_EAuthScopeFlags(0x1)
+EOS_AS_FriendsList = EOS_EAuthScopeFlags(0x2)
+EOS_AS_Presence = EOS_EAuthScopeFlags(0x4)
+EOS_AS_FriendsManagement = EOS_EAuthScopeFlags(0x8)
+EOS_AS_Email = EOS_EAuthScopeFlags(0x10)
+EOS_AS_Country = EOS_EAuthScopeFlags(0x20)
+
+
+class EOS_ELinkAccountFlags(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ELinkAccountFlags(~self.value)
+    def __or__(self, other):
+        return EOS_ELinkAccountFlags(self.value | other)
+    def __ror__(self, other):
+        return EOS_ELinkAccountFlags(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_LA_NoFlags = EOS_ELinkAccountFlags(0x0)
+EOS_LA_NintendoNsaId = EOS_ELinkAccountFlags(0x1)
+
+class EOS_Bool(c_int32):
+    pass
+class EOS_EpicAccountId(c_void_p):
+    def IsValid(self):
+        # type: (EOS_EpicAccountId) -> EOS_Bool
+        return EOS_EpicAccountId_IsValid(self)
+    def ToString(self, OutBuffer, InOutBufferLength):
+        # type: (EOS_EpicAccountId, c_char_p, POINTER(c_int32)) -> EOS_EResult
+        return EOS_EpicAccountId_ToString(self, OutBuffer, InOutBufferLength)
+    @staticmethod
+    def FromString(AccountIdString):
+        # type: (c_char_p) -> EOS_EpicAccountId
+        return EOS_EpicAccountId_FromString(AccountIdString)
+class EOS_ProductUserId(c_void_p):
+    def IsValid(self):
+        # type: (EOS_ProductUserId) -> EOS_Bool
+        return EOS_ProductUserId_IsValid(self)
+    def ToString(self, OutBuffer, InOutBufferLength):
+        # type: (EOS_ProductUserId, c_char_p, POINTER(c_int32)) -> EOS_EResult
+        return EOS_ProductUserId_ToString(self, OutBuffer, InOutBufferLength)
+    @staticmethod
+    def FromString(ProductUserIdString):
+        # type: (c_char_p) -> EOS_ProductUserId
+        return EOS_ProductUserId_FromString(ProductUserIdString)
+class EOS_NotificationId(c_uint64):
+    pass
+class EOS_ContinuanceToken(c_void_p):
+    def ToString(self, OutBuffer, InOutBufferLength):
+        # type: (EOS_ContinuanceToken, c_char_p, POINTER(c_int32)) -> EOS_EResult
+        return EOS_ContinuanceToken_ToString(self, OutBuffer, InOutBufferLength)
+class EOS_ESessionAttributeType(EOS_EAttributeType):
+    pass
+class EOS_ELobbyAttributeType(EOS_EAttributeType):
+    pass
+class EOS_EOnlineComparisonOp(EOS_EComparisonOp):
+    pass
+class EOS_IntegratedPlatformType(c_char_p):
+    pass
+class EOS_OnlinePlatformType(c_uint32):
+    pass
+class EOS_HConnect(c_void_p):
+    def Login(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_LoginOptions), c_void_p, EOS_Connect_OnLoginCallback) -> None
+        return EOS_Connect_Login(self, Options, ClientData, CompletionDelegate)
+    def Logout(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_LogoutOptions), c_void_p, EOS_Connect_OnLogoutCallback) -> None
+        return EOS_Connect_Logout(self, Options, ClientData, CompletionDelegate)
+    def CreateUser(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_CreateUserOptions), c_void_p, EOS_Connect_OnCreateUserCallback) -> None
+        return EOS_Connect_CreateUser(self, Options, ClientData, CompletionDelegate)
+    def LinkAccount(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_LinkAccountOptions), c_void_p, EOS_Connect_OnLinkAccountCallback) -> None
+        return EOS_Connect_LinkAccount(self, Options, ClientData, CompletionDelegate)
+    def UnlinkAccount(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_UnlinkAccountOptions), c_void_p, EOS_Connect_OnUnlinkAccountCallback) -> None
+        return EOS_Connect_UnlinkAccount(self, Options, ClientData, CompletionDelegate)
+    def CreateDeviceId(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_CreateDeviceIdOptions), c_void_p, EOS_Connect_OnCreateDeviceIdCallback) -> None
+        return EOS_Connect_CreateDeviceId(self, Options, ClientData, CompletionDelegate)
+    def DeleteDeviceId(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_DeleteDeviceIdOptions), c_void_p, EOS_Connect_OnDeleteDeviceIdCallback) -> None
+        return EOS_Connect_DeleteDeviceId(self, Options, ClientData, CompletionDelegate)
+    def TransferDeviceIdAccount(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_TransferDeviceIdAccountOptions), c_void_p, EOS_Connect_OnTransferDeviceIdAccountCallback) -> None
+        return EOS_Connect_TransferDeviceIdAccount(self, Options, ClientData, CompletionDelegate)
+    def QueryExternalAccountMappings(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_QueryExternalAccountMappingsOptions), c_void_p, EOS_Connect_OnQueryExternalAccountMappingsCallback) -> None
+        return EOS_Connect_QueryExternalAccountMappings(self, Options, ClientData, CompletionDelegate)
+    def QueryProductUserIdMappings(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_QueryProductUserIdMappingsOptions), c_void_p, EOS_Connect_OnQueryProductUserIdMappingsCallback) -> None
+        return EOS_Connect_QueryProductUserIdMappings(self, Options, ClientData, CompletionDelegate)
+    def GetExternalAccountMapping(self, Options):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_GetExternalAccountMappingsOptions)) -> EOS_ProductUserId
+        return EOS_Connect_GetExternalAccountMapping(self, Options)
+    def GetProductUserIdMapping(self, Options, OutBuffer, InOutBufferLength):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_GetProductUserIdMappingOptions), c_char_p, POINTER(c_int32)) -> EOS_EResult
+        return EOS_Connect_GetProductUserIdMapping(self, Options, OutBuffer, InOutBufferLength)
+    def GetProductUserExternalAccountCount(self, Options):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_GetProductUserExternalAccountCountOptions)) -> c_uint32
+        return EOS_Connect_GetProductUserExternalAccountCount(self, Options)
+    def CopyProductUserExternalAccountByIndex(self, Options, OutExternalAccountInfo):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_CopyProductUserExternalAccountByIndexOptions), POINTER(POINTER(EOS_Connect_ExternalAccountInfo))) -> EOS_EResult
+        return EOS_Connect_CopyProductUserExternalAccountByIndex(self, Options, OutExternalAccountInfo)
+    def CopyProductUserExternalAccountByAccountType(self, Options, OutExternalAccountInfo):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_CopyProductUserExternalAccountByAccountTypeOptions), POINTER(POINTER(EOS_Connect_ExternalAccountInfo))) -> EOS_EResult
+        return EOS_Connect_CopyProductUserExternalAccountByAccountType(self, Options, OutExternalAccountInfo)
+    def CopyProductUserExternalAccountByAccountId(self, Options, OutExternalAccountInfo):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_CopyProductUserExternalAccountByAccountIdOptions), POINTER(POINTER(EOS_Connect_ExternalAccountInfo))) -> EOS_EResult
+        return EOS_Connect_CopyProductUserExternalAccountByAccountId(self, Options, OutExternalAccountInfo)
+    def CopyProductUserInfo(self, Options, OutExternalAccountInfo):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_CopyProductUserInfoOptions), POINTER(POINTER(EOS_Connect_ExternalAccountInfo))) -> EOS_EResult
+        return EOS_Connect_CopyProductUserInfo(self, Options, OutExternalAccountInfo)
+    def GetLoggedInUsersCount(self):
+        # type: (EOS_HConnect) -> c_int32
+        return EOS_Connect_GetLoggedInUsersCount(self)
+    def GetLoggedInUserByIndex(self, Index):
+        # type: (EOS_HConnect, c_int32) -> EOS_ProductUserId
+        return EOS_Connect_GetLoggedInUserByIndex(self, Index)
+    def GetLoginStatus(self, LocalUserId):
+        # type: (EOS_HConnect, EOS_ProductUserId) -> EOS_ELoginStatus
+        return EOS_Connect_GetLoginStatus(self, LocalUserId)
+    def AddNotifyAuthExpiration(self, Options, ClientData, Notification):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_AddNotifyAuthExpirationOptions), c_void_p, EOS_Connect_OnAuthExpirationCallback) -> EOS_NotificationId
+        return EOS_Connect_AddNotifyAuthExpiration(self, Options, ClientData, Notification)
+    def RemoveNotifyAuthExpiration(self, InId):
+        # type: (EOS_HConnect, EOS_NotificationId) -> None
+        return EOS_Connect_RemoveNotifyAuthExpiration(self, InId)
+    def AddNotifyLoginStatusChanged(self, Options, ClientData, Notification):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_AddNotifyLoginStatusChangedOptions), c_void_p, EOS_Connect_OnLoginStatusChangedCallback) -> EOS_NotificationId
+        return EOS_Connect_AddNotifyLoginStatusChanged(self, Options, ClientData, Notification)
+    def RemoveNotifyLoginStatusChanged(self, InId):
+        # type: (EOS_HConnect, EOS_NotificationId) -> None
+        return EOS_Connect_RemoveNotifyLoginStatusChanged(self, InId)
+    def CopyIdToken(self, Options, OutIdToken):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_CopyIdTokenOptions), POINTER(POINTER(EOS_Connect_IdToken))) -> EOS_EResult
+        return EOS_Connect_CopyIdToken(self, Options, OutIdToken)
+    def VerifyIdToken(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HConnect, POINTER(EOS_Connect_VerifyIdTokenOptions), c_void_p, EOS_Connect_OnVerifyIdTokenCallback) -> None
+        return EOS_Connect_VerifyIdToken(self, Options, ClientData, CompletionDelegate)
+class EOS_HEcom(c_void_p):
+    def Transaction_Release(self):
+        # type: (EOS_Ecom_HTransaction) -> None
+        return EOS_Ecom_Transaction_Release(self)
+    def QueryOwnership(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_QueryOwnershipOptions), c_void_p, EOS_Ecom_OnQueryOwnershipCallback) -> None
+        return EOS_Ecom_QueryOwnership(self, Options, ClientData, CompletionDelegate)
+    def QueryOwnershipBySandboxIds(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_QueryOwnershipBySandboxIdsOptions), c_void_p, EOS_Ecom_OnQueryOwnershipBySandboxIdsCallback) -> None
+        return EOS_Ecom_QueryOwnershipBySandboxIds(self, Options, ClientData, CompletionDelegate)
+    def QueryOwnershipToken(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_QueryOwnershipTokenOptions), c_void_p, EOS_Ecom_OnQueryOwnershipTokenCallback) -> None
+        return EOS_Ecom_QueryOwnershipToken(self, Options, ClientData, CompletionDelegate)
+    def QueryEntitlements(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_QueryEntitlementsOptions), c_void_p, EOS_Ecom_OnQueryEntitlementsCallback) -> None
+        return EOS_Ecom_QueryEntitlements(self, Options, ClientData, CompletionDelegate)
+    def QueryEntitlementToken(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_QueryEntitlementTokenOptions), c_void_p, EOS_Ecom_OnQueryEntitlementTokenCallback) -> None
+        return EOS_Ecom_QueryEntitlementToken(self, Options, ClientData, CompletionDelegate)
+    def QueryOffers(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_QueryOffersOptions), c_void_p, EOS_Ecom_OnQueryOffersCallback) -> None
+        return EOS_Ecom_QueryOffers(self, Options, ClientData, CompletionDelegate)
+    def Checkout(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_CheckoutOptions), c_void_p, EOS_Ecom_OnCheckoutCallback) -> None
+        return EOS_Ecom_Checkout(self, Options, ClientData, CompletionDelegate)
+    def RedeemEntitlements(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_RedeemEntitlementsOptions), c_void_p, EOS_Ecom_OnRedeemEntitlementsCallback) -> None
+        return EOS_Ecom_RedeemEntitlements(self, Options, ClientData, CompletionDelegate)
+    def GetLastRedeemedEntitlementsCount(self, Options):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_GetLastRedeemedEntitlementsCountOptions)) -> c_uint32
+        return EOS_Ecom_GetLastRedeemedEntitlementsCount(self, Options)
+    def CopyLastRedeemedEntitlementByIndex(self, Options, OutRedeemedEntitlementId, InOutRedeemedEntitlementIdLength):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_CopyLastRedeemedEntitlementByIndexOptions), c_char_p, POINTER(c_int32)) -> EOS_EResult
+        return EOS_Ecom_CopyLastRedeemedEntitlementByIndex(self, Options, OutRedeemedEntitlementId, InOutRedeemedEntitlementIdLength)
+    def GetEntitlementsCount(self, Options):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_GetEntitlementsCountOptions)) -> c_uint32
+        return EOS_Ecom_GetEntitlementsCount(self, Options)
+    def GetEntitlementsByNameCount(self, Options):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_GetEntitlementsByNameCountOptions)) -> c_uint32
+        return EOS_Ecom_GetEntitlementsByNameCount(self, Options)
+    def CopyEntitlementByIndex(self, Options, OutEntitlement):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_CopyEntitlementByIndexOptions), POINTER(POINTER(EOS_Ecom_Entitlement))) -> EOS_EResult
+        return EOS_Ecom_CopyEntitlementByIndex(self, Options, OutEntitlement)
+    def CopyEntitlementByNameAndIndex(self, Options, OutEntitlement):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_CopyEntitlementByNameAndIndexOptions), POINTER(POINTER(EOS_Ecom_Entitlement))) -> EOS_EResult
+        return EOS_Ecom_CopyEntitlementByNameAndIndex(self, Options, OutEntitlement)
+    def CopyEntitlementById(self, Options, OutEntitlement):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_CopyEntitlementByIdOptions), POINTER(POINTER(EOS_Ecom_Entitlement))) -> EOS_EResult
+        return EOS_Ecom_CopyEntitlementById(self, Options, OutEntitlement)
+    def GetOfferCount(self, Options):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_GetOfferCountOptions)) -> c_uint32
+        return EOS_Ecom_GetOfferCount(self, Options)
+    def CopyOfferByIndex(self, Options, OutOffer):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_CopyOfferByIndexOptions), POINTER(POINTER(EOS_Ecom_CatalogOffer))) -> EOS_EResult
+        return EOS_Ecom_CopyOfferByIndex(self, Options, OutOffer)
+    def CopyOfferById(self, Options, OutOffer):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_CopyOfferByIdOptions), POINTER(POINTER(EOS_Ecom_CatalogOffer))) -> EOS_EResult
+        return EOS_Ecom_CopyOfferById(self, Options, OutOffer)
+    def GetOfferItemCount(self, Options):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_GetOfferItemCountOptions)) -> c_uint32
+        return EOS_Ecom_GetOfferItemCount(self, Options)
+    def CopyOfferItemByIndex(self, Options, OutItem):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_CopyOfferItemByIndexOptions), POINTER(POINTER(EOS_Ecom_CatalogItem))) -> EOS_EResult
+        return EOS_Ecom_CopyOfferItemByIndex(self, Options, OutItem)
+    def CopyItemById(self, Options, OutItem):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_CopyItemByIdOptions), POINTER(POINTER(EOS_Ecom_CatalogItem))) -> EOS_EResult
+        return EOS_Ecom_CopyItemById(self, Options, OutItem)
+    def GetOfferImageInfoCount(self, Options):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_GetOfferImageInfoCountOptions)) -> c_uint32
+        return EOS_Ecom_GetOfferImageInfoCount(self, Options)
+    def CopyOfferImageInfoByIndex(self, Options, OutImageInfo):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_CopyOfferImageInfoByIndexOptions), POINTER(POINTER(EOS_Ecom_KeyImageInfo))) -> EOS_EResult
+        return EOS_Ecom_CopyOfferImageInfoByIndex(self, Options, OutImageInfo)
+    def GetItemImageInfoCount(self, Options):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_GetItemImageInfoCountOptions)) -> c_uint32
+        return EOS_Ecom_GetItemImageInfoCount(self, Options)
+    def CopyItemImageInfoByIndex(self, Options, OutImageInfo):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_CopyItemImageInfoByIndexOptions), POINTER(POINTER(EOS_Ecom_KeyImageInfo))) -> EOS_EResult
+        return EOS_Ecom_CopyItemImageInfoByIndex(self, Options, OutImageInfo)
+    def GetItemReleaseCount(self, Options):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_GetItemReleaseCountOptions)) -> c_uint32
+        return EOS_Ecom_GetItemReleaseCount(self, Options)
+    def CopyItemReleaseByIndex(self, Options, OutRelease):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_CopyItemReleaseByIndexOptions), POINTER(POINTER(EOS_Ecom_CatalogRelease))) -> EOS_EResult
+        return EOS_Ecom_CopyItemReleaseByIndex(self, Options, OutRelease)
+    def GetTransactionCount(self, Options):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_GetTransactionCountOptions)) -> c_uint32
+        return EOS_Ecom_GetTransactionCount(self, Options)
+    def CopyTransactionByIndex(self, Options, OutTransaction):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_CopyTransactionByIndexOptions), POINTER(EOS_Ecom_HTransaction)) -> EOS_EResult
+        return EOS_Ecom_CopyTransactionByIndex(self, Options, OutTransaction)
+    def CopyTransactionById(self, Options, OutTransaction):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_CopyTransactionByIdOptions), POINTER(EOS_Ecom_HTransaction)) -> EOS_EResult
+        return EOS_Ecom_CopyTransactionById(self, Options, OutTransaction)
+    def Transaction_GetTransactionId(self, OutBuffer, InOutBufferLength):
+        # type: (EOS_Ecom_HTransaction, c_char_p, POINTER(c_int32)) -> EOS_EResult
+        return EOS_Ecom_Transaction_GetTransactionId(self, OutBuffer, InOutBufferLength)
+    def Transaction_GetEntitlementsCount(self, Options):
+        # type: (EOS_Ecom_HTransaction, POINTER(EOS_Ecom_Transaction_GetEntitlementsCountOptions)) -> c_uint32
+        return EOS_Ecom_Transaction_GetEntitlementsCount(self, Options)
+    def Transaction_CopyEntitlementByIndex(self, Options, OutEntitlement):
+        # type: (EOS_Ecom_HTransaction, POINTER(EOS_Ecom_Transaction_CopyEntitlementByIndexOptions), POINTER(POINTER(EOS_Ecom_Entitlement))) -> EOS_EResult
+        return EOS_Ecom_Transaction_CopyEntitlementByIndex(self, Options, OutEntitlement)
+class EOS_Ecom_HTransaction(c_void_p):
+    pass
+class EOS_Ecom_CatalogItemId(c_char_p):
+    pass
+class EOS_Ecom_CatalogOfferId(c_char_p):
+    pass
+class EOS_Ecom_EntitlementName(c_char_p):
+    pass
+class EOS_Ecom_EntitlementId(c_char_p):
+    pass
+class EOS_Ecom_SandboxId(c_char_p):
+    pass
+class EOS_HFriends(c_void_p):
+    def QueryFriends(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HFriends, POINTER(EOS_Friends_QueryFriendsOptions), c_void_p, EOS_Friends_OnQueryFriendsCallback) -> None
+        return EOS_Friends_QueryFriends(self, Options, ClientData, CompletionDelegate)
+    def SendInvite(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HFriends, POINTER(EOS_Friends_SendInviteOptions), c_void_p, EOS_Friends_OnSendInviteCallback) -> None
+        return EOS_Friends_SendInvite(self, Options, ClientData, CompletionDelegate)
+    def AcceptInvite(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HFriends, POINTER(EOS_Friends_AcceptInviteOptions), c_void_p, EOS_Friends_OnAcceptInviteCallback) -> None
+        return EOS_Friends_AcceptInvite(self, Options, ClientData, CompletionDelegate)
+    def RejectInvite(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HFriends, POINTER(EOS_Friends_RejectInviteOptions), c_void_p, EOS_Friends_OnRejectInviteCallback) -> None
+        return EOS_Friends_RejectInvite(self, Options, ClientData, CompletionDelegate)
+    def GetFriendsCount(self, Options):
+        # type: (EOS_HFriends, POINTER(EOS_Friends_GetFriendsCountOptions)) -> c_int32
+        return EOS_Friends_GetFriendsCount(self, Options)
+    def GetFriendAtIndex(self, Options):
+        # type: (EOS_HFriends, POINTER(EOS_Friends_GetFriendAtIndexOptions)) -> EOS_EpicAccountId
+        return EOS_Friends_GetFriendAtIndex(self, Options)
+    def GetStatus(self, Options):
+        # type: (EOS_HFriends, POINTER(EOS_Friends_GetStatusOptions)) -> EOS_EFriendsStatus
+        return EOS_Friends_GetStatus(self, Options)
+    def AddNotifyFriendsUpdate(self, Options, ClientData, FriendsUpdateHandler):
+        # type: (EOS_HFriends, POINTER(EOS_Friends_AddNotifyFriendsUpdateOptions), c_void_p, EOS_Friends_OnFriendsUpdateCallback) -> EOS_NotificationId
+        return EOS_Friends_AddNotifyFriendsUpdate(self, Options, ClientData, FriendsUpdateHandler)
+    def RemoveNotifyFriendsUpdate(self, NotificationId):
+        # type: (EOS_HFriends, EOS_NotificationId) -> None
+        return EOS_Friends_RemoveNotifyFriendsUpdate(self, NotificationId)
+    def GetBlockedUsersCount(self, Options):
+        # type: (EOS_HFriends, POINTER(EOS_Friends_GetBlockedUsersCountOptions)) -> c_int32
+        return EOS_Friends_GetBlockedUsersCount(self, Options)
+    def GetBlockedUserAtIndex(self, Options):
+        # type: (EOS_HFriends, POINTER(EOS_Friends_GetBlockedUserAtIndexOptions)) -> EOS_EpicAccountId
+        return EOS_Friends_GetBlockedUserAtIndex(self, Options)
+    def AddNotifyBlockedUsersUpdate(self, Options, ClientData, BlockedUsersUpdateHandler):
+        # type: (EOS_HFriends, POINTER(EOS_Friends_AddNotifyBlockedUsersUpdateOptions), c_void_p, EOS_Friends_OnBlockedUsersUpdateCallback) -> EOS_NotificationId
+        return EOS_Friends_AddNotifyBlockedUsersUpdate(self, Options, ClientData, BlockedUsersUpdateHandler)
+    def RemoveNotifyBlockedUsersUpdate(self, NotificationId):
+        # type: (EOS_HFriends, EOS_NotificationId) -> None
+        return EOS_Friends_RemoveNotifyBlockedUsersUpdate(self, NotificationId)
+class EOS_HIntegratedPlatformOptionsContainer(c_void_p):
+    def Release(self):
+        # type: (EOS_HIntegratedPlatformOptionsContainer) -> None
+        return EOS_IntegratedPlatformOptionsContainer_Release(self)
+    def Add(self, InOptions):
+        # type: (EOS_HIntegratedPlatformOptionsContainer, POINTER(EOS_IntegratedPlatformOptionsContainer_AddOptions)) -> EOS_EResult
+        return EOS_IntegratedPlatformOptionsContainer_Add(self, InOptions)
+class EOS_HIntegratedPlatform(c_void_p):
+    def CreateIntegratedPlatformOptionsContainer(self, OutIntegratedPlatformOptionsContainerHandle):
+        # type: (POINTER(EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions), POINTER(EOS_HIntegratedPlatformOptionsContainer)) -> EOS_EResult
+        return EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer(self, OutIntegratedPlatformOptionsContainerHandle)
+    def SetUserLoginStatus(self, Options):
+        # type: (EOS_HIntegratedPlatform, POINTER(EOS_IntegratedPlatform_SetUserLoginStatusOptions)) -> EOS_EResult
+        return EOS_IntegratedPlatform_SetUserLoginStatus(self, Options)
+    def AddNotifyUserLoginStatusChanged(self, Options, ClientData, CallbackFunction):
+        # type: (EOS_HIntegratedPlatform, POINTER(EOS_IntegratedPlatform_AddNotifyUserLoginStatusChangedOptions), c_void_p, EOS_IntegratedPlatform_OnUserLoginStatusChangedCallback) -> EOS_NotificationId
+        return EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged(self, Options, ClientData, CallbackFunction)
+    def RemoveNotifyUserLoginStatusChanged(self, NotificationId):
+        # type: (EOS_HIntegratedPlatform, EOS_NotificationId) -> None
+        return EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged(self, NotificationId)
+    def SetUserPreLogoutCallback(self, Options, ClientData, CallbackFunction):
+        # type: (EOS_HIntegratedPlatform, POINTER(EOS_IntegratedPlatform_SetUserPreLogoutCallbackOptions), c_void_p, EOS_IntegratedPlatform_OnUserPreLogoutCallback) -> EOS_EResult
+        return EOS_IntegratedPlatform_SetUserPreLogoutCallback(self, Options, ClientData, CallbackFunction)
+    def ClearUserPreLogoutCallback(self, Options):
+        # type: (EOS_HIntegratedPlatform, POINTER(EOS_IntegratedPlatform_ClearUserPreLogoutCallbackOptions)) -> None
+        return EOS_IntegratedPlatform_ClearUserPreLogoutCallback(self, Options)
+    def FinalizeDeferredUserLogout(self, Options):
+        # type: (EOS_HIntegratedPlatform, POINTER(EOS_IntegratedPlatform_FinalizeDeferredUserLogoutOptions)) -> EOS_EResult
+        return EOS_IntegratedPlatform_FinalizeDeferredUserLogout(self, Options)
+class EOS_HKWS(c_void_p):
+    def QueryAgeGate(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HKWS, POINTER(EOS_KWS_QueryAgeGateOptions), c_void_p, EOS_KWS_OnQueryAgeGateCallback) -> None
+        return EOS_KWS_QueryAgeGate(self, Options, ClientData, CompletionDelegate)
+    def CreateUser(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HKWS, POINTER(EOS_KWS_CreateUserOptions), c_void_p, EOS_KWS_OnCreateUserCallback) -> None
+        return EOS_KWS_CreateUser(self, Options, ClientData, CompletionDelegate)
+    def QueryPermissions(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HKWS, POINTER(EOS_KWS_QueryPermissionsOptions), c_void_p, EOS_KWS_OnQueryPermissionsCallback) -> None
+        return EOS_KWS_QueryPermissions(self, Options, ClientData, CompletionDelegate)
+    def UpdateParentEmail(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HKWS, POINTER(EOS_KWS_UpdateParentEmailOptions), c_void_p, EOS_KWS_OnUpdateParentEmailCallback) -> None
+        return EOS_KWS_UpdateParentEmail(self, Options, ClientData, CompletionDelegate)
+    def RequestPermissions(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HKWS, POINTER(EOS_KWS_RequestPermissionsOptions), c_void_p, EOS_KWS_OnRequestPermissionsCallback) -> None
+        return EOS_KWS_RequestPermissions(self, Options, ClientData, CompletionDelegate)
+    def GetPermissionsCount(self, Options):
+        # type: (EOS_HKWS, POINTER(EOS_KWS_GetPermissionsCountOptions)) -> c_int32
+        return EOS_KWS_GetPermissionsCount(self, Options)
+    def CopyPermissionByIndex(self, Options, OutPermission):
+        # type: (EOS_HKWS, POINTER(EOS_KWS_CopyPermissionByIndexOptions), POINTER(POINTER(EOS_KWS_PermissionStatus))) -> EOS_EResult
+        return EOS_KWS_CopyPermissionByIndex(self, Options, OutPermission)
+    def GetPermissionByKey(self, Options, OutPermission):
+        # type: (EOS_HKWS, POINTER(EOS_KWS_GetPermissionByKeyOptions), POINTER(EOS_EKWSPermissionStatus)) -> EOS_EResult
+        return EOS_KWS_GetPermissionByKey(self, Options, OutPermission)
+    def AddNotifyPermissionsUpdateReceived(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HKWS, POINTER(EOS_KWS_AddNotifyPermissionsUpdateReceivedOptions), c_void_p, EOS_KWS_OnPermissionsUpdateReceivedCallback) -> EOS_NotificationId
+        return EOS_KWS_AddNotifyPermissionsUpdateReceived(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyPermissionsUpdateReceived(self, InId):
+        # type: (EOS_HKWS, EOS_NotificationId) -> None
+        return EOS_KWS_RemoveNotifyPermissionsUpdateReceived(self, InId)
+class EOS_HMetrics(c_void_p):
+    def BeginPlayerSession(self, Options):
+        # type: (EOS_HMetrics, POINTER(EOS_Metrics_BeginPlayerSessionOptions)) -> EOS_EResult
+        return EOS_Metrics_BeginPlayerSession(self, Options)
+    def EndPlayerSession(self, Options):
+        # type: (EOS_HMetrics, POINTER(EOS_Metrics_EndPlayerSessionOptions)) -> EOS_EResult
+        return EOS_Metrics_EndPlayerSession(self, Options)
+class EOS_HMods(c_void_p):
+    def InstallMod(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HMods, POINTER(EOS_Mods_InstallModOptions), c_void_p, EOS_Mods_OnInstallModCallback) -> None
+        return EOS_Mods_InstallMod(self, Options, ClientData, CompletionDelegate)
+    def UninstallMod(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HMods, POINTER(EOS_Mods_UninstallModOptions), c_void_p, EOS_Mods_OnUninstallModCallback) -> None
+        return EOS_Mods_UninstallMod(self, Options, ClientData, CompletionDelegate)
+    def EnumerateMods(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HMods, POINTER(EOS_Mods_EnumerateModsOptions), c_void_p, EOS_Mods_OnEnumerateModsCallback) -> None
+        return EOS_Mods_EnumerateMods(self, Options, ClientData, CompletionDelegate)
+    def CopyModInfo(self, Options, OutEnumeratedMods):
+        # type: (EOS_HMods, POINTER(EOS_Mods_CopyModInfoOptions), POINTER(POINTER(EOS_Mods_ModInfo))) -> EOS_EResult
+        return EOS_Mods_CopyModInfo(self, Options, OutEnumeratedMods)
+    def UpdateMod(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HMods, POINTER(EOS_Mods_UpdateModOptions), c_void_p, EOS_Mods_OnUpdateModCallback) -> None
+        return EOS_Mods_UpdateMod(self, Options, ClientData, CompletionDelegate)
+class EOS_HP2P(c_void_p):
+    def SendPacket(self, Options):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_SendPacketOptions)) -> EOS_EResult
+        return EOS_P2P_SendPacket(self, Options)
+    def GetNextReceivedPacketSize(self, Options, OutPacketSizeBytes):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_GetNextReceivedPacketSizeOptions), POINTER(c_uint32)) -> EOS_EResult
+        return EOS_P2P_GetNextReceivedPacketSize(self, Options, OutPacketSizeBytes)
+    def ReceivePacket(self, Options, OutPeerId, OutSocketId, OutChannel, OutData, OutBytesWritten):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_ReceivePacketOptions), POINTER(EOS_ProductUserId), POINTER(EOS_P2P_SocketId), POINTER(c_uint8), c_void_p, POINTER(c_uint32)) -> EOS_EResult
+        return EOS_P2P_ReceivePacket(self, Options, OutPeerId, OutSocketId, OutChannel, OutData, OutBytesWritten)
+    def AddNotifyPeerConnectionRequest(self, Options, ClientData, ConnectionRequestHandler):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_AddNotifyPeerConnectionRequestOptions), c_void_p, EOS_P2P_OnIncomingConnectionRequestCallback) -> EOS_NotificationId
+        return EOS_P2P_AddNotifyPeerConnectionRequest(self, Options, ClientData, ConnectionRequestHandler)
+    def RemoveNotifyPeerConnectionRequest(self, NotificationId):
+        # type: (EOS_HP2P, EOS_NotificationId) -> None
+        return EOS_P2P_RemoveNotifyPeerConnectionRequest(self, NotificationId)
+    def AddNotifyPeerConnectionEstablished(self, Options, ClientData, ConnectionEstablishedHandler):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_AddNotifyPeerConnectionEstablishedOptions), c_void_p, EOS_P2P_OnPeerConnectionEstablishedCallback) -> EOS_NotificationId
+        return EOS_P2P_AddNotifyPeerConnectionEstablished(self, Options, ClientData, ConnectionEstablishedHandler)
+    def RemoveNotifyPeerConnectionEstablished(self, NotificationId):
+        # type: (EOS_HP2P, EOS_NotificationId) -> None
+        return EOS_P2P_RemoveNotifyPeerConnectionEstablished(self, NotificationId)
+    def AddNotifyPeerConnectionInterrupted(self, Options, ClientData, ConnectionInterruptedHandler):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_AddNotifyPeerConnectionInterruptedOptions), c_void_p, EOS_P2P_OnPeerConnectionInterruptedCallback) -> EOS_NotificationId
+        return EOS_P2P_AddNotifyPeerConnectionInterrupted(self, Options, ClientData, ConnectionInterruptedHandler)
+    def RemoveNotifyPeerConnectionInterrupted(self, NotificationId):
+        # type: (EOS_HP2P, EOS_NotificationId) -> None
+        return EOS_P2P_RemoveNotifyPeerConnectionInterrupted(self, NotificationId)
+    def AddNotifyPeerConnectionClosed(self, Options, ClientData, ConnectionClosedHandler):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_AddNotifyPeerConnectionClosedOptions), c_void_p, EOS_P2P_OnRemoteConnectionClosedCallback) -> EOS_NotificationId
+        return EOS_P2P_AddNotifyPeerConnectionClosed(self, Options, ClientData, ConnectionClosedHandler)
+    def RemoveNotifyPeerConnectionClosed(self, NotificationId):
+        # type: (EOS_HP2P, EOS_NotificationId) -> None
+        return EOS_P2P_RemoveNotifyPeerConnectionClosed(self, NotificationId)
+    def AcceptConnection(self, Options):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_AcceptConnectionOptions)) -> EOS_EResult
+        return EOS_P2P_AcceptConnection(self, Options)
+    def CloseConnection(self, Options):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_CloseConnectionOptions)) -> EOS_EResult
+        return EOS_P2P_CloseConnection(self, Options)
+    def CloseConnections(self, Options):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_CloseConnectionsOptions)) -> EOS_EResult
+        return EOS_P2P_CloseConnections(self, Options)
+    def QueryNATType(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_QueryNATTypeOptions), c_void_p, EOS_P2P_OnQueryNATTypeCompleteCallback) -> None
+        return EOS_P2P_QueryNATType(self, Options, ClientData, CompletionDelegate)
+    def GetNATType(self, Options, OutNATType):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_GetNATTypeOptions), POINTER(EOS_ENATType)) -> EOS_EResult
+        return EOS_P2P_GetNATType(self, Options, OutNATType)
+    def SetRelayControl(self, Options):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_SetRelayControlOptions)) -> EOS_EResult
+        return EOS_P2P_SetRelayControl(self, Options)
+    def GetRelayControl(self, Options, OutRelayControl):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_GetRelayControlOptions), POINTER(EOS_ERelayControl)) -> EOS_EResult
+        return EOS_P2P_GetRelayControl(self, Options, OutRelayControl)
+    def SetPortRange(self, Options):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_SetPortRangeOptions)) -> EOS_EResult
+        return EOS_P2P_SetPortRange(self, Options)
+    def GetPortRange(self, Options, OutPort, OutNumAdditionalPortsToTry):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_GetPortRangeOptions), POINTER(c_uint16), POINTER(c_uint16)) -> EOS_EResult
+        return EOS_P2P_GetPortRange(self, Options, OutPort, OutNumAdditionalPortsToTry)
+    def SetPacketQueueSize(self, Options):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_SetPacketQueueSizeOptions)) -> EOS_EResult
+        return EOS_P2P_SetPacketQueueSize(self, Options)
+    def GetPacketQueueInfo(self, Options, OutPacketQueueInfo):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_GetPacketQueueInfoOptions), POINTER(EOS_P2P_PacketQueueInfo)) -> EOS_EResult
+        return EOS_P2P_GetPacketQueueInfo(self, Options, OutPacketQueueInfo)
+    def AddNotifyIncomingPacketQueueFull(self, Options, ClientData, IncomingPacketQueueFullHandler):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_AddNotifyIncomingPacketQueueFullOptions), c_void_p, EOS_P2P_OnIncomingPacketQueueFullCallback) -> EOS_NotificationId
+        return EOS_P2P_AddNotifyIncomingPacketQueueFull(self, Options, ClientData, IncomingPacketQueueFullHandler)
+    def RemoveNotifyIncomingPacketQueueFull(self, NotificationId):
+        # type: (EOS_HP2P, EOS_NotificationId) -> None
+        return EOS_P2P_RemoveNotifyIncomingPacketQueueFull(self, NotificationId)
+    def ClearPacketQueue(self, Options):
+        # type: (EOS_HP2P, POINTER(EOS_P2P_ClearPacketQueueOptions)) -> EOS_EResult
+        return EOS_P2P_ClearPacketQueue(self, Options)
+class EOS_HPlayerDataStorage(c_void_p):
+    def QueryFile(self, QueryFileOptions, ClientData, CompletionCallback):
+        # type: (EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_QueryFileOptions), c_void_p, EOS_PlayerDataStorage_OnQueryFileCompleteCallback) -> None
+        return EOS_PlayerDataStorage_QueryFile(self, QueryFileOptions, ClientData, CompletionCallback)
+    def QueryFileList(self, QueryFileListOptions, ClientData, CompletionCallback):
+        # type: (EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_QueryFileListOptions), c_void_p, EOS_PlayerDataStorage_OnQueryFileListCompleteCallback) -> None
+        return EOS_PlayerDataStorage_QueryFileList(self, QueryFileListOptions, ClientData, CompletionCallback)
+    def CopyFileMetadataByFilename(self, CopyFileMetadataOptions, OutMetadata):
+        # type: (EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_CopyFileMetadataByFilenameOptions), POINTER(POINTER(EOS_PlayerDataStorage_FileMetadata))) -> EOS_EResult
+        return EOS_PlayerDataStorage_CopyFileMetadataByFilename(self, CopyFileMetadataOptions, OutMetadata)
+    def GetFileMetadataCount(self, GetFileMetadataCountOptions, OutFileMetadataCount):
+        # type: (EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_GetFileMetadataCountOptions), POINTER(c_int32)) -> EOS_EResult
+        return EOS_PlayerDataStorage_GetFileMetadataCount(self, GetFileMetadataCountOptions, OutFileMetadataCount)
+    def CopyFileMetadataAtIndex(self, CopyFileMetadataOptions, OutMetadata):
+        # type: (EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_CopyFileMetadataAtIndexOptions), POINTER(POINTER(EOS_PlayerDataStorage_FileMetadata))) -> EOS_EResult
+        return EOS_PlayerDataStorage_CopyFileMetadataAtIndex(self, CopyFileMetadataOptions, OutMetadata)
+    def DuplicateFile(self, DuplicateOptions, ClientData, CompletionCallback):
+        # type: (EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_DuplicateFileOptions), c_void_p, EOS_PlayerDataStorage_OnDuplicateFileCompleteCallback) -> None
+        return EOS_PlayerDataStorage_DuplicateFile(self, DuplicateOptions, ClientData, CompletionCallback)
+    def DeleteFile(self, DeleteOptions, ClientData, CompletionCallback):
+        # type: (EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_DeleteFileOptions), c_void_p, EOS_PlayerDataStorage_OnDeleteFileCompleteCallback) -> None
+        return EOS_PlayerDataStorage_DeleteFile(self, DeleteOptions, ClientData, CompletionCallback)
+    @staticmethod
+    def ReadFile(Handle, ReadOptions, ClientData, CompletionCallback):
+        # type: (EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_ReadFileOptions), c_void_p, EOS_PlayerDataStorage_OnReadFileCompleteCallback) -> EOS_HPlayerDataStorageFileTransferRequest
+        return EOS_PlayerDataStorage_ReadFile(Handle, ReadOptions, ClientData, CompletionCallback)
+    @staticmethod
+    def WriteFile(Handle, WriteOptions, ClientData, CompletionCallback):
+        # type: (EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_WriteFileOptions), c_void_p, EOS_PlayerDataStorage_OnWriteFileCompleteCallback) -> EOS_HPlayerDataStorageFileTransferRequest
+        return EOS_PlayerDataStorage_WriteFile(Handle, WriteOptions, ClientData, CompletionCallback)
+    def DeleteCache(self, Options, ClientData, CompletionCallback):
+        # type: (EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_DeleteCacheOptions), c_void_p, EOS_PlayerDataStorage_OnDeleteCacheCompleteCallback) -> EOS_EResult
+        return EOS_PlayerDataStorage_DeleteCache(self, Options, ClientData, CompletionCallback)
+class EOS_HPlayerDataStorageFileTransferRequest(c_void_p):
+    def Release(self):
+        # type: (EOS_HPlayerDataStorageFileTransferRequest) -> None
+        return EOS_PlayerDataStorageFileTransferRequest_Release(self)
+    def GetFileRequestState(self):
+        # type: (EOS_HPlayerDataStorageFileTransferRequest) -> EOS_EResult
+        return EOS_PlayerDataStorageFileTransferRequest_GetFileRequestState(self)
+    def GetFilename(self, FilenameStringBufferSizeBytes, OutStringBuffer, OutStringLength):
+        # type: (EOS_HPlayerDataStorageFileTransferRequest, c_uint32, c_char_p, POINTER(c_int32)) -> EOS_EResult
+        return EOS_PlayerDataStorageFileTransferRequest_GetFilename(self, FilenameStringBufferSizeBytes, OutStringBuffer, OutStringLength)
+    def CancelRequest(self):
+        # type: (EOS_HPlayerDataStorageFileTransferRequest) -> EOS_EResult
+        return EOS_PlayerDataStorageFileTransferRequest_CancelRequest(self)
+class EOS_HProgressionSnapshot(c_void_p):
+    def BeginSnapshot(self, Options, OutSnapshotId):
+        # type: (EOS_HProgressionSnapshot, POINTER(EOS_ProgressionSnapshot_BeginSnapshotOptions), POINTER(c_uint32)) -> EOS_EResult
+        return EOS_ProgressionSnapshot_BeginSnapshot(self, Options, OutSnapshotId)
+    def AddProgression(self, Options):
+        # type: (EOS_HProgressionSnapshot, POINTER(EOS_ProgressionSnapshot_AddProgressionOptions)) -> EOS_EResult
+        return EOS_ProgressionSnapshot_AddProgression(self, Options)
+    def SubmitSnapshot(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HProgressionSnapshot, POINTER(EOS_ProgressionSnapshot_SubmitSnapshotOptions), c_void_p, EOS_ProgressionSnapshot_OnSubmitSnapshotCallback) -> None
+        return EOS_ProgressionSnapshot_SubmitSnapshot(self, Options, ClientData, CompletionDelegate)
+    def EndSnapshot(self, Options):
+        # type: (EOS_HProgressionSnapshot, POINTER(EOS_ProgressionSnapshot_EndSnapshotOptions)) -> EOS_EResult
+        return EOS_ProgressionSnapshot_EndSnapshot(self, Options)
+    def DeleteSnapshot(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HProgressionSnapshot, POINTER(EOS_ProgressionSnapshot_DeleteSnapshotOptions), c_void_p, EOS_ProgressionSnapshot_OnDeleteSnapshotCallback) -> None
+        return EOS_ProgressionSnapshot_DeleteSnapshot(self, Options, ClientData, CompletionDelegate)
+class EOS_HReports(c_void_p):
+    def SendPlayerBehaviorReport(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HReports, POINTER(EOS_Reports_SendPlayerBehaviorReportOptions), c_void_p, EOS_Reports_OnSendPlayerBehaviorReportCompleteCallback) -> None
+        return EOS_Reports_SendPlayerBehaviorReport(self, Options, ClientData, CompletionDelegate)
+class EOS_HRTCAdmin(c_void_p):
+    def QueryJoinRoomToken(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAdmin, POINTER(EOS_RTCAdmin_QueryJoinRoomTokenOptions), c_void_p, EOS_RTCAdmin_OnQueryJoinRoomTokenCompleteCallback) -> None
+        return EOS_RTCAdmin_QueryJoinRoomToken(self, Options, ClientData, CompletionDelegate)
+    def CopyUserTokenByIndex(self, Options, OutUserToken):
+        # type: (EOS_HRTCAdmin, POINTER(EOS_RTCAdmin_CopyUserTokenByIndexOptions), POINTER(POINTER(EOS_RTCAdmin_UserToken))) -> EOS_EResult
+        return EOS_RTCAdmin_CopyUserTokenByIndex(self, Options, OutUserToken)
+    def CopyUserTokenByUserId(self, Options, OutUserToken):
+        # type: (EOS_HRTCAdmin, POINTER(EOS_RTCAdmin_CopyUserTokenByUserIdOptions), POINTER(POINTER(EOS_RTCAdmin_UserToken))) -> EOS_EResult
+        return EOS_RTCAdmin_CopyUserTokenByUserId(self, Options, OutUserToken)
+    def Kick(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAdmin, POINTER(EOS_RTCAdmin_KickOptions), c_void_p, EOS_RTCAdmin_OnKickCompleteCallback) -> None
+        return EOS_RTCAdmin_Kick(self, Options, ClientData, CompletionDelegate)
+    def SetParticipantHardMute(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAdmin, POINTER(EOS_RTCAdmin_SetParticipantHardMuteOptions), c_void_p, EOS_RTCAdmin_OnSetParticipantHardMuteCompleteCallback) -> None
+        return EOS_RTCAdmin_SetParticipantHardMute(self, Options, ClientData, CompletionDelegate)
+class EOS_HRTCData(c_void_p):
+    def AddNotifyDataReceived(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCData, POINTER(EOS_RTCData_AddNotifyDataReceivedOptions), c_void_p, EOS_RTCData_OnDataReceivedCallback) -> EOS_NotificationId
+        return EOS_RTCData_AddNotifyDataReceived(self, Options, ClientData, CompletionDelegate)
+    def RemoveNotifyDataReceived(self, NotificationId):
+        # type: (EOS_HRTCData, EOS_NotificationId) -> None
+        return EOS_RTCData_RemoveNotifyDataReceived(self, NotificationId)
+    def SendData(self, Options):
+        # type: (EOS_HRTCData, POINTER(EOS_RTCData_SendDataOptions)) -> EOS_EResult
+        return EOS_RTCData_SendData(self, Options)
+    def UpdateSending(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCData, POINTER(EOS_RTCData_UpdateSendingOptions), c_void_p, EOS_RTCData_OnUpdateSendingCallback) -> None
+        return EOS_RTCData_UpdateSending(self, Options, ClientData, CompletionDelegate)
+    def UpdateReceiving(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCData, POINTER(EOS_RTCData_UpdateReceivingOptions), c_void_p, EOS_RTCData_OnUpdateReceivingCallback) -> None
+        return EOS_RTCData_UpdateReceiving(self, Options, ClientData, CompletionDelegate)
+    def AddNotifyParticipantUpdated(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCData, POINTER(EOS_RTCData_AddNotifyParticipantUpdatedOptions), c_void_p, EOS_RTCData_OnParticipantUpdatedCallback) -> EOS_NotificationId
+        return EOS_RTCData_AddNotifyParticipantUpdated(self, Options, ClientData, CompletionDelegate)
+    def RemoveNotifyParticipantUpdated(self, NotificationId):
+        # type: (EOS_HRTCData, EOS_NotificationId) -> None
+        return EOS_RTCData_RemoveNotifyParticipantUpdated(self, NotificationId)
+class EOS_HRTC(c_void_p):
+    @staticmethod
+    def GetAudioInterface(Handle):
+        # type: (EOS_HRTC) -> EOS_HRTCAudio
+        return EOS_RTC_GetAudioInterface(Handle)
+    @staticmethod
+    def GetDataInterface(Handle):
+        # type: (EOS_HRTC) -> EOS_HRTCData
+        return EOS_RTC_GetDataInterface(Handle)
+    def JoinRoom(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTC, POINTER(EOS_RTC_JoinRoomOptions), c_void_p, EOS_RTC_OnJoinRoomCallback) -> None
+        return EOS_RTC_JoinRoom(self, Options, ClientData, CompletionDelegate)
+    def LeaveRoom(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTC, POINTER(EOS_RTC_LeaveRoomOptions), c_void_p, EOS_RTC_OnLeaveRoomCallback) -> None
+        return EOS_RTC_LeaveRoom(self, Options, ClientData, CompletionDelegate)
+    def BlockParticipant(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTC, POINTER(EOS_RTC_BlockParticipantOptions), c_void_p, EOS_RTC_OnBlockParticipantCallback) -> None
+        return EOS_RTC_BlockParticipant(self, Options, ClientData, CompletionDelegate)
+    def AddNotifyDisconnected(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTC, POINTER(EOS_RTC_AddNotifyDisconnectedOptions), c_void_p, EOS_RTC_OnDisconnectedCallback) -> EOS_NotificationId
+        return EOS_RTC_AddNotifyDisconnected(self, Options, ClientData, CompletionDelegate)
+    def RemoveNotifyDisconnected(self, NotificationId):
+        # type: (EOS_HRTC, EOS_NotificationId) -> None
+        return EOS_RTC_RemoveNotifyDisconnected(self, NotificationId)
+    def AddNotifyParticipantStatusChanged(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTC, POINTER(EOS_RTC_AddNotifyParticipantStatusChangedOptions), c_void_p, EOS_RTC_OnParticipantStatusChangedCallback) -> EOS_NotificationId
+        return EOS_RTC_AddNotifyParticipantStatusChanged(self, Options, ClientData, CompletionDelegate)
+    def RemoveNotifyParticipantStatusChanged(self, NotificationId):
+        # type: (EOS_HRTC, EOS_NotificationId) -> None
+        return EOS_RTC_RemoveNotifyParticipantStatusChanged(self, NotificationId)
+    def SetSetting(self, Options):
+        # type: (EOS_HRTC, POINTER(EOS_RTC_SetSettingOptions)) -> EOS_EResult
+        return EOS_RTC_SetSetting(self, Options)
+    def SetRoomSetting(self, Options):
+        # type: (EOS_HRTC, POINTER(EOS_RTC_SetRoomSettingOptions)) -> EOS_EResult
+        return EOS_RTC_SetRoomSetting(self, Options)
+    def AddNotifyRoomStatisticsUpdated(self, Options, ClientData, StatisticsUpdateHandler):
+        # type: (EOS_HRTC, POINTER(EOS_RTC_AddNotifyRoomStatisticsUpdatedOptions), c_void_p, EOS_RTC_OnRoomStatisticsUpdatedCallback) -> EOS_NotificationId
+        return EOS_RTC_AddNotifyRoomStatisticsUpdated(self, Options, ClientData, StatisticsUpdateHandler)
+    def RemoveNotifyRoomStatisticsUpdated(self, NotificationId):
+        # type: (EOS_HRTC, EOS_NotificationId) -> None
+        return EOS_RTC_RemoveNotifyRoomStatisticsUpdated(self, NotificationId)
+class EOS_HSanctions(c_void_p):
+    def QueryActivePlayerSanctions(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HSanctions, POINTER(EOS_Sanctions_QueryActivePlayerSanctionsOptions), c_void_p, EOS_Sanctions_OnQueryActivePlayerSanctionsCallback) -> None
+        return EOS_Sanctions_QueryActivePlayerSanctions(self, Options, ClientData, CompletionDelegate)
+    def GetPlayerSanctionCount(self, Options):
+        # type: (EOS_HSanctions, POINTER(EOS_Sanctions_GetPlayerSanctionCountOptions)) -> c_uint32
+        return EOS_Sanctions_GetPlayerSanctionCount(self, Options)
+    def CopyPlayerSanctionByIndex(self, Options, OutSanction):
+        # type: (EOS_HSanctions, POINTER(EOS_Sanctions_CopyPlayerSanctionByIndexOptions), POINTER(POINTER(EOS_Sanctions_PlayerSanction))) -> EOS_EResult
+        return EOS_Sanctions_CopyPlayerSanctionByIndex(self, Options, OutSanction)
+    def CreatePlayerSanctionAppeal(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HSanctions, POINTER(EOS_Sanctions_CreatePlayerSanctionAppealOptions), c_void_p, EOS_Sanctions_CreatePlayerSanctionAppealCallback) -> None
+        return EOS_Sanctions_CreatePlayerSanctionAppeal(self, Options, ClientData, CompletionDelegate)
+class EOS_HStats(c_void_p):
+    def IngestStat(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HStats, POINTER(EOS_Stats_IngestStatOptions), c_void_p, EOS_Stats_OnIngestStatCompleteCallback) -> None
+        return EOS_Stats_IngestStat(self, Options, ClientData, CompletionDelegate)
+    def QueryStats(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HStats, POINTER(EOS_Stats_QueryStatsOptions), c_void_p, EOS_Stats_OnQueryStatsCompleteCallback) -> None
+        return EOS_Stats_QueryStats(self, Options, ClientData, CompletionDelegate)
+    def GetStatsCount(self, Options):
+        # type: (EOS_HStats, POINTER(EOS_Stats_GetStatCountOptions)) -> c_uint32
+        return EOS_Stats_GetStatsCount(self, Options)
+    def CopyStatByIndex(self, Options, OutStat):
+        # type: (EOS_HStats, POINTER(EOS_Stats_CopyStatByIndexOptions), POINTER(POINTER(EOS_Stats_Stat))) -> EOS_EResult
+        return EOS_Stats_CopyStatByIndex(self, Options, OutStat)
+    def CopyStatByName(self, Options, OutStat):
+        # type: (EOS_HStats, POINTER(EOS_Stats_CopyStatByNameOptions), POINTER(POINTER(EOS_Stats_Stat))) -> EOS_EResult
+        return EOS_Stats_CopyStatByName(self, Options, OutStat)
+class EOS_HTitleStorage(c_void_p):
+    def QueryFile(self, Options, ClientData, CompletionCallback):
+        # type: (EOS_HTitleStorage, POINTER(EOS_TitleStorage_QueryFileOptions), c_void_p, EOS_TitleStorage_OnQueryFileCompleteCallback) -> None
+        return EOS_TitleStorage_QueryFile(self, Options, ClientData, CompletionCallback)
+    def QueryFileList(self, Options, ClientData, CompletionCallback):
+        # type: (EOS_HTitleStorage, POINTER(EOS_TitleStorage_QueryFileListOptions), c_void_p, EOS_TitleStorage_OnQueryFileListCompleteCallback) -> None
+        return EOS_TitleStorage_QueryFileList(self, Options, ClientData, CompletionCallback)
+    def CopyFileMetadataByFilename(self, Options, OutMetadata):
+        # type: (EOS_HTitleStorage, POINTER(EOS_TitleStorage_CopyFileMetadataByFilenameOptions), POINTER(POINTER(EOS_TitleStorage_FileMetadata))) -> EOS_EResult
+        return EOS_TitleStorage_CopyFileMetadataByFilename(self, Options, OutMetadata)
+    def GetFileMetadataCount(self, Options):
+        # type: (EOS_HTitleStorage, POINTER(EOS_TitleStorage_GetFileMetadataCountOptions)) -> c_uint32
+        return EOS_TitleStorage_GetFileMetadataCount(self, Options)
+    def CopyFileMetadataAtIndex(self, Options, OutMetadata):
+        # type: (EOS_HTitleStorage, POINTER(EOS_TitleStorage_CopyFileMetadataAtIndexOptions), POINTER(POINTER(EOS_TitleStorage_FileMetadata))) -> EOS_EResult
+        return EOS_TitleStorage_CopyFileMetadataAtIndex(self, Options, OutMetadata)
+    @staticmethod
+    def ReadFile(Handle, Options, ClientData, CompletionCallback):
+        # type: (EOS_HTitleStorage, POINTER(EOS_TitleStorage_ReadFileOptions), c_void_p, EOS_TitleStorage_OnReadFileCompleteCallback) -> EOS_HTitleStorageFileTransferRequest
+        return EOS_TitleStorage_ReadFile(Handle, Options, ClientData, CompletionCallback)
+    def DeleteCache(self, Options, ClientData, CompletionCallback):
+        # type: (EOS_HTitleStorage, POINTER(EOS_TitleStorage_DeleteCacheOptions), c_void_p, EOS_TitleStorage_OnDeleteCacheCompleteCallback) -> EOS_EResult
+        return EOS_TitleStorage_DeleteCache(self, Options, ClientData, CompletionCallback)
+class EOS_HTitleStorageFileTransferRequest(c_void_p):
+    def Release(self):
+        # type: (EOS_HTitleStorageFileTransferRequest) -> None
+        return EOS_TitleStorageFileTransferRequest_Release(self)
+    def GetFileRequestState(self):
+        # type: (EOS_HTitleStorageFileTransferRequest) -> EOS_EResult
+        return EOS_TitleStorageFileTransferRequest_GetFileRequestState(self)
+    def GetFilename(self, FilenameStringBufferSizeBytes, OutStringBuffer, OutStringLength):
+        # type: (EOS_HTitleStorageFileTransferRequest, c_uint32, c_char_p, POINTER(c_int32)) -> EOS_EResult
+        return EOS_TitleStorageFileTransferRequest_GetFilename(self, FilenameStringBufferSizeBytes, OutStringBuffer, OutStringLength)
+    def CancelRequest(self):
+        # type: (EOS_HTitleStorageFileTransferRequest) -> EOS_EResult
+        return EOS_TitleStorageFileTransferRequest_CancelRequest(self)
+class EOS_HPlatform(c_void_p):
+    @staticmethod
+    def Create(Options):
+        # type: (POINTER(EOS_Platform_Options)) -> EOS_HPlatform
+        return EOS_Platform_Create(Options)
+    def Release(self):
+        # type: (EOS_HPlatform) -> None
+        return EOS_Platform_Release(self)
+    def Tick(self):
+        # type: (EOS_HPlatform) -> None
+        return EOS_Platform_Tick(self)
+    def GetMetricsInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HMetrics
+        return EOS_Platform_GetMetricsInterface(self)
+    def GetAuthInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HAuth
+        return EOS_Platform_GetAuthInterface(self)
+    def GetConnectInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HConnect
+        return EOS_Platform_GetConnectInterface(self)
+    def GetEcomInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HEcom
+        return EOS_Platform_GetEcomInterface(self)
+    def GetUIInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HUI
+        return EOS_Platform_GetUIInterface(self)
+    def GetFriendsInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HFriends
+        return EOS_Platform_GetFriendsInterface(self)
+    def GetPresenceInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HPresence
+        return EOS_Platform_GetPresenceInterface(self)
+    def GetSessionsInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HSessions
+        return EOS_Platform_GetSessionsInterface(self)
+    def GetLobbyInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HLobby
+        return EOS_Platform_GetLobbyInterface(self)
+    def GetUserInfoInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HUserInfo
+        return EOS_Platform_GetUserInfoInterface(self)
+    def GetP2PInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HP2P
+        return EOS_Platform_GetP2PInterface(self)
+    def GetRTCInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HRTC
+        return EOS_Platform_GetRTCInterface(self)
+    def GetRTCAdminInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HRTCAdmin
+        return EOS_Platform_GetRTCAdminInterface(self)
+    def GetPlayerDataStorageInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HPlayerDataStorage
+        return EOS_Platform_GetPlayerDataStorageInterface(self)
+    def GetTitleStorageInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HTitleStorage
+        return EOS_Platform_GetTitleStorageInterface(self)
+    def GetAchievementsInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HAchievements
+        return EOS_Platform_GetAchievementsInterface(self)
+    def GetStatsInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HStats
+        return EOS_Platform_GetStatsInterface(self)
+    def GetLeaderboardsInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HLeaderboards
+        return EOS_Platform_GetLeaderboardsInterface(self)
+    def GetModsInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HMods
+        return EOS_Platform_GetModsInterface(self)
+    def GetAntiCheatClientInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HAntiCheatClient
+        return EOS_Platform_GetAntiCheatClientInterface(self)
+    def GetAntiCheatServerInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HAntiCheatServer
+        return EOS_Platform_GetAntiCheatServerInterface(self)
+    def GetProgressionSnapshotInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HProgressionSnapshot
+        return EOS_Platform_GetProgressionSnapshotInterface(self)
+    def GetReportsInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HReports
+        return EOS_Platform_GetReportsInterface(self)
+    def GetSanctionsInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HSanctions
+        return EOS_Platform_GetSanctionsInterface(self)
+    def GetKWSInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HKWS
+        return EOS_Platform_GetKWSInterface(self)
+    def GetCustomInvitesInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HCustomInvites
+        return EOS_Platform_GetCustomInvitesInterface(self)
+    def GetIntegratedPlatformInterface(self):
+        # type: (EOS_HPlatform) -> EOS_HIntegratedPlatform
+        return EOS_Platform_GetIntegratedPlatformInterface(self)
+    def GetActiveCountryCode(self, LocalUserId, OutBuffer, InOutBufferLength):
+        # type: (EOS_HPlatform, EOS_EpicAccountId, c_char_p, POINTER(c_int32)) -> EOS_EResult
+        return EOS_Platform_GetActiveCountryCode(self, LocalUserId, OutBuffer, InOutBufferLength)
+    def GetActiveLocaleCode(self, LocalUserId, OutBuffer, InOutBufferLength):
+        # type: (EOS_HPlatform, EOS_EpicAccountId, c_char_p, POINTER(c_int32)) -> EOS_EResult
+        return EOS_Platform_GetActiveLocaleCode(self, LocalUserId, OutBuffer, InOutBufferLength)
+    def GetOverrideCountryCode(self, OutBuffer, InOutBufferLength):
+        # type: (EOS_HPlatform, c_char_p, POINTER(c_int32)) -> EOS_EResult
+        return EOS_Platform_GetOverrideCountryCode(self, OutBuffer, InOutBufferLength)
+    def GetOverrideLocaleCode(self, OutBuffer, InOutBufferLength):
+        # type: (EOS_HPlatform, c_char_p, POINTER(c_int32)) -> EOS_EResult
+        return EOS_Platform_GetOverrideLocaleCode(self, OutBuffer, InOutBufferLength)
+    def SetOverrideCountryCode(self, NewCountryCode):
+        # type: (EOS_HPlatform, c_char_p) -> EOS_EResult
+        return EOS_Platform_SetOverrideCountryCode(self, NewCountryCode)
+    def SetOverrideLocaleCode(self, NewLocaleCode):
+        # type: (EOS_HPlatform, c_char_p) -> EOS_EResult
+        return EOS_Platform_SetOverrideLocaleCode(self, NewLocaleCode)
+    def CheckForLauncherAndRestart(self):
+        # type: (EOS_HPlatform) -> EOS_EResult
+        return EOS_Platform_CheckForLauncherAndRestart(self)
+    def GetDesktopCrossplayStatus(self, Options, OutDesktopCrossplayStatusInfo):
+        # type: (EOS_HPlatform, POINTER(EOS_Platform_GetDesktopCrossplayStatusOptions), POINTER(EOS_Platform_DesktopCrossplayStatusInfo)) -> EOS_EResult
+        return EOS_Platform_GetDesktopCrossplayStatus(self, Options, OutDesktopCrossplayStatusInfo)
+    def SetApplicationStatus(self, NewStatus):
+        # type: (EOS_HPlatform, EOS_EApplicationStatus) -> EOS_EResult
+        return EOS_Platform_SetApplicationStatus(self, NewStatus)
+    def GetApplicationStatus(self):
+        # type: (EOS_HPlatform) -> EOS_EApplicationStatus
+        return EOS_Platform_GetApplicationStatus(self)
+    def SetNetworkStatus(self, NewStatus):
+        # type: (EOS_HPlatform, EOS_ENetworkStatus) -> EOS_EResult
+        return EOS_Platform_SetNetworkStatus(self, NewStatus)
+    def GetNetworkStatus(self):
+        # type: (EOS_HPlatform) -> EOS_ENetworkStatus
+        return EOS_Platform_GetNetworkStatus(self)
+class EOS_HUI(c_void_p):
+    def ShowFriends(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HUI, POINTER(EOS_UI_ShowFriendsOptions), c_void_p, EOS_UI_OnShowFriendsCallback) -> None
+        return EOS_UI_ShowFriends(self, Options, ClientData, CompletionDelegate)
+    def HideFriends(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HUI, POINTER(EOS_UI_HideFriendsOptions), c_void_p, EOS_UI_OnHideFriendsCallback) -> None
+        return EOS_UI_HideFriends(self, Options, ClientData, CompletionDelegate)
+    def GetFriendsVisible(self, Options):
+        # type: (EOS_HUI, POINTER(EOS_UI_GetFriendsVisibleOptions)) -> EOS_Bool
+        return EOS_UI_GetFriendsVisible(self, Options)
+    def GetFriendsExclusiveInput(self, Options):
+        # type: (EOS_HUI, POINTER(EOS_UI_GetFriendsExclusiveInputOptions)) -> EOS_Bool
+        return EOS_UI_GetFriendsExclusiveInput(self, Options)
+    def AddNotifyDisplaySettingsUpdated(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HUI, POINTER(EOS_UI_AddNotifyDisplaySettingsUpdatedOptions), c_void_p, EOS_UI_OnDisplaySettingsUpdatedCallback) -> EOS_NotificationId
+        return EOS_UI_AddNotifyDisplaySettingsUpdated(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyDisplaySettingsUpdated(self, Id):
+        # type: (EOS_HUI, EOS_NotificationId) -> None
+        return EOS_UI_RemoveNotifyDisplaySettingsUpdated(self, Id)
+    def SetToggleFriendsKey(self, Options):
+        # type: (EOS_HUI, POINTER(EOS_UI_SetToggleFriendsKeyOptions)) -> EOS_EResult
+        return EOS_UI_SetToggleFriendsKey(self, Options)
+    def GetToggleFriendsKey(self, Options):
+        # type: (EOS_HUI, POINTER(EOS_UI_GetToggleFriendsKeyOptions)) -> EOS_UI_EKeyCombination
+        return EOS_UI_GetToggleFriendsKey(self, Options)
+    def IsValidKeyCombination(self, KeyCombination):
+        # type: (EOS_HUI, EOS_UI_EKeyCombination) -> EOS_Bool
+        return EOS_UI_IsValidKeyCombination(self, KeyCombination)
+    def SetToggleFriendsButton(self, Options):
+        # type: (EOS_HUI, POINTER(EOS_UI_SetToggleFriendsButtonOptions)) -> EOS_EResult
+        return EOS_UI_SetToggleFriendsButton(self, Options)
+    def GetToggleFriendsButton(self, Options):
+        # type: (EOS_HUI, POINTER(EOS_UI_GetToggleFriendsButtonOptions)) -> EOS_UI_EInputStateButtonFlags
+        return EOS_UI_GetToggleFriendsButton(self, Options)
+    def IsValidButtonCombination(self, ButtonCombination):
+        # type: (EOS_HUI, EOS_UI_EInputStateButtonFlags) -> EOS_Bool
+        return EOS_UI_IsValidButtonCombination(self, ButtonCombination)
+    def SetDisplayPreference(self, Options):
+        # type: (EOS_HUI, POINTER(EOS_UI_SetDisplayPreferenceOptions)) -> EOS_EResult
+        return EOS_UI_SetDisplayPreference(self, Options)
+    def GetNotificationLocationPreference(self):
+        # type: (EOS_HUI) -> EOS_UI_ENotificationLocation
+        return EOS_UI_GetNotificationLocationPreference(self)
+    def AcknowledgeEventId(self, Options):
+        # type: (EOS_HUI, POINTER(EOS_UI_AcknowledgeEventIdOptions)) -> EOS_EResult
+        return EOS_UI_AcknowledgeEventId(self, Options)
+    def ReportInputState(self, Options):
+        # type: (EOS_HUI, POINTER(EOS_UI_ReportInputStateOptions)) -> EOS_EResult
+        return EOS_UI_ReportInputState(self, Options)
+    def PrePresent(self, Options):
+        # type: (EOS_HUI, POINTER(EOS_UI_PrePresentOptions)) -> EOS_EResult
+        return EOS_UI_PrePresent(self, Options)
+    def ShowBlockPlayer(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HUI, POINTER(EOS_UI_ShowBlockPlayerOptions), c_void_p, EOS_UI_OnShowBlockPlayerCallback) -> None
+        return EOS_UI_ShowBlockPlayer(self, Options, ClientData, CompletionDelegate)
+    def ShowReportPlayer(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HUI, POINTER(EOS_UI_ShowReportPlayerOptions), c_void_p, EOS_UI_OnShowReportPlayerCallback) -> None
+        return EOS_UI_ShowReportPlayer(self, Options, ClientData, CompletionDelegate)
+    def PauseSocialOverlay(self, Options):
+        # type: (EOS_HUI, POINTER(EOS_UI_PauseSocialOverlayOptions)) -> EOS_EResult
+        return EOS_UI_PauseSocialOverlay(self, Options)
+    def IsSocialOverlayPaused(self, Options):
+        # type: (EOS_HUI, POINTER(EOS_UI_IsSocialOverlayPausedOptions)) -> EOS_Bool
+        return EOS_UI_IsSocialOverlayPaused(self, Options)
+    def AddNotifyMemoryMonitor(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HUI, POINTER(EOS_UI_AddNotifyMemoryMonitorOptions), c_void_p, EOS_UI_OnMemoryMonitorCallback) -> EOS_NotificationId
+        return EOS_UI_AddNotifyMemoryMonitor(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyMemoryMonitor(self, Id):
+        # type: (EOS_HUI, EOS_NotificationId) -> None
+        return EOS_UI_RemoveNotifyMemoryMonitor(self, Id)
+    def ShowNativeProfile(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HUI, POINTER(EOS_UI_ShowNativeProfileOptions), c_void_p, EOS_UI_OnShowNativeProfileCallback) -> None
+        return EOS_UI_ShowNativeProfile(self, Options, ClientData, CompletionDelegate)
+class EOS_UI_EventId(c_uint64):
+    pass
+class EOS_HUserInfo(c_void_p):
+    pass
+class EOS_AntiCheatCommon_ClientHandle(c_void_p):
+    pass
+class EOS_HAntiCheatServer(c_void_p):
+    def AddNotifyMessageToClient(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_AddNotifyMessageToClientOptions), c_void_p, EOS_AntiCheatServer_OnMessageToClientCallback) -> EOS_NotificationId
+        return EOS_AntiCheatServer_AddNotifyMessageToClient(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyMessageToClient(self, NotificationId):
+        # type: (EOS_HAntiCheatServer, EOS_NotificationId) -> None
+        return EOS_AntiCheatServer_RemoveNotifyMessageToClient(self, NotificationId)
+    def AddNotifyClientActionRequired(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_AddNotifyClientActionRequiredOptions), c_void_p, EOS_AntiCheatServer_OnClientActionRequiredCallback) -> EOS_NotificationId
+        return EOS_AntiCheatServer_AddNotifyClientActionRequired(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyClientActionRequired(self, NotificationId):
+        # type: (EOS_HAntiCheatServer, EOS_NotificationId) -> None
+        return EOS_AntiCheatServer_RemoveNotifyClientActionRequired(self, NotificationId)
+    def AddNotifyClientAuthStatusChanged(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_AddNotifyClientAuthStatusChangedOptions), c_void_p, EOS_AntiCheatServer_OnClientAuthStatusChangedCallback) -> EOS_NotificationId
+        return EOS_AntiCheatServer_AddNotifyClientAuthStatusChanged(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyClientAuthStatusChanged(self, NotificationId):
+        # type: (EOS_HAntiCheatServer, EOS_NotificationId) -> None
+        return EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged(self, NotificationId)
+    def BeginSession(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_BeginSessionOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_BeginSession(self, Options)
+    def EndSession(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_EndSessionOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_EndSession(self, Options)
+    def RegisterClient(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_RegisterClientOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_RegisterClient(self, Options)
+    def UnregisterClient(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_UnregisterClientOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_UnregisterClient(self, Options)
+    def ReceiveMessageFromClient(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_ReceiveMessageFromClientOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_ReceiveMessageFromClient(self, Options)
+    def SetClientDetails(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_SetClientDetailsOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_SetClientDetails(self, Options)
+    def SetGameSessionId(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_SetGameSessionIdOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_SetGameSessionId(self, Options)
+    def SetClientNetworkState(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_SetClientNetworkStateOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_SetClientNetworkState(self, Options)
+    def GetProtectMessageOutputLength(self, Options, OutBufferSizeBytes):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_GetProtectMessageOutputLengthOptions), POINTER(c_uint32)) -> EOS_EResult
+        return EOS_AntiCheatServer_GetProtectMessageOutputLength(self, Options, OutBufferSizeBytes)
+    def ProtectMessage(self, Options, OutBuffer, OutBytesWritten):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_ProtectMessageOptions), c_void_p, POINTER(c_uint32)) -> EOS_EResult
+        return EOS_AntiCheatServer_ProtectMessage(self, Options, OutBuffer, OutBytesWritten)
+    def UnprotectMessage(self, Options, OutBuffer, OutBytesWritten):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_UnprotectMessageOptions), c_void_p, POINTER(c_uint32)) -> EOS_EResult
+        return EOS_AntiCheatServer_UnprotectMessage(self, Options, OutBuffer, OutBytesWritten)
+    def RegisterEvent(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_RegisterEventOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_RegisterEvent(self, Options)
+    def LogEvent(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogEventOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_LogEvent(self, Options)
+    def LogGameRoundStart(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogGameRoundStartOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_LogGameRoundStart(self, Options)
+    def LogGameRoundEnd(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogGameRoundEndOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_LogGameRoundEnd(self, Options)
+    def LogPlayerSpawn(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogPlayerSpawnOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_LogPlayerSpawn(self, Options)
+    def LogPlayerDespawn(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogPlayerDespawnOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_LogPlayerDespawn(self, Options)
+    def LogPlayerRevive(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogPlayerReviveOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_LogPlayerRevive(self, Options)
+    def LogPlayerTick(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogPlayerTickOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_LogPlayerTick(self, Options)
+    def LogPlayerUseWeapon(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogPlayerUseWeaponOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_LogPlayerUseWeapon(self, Options)
+    def LogPlayerUseAbility(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogPlayerUseAbilityOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_LogPlayerUseAbility(self, Options)
+    def LogPlayerTakeDamage(self, Options):
+        # type: (EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogPlayerTakeDamageOptions)) -> EOS_EResult
+        return EOS_AntiCheatServer_LogPlayerTakeDamage(self, Options)
+class EOS_HCustomInvites(c_void_p):
+    def SetCustomInvite(self, Options):
+        # type: (EOS_HCustomInvites, POINTER(EOS_CustomInvites_SetCustomInviteOptions)) -> EOS_EResult
+        return EOS_CustomInvites_SetCustomInvite(self, Options)
+    def SendCustomInvite(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HCustomInvites, POINTER(EOS_CustomInvites_SendCustomInviteOptions), c_void_p, EOS_CustomInvites_OnSendCustomInviteCallback) -> None
+        return EOS_CustomInvites_SendCustomInvite(self, Options, ClientData, CompletionDelegate)
+    def AddNotifyCustomInviteReceived(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HCustomInvites, POINTER(EOS_CustomInvites_AddNotifyCustomInviteReceivedOptions), c_void_p, EOS_CustomInvites_OnCustomInviteReceivedCallback) -> EOS_NotificationId
+        return EOS_CustomInvites_AddNotifyCustomInviteReceived(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyCustomInviteReceived(self, InId):
+        # type: (EOS_HCustomInvites, EOS_NotificationId) -> None
+        return EOS_CustomInvites_RemoveNotifyCustomInviteReceived(self, InId)
+    def AddNotifyCustomInviteAccepted(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HCustomInvites, POINTER(EOS_CustomInvites_AddNotifyCustomInviteAcceptedOptions), c_void_p, EOS_CustomInvites_OnCustomInviteAcceptedCallback) -> EOS_NotificationId
+        return EOS_CustomInvites_AddNotifyCustomInviteAccepted(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyCustomInviteAccepted(self, InId):
+        # type: (EOS_HCustomInvites, EOS_NotificationId) -> None
+        return EOS_CustomInvites_RemoveNotifyCustomInviteAccepted(self, InId)
+    def AddNotifyCustomInviteRejected(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HCustomInvites, POINTER(EOS_CustomInvites_AddNotifyCustomInviteRejectedOptions), c_void_p, EOS_CustomInvites_OnCustomInviteRejectedCallback) -> EOS_NotificationId
+        return EOS_CustomInvites_AddNotifyCustomInviteRejected(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyCustomInviteRejected(self, InId):
+        # type: (EOS_HCustomInvites, EOS_NotificationId) -> None
+        return EOS_CustomInvites_RemoveNotifyCustomInviteRejected(self, InId)
+    def FinalizeInvite(self, Options):
+        # type: (EOS_HCustomInvites, POINTER(EOS_CustomInvites_FinalizeInviteOptions)) -> EOS_EResult
+        return EOS_CustomInvites_FinalizeInvite(self, Options)
+    def SendRequestToJoin(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HCustomInvites, POINTER(EOS_CustomInvites_SendRequestToJoinOptions), c_void_p, EOS_CustomInvites_OnSendRequestToJoinCallback) -> None
+        return EOS_CustomInvites_SendRequestToJoin(self, Options, ClientData, CompletionDelegate)
+    def AddNotifyRequestToJoinResponseReceived(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HCustomInvites, POINTER(EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedOptions), c_void_p, EOS_CustomInvites_OnRequestToJoinResponseReceivedCallback) -> EOS_NotificationId
+        return EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyRequestToJoinResponseReceived(self, InId):
+        # type: (EOS_HCustomInvites, EOS_NotificationId) -> None
+        return EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived(self, InId)
+    def AddNotifyRequestToJoinReceived(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HCustomInvites, POINTER(EOS_CustomInvites_AddNotifyRequestToJoinReceivedOptions), c_void_p, EOS_CustomInvites_OnRequestToJoinReceivedCallback) -> EOS_NotificationId
+        return EOS_CustomInvites_AddNotifyRequestToJoinReceived(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyRequestToJoinReceived(self, InId):
+        # type: (EOS_HCustomInvites, EOS_NotificationId) -> None
+        return EOS_CustomInvites_RemoveNotifyRequestToJoinReceived(self, InId)
+    def AddNotifySendCustomNativeInviteRequested(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HCustomInvites, POINTER(EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedOptions), c_void_p, EOS_CustomInvites_OnSendCustomNativeInviteRequestedCallback) -> EOS_NotificationId
+        return EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested(self, Options, ClientData, NotificationFn)
+    def RemoveNotifySendCustomNativeInviteRequested(self, InId):
+        # type: (EOS_HCustomInvites, EOS_NotificationId) -> None
+        return EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested(self, InId)
+    def AddNotifyRequestToJoinAccepted(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HCustomInvites, POINTER(EOS_CustomInvites_AddNotifyRequestToJoinAcceptedOptions), c_void_p, EOS_CustomInvites_OnRequestToJoinAcceptedCallback) -> EOS_NotificationId
+        return EOS_CustomInvites_AddNotifyRequestToJoinAccepted(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyRequestToJoinAccepted(self, InId):
+        # type: (EOS_HCustomInvites, EOS_NotificationId) -> None
+        return EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted(self, InId)
+    def AddNotifyRequestToJoinRejected(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HCustomInvites, POINTER(EOS_CustomInvites_AddNotifyRequestToJoinRejectedOptions), c_void_p, EOS_CustomInvites_OnRequestToJoinRejectedCallback) -> EOS_NotificationId
+        return EOS_CustomInvites_AddNotifyRequestToJoinRejected(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyRequestToJoinRejected(self, InId):
+        # type: (EOS_HCustomInvites, EOS_NotificationId) -> None
+        return EOS_CustomInvites_RemoveNotifyRequestToJoinRejected(self, InId)
+    def AcceptRequestToJoin(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HCustomInvites, POINTER(EOS_CustomInvites_AcceptRequestToJoinOptions), c_void_p, EOS_CustomInvites_OnAcceptRequestToJoinCallback) -> None
+        return EOS_CustomInvites_AcceptRequestToJoin(self, Options, ClientData, CompletionDelegate)
+    def RejectRequestToJoin(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HCustomInvites, POINTER(EOS_CustomInvites_RejectRequestToJoinOptions), c_void_p, EOS_CustomInvites_OnRejectRequestToJoinCallback) -> None
+        return EOS_CustomInvites_RejectRequestToJoin(self, Options, ClientData, CompletionDelegate)
+EOS_AllocateMemoryFunc = CFUNCTYPE(c_void_p, c_size_t, c_size_t)
+EOS_ReallocateMemoryFunc = CFUNCTYPE(c_void_p, c_void_p, c_size_t, c_size_t)
+EOS_ReleaseMemoryFunc = CFUNCTYPE(None, c_void_p)
+class EOS_HLeaderboards(c_void_p):
+    def LeaderboardDefinition_Release(self):
+        # type: (POINTER(EOS_Leaderboards_Definition)) -> None
+        return EOS_Leaderboards_LeaderboardDefinition_Release(self)
+    def QueryLeaderboardDefinitions(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLeaderboards, POINTER(EOS_Leaderboards_QueryLeaderboardDefinitionsOptions), c_void_p, EOS_Leaderboards_OnQueryLeaderboardDefinitionsCompleteCallback) -> None
+        return EOS_Leaderboards_QueryLeaderboardDefinitions(self, Options, ClientData, CompletionDelegate)
+    def GetLeaderboardDefinitionCount(self, Options):
+        # type: (EOS_HLeaderboards, POINTER(EOS_Leaderboards_GetLeaderboardDefinitionCountOptions)) -> c_uint32
+        return EOS_Leaderboards_GetLeaderboardDefinitionCount(self, Options)
+    def CopyLeaderboardDefinitionByIndex(self, Options, OutLeaderboardDefinition):
+        # type: (EOS_HLeaderboards, POINTER(EOS_Leaderboards_CopyLeaderboardDefinitionByIndexOptions), POINTER(POINTER(EOS_Leaderboards_Definition))) -> EOS_EResult
+        return EOS_Leaderboards_CopyLeaderboardDefinitionByIndex(self, Options, OutLeaderboardDefinition)
+    def CopyLeaderboardDefinitionByLeaderboardId(self, Options, OutLeaderboardDefinition):
+        # type: (EOS_HLeaderboards, POINTER(EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardIdOptions), POINTER(POINTER(EOS_Leaderboards_Definition))) -> EOS_EResult
+        return EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId(self, Options, OutLeaderboardDefinition)
+    def QueryLeaderboardRanks(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLeaderboards, POINTER(EOS_Leaderboards_QueryLeaderboardRanksOptions), c_void_p, EOS_Leaderboards_OnQueryLeaderboardRanksCompleteCallback) -> None
+        return EOS_Leaderboards_QueryLeaderboardRanks(self, Options, ClientData, CompletionDelegate)
+    def GetLeaderboardRecordCount(self, Options):
+        # type: (EOS_HLeaderboards, POINTER(EOS_Leaderboards_GetLeaderboardRecordCountOptions)) -> c_uint32
+        return EOS_Leaderboards_GetLeaderboardRecordCount(self, Options)
+    def CopyLeaderboardRecordByIndex(self, Options, OutLeaderboardRecord):
+        # type: (EOS_HLeaderboards, POINTER(EOS_Leaderboards_CopyLeaderboardRecordByIndexOptions), POINTER(POINTER(EOS_Leaderboards_LeaderboardRecord))) -> EOS_EResult
+        return EOS_Leaderboards_CopyLeaderboardRecordByIndex(self, Options, OutLeaderboardRecord)
+    def CopyLeaderboardRecordByUserId(self, Options, OutLeaderboardRecord):
+        # type: (EOS_HLeaderboards, POINTER(EOS_Leaderboards_CopyLeaderboardRecordByUserIdOptions), POINTER(POINTER(EOS_Leaderboards_LeaderboardRecord))) -> EOS_EResult
+        return EOS_Leaderboards_CopyLeaderboardRecordByUserId(self, Options, OutLeaderboardRecord)
+    def QueryLeaderboardUserScores(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLeaderboards, POINTER(EOS_Leaderboards_QueryLeaderboardUserScoresOptions), c_void_p, EOS_Leaderboards_OnQueryLeaderboardUserScoresCompleteCallback) -> None
+        return EOS_Leaderboards_QueryLeaderboardUserScores(self, Options, ClientData, CompletionDelegate)
+    def GetLeaderboardUserScoreCount(self, Options):
+        # type: (EOS_HLeaderboards, POINTER(EOS_Leaderboards_GetLeaderboardUserScoreCountOptions)) -> c_uint32
+        return EOS_Leaderboards_GetLeaderboardUserScoreCount(self, Options)
+    def CopyLeaderboardUserScoreByIndex(self, Options, OutLeaderboardUserScore):
+        # type: (EOS_HLeaderboards, POINTER(EOS_Leaderboards_CopyLeaderboardUserScoreByIndexOptions), POINTER(POINTER(EOS_Leaderboards_LeaderboardUserScore))) -> EOS_EResult
+        return EOS_Leaderboards_CopyLeaderboardUserScoreByIndex(self, Options, OutLeaderboardUserScore)
+    def CopyLeaderboardUserScoreByUserId(self, Options, OutLeaderboardUserScore):
+        # type: (EOS_HLeaderboards, POINTER(EOS_Leaderboards_CopyLeaderboardUserScoreByUserIdOptions), POINTER(POINTER(EOS_Leaderboards_LeaderboardUserScore))) -> EOS_EResult
+        return EOS_Leaderboards_CopyLeaderboardUserScoreByUserId(self, Options, OutLeaderboardUserScore)
+class EOS_HLobby(c_void_p):
+    def CreateLobby(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_CreateLobbyOptions), c_void_p, EOS_Lobby_OnCreateLobbyCallback) -> None
+        return EOS_Lobby_CreateLobby(self, Options, ClientData, CompletionDelegate)
+    def DestroyLobby(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_DestroyLobbyOptions), c_void_p, EOS_Lobby_OnDestroyLobbyCallback) -> None
+        return EOS_Lobby_DestroyLobby(self, Options, ClientData, CompletionDelegate)
+    def JoinLobby(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_JoinLobbyOptions), c_void_p, EOS_Lobby_OnJoinLobbyCallback) -> None
+        return EOS_Lobby_JoinLobby(self, Options, ClientData, CompletionDelegate)
+    def JoinLobbyById(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_JoinLobbyByIdOptions), c_void_p, EOS_Lobby_OnJoinLobbyByIdCallback) -> None
+        return EOS_Lobby_JoinLobbyById(self, Options, ClientData, CompletionDelegate)
+    def LeaveLobby(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_LeaveLobbyOptions), c_void_p, EOS_Lobby_OnLeaveLobbyCallback) -> None
+        return EOS_Lobby_LeaveLobby(self, Options, ClientData, CompletionDelegate)
+    def UpdateLobbyModification(self, Options, OutLobbyModificationHandle):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_UpdateLobbyModificationOptions), POINTER(EOS_HLobbyModification)) -> EOS_EResult
+        return EOS_Lobby_UpdateLobbyModification(self, Options, OutLobbyModificationHandle)
+    def UpdateLobby(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_UpdateLobbyOptions), c_void_p, EOS_Lobby_OnUpdateLobbyCallback) -> None
+        return EOS_Lobby_UpdateLobby(self, Options, ClientData, CompletionDelegate)
+    def PromoteMember(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_PromoteMemberOptions), c_void_p, EOS_Lobby_OnPromoteMemberCallback) -> None
+        return EOS_Lobby_PromoteMember(self, Options, ClientData, CompletionDelegate)
+    def KickMember(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_KickMemberOptions), c_void_p, EOS_Lobby_OnKickMemberCallback) -> None
+        return EOS_Lobby_KickMember(self, Options, ClientData, CompletionDelegate)
+    def HardMuteMember(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_HardMuteMemberOptions), c_void_p, EOS_Lobby_OnHardMuteMemberCallback) -> None
+        return EOS_Lobby_HardMuteMember(self, Options, ClientData, CompletionDelegate)
+    def AddNotifyLobbyUpdateReceived(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_AddNotifyLobbyUpdateReceivedOptions), c_void_p, EOS_Lobby_OnLobbyUpdateReceivedCallback) -> EOS_NotificationId
+        return EOS_Lobby_AddNotifyLobbyUpdateReceived(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyLobbyUpdateReceived(self, InId):
+        # type: (EOS_HLobby, EOS_NotificationId) -> None
+        return EOS_Lobby_RemoveNotifyLobbyUpdateReceived(self, InId)
+    def AddNotifyLobbyMemberUpdateReceived(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_AddNotifyLobbyMemberUpdateReceivedOptions), c_void_p, EOS_Lobby_OnLobbyMemberUpdateReceivedCallback) -> EOS_NotificationId
+        return EOS_Lobby_AddNotifyLobbyMemberUpdateReceived(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyLobbyMemberUpdateReceived(self, InId):
+        # type: (EOS_HLobby, EOS_NotificationId) -> None
+        return EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived(self, InId)
+    def AddNotifyLobbyMemberStatusReceived(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_AddNotifyLobbyMemberStatusReceivedOptions), c_void_p, EOS_Lobby_OnLobbyMemberStatusReceivedCallback) -> EOS_NotificationId
+        return EOS_Lobby_AddNotifyLobbyMemberStatusReceived(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyLobbyMemberStatusReceived(self, InId):
+        # type: (EOS_HLobby, EOS_NotificationId) -> None
+        return EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived(self, InId)
+    def SendInvite(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_SendInviteOptions), c_void_p, EOS_Lobby_OnSendInviteCallback) -> None
+        return EOS_Lobby_SendInvite(self, Options, ClientData, CompletionDelegate)
+    def RejectInvite(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_RejectInviteOptions), c_void_p, EOS_Lobby_OnRejectInviteCallback) -> None
+        return EOS_Lobby_RejectInvite(self, Options, ClientData, CompletionDelegate)
+    def QueryInvites(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_QueryInvitesOptions), c_void_p, EOS_Lobby_OnQueryInvitesCallback) -> None
+        return EOS_Lobby_QueryInvites(self, Options, ClientData, CompletionDelegate)
+    def GetInviteCount(self, Options):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_GetInviteCountOptions)) -> c_uint32
+        return EOS_Lobby_GetInviteCount(self, Options)
+    def GetInviteIdByIndex(self, Options, OutBuffer, InOutBufferLength):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_GetInviteIdByIndexOptions), c_char_p, POINTER(c_int32)) -> EOS_EResult
+        return EOS_Lobby_GetInviteIdByIndex(self, Options, OutBuffer, InOutBufferLength)
+    def CreateLobbySearch(self, Options, OutLobbySearchHandle):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_CreateLobbySearchOptions), POINTER(EOS_HLobbySearch)) -> EOS_EResult
+        return EOS_Lobby_CreateLobbySearch(self, Options, OutLobbySearchHandle)
+    def AddNotifyLobbyInviteReceived(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_AddNotifyLobbyInviteReceivedOptions), c_void_p, EOS_Lobby_OnLobbyInviteReceivedCallback) -> EOS_NotificationId
+        return EOS_Lobby_AddNotifyLobbyInviteReceived(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyLobbyInviteReceived(self, InId):
+        # type: (EOS_HLobby, EOS_NotificationId) -> None
+        return EOS_Lobby_RemoveNotifyLobbyInviteReceived(self, InId)
+    def AddNotifyLobbyInviteAccepted(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_AddNotifyLobbyInviteAcceptedOptions), c_void_p, EOS_Lobby_OnLobbyInviteAcceptedCallback) -> EOS_NotificationId
+        return EOS_Lobby_AddNotifyLobbyInviteAccepted(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyLobbyInviteAccepted(self, InId):
+        # type: (EOS_HLobby, EOS_NotificationId) -> None
+        return EOS_Lobby_RemoveNotifyLobbyInviteAccepted(self, InId)
+    def AddNotifyLobbyInviteRejected(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_AddNotifyLobbyInviteRejectedOptions), c_void_p, EOS_Lobby_OnLobbyInviteRejectedCallback) -> EOS_NotificationId
+        return EOS_Lobby_AddNotifyLobbyInviteRejected(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyLobbyInviteRejected(self, InId):
+        # type: (EOS_HLobby, EOS_NotificationId) -> None
+        return EOS_Lobby_RemoveNotifyLobbyInviteRejected(self, InId)
+    def AddNotifyJoinLobbyAccepted(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_AddNotifyJoinLobbyAcceptedOptions), c_void_p, EOS_Lobby_OnJoinLobbyAcceptedCallback) -> EOS_NotificationId
+        return EOS_Lobby_AddNotifyJoinLobbyAccepted(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyJoinLobbyAccepted(self, InId):
+        # type: (EOS_HLobby, EOS_NotificationId) -> None
+        return EOS_Lobby_RemoveNotifyJoinLobbyAccepted(self, InId)
+    def AddNotifySendLobbyNativeInviteRequested(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_AddNotifySendLobbyNativeInviteRequestedOptions), c_void_p, EOS_Lobby_OnSendLobbyNativeInviteRequestedCallback) -> EOS_NotificationId
+        return EOS_Lobby_AddNotifySendLobbyNativeInviteRequested(self, Options, ClientData, NotificationFn)
+    def RemoveNotifySendLobbyNativeInviteRequested(self, InId):
+        # type: (EOS_HLobby, EOS_NotificationId) -> None
+        return EOS_Lobby_RemoveNotifySendLobbyNativeInviteRequested(self, InId)
+    def CopyLobbyDetailsHandleByInviteId(self, Options, OutLobbyDetailsHandle):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_CopyLobbyDetailsHandleByInviteIdOptions), POINTER(EOS_HLobbyDetails)) -> EOS_EResult
+        return EOS_Lobby_CopyLobbyDetailsHandleByInviteId(self, Options, OutLobbyDetailsHandle)
+    def CopyLobbyDetailsHandleByUiEventId(self, Options, OutLobbyDetailsHandle):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_CopyLobbyDetailsHandleByUiEventIdOptions), POINTER(EOS_HLobbyDetails)) -> EOS_EResult
+        return EOS_Lobby_CopyLobbyDetailsHandleByUiEventId(self, Options, OutLobbyDetailsHandle)
+    def CopyLobbyDetailsHandle(self, Options, OutLobbyDetailsHandle):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_CopyLobbyDetailsHandleOptions), POINTER(EOS_HLobbyDetails)) -> EOS_EResult
+        return EOS_Lobby_CopyLobbyDetailsHandle(self, Options, OutLobbyDetailsHandle)
+    def GetRTCRoomName(self, Options, OutBuffer, InOutBufferLength):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_GetRTCRoomNameOptions), c_char_p, POINTER(c_uint32)) -> EOS_EResult
+        return EOS_Lobby_GetRTCRoomName(self, Options, OutBuffer, InOutBufferLength)
+    def JoinRTCRoom(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_JoinRTCRoomOptions), c_void_p, EOS_Lobby_OnJoinRTCRoomCallback) -> None
+        return EOS_Lobby_JoinRTCRoom(self, Options, ClientData, CompletionDelegate)
+    def LeaveRTCRoom(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_LeaveRTCRoomOptions), c_void_p, EOS_Lobby_OnLeaveRTCRoomCallback) -> None
+        return EOS_Lobby_LeaveRTCRoom(self, Options, ClientData, CompletionDelegate)
+    def IsRTCRoomConnected(self, Options, bOutIsConnected):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_IsRTCRoomConnectedOptions), POINTER(EOS_Bool)) -> EOS_EResult
+        return EOS_Lobby_IsRTCRoomConnected(self, Options, bOutIsConnected)
+    def AddNotifyRTCRoomConnectionChanged(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_AddNotifyRTCRoomConnectionChangedOptions), c_void_p, EOS_Lobby_OnRTCRoomConnectionChangedCallback) -> EOS_NotificationId
+        return EOS_Lobby_AddNotifyRTCRoomConnectionChanged(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyRTCRoomConnectionChanged(self, InId):
+        # type: (EOS_HLobby, EOS_NotificationId) -> None
+        return EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged(self, InId)
+    def GetConnectString(self, Options, OutBuffer, InOutBufferLength):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_GetConnectStringOptions), c_char_p, POINTER(c_uint32)) -> EOS_EResult
+        return EOS_Lobby_GetConnectString(self, Options, OutBuffer, InOutBufferLength)
+    def ParseConnectString(self, Options, OutBuffer, InOutBufferLength):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_ParseConnectStringOptions), c_char_p, POINTER(c_uint32)) -> EOS_EResult
+        return EOS_Lobby_ParseConnectString(self, Options, OutBuffer, InOutBufferLength)
+    def AddNotifyLeaveLobbyRequested(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HLobby, POINTER(EOS_Lobby_AddNotifyLeaveLobbyRequestedOptions), c_void_p, EOS_Lobby_OnLeaveLobbyRequestedCallback) -> EOS_NotificationId
+        return EOS_Lobby_AddNotifyLeaveLobbyRequested(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyLeaveLobbyRequested(self, InId):
+        # type: (EOS_HLobby, EOS_NotificationId) -> None
+        return EOS_Lobby_RemoveNotifyLeaveLobbyRequested(self, InId)
+class EOS_HLobbyModification(c_void_p):
+    def Release(self):
+        # type: (EOS_HLobbyModification) -> None
+        return EOS_LobbyModification_Release(self)
+    def SetBucketId(self, Options):
+        # type: (EOS_HLobbyModification, POINTER(EOS_LobbyModification_SetBucketIdOptions)) -> EOS_EResult
+        return EOS_LobbyModification_SetBucketId(self, Options)
+    def SetPermissionLevel(self, Options):
+        # type: (EOS_HLobbyModification, POINTER(EOS_LobbyModification_SetPermissionLevelOptions)) -> EOS_EResult
+        return EOS_LobbyModification_SetPermissionLevel(self, Options)
+    def SetMaxMembers(self, Options):
+        # type: (EOS_HLobbyModification, POINTER(EOS_LobbyModification_SetMaxMembersOptions)) -> EOS_EResult
+        return EOS_LobbyModification_SetMaxMembers(self, Options)
+    def SetInvitesAllowed(self, Options):
+        # type: (EOS_HLobbyModification, POINTER(EOS_LobbyModification_SetInvitesAllowedOptions)) -> EOS_EResult
+        return EOS_LobbyModification_SetInvitesAllowed(self, Options)
+    def AddAttribute(self, Options):
+        # type: (EOS_HLobbyModification, POINTER(EOS_LobbyModification_AddAttributeOptions)) -> EOS_EResult
+        return EOS_LobbyModification_AddAttribute(self, Options)
+    def RemoveAttribute(self, Options):
+        # type: (EOS_HLobbyModification, POINTER(EOS_LobbyModification_RemoveAttributeOptions)) -> EOS_EResult
+        return EOS_LobbyModification_RemoveAttribute(self, Options)
+    def AddMemberAttribute(self, Options):
+        # type: (EOS_HLobbyModification, POINTER(EOS_LobbyModification_AddMemberAttributeOptions)) -> EOS_EResult
+        return EOS_LobbyModification_AddMemberAttribute(self, Options)
+    def RemoveMemberAttribute(self, Options):
+        # type: (EOS_HLobbyModification, POINTER(EOS_LobbyModification_RemoveMemberAttributeOptions)) -> EOS_EResult
+        return EOS_LobbyModification_RemoveMemberAttribute(self, Options)
+    def SetAllowedPlatformIds(self, Options):
+        # type: (EOS_HLobbyModification, POINTER(EOS_LobbyModification_SetAllowedPlatformIdsOptions)) -> EOS_EResult
+        return EOS_LobbyModification_SetAllowedPlatformIds(self, Options)
+class EOS_HLobbyDetails(c_void_p):
+    def Release(self):
+        # type: (EOS_HLobbyDetails) -> None
+        return EOS_LobbyDetails_Release(self)
+    def GetLobbyOwner(self, Options):
+        # type: (EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_GetLobbyOwnerOptions)) -> EOS_ProductUserId
+        return EOS_LobbyDetails_GetLobbyOwner(self, Options)
+    def CopyInfo(self, Options, OutLobbyDetailsInfo):
+        # type: (EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_CopyInfoOptions), POINTER(POINTER(EOS_LobbyDetails_Info))) -> EOS_EResult
+        return EOS_LobbyDetails_CopyInfo(self, Options, OutLobbyDetailsInfo)
+    def CopyMemberInfo(self, Options, OutLobbyDetailsMemberInfo):
+        # type: (EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_CopyMemberInfoOptions), POINTER(POINTER(EOS_LobbyDetails_MemberInfo))) -> EOS_EResult
+        return EOS_LobbyDetails_CopyMemberInfo(self, Options, OutLobbyDetailsMemberInfo)
+    def GetAttributeCount(self, Options):
+        # type: (EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_GetAttributeCountOptions)) -> c_uint32
+        return EOS_LobbyDetails_GetAttributeCount(self, Options)
+    def CopyAttributeByIndex(self, Options, OutAttribute):
+        # type: (EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_CopyAttributeByIndexOptions), POINTER(POINTER(EOS_Lobby_Attribute))) -> EOS_EResult
+        return EOS_LobbyDetails_CopyAttributeByIndex(self, Options, OutAttribute)
+    def CopyAttributeByKey(self, Options, OutAttribute):
+        # type: (EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_CopyAttributeByKeyOptions), POINTER(POINTER(EOS_Lobby_Attribute))) -> EOS_EResult
+        return EOS_LobbyDetails_CopyAttributeByKey(self, Options, OutAttribute)
+    def GetMemberCount(self, Options):
+        # type: (EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_GetMemberCountOptions)) -> c_uint32
+        return EOS_LobbyDetails_GetMemberCount(self, Options)
+    def GetMemberByIndex(self, Options):
+        # type: (EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_GetMemberByIndexOptions)) -> EOS_ProductUserId
+        return EOS_LobbyDetails_GetMemberByIndex(self, Options)
+    def GetMemberAttributeCount(self, Options):
+        # type: (EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_GetMemberAttributeCountOptions)) -> c_uint32
+        return EOS_LobbyDetails_GetMemberAttributeCount(self, Options)
+    def CopyMemberAttributeByIndex(self, Options, OutAttribute):
+        # type: (EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_CopyMemberAttributeByIndexOptions), POINTER(POINTER(EOS_Lobby_Attribute))) -> EOS_EResult
+        return EOS_LobbyDetails_CopyMemberAttributeByIndex(self, Options, OutAttribute)
+    def CopyMemberAttributeByKey(self, Options, OutAttribute):
+        # type: (EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_CopyMemberAttributeByKeyOptions), POINTER(POINTER(EOS_Lobby_Attribute))) -> EOS_EResult
+        return EOS_LobbyDetails_CopyMemberAttributeByKey(self, Options, OutAttribute)
+class EOS_HLobbySearch(c_void_p):
+    def Release(self):
+        # type: (EOS_HLobbySearch) -> None
+        return EOS_LobbySearch_Release(self)
+    def Find(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HLobbySearch, POINTER(EOS_LobbySearch_FindOptions), c_void_p, EOS_LobbySearch_OnFindCallback) -> None
+        return EOS_LobbySearch_Find(self, Options, ClientData, CompletionDelegate)
+    def SetLobbyId(self, Options):
+        # type: (EOS_HLobbySearch, POINTER(EOS_LobbySearch_SetLobbyIdOptions)) -> EOS_EResult
+        return EOS_LobbySearch_SetLobbyId(self, Options)
+    def SetTargetUserId(self, Options):
+        # type: (EOS_HLobbySearch, POINTER(EOS_LobbySearch_SetTargetUserIdOptions)) -> EOS_EResult
+        return EOS_LobbySearch_SetTargetUserId(self, Options)
+    def SetParameter(self, Options):
+        # type: (EOS_HLobbySearch, POINTER(EOS_LobbySearch_SetParameterOptions)) -> EOS_EResult
+        return EOS_LobbySearch_SetParameter(self, Options)
+    def RemoveParameter(self, Options):
+        # type: (EOS_HLobbySearch, POINTER(EOS_LobbySearch_RemoveParameterOptions)) -> EOS_EResult
+        return EOS_LobbySearch_RemoveParameter(self, Options)
+    def SetMaxResults(self, Options):
+        # type: (EOS_HLobbySearch, POINTER(EOS_LobbySearch_SetMaxResultsOptions)) -> EOS_EResult
+        return EOS_LobbySearch_SetMaxResults(self, Options)
+    def GetSearchResultCount(self, Options):
+        # type: (EOS_HLobbySearch, POINTER(EOS_LobbySearch_GetSearchResultCountOptions)) -> c_uint32
+        return EOS_LobbySearch_GetSearchResultCount(self, Options)
+    def CopySearchResultByIndex(self, Options, OutLobbyDetailsHandle):
+        # type: (EOS_HLobbySearch, POINTER(EOS_LobbySearch_CopySearchResultByIndexOptions), POINTER(EOS_HLobbyDetails)) -> EOS_EResult
+        return EOS_LobbySearch_CopySearchResultByIndex(self, Options, OutLobbyDetailsHandle)
+class EOS_LobbyId(c_char_p):
+    pass
+class EOS_HPresence(c_void_p):
+    def QueryPresence(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HPresence, POINTER(EOS_Presence_QueryPresenceOptions), c_void_p, EOS_Presence_OnQueryPresenceCompleteCallback) -> None
+        return EOS_Presence_QueryPresence(self, Options, ClientData, CompletionDelegate)
+    def HasPresence(self, Options):
+        # type: (EOS_HPresence, POINTER(EOS_Presence_HasPresenceOptions)) -> EOS_Bool
+        return EOS_Presence_HasPresence(self, Options)
+    def CopyPresence(self, Options, OutPresence):
+        # type: (EOS_HPresence, POINTER(EOS_Presence_CopyPresenceOptions), POINTER(POINTER(EOS_Presence_Info))) -> EOS_EResult
+        return EOS_Presence_CopyPresence(self, Options, OutPresence)
+    def CreatePresenceModification(self, Options, OutPresenceModificationHandle):
+        # type: (EOS_HPresence, POINTER(EOS_Presence_CreatePresenceModificationOptions), POINTER(EOS_HPresenceModification)) -> EOS_EResult
+        return EOS_Presence_CreatePresenceModification(self, Options, OutPresenceModificationHandle)
+    def SetPresence(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HPresence, POINTER(EOS_Presence_SetPresenceOptions), c_void_p, EOS_Presence_SetPresenceCompleteCallback) -> None
+        return EOS_Presence_SetPresence(self, Options, ClientData, CompletionDelegate)
+    def AddNotifyOnPresenceChanged(self, Options, ClientData, NotificationHandler):
+        # type: (EOS_HPresence, POINTER(EOS_Presence_AddNotifyOnPresenceChangedOptions), c_void_p, EOS_Presence_OnPresenceChangedCallback) -> EOS_NotificationId
+        return EOS_Presence_AddNotifyOnPresenceChanged(self, Options, ClientData, NotificationHandler)
+    def RemoveNotifyOnPresenceChanged(self, NotificationId):
+        # type: (EOS_HPresence, EOS_NotificationId) -> None
+        return EOS_Presence_RemoveNotifyOnPresenceChanged(self, NotificationId)
+    def AddNotifyJoinGameAccepted(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HPresence, POINTER(EOS_Presence_AddNotifyJoinGameAcceptedOptions), c_void_p, EOS_Presence_OnJoinGameAcceptedCallback) -> EOS_NotificationId
+        return EOS_Presence_AddNotifyJoinGameAccepted(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyJoinGameAccepted(self, InId):
+        # type: (EOS_HPresence, EOS_NotificationId) -> None
+        return EOS_Presence_RemoveNotifyJoinGameAccepted(self, InId)
+    def GetJoinInfo(self, Options, OutBuffer, InOutBufferLength):
+        # type: (EOS_HPresence, POINTER(EOS_Presence_GetJoinInfoOptions), c_char_p, POINTER(c_int32)) -> EOS_EResult
+        return EOS_Presence_GetJoinInfo(self, Options, OutBuffer, InOutBufferLength)
+class EOS_HPresenceModification(c_void_p):
+    def Release(self):
+        # type: (EOS_HPresenceModification) -> None
+        return EOS_PresenceModification_Release(self)
+    def SetStatus(self, Options):
+        # type: (EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetStatusOptions)) -> EOS_EResult
+        return EOS_PresenceModification_SetStatus(self, Options)
+    def SetRawRichText(self, Options):
+        # type: (EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetRawRichTextOptions)) -> EOS_EResult
+        return EOS_PresenceModification_SetRawRichText(self, Options)
+    def SetData(self, Options):
+        # type: (EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetDataOptions)) -> EOS_EResult
+        return EOS_PresenceModification_SetData(self, Options)
+    def DeleteData(self, Options):
+        # type: (EOS_HPresenceModification, POINTER(EOS_PresenceModification_DeleteDataOptions)) -> EOS_EResult
+        return EOS_PresenceModification_DeleteData(self, Options)
+    def SetJoinInfo(self, Options):
+        # type: (EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetJoinInfoOptions)) -> EOS_EResult
+        return EOS_PresenceModification_SetJoinInfo(self, Options)
+class EOS_HRTCAudio(c_void_p):
+    def SendAudio(self, Options):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_SendAudioOptions)) -> EOS_EResult
+        return EOS_RTCAudio_SendAudio(self, Options)
+    def UpdateSending(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_UpdateSendingOptions), c_void_p, EOS_RTCAudio_OnUpdateSendingCallback) -> None
+        return EOS_RTCAudio_UpdateSending(self, Options, ClientData, CompletionDelegate)
+    def UpdateReceiving(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_UpdateReceivingOptions), c_void_p, EOS_RTCAudio_OnUpdateReceivingCallback) -> None
+        return EOS_RTCAudio_UpdateReceiving(self, Options, ClientData, CompletionDelegate)
+    def UpdateSendingVolume(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_UpdateSendingVolumeOptions), c_void_p, EOS_RTCAudio_OnUpdateSendingVolumeCallback) -> None
+        return EOS_RTCAudio_UpdateSendingVolume(self, Options, ClientData, CompletionDelegate)
+    def UpdateReceivingVolume(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_UpdateReceivingVolumeOptions), c_void_p, EOS_RTCAudio_OnUpdateReceivingVolumeCallback) -> None
+        return EOS_RTCAudio_UpdateReceivingVolume(self, Options, ClientData, CompletionDelegate)
+    def UpdateParticipantVolume(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_UpdateParticipantVolumeOptions), c_void_p, EOS_RTCAudio_OnUpdateParticipantVolumeCallback) -> None
+        return EOS_RTCAudio_UpdateParticipantVolume(self, Options, ClientData, CompletionDelegate)
+    def AddNotifyParticipantUpdated(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_AddNotifyParticipantUpdatedOptions), c_void_p, EOS_RTCAudio_OnParticipantUpdatedCallback) -> EOS_NotificationId
+        return EOS_RTCAudio_AddNotifyParticipantUpdated(self, Options, ClientData, CompletionDelegate)
+    def RemoveNotifyParticipantUpdated(self, NotificationId):
+        # type: (EOS_HRTCAudio, EOS_NotificationId) -> None
+        return EOS_RTCAudio_RemoveNotifyParticipantUpdated(self, NotificationId)
+    def AddNotifyAudioDevicesChanged(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_AddNotifyAudioDevicesChangedOptions), c_void_p, EOS_RTCAudio_OnAudioDevicesChangedCallback) -> EOS_NotificationId
+        return EOS_RTCAudio_AddNotifyAudioDevicesChanged(self, Options, ClientData, CompletionDelegate)
+    def RemoveNotifyAudioDevicesChanged(self, NotificationId):
+        # type: (EOS_HRTCAudio, EOS_NotificationId) -> None
+        return EOS_RTCAudio_RemoveNotifyAudioDevicesChanged(self, NotificationId)
+    def AddNotifyAudioInputState(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_AddNotifyAudioInputStateOptions), c_void_p, EOS_RTCAudio_OnAudioInputStateCallback) -> EOS_NotificationId
+        return EOS_RTCAudio_AddNotifyAudioInputState(self, Options, ClientData, CompletionDelegate)
+    def RemoveNotifyAudioInputState(self, NotificationId):
+        # type: (EOS_HRTCAudio, EOS_NotificationId) -> None
+        return EOS_RTCAudio_RemoveNotifyAudioInputState(self, NotificationId)
+    def AddNotifyAudioOutputState(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_AddNotifyAudioOutputStateOptions), c_void_p, EOS_RTCAudio_OnAudioOutputStateCallback) -> EOS_NotificationId
+        return EOS_RTCAudio_AddNotifyAudioOutputState(self, Options, ClientData, CompletionDelegate)
+    def RemoveNotifyAudioOutputState(self, NotificationId):
+        # type: (EOS_HRTCAudio, EOS_NotificationId) -> None
+        return EOS_RTCAudio_RemoveNotifyAudioOutputState(self, NotificationId)
+    def AddNotifyAudioBeforeSend(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_AddNotifyAudioBeforeSendOptions), c_void_p, EOS_RTCAudio_OnAudioBeforeSendCallback) -> EOS_NotificationId
+        return EOS_RTCAudio_AddNotifyAudioBeforeSend(self, Options, ClientData, CompletionDelegate)
+    def RemoveNotifyAudioBeforeSend(self, NotificationId):
+        # type: (EOS_HRTCAudio, EOS_NotificationId) -> None
+        return EOS_RTCAudio_RemoveNotifyAudioBeforeSend(self, NotificationId)
+    def AddNotifyAudioBeforeRender(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_AddNotifyAudioBeforeRenderOptions), c_void_p, EOS_RTCAudio_OnAudioBeforeRenderCallback) -> EOS_NotificationId
+        return EOS_RTCAudio_AddNotifyAudioBeforeRender(self, Options, ClientData, CompletionDelegate)
+    def RemoveNotifyAudioBeforeRender(self, NotificationId):
+        # type: (EOS_HRTCAudio, EOS_NotificationId) -> None
+        return EOS_RTCAudio_RemoveNotifyAudioBeforeRender(self, NotificationId)
+    def RegisterPlatformUser(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_RegisterPlatformUserOptions), c_void_p, EOS_RTCAudio_OnRegisterPlatformUserCallback) -> None
+        return EOS_RTCAudio_RegisterPlatformUser(self, Options, ClientData, CompletionDelegate)
+    def UnregisterPlatformUser(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_UnregisterPlatformUserOptions), c_void_p, EOS_RTCAudio_OnUnregisterPlatformUserCallback) -> None
+        return EOS_RTCAudio_UnregisterPlatformUser(self, Options, ClientData, CompletionDelegate)
+    def QueryInputDevicesInformation(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_QueryInputDevicesInformationOptions), c_void_p, EOS_RTCAudio_OnQueryInputDevicesInformationCallback) -> None
+        return EOS_RTCAudio_QueryInputDevicesInformation(self, Options, ClientData, CompletionDelegate)
+    def GetInputDevicesCount(self, Options):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_GetInputDevicesCountOptions)) -> c_uint32
+        return EOS_RTCAudio_GetInputDevicesCount(self, Options)
+    def CopyInputDeviceInformationByIndex(self, Options, OutInputDeviceInformation):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_CopyInputDeviceInformationByIndexOptions), POINTER(POINTER(EOS_RTCAudio_InputDeviceInformation))) -> EOS_EResult
+        return EOS_RTCAudio_CopyInputDeviceInformationByIndex(self, Options, OutInputDeviceInformation)
+    def QueryOutputDevicesInformation(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_QueryOutputDevicesInformationOptions), c_void_p, EOS_RTCAudio_OnQueryOutputDevicesInformationCallback) -> None
+        return EOS_RTCAudio_QueryOutputDevicesInformation(self, Options, ClientData, CompletionDelegate)
+    def GetOutputDevicesCount(self, Options):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_GetOutputDevicesCountOptions)) -> c_uint32
+        return EOS_RTCAudio_GetOutputDevicesCount(self, Options)
+    def CopyOutputDeviceInformationByIndex(self, Options, OutOutputDeviceInformation):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_CopyOutputDeviceInformationByIndexOptions), POINTER(POINTER(EOS_RTCAudio_OutputDeviceInformation))) -> EOS_EResult
+        return EOS_RTCAudio_CopyOutputDeviceInformationByIndex(self, Options, OutOutputDeviceInformation)
+    def SetInputDeviceSettings(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_SetInputDeviceSettingsOptions), c_void_p, EOS_RTCAudio_OnSetInputDeviceSettingsCallback) -> None
+        return EOS_RTCAudio_SetInputDeviceSettings(self, Options, ClientData, CompletionDelegate)
+    def SetOutputDeviceSettings(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_SetOutputDeviceSettingsOptions), c_void_p, EOS_RTCAudio_OnSetOutputDeviceSettingsCallback) -> None
+        return EOS_RTCAudio_SetOutputDeviceSettings(self, Options, ClientData, CompletionDelegate)
+    def RegisterPlatformAudioUser(self, Options):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_RegisterPlatformAudioUserOptions)) -> EOS_EResult
+        return EOS_RTCAudio_RegisterPlatformAudioUser(self, Options)
+    def UnregisterPlatformAudioUser(self, Options):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_UnregisterPlatformAudioUserOptions)) -> EOS_EResult
+        return EOS_RTCAudio_UnregisterPlatformAudioUser(self, Options)
+    def GetAudioInputDevicesCount(self, Options):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_GetAudioInputDevicesCountOptions)) -> c_uint32
+        return EOS_RTCAudio_GetAudioInputDevicesCount(self, Options)
+    def GetAudioInputDeviceByIndex(self, Options):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_GetAudioInputDeviceByIndexOptions)) -> POINTER(EOS_RTCAudio_AudioInputDeviceInfo)
+        return EOS_RTCAudio_GetAudioInputDeviceByIndex(self, Options)
+    def GetAudioOutputDevicesCount(self, Options):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_GetAudioOutputDevicesCountOptions)) -> c_uint32
+        return EOS_RTCAudio_GetAudioOutputDevicesCount(self, Options)
+    def GetAudioOutputDeviceByIndex(self, Options):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_GetAudioOutputDeviceByIndexOptions)) -> POINTER(EOS_RTCAudio_AudioOutputDeviceInfo)
+        return EOS_RTCAudio_GetAudioOutputDeviceByIndex(self, Options)
+    def SetAudioInputSettings(self, Options):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_SetAudioInputSettingsOptions)) -> EOS_EResult
+        return EOS_RTCAudio_SetAudioInputSettings(self, Options)
+    def SetAudioOutputSettings(self, Options):
+        # type: (EOS_HRTCAudio, POINTER(EOS_RTCAudio_SetAudioOutputSettingsOptions)) -> EOS_EResult
+        return EOS_RTCAudio_SetAudioOutputSettings(self, Options)
+class EOS_HSessions(c_void_p):
+    def CreateSessionModification(self, Options, OutSessionModificationHandle):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_CreateSessionModificationOptions), POINTER(EOS_HSessionModification)) -> EOS_EResult
+        return EOS_Sessions_CreateSessionModification(self, Options, OutSessionModificationHandle)
+    def UpdateSessionModification(self, Options, OutSessionModificationHandle):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_UpdateSessionModificationOptions), POINTER(EOS_HSessionModification)) -> EOS_EResult
+        return EOS_Sessions_UpdateSessionModification(self, Options, OutSessionModificationHandle)
+    def UpdateSession(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_UpdateSessionOptions), c_void_p, EOS_Sessions_OnUpdateSessionCallback) -> None
+        return EOS_Sessions_UpdateSession(self, Options, ClientData, CompletionDelegate)
+    def DestroySession(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_DestroySessionOptions), c_void_p, EOS_Sessions_OnDestroySessionCallback) -> None
+        return EOS_Sessions_DestroySession(self, Options, ClientData, CompletionDelegate)
+    def JoinSession(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_JoinSessionOptions), c_void_p, EOS_Sessions_OnJoinSessionCallback) -> None
+        return EOS_Sessions_JoinSession(self, Options, ClientData, CompletionDelegate)
+    def StartSession(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_StartSessionOptions), c_void_p, EOS_Sessions_OnStartSessionCallback) -> None
+        return EOS_Sessions_StartSession(self, Options, ClientData, CompletionDelegate)
+    def EndSession(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_EndSessionOptions), c_void_p, EOS_Sessions_OnEndSessionCallback) -> None
+        return EOS_Sessions_EndSession(self, Options, ClientData, CompletionDelegate)
+    def RegisterPlayers(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_RegisterPlayersOptions), c_void_p, EOS_Sessions_OnRegisterPlayersCallback) -> None
+        return EOS_Sessions_RegisterPlayers(self, Options, ClientData, CompletionDelegate)
+    def UnregisterPlayers(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_UnregisterPlayersOptions), c_void_p, EOS_Sessions_OnUnregisterPlayersCallback) -> None
+        return EOS_Sessions_UnregisterPlayers(self, Options, ClientData, CompletionDelegate)
+    def SendInvite(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_SendInviteOptions), c_void_p, EOS_Sessions_OnSendInviteCallback) -> None
+        return EOS_Sessions_SendInvite(self, Options, ClientData, CompletionDelegate)
+    def RejectInvite(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_RejectInviteOptions), c_void_p, EOS_Sessions_OnRejectInviteCallback) -> None
+        return EOS_Sessions_RejectInvite(self, Options, ClientData, CompletionDelegate)
+    def QueryInvites(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_QueryInvitesOptions), c_void_p, EOS_Sessions_OnQueryInvitesCallback) -> None
+        return EOS_Sessions_QueryInvites(self, Options, ClientData, CompletionDelegate)
+    def GetInviteCount(self, Options):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_GetInviteCountOptions)) -> c_uint32
+        return EOS_Sessions_GetInviteCount(self, Options)
+    def GetInviteIdByIndex(self, Options, OutBuffer, InOutBufferLength):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_GetInviteIdByIndexOptions), c_char_p, POINTER(c_int32)) -> EOS_EResult
+        return EOS_Sessions_GetInviteIdByIndex(self, Options, OutBuffer, InOutBufferLength)
+    def CreateSessionSearch(self, Options, OutSessionSearchHandle):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_CreateSessionSearchOptions), POINTER(EOS_HSessionSearch)) -> EOS_EResult
+        return EOS_Sessions_CreateSessionSearch(self, Options, OutSessionSearchHandle)
+    def CopyActiveSessionHandle(self, Options, OutSessionHandle):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_CopyActiveSessionHandleOptions), POINTER(EOS_HActiveSession)) -> EOS_EResult
+        return EOS_Sessions_CopyActiveSessionHandle(self, Options, OutSessionHandle)
+    def AddNotifySessionInviteReceived(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_AddNotifySessionInviteReceivedOptions), c_void_p, EOS_Sessions_OnSessionInviteReceivedCallback) -> EOS_NotificationId
+        return EOS_Sessions_AddNotifySessionInviteReceived(self, Options, ClientData, NotificationFn)
+    def RemoveNotifySessionInviteReceived(self, InId):
+        # type: (EOS_HSessions, EOS_NotificationId) -> None
+        return EOS_Sessions_RemoveNotifySessionInviteReceived(self, InId)
+    def AddNotifySessionInviteAccepted(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_AddNotifySessionInviteAcceptedOptions), c_void_p, EOS_Sessions_OnSessionInviteAcceptedCallback) -> EOS_NotificationId
+        return EOS_Sessions_AddNotifySessionInviteAccepted(self, Options, ClientData, NotificationFn)
+    def RemoveNotifySessionInviteAccepted(self, InId):
+        # type: (EOS_HSessions, EOS_NotificationId) -> None
+        return EOS_Sessions_RemoveNotifySessionInviteAccepted(self, InId)
+    def AddNotifySessionInviteRejected(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_AddNotifySessionInviteRejectedOptions), c_void_p, EOS_Sessions_OnSessionInviteRejectedCallback) -> EOS_NotificationId
+        return EOS_Sessions_AddNotifySessionInviteRejected(self, Options, ClientData, NotificationFn)
+    def RemoveNotifySessionInviteRejected(self, InId):
+        # type: (EOS_HSessions, EOS_NotificationId) -> None
+        return EOS_Sessions_RemoveNotifySessionInviteRejected(self, InId)
+    def AddNotifyJoinSessionAccepted(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_AddNotifyJoinSessionAcceptedOptions), c_void_p, EOS_Sessions_OnJoinSessionAcceptedCallback) -> EOS_NotificationId
+        return EOS_Sessions_AddNotifyJoinSessionAccepted(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyJoinSessionAccepted(self, InId):
+        # type: (EOS_HSessions, EOS_NotificationId) -> None
+        return EOS_Sessions_RemoveNotifyJoinSessionAccepted(self, InId)
+    def CopySessionHandleByInviteId(self, Options, OutSessionHandle):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_CopySessionHandleByInviteIdOptions), POINTER(EOS_HSessionDetails)) -> EOS_EResult
+        return EOS_Sessions_CopySessionHandleByInviteId(self, Options, OutSessionHandle)
+    def CopySessionHandleByUiEventId(self, Options, OutSessionHandle):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_CopySessionHandleByUiEventIdOptions), POINTER(EOS_HSessionDetails)) -> EOS_EResult
+        return EOS_Sessions_CopySessionHandleByUiEventId(self, Options, OutSessionHandle)
+    def CopySessionHandleForPresence(self, Options, OutSessionHandle):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_CopySessionHandleForPresenceOptions), POINTER(EOS_HSessionDetails)) -> EOS_EResult
+        return EOS_Sessions_CopySessionHandleForPresence(self, Options, OutSessionHandle)
+    def IsUserInSession(self, Options):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_IsUserInSessionOptions)) -> EOS_EResult
+        return EOS_Sessions_IsUserInSession(self, Options)
+    def DumpSessionState(self, Options):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_DumpSessionStateOptions)) -> EOS_EResult
+        return EOS_Sessions_DumpSessionState(self, Options)
+    def AddNotifyLeaveSessionRequested(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_AddNotifyLeaveSessionRequestedOptions), c_void_p, EOS_Sessions_OnLeaveSessionRequestedCallback) -> EOS_NotificationId
+        return EOS_Sessions_AddNotifyLeaveSessionRequested(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyLeaveSessionRequested(self, InId):
+        # type: (EOS_HSessions, EOS_NotificationId) -> None
+        return EOS_Sessions_RemoveNotifyLeaveSessionRequested(self, InId)
+    def AddNotifySendSessionNativeInviteRequested(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HSessions, POINTER(EOS_Sessions_AddNotifySendSessionNativeInviteRequestedOptions), c_void_p, EOS_Sessions_OnSendSessionNativeInviteRequestedCallback) -> EOS_NotificationId
+        return EOS_Sessions_AddNotifySendSessionNativeInviteRequested(self, Options, ClientData, NotificationFn)
+    def RemoveNotifySendSessionNativeInviteRequested(self, InId):
+        # type: (EOS_HSessions, EOS_NotificationId) -> None
+        return EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested(self, InId)
+class EOS_HSessionModification(c_void_p):
+    def Release(self):
+        # type: (EOS_HSessionModification) -> None
+        return EOS_SessionModification_Release(self)
+    def SetBucketId(self, Options):
+        # type: (EOS_HSessionModification, POINTER(EOS_SessionModification_SetBucketIdOptions)) -> EOS_EResult
+        return EOS_SessionModification_SetBucketId(self, Options)
+    def SetHostAddress(self, Options):
+        # type: (EOS_HSessionModification, POINTER(EOS_SessionModification_SetHostAddressOptions)) -> EOS_EResult
+        return EOS_SessionModification_SetHostAddress(self, Options)
+    def SetPermissionLevel(self, Options):
+        # type: (EOS_HSessionModification, POINTER(EOS_SessionModification_SetPermissionLevelOptions)) -> EOS_EResult
+        return EOS_SessionModification_SetPermissionLevel(self, Options)
+    def SetJoinInProgressAllowed(self, Options):
+        # type: (EOS_HSessionModification, POINTER(EOS_SessionModification_SetJoinInProgressAllowedOptions)) -> EOS_EResult
+        return EOS_SessionModification_SetJoinInProgressAllowed(self, Options)
+    def SetMaxPlayers(self, Options):
+        # type: (EOS_HSessionModification, POINTER(EOS_SessionModification_SetMaxPlayersOptions)) -> EOS_EResult
+        return EOS_SessionModification_SetMaxPlayers(self, Options)
+    def SetInvitesAllowed(self, Options):
+        # type: (EOS_HSessionModification, POINTER(EOS_SessionModification_SetInvitesAllowedOptions)) -> EOS_EResult
+        return EOS_SessionModification_SetInvitesAllowed(self, Options)
+    def SetAllowedPlatformIds(self, Options):
+        # type: (EOS_HSessionModification, POINTER(EOS_SessionModification_SetAllowedPlatformIdsOptions)) -> EOS_EResult
+        return EOS_SessionModification_SetAllowedPlatformIds(self, Options)
+    def AddAttribute(self, Options):
+        # type: (EOS_HSessionModification, POINTER(EOS_SessionModification_AddAttributeOptions)) -> EOS_EResult
+        return EOS_SessionModification_AddAttribute(self, Options)
+    def RemoveAttribute(self, Options):
+        # type: (EOS_HSessionModification, POINTER(EOS_SessionModification_RemoveAttributeOptions)) -> EOS_EResult
+        return EOS_SessionModification_RemoveAttribute(self, Options)
+class EOS_HActiveSession(c_void_p):
+    def Release(self):
+        # type: (EOS_HActiveSession) -> None
+        return EOS_ActiveSession_Release(self)
+    def CopyInfo(self, Options, OutActiveSessionInfo):
+        # type: (EOS_HActiveSession, POINTER(EOS_ActiveSession_CopyInfoOptions), POINTER(POINTER(EOS_ActiveSession_Info))) -> EOS_EResult
+        return EOS_ActiveSession_CopyInfo(self, Options, OutActiveSessionInfo)
+    def GetRegisteredPlayerCount(self, Options):
+        # type: (EOS_HActiveSession, POINTER(EOS_ActiveSession_GetRegisteredPlayerCountOptions)) -> c_uint32
+        return EOS_ActiveSession_GetRegisteredPlayerCount(self, Options)
+    def GetRegisteredPlayerByIndex(self, Options):
+        # type: (EOS_HActiveSession, POINTER(EOS_ActiveSession_GetRegisteredPlayerByIndexOptions)) -> EOS_ProductUserId
+        return EOS_ActiveSession_GetRegisteredPlayerByIndex(self, Options)
+class EOS_HSessionDetails(c_void_p):
+    def Release(self):
+        # type: (EOS_HSessionDetails) -> None
+        return EOS_SessionDetails_Release(self)
+    def CopyInfo(self, Options, OutSessionInfo):
+        # type: (EOS_HSessionDetails, POINTER(EOS_SessionDetails_CopyInfoOptions), POINTER(POINTER(EOS_SessionDetails_Info))) -> EOS_EResult
+        return EOS_SessionDetails_CopyInfo(self, Options, OutSessionInfo)
+    def GetSessionAttributeCount(self, Options):
+        # type: (EOS_HSessionDetails, POINTER(EOS_SessionDetails_GetSessionAttributeCountOptions)) -> c_uint32
+        return EOS_SessionDetails_GetSessionAttributeCount(self, Options)
+    def CopySessionAttributeByIndex(self, Options, OutSessionAttribute):
+        # type: (EOS_HSessionDetails, POINTER(EOS_SessionDetails_CopySessionAttributeByIndexOptions), POINTER(POINTER(EOS_SessionDetails_Attribute))) -> EOS_EResult
+        return EOS_SessionDetails_CopySessionAttributeByIndex(self, Options, OutSessionAttribute)
+    def CopySessionAttributeByKey(self, Options, OutSessionAttribute):
+        # type: (EOS_HSessionDetails, POINTER(EOS_SessionDetails_CopySessionAttributeByKeyOptions), POINTER(POINTER(EOS_SessionDetails_Attribute))) -> EOS_EResult
+        return EOS_SessionDetails_CopySessionAttributeByKey(self, Options, OutSessionAttribute)
+class EOS_HSessionSearch(c_void_p):
+    def Release(self):
+        # type: (EOS_HSessionSearch) -> None
+        return EOS_SessionSearch_Release(self)
+    def SetSessionId(self, Options):
+        # type: (EOS_HSessionSearch, POINTER(EOS_SessionSearch_SetSessionIdOptions)) -> EOS_EResult
+        return EOS_SessionSearch_SetSessionId(self, Options)
+    def SetTargetUserId(self, Options):
+        # type: (EOS_HSessionSearch, POINTER(EOS_SessionSearch_SetTargetUserIdOptions)) -> EOS_EResult
+        return EOS_SessionSearch_SetTargetUserId(self, Options)
+    def SetParameter(self, Options):
+        # type: (EOS_HSessionSearch, POINTER(EOS_SessionSearch_SetParameterOptions)) -> EOS_EResult
+        return EOS_SessionSearch_SetParameter(self, Options)
+    def RemoveParameter(self, Options):
+        # type: (EOS_HSessionSearch, POINTER(EOS_SessionSearch_RemoveParameterOptions)) -> EOS_EResult
+        return EOS_SessionSearch_RemoveParameter(self, Options)
+    def SetMaxResults(self, Options):
+        # type: (EOS_HSessionSearch, POINTER(EOS_SessionSearch_SetMaxResultsOptions)) -> EOS_EResult
+        return EOS_SessionSearch_SetMaxResults(self, Options)
+    def Find(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HSessionSearch, POINTER(EOS_SessionSearch_FindOptions), c_void_p, EOS_SessionSearch_OnFindCallback) -> None
+        return EOS_SessionSearch_Find(self, Options, ClientData, CompletionDelegate)
+    def GetSearchResultCount(self, Options):
+        # type: (EOS_HSessionSearch, POINTER(EOS_SessionSearch_GetSearchResultCountOptions)) -> c_uint32
+        return EOS_SessionSearch_GetSearchResultCount(self, Options)
+    def CopySearchResultByIndex(self, Options, OutSessionHandle):
+        # type: (EOS_HSessionSearch, POINTER(EOS_SessionSearch_CopySearchResultByIndexOptions), POINTER(EOS_HSessionDetails)) -> EOS_EResult
+        return EOS_SessionSearch_CopySearchResultByIndex(self, Options, OutSessionHandle)
+class EOS_HAchievements(c_void_p):
+    def QueryDefinitions(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HAchievements, POINTER(EOS_Achievements_QueryDefinitionsOptions), c_void_p, EOS_Achievements_OnQueryDefinitionsCompleteCallback) -> None
+        return EOS_Achievements_QueryDefinitions(self, Options, ClientData, CompletionDelegate)
+    def GetAchievementDefinitionCount(self, Options):
+        # type: (EOS_HAchievements, POINTER(EOS_Achievements_GetAchievementDefinitionCountOptions)) -> c_uint32
+        return EOS_Achievements_GetAchievementDefinitionCount(self, Options)
+    def CopyAchievementDefinitionV2ByIndex(self, Options, OutDefinition):
+        # type: (EOS_HAchievements, POINTER(EOS_Achievements_CopyAchievementDefinitionV2ByIndexOptions), POINTER(POINTER(EOS_Achievements_DefinitionV2))) -> EOS_EResult
+        return EOS_Achievements_CopyAchievementDefinitionV2ByIndex(self, Options, OutDefinition)
+    def CopyAchievementDefinitionV2ByAchievementId(self, Options, OutDefinition):
+        # type: (EOS_HAchievements, POINTER(EOS_Achievements_CopyAchievementDefinitionV2ByAchievementIdOptions), POINTER(POINTER(EOS_Achievements_DefinitionV2))) -> EOS_EResult
+        return EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId(self, Options, OutDefinition)
+    def QueryPlayerAchievements(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HAchievements, POINTER(EOS_Achievements_QueryPlayerAchievementsOptions), c_void_p, EOS_Achievements_OnQueryPlayerAchievementsCompleteCallback) -> None
+        return EOS_Achievements_QueryPlayerAchievements(self, Options, ClientData, CompletionDelegate)
+    def GetPlayerAchievementCount(self, Options):
+        # type: (EOS_HAchievements, POINTER(EOS_Achievements_GetPlayerAchievementCountOptions)) -> c_uint32
+        return EOS_Achievements_GetPlayerAchievementCount(self, Options)
+    def CopyPlayerAchievementByIndex(self, Options, OutAchievement):
+        # type: (EOS_HAchievements, POINTER(EOS_Achievements_CopyPlayerAchievementByIndexOptions), POINTER(POINTER(EOS_Achievements_PlayerAchievement))) -> EOS_EResult
+        return EOS_Achievements_CopyPlayerAchievementByIndex(self, Options, OutAchievement)
+    def CopyPlayerAchievementByAchievementId(self, Options, OutAchievement):
+        # type: (EOS_HAchievements, POINTER(EOS_Achievements_CopyPlayerAchievementByAchievementIdOptions), POINTER(POINTER(EOS_Achievements_PlayerAchievement))) -> EOS_EResult
+        return EOS_Achievements_CopyPlayerAchievementByAchievementId(self, Options, OutAchievement)
+    def UnlockAchievements(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HAchievements, POINTER(EOS_Achievements_UnlockAchievementsOptions), c_void_p, EOS_Achievements_OnUnlockAchievementsCompleteCallback) -> None
+        return EOS_Achievements_UnlockAchievements(self, Options, ClientData, CompletionDelegate)
+    def AddNotifyAchievementsUnlockedV2(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HAchievements, POINTER(EOS_Achievements_AddNotifyAchievementsUnlockedV2Options), c_void_p, EOS_Achievements_OnAchievementsUnlockedCallbackV2) -> EOS_NotificationId
+        return EOS_Achievements_AddNotifyAchievementsUnlockedV2(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyAchievementsUnlocked(self, InId):
+        # type: (EOS_HAchievements, EOS_NotificationId) -> None
+        return EOS_Achievements_RemoveNotifyAchievementsUnlocked(self, InId)
+    def CopyAchievementDefinitionByIndex(self, Options, OutDefinition):
+        # type: (EOS_HAchievements, POINTER(EOS_Achievements_CopyAchievementDefinitionByIndexOptions), POINTER(POINTER(EOS_Achievements_Definition))) -> EOS_EResult
+        return EOS_Achievements_CopyAchievementDefinitionByIndex(self, Options, OutDefinition)
+    def CopyAchievementDefinitionByAchievementId(self, Options, OutDefinition):
+        # type: (EOS_HAchievements, POINTER(EOS_Achievements_CopyAchievementDefinitionByAchievementIdOptions), POINTER(POINTER(EOS_Achievements_Definition))) -> EOS_EResult
+        return EOS_Achievements_CopyAchievementDefinitionByAchievementId(self, Options, OutDefinition)
+    def GetUnlockedAchievementCount(self, Options):
+        # type: (EOS_HAchievements, POINTER(EOS_Achievements_GetUnlockedAchievementCountOptions)) -> c_uint32
+        return EOS_Achievements_GetUnlockedAchievementCount(self, Options)
+    def CopyUnlockedAchievementByIndex(self, Options, OutAchievement):
+        # type: (EOS_HAchievements, POINTER(EOS_Achievements_CopyUnlockedAchievementByIndexOptions), POINTER(POINTER(EOS_Achievements_UnlockedAchievement))) -> EOS_EResult
+        return EOS_Achievements_CopyUnlockedAchievementByIndex(self, Options, OutAchievement)
+    def CopyUnlockedAchievementByAchievementId(self, Options, OutAchievement):
+        # type: (EOS_HAchievements, POINTER(EOS_Achievements_CopyUnlockedAchievementByAchievementIdOptions), POINTER(POINTER(EOS_Achievements_UnlockedAchievement))) -> EOS_EResult
+        return EOS_Achievements_CopyUnlockedAchievementByAchievementId(self, Options, OutAchievement)
+    def AddNotifyAchievementsUnlocked(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HAchievements, POINTER(EOS_Achievements_AddNotifyAchievementsUnlockedOptions), c_void_p, EOS_Achievements_OnAchievementsUnlockedCallback) -> EOS_NotificationId
+        return EOS_Achievements_AddNotifyAchievementsUnlocked(self, Options, ClientData, NotificationFn)
+class EOS_HAntiCheatClient(c_void_p):
+    def AddNotifyMessageToServer(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_AddNotifyMessageToServerOptions), c_void_p, EOS_AntiCheatClient_OnMessageToServerCallback) -> EOS_NotificationId
+        return EOS_AntiCheatClient_AddNotifyMessageToServer(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyMessageToServer(self, NotificationId):
+        # type: (EOS_HAntiCheatClient, EOS_NotificationId) -> None
+        return EOS_AntiCheatClient_RemoveNotifyMessageToServer(self, NotificationId)
+    def AddNotifyMessageToPeer(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_AddNotifyMessageToPeerOptions), c_void_p, EOS_AntiCheatClient_OnMessageToPeerCallback) -> EOS_NotificationId
+        return EOS_AntiCheatClient_AddNotifyMessageToPeer(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyMessageToPeer(self, NotificationId):
+        # type: (EOS_HAntiCheatClient, EOS_NotificationId) -> None
+        return EOS_AntiCheatClient_RemoveNotifyMessageToPeer(self, NotificationId)
+    def AddNotifyPeerActionRequired(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_AddNotifyPeerActionRequiredOptions), c_void_p, EOS_AntiCheatClient_OnPeerActionRequiredCallback) -> EOS_NotificationId
+        return EOS_AntiCheatClient_AddNotifyPeerActionRequired(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyPeerActionRequired(self, NotificationId):
+        # type: (EOS_HAntiCheatClient, EOS_NotificationId) -> None
+        return EOS_AntiCheatClient_RemoveNotifyPeerActionRequired(self, NotificationId)
+    def AddNotifyPeerAuthStatusChanged(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_AddNotifyPeerAuthStatusChangedOptions), c_void_p, EOS_AntiCheatClient_OnPeerAuthStatusChangedCallback) -> EOS_NotificationId
+        return EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyPeerAuthStatusChanged(self, NotificationId):
+        # type: (EOS_HAntiCheatClient, EOS_NotificationId) -> None
+        return EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged(self, NotificationId)
+    def AddNotifyClientIntegrityViolated(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_AddNotifyClientIntegrityViolatedOptions), c_void_p, EOS_AntiCheatClient_OnClientIntegrityViolatedCallback) -> EOS_NotificationId
+        return EOS_AntiCheatClient_AddNotifyClientIntegrityViolated(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyClientIntegrityViolated(self, NotificationId):
+        # type: (EOS_HAntiCheatClient, EOS_NotificationId) -> None
+        return EOS_AntiCheatClient_RemoveNotifyClientIntegrityViolated(self, NotificationId)
+    def BeginSession(self, Options):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_BeginSessionOptions)) -> EOS_EResult
+        return EOS_AntiCheatClient_BeginSession(self, Options)
+    def EndSession(self, Options):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_EndSessionOptions)) -> EOS_EResult
+        return EOS_AntiCheatClient_EndSession(self, Options)
+    def PollStatus(self, Options, OutViolationType, OutMessage):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_PollStatusOptions), POINTER(EOS_EAntiCheatClientViolationType), c_char_p) -> EOS_EResult
+        return EOS_AntiCheatClient_PollStatus(self, Options, OutViolationType, OutMessage)
+    def Reserved01(self, Options, OutValue):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_Reserved01Options), POINTER(c_int32)) -> EOS_EResult
+        return EOS_AntiCheatClient_Reserved01(self, Options, OutValue)
+    def AddExternalIntegrityCatalog(self, Options):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_AddExternalIntegrityCatalogOptions)) -> EOS_EResult
+        return EOS_AntiCheatClient_AddExternalIntegrityCatalog(self, Options)
+    def ReceiveMessageFromServer(self, Options):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_ReceiveMessageFromServerOptions)) -> EOS_EResult
+        return EOS_AntiCheatClient_ReceiveMessageFromServer(self, Options)
+    def GetProtectMessageOutputLength(self, Options, OutBufferSizeBytes):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_GetProtectMessageOutputLengthOptions), POINTER(c_uint32)) -> EOS_EResult
+        return EOS_AntiCheatClient_GetProtectMessageOutputLength(self, Options, OutBufferSizeBytes)
+    def ProtectMessage(self, Options, OutBuffer, OutBytesWritten):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_ProtectMessageOptions), c_void_p, POINTER(c_uint32)) -> EOS_EResult
+        return EOS_AntiCheatClient_ProtectMessage(self, Options, OutBuffer, OutBytesWritten)
+    def UnprotectMessage(self, Options, OutBuffer, OutBytesWritten):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_UnprotectMessageOptions), c_void_p, POINTER(c_uint32)) -> EOS_EResult
+        return EOS_AntiCheatClient_UnprotectMessage(self, Options, OutBuffer, OutBytesWritten)
+    def RegisterPeer(self, Options):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_RegisterPeerOptions)) -> EOS_EResult
+        return EOS_AntiCheatClient_RegisterPeer(self, Options)
+    def UnregisterPeer(self, Options):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_UnregisterPeerOptions)) -> EOS_EResult
+        return EOS_AntiCheatClient_UnregisterPeer(self, Options)
+    def ReceiveMessageFromPeer(self, Options):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_ReceiveMessageFromPeerOptions)) -> EOS_EResult
+        return EOS_AntiCheatClient_ReceiveMessageFromPeer(self, Options)
+class EOS_HAuth(c_void_p):
+    def Login(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HAuth, POINTER(EOS_Auth_LoginOptions), c_void_p, EOS_Auth_OnLoginCallback) -> None
+        return EOS_Auth_Login(self, Options, ClientData, CompletionDelegate)
+    def Logout(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HAuth, POINTER(EOS_Auth_LogoutOptions), c_void_p, EOS_Auth_OnLogoutCallback) -> None
+        return EOS_Auth_Logout(self, Options, ClientData, CompletionDelegate)
+    def LinkAccount(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HAuth, POINTER(EOS_Auth_LinkAccountOptions), c_void_p, EOS_Auth_OnLinkAccountCallback) -> None
+        return EOS_Auth_LinkAccount(self, Options, ClientData, CompletionDelegate)
+    def DeletePersistentAuth(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HAuth, POINTER(EOS_Auth_DeletePersistentAuthOptions), c_void_p, EOS_Auth_OnDeletePersistentAuthCallback) -> None
+        return EOS_Auth_DeletePersistentAuth(self, Options, ClientData, CompletionDelegate)
+    def VerifyUserAuth(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HAuth, POINTER(EOS_Auth_VerifyUserAuthOptions), c_void_p, EOS_Auth_OnVerifyUserAuthCallback) -> None
+        return EOS_Auth_VerifyUserAuth(self, Options, ClientData, CompletionDelegate)
+    def GetLoggedInAccountsCount(self):
+        # type: (EOS_HAuth) -> c_int32
+        return EOS_Auth_GetLoggedInAccountsCount(self)
+    def GetLoggedInAccountByIndex(self, Index):
+        # type: (EOS_HAuth, c_int32) -> EOS_EpicAccountId
+        return EOS_Auth_GetLoggedInAccountByIndex(self, Index)
+    def GetLoginStatus(self, LocalUserId):
+        # type: (EOS_HAuth, EOS_EpicAccountId) -> EOS_ELoginStatus
+        return EOS_Auth_GetLoginStatus(self, LocalUserId)
+    def CopyUserAuthToken(self, Options, LocalUserId, OutUserAuthToken):
+        # type: (EOS_HAuth, POINTER(EOS_Auth_CopyUserAuthTokenOptions), EOS_EpicAccountId, POINTER(POINTER(EOS_Auth_Token))) -> EOS_EResult
+        return EOS_Auth_CopyUserAuthToken(self, Options, LocalUserId, OutUserAuthToken)
+    def CopyIdToken(self, Options, OutIdToken):
+        # type: (EOS_HAuth, POINTER(EOS_Auth_CopyIdTokenOptions), POINTER(POINTER(EOS_Auth_IdToken))) -> EOS_EResult
+        return EOS_Auth_CopyIdToken(self, Options, OutIdToken)
+    def QueryIdToken(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HAuth, POINTER(EOS_Auth_QueryIdTokenOptions), c_void_p, EOS_Auth_OnQueryIdTokenCallback) -> None
+        return EOS_Auth_QueryIdToken(self, Options, ClientData, CompletionDelegate)
+    def VerifyIdToken(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HAuth, POINTER(EOS_Auth_VerifyIdTokenOptions), c_void_p, EOS_Auth_OnVerifyIdTokenCallback) -> None
+        return EOS_Auth_VerifyIdToken(self, Options, ClientData, CompletionDelegate)
+    def GetSelectedAccountId(self, LocalUserId, OutSelectedAccountId):
+        # type: (EOS_HAuth, EOS_EpicAccountId, POINTER(EOS_EpicAccountId)) -> EOS_EResult
+        return EOS_Auth_GetSelectedAccountId(self, LocalUserId, OutSelectedAccountId)
+    def GetMergedAccountsCount(self, LocalUserId):
+        # type: (EOS_HAuth, EOS_EpicAccountId) -> c_uint32
+        return EOS_Auth_GetMergedAccountsCount(self, LocalUserId)
+    def GetMergedAccountByIndex(self, LocalUserId, Index):
+        # type: (EOS_HAuth, EOS_EpicAccountId, c_uint32) -> EOS_EpicAccountId
+        return EOS_Auth_GetMergedAccountByIndex(self, LocalUserId, Index)
+    def AddNotifyLoginStatusChanged(self, Options, ClientData, Notification):
+        # type: (EOS_HAuth, POINTER(EOS_Auth_AddNotifyLoginStatusChangedOptions), c_void_p, EOS_Auth_OnLoginStatusChangedCallback) -> EOS_NotificationId
+        return EOS_Auth_AddNotifyLoginStatusChanged(self, Options, ClientData, Notification)
+    def RemoveNotifyLoginStatusChanged(self, InId):
+        # type: (EOS_HAuth, EOS_NotificationId) -> None
+        return EOS_Auth_RemoveNotifyLoginStatusChanged(self, InId)
+class EOS_PageQuery(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('StartIndex', c_int32),
+        ('MaxCount', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_PAGEQUERY_API_LATEST, StartIndex = 0, MaxCount = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, StartIndex = StartIndex, MaxCount = MaxCount)
+class EOS_PageResult(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('StartIndex', c_int32),
+        ('Count', c_int32),
+        ('TotalCount', c_int32),
+    ]
+    def __init__(self, StartIndex = 0, Count = 0, TotalCount = 0):
+        Structure.__init__(self, StartIndex = StartIndex, Count = Count, TotalCount = TotalCount)
+class EOS_Connect_Credentials(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Token', c_char_p),
+        ('Type', EOS_EExternalCredentialType),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_CREDENTIALS_API_LATEST, Token = None, Type = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Token = Token, Type = Type)
+class EOS_Connect_UserLoginInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('DisplayName', c_char_p),
+        ('NsaIdToken', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_USERLOGININFO_API_LATEST, DisplayName = None, NsaIdToken = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, DisplayName = DisplayName, NsaIdToken = NsaIdToken)
+class EOS_Connect_LoginOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Credentials', POINTER(EOS_Connect_Credentials)),
+        ('UserLoginInfo', POINTER(EOS_Connect_UserLoginInfo)),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_LOGIN_API_LATEST, Credentials = None, UserLoginInfo = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, Credentials = Credentials, UserLoginInfo = UserLoginInfo)
+class EOS_Connect_LoginCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('ContinuanceToken', EOS_ContinuanceToken),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, ContinuanceToken = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, ContinuanceToken = ContinuanceToken)
+class EOS_Connect_LogoutOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_LOGOUT_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_Connect_LogoutCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_Connect_CreateUserOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ContinuanceToken', EOS_ContinuanceToken),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_CREATEUSER_API_LATEST, ContinuanceToken = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, ContinuanceToken = ContinuanceToken)
+class EOS_Connect_CreateUserCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_Connect_LinkAccountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('ContinuanceToken', EOS_ContinuanceToken),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_LINKACCOUNT_API_LATEST, LocalUserId = None, ContinuanceToken = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, ContinuanceToken = ContinuanceToken)
+class EOS_Connect_LinkAccountCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_Connect_UnlinkAccountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_UNLINKACCOUNT_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_Connect_UnlinkAccountCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_Connect_CreateDeviceIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('DeviceModel', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_CREATEDEVICEID_API_LATEST, DeviceModel = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, DeviceModel = DeviceModel)
+class EOS_Connect_CreateDeviceIdCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
+class EOS_Connect_DeleteDeviceIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_DELETEDEVICEID_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Connect_DeleteDeviceIdCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
+class EOS_Connect_TransferDeviceIdAccountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('PrimaryLocalUserId', EOS_ProductUserId),
+        ('LocalDeviceUserId', EOS_ProductUserId),
+        ('ProductUserIdToPreserve', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_TRANSFERDEVICEIDACCOUNT_API_LATEST, PrimaryLocalUserId = None, LocalDeviceUserId = None, ProductUserIdToPreserve = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, PrimaryLocalUserId = PrimaryLocalUserId, LocalDeviceUserId = LocalDeviceUserId, ProductUserIdToPreserve = ProductUserIdToPreserve)
+class EOS_Connect_TransferDeviceIdAccountCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_Connect_QueryExternalAccountMappingsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('AccountIdType', EOS_EExternalAccountType),
+        ('ExternalAccountIds', POINTER(c_char_p)),
+        ('ExternalAccountIdCount', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_QUERYEXTERNALACCOUNTMAPPINGS_API_LATEST, LocalUserId = None, AccountIdType = 0, ExternalAccountIds = None, ExternalAccountIdCount = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, AccountIdType = AccountIdType, ExternalAccountIds = ExternalAccountIds, ExternalAccountIdCount = ExternalAccountIdCount)
+class EOS_Connect_QueryExternalAccountMappingsCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_Connect_GetExternalAccountMappingsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('AccountIdType', EOS_EExternalAccountType),
+        ('TargetExternalUserId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_GETEXTERNALACCOUNTMAPPING_API_LATEST, LocalUserId = None, AccountIdType = 0, TargetExternalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, AccountIdType = AccountIdType, TargetExternalUserId = TargetExternalUserId)
+class EOS_Connect_QueryProductUserIdMappingsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('AccountIdType_DEPRECATED', EOS_EExternalAccountType),
+        ('ProductUserIds', POINTER(EOS_ProductUserId)),
+        ('ProductUserIdCount', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_QUERYPRODUCTUSERIDMAPPINGS_API_LATEST, LocalUserId = None, AccountIdType_DEPRECATED = 0, ProductUserIds = None, ProductUserIdCount = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, AccountIdType_DEPRECATED = AccountIdType_DEPRECATED, ProductUserIds = ProductUserIds, ProductUserIdCount = ProductUserIdCount)
+class EOS_Connect_QueryProductUserIdMappingsCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_Connect_GetProductUserIdMappingOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('AccountIdType', EOS_EExternalAccountType),
+        ('TargetProductUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_GETPRODUCTUSERIDMAPPING_API_LATEST, LocalUserId = None, AccountIdType = 0, TargetProductUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, AccountIdType = AccountIdType, TargetProductUserId = TargetProductUserId)
+class EOS_Connect_GetProductUserExternalAccountCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_GETPRODUCTUSEREXTERNALACCOUNTCOUNT_API_LATEST, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId)
+class EOS_Connect_CopyProductUserExternalAccountByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+        ('ExternalAccountInfoIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYINDEX_API_LATEST, TargetUserId = None, ExternalAccountInfoIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId, ExternalAccountInfoIndex = ExternalAccountInfoIndex)
+class EOS_Connect_CopyProductUserExternalAccountByAccountTypeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+        ('AccountIdType', EOS_EExternalAccountType),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYACCOUNTTYPE_API_LATEST, TargetUserId = None, AccountIdType = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId, AccountIdType = AccountIdType)
+class EOS_Connect_CopyProductUserExternalAccountByAccountIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+        ('AccountId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYACCOUNTID_API_LATEST, TargetUserId = None, AccountId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId, AccountId = AccountId)
+class EOS_Connect_CopyProductUserInfoOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_COPYPRODUCTUSERINFO_API_LATEST, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId)
+class EOS_Connect_ExternalAccountInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ProductUserId', EOS_ProductUserId),
+        ('DisplayName', c_char_p),
+        ('AccountId', c_char_p),
+        ('AccountIdType', EOS_EExternalAccountType),
+        ('LastLoginTime', c_int64),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_EXTERNALACCOUNTINFO_API_LATEST, ProductUserId = None, DisplayName = None, AccountId = None, AccountIdType = 0, LastLoginTime = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, ProductUserId = ProductUserId, DisplayName = DisplayName, AccountId = AccountId, AccountIdType = AccountIdType, LastLoginTime = LastLoginTime)
+    def Release(self):
+        # type: (POINTER(EOS_Connect_ExternalAccountInfo)) -> None
+        return EOS_Connect_ExternalAccountInfo_Release(self)
+class EOS_Connect_AddNotifyAuthExpirationOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_ADDNOTIFYAUTHEXPIRATION_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Connect_AuthExpirationCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_Connect_AddNotifyLoginStatusChangedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_ADDNOTIFYLOGINSTATUSCHANGED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Connect_LoginStatusChangedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('PreviousStatus', EOS_ELoginStatus),
+        ('CurrentStatus', EOS_ELoginStatus),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, PreviousStatus = 0, CurrentStatus = 0):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, PreviousStatus = PreviousStatus, CurrentStatus = CurrentStatus)
+class EOS_Connect_IdToken(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ProductUserId', EOS_ProductUserId),
+        ('JsonWebToken', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_IDTOKEN_API_LATEST, ProductUserId = None, JsonWebToken = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, ProductUserId = ProductUserId, JsonWebToken = JsonWebToken)
+    def Release(self):
+        # type: (POINTER(EOS_Connect_IdToken)) -> None
+        return EOS_Connect_IdToken_Release(self)
+class EOS_Connect_CopyIdTokenOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_COPYIDTOKEN_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_Connect_VerifyIdTokenOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('IdToken', POINTER(EOS_Connect_IdToken)),
+    ]
+    def __init__(self, ApiVersion = EOS_CONNECT_VERIFYIDTOKEN_API_LATEST, IdToken = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, IdToken = IdToken)
+class EOS_Connect_VerifyIdTokenCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('ProductUserId', EOS_ProductUserId),
+        ('bIsAccountInfoPresent', EOS_Bool),
+        ('AccountIdType', EOS_EExternalAccountType),
+        ('AccountId', c_char_p),
+        ('Platform', c_char_p),
+        ('DeviceType', c_char_p),
+        ('ClientId', c_char_p),
+        ('ProductId', c_char_p),
+        ('SandboxId', c_char_p),
+        ('DeploymentId', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, ProductUserId = None, bIsAccountInfoPresent = 0, AccountIdType = 0, AccountId = None, Platform = None, DeviceType = None, ClientId = None, ProductId = None, SandboxId = None, DeploymentId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, ProductUserId = ProductUserId, bIsAccountInfoPresent = bIsAccountInfoPresent, AccountIdType = AccountIdType, AccountId = AccountId, Platform = Platform, DeviceType = DeviceType, ClientId = ClientId, ProductId = ProductId, SandboxId = SandboxId, DeploymentId = DeploymentId)
+class EOS_Ecom_Entitlement(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('EntitlementName', EOS_Ecom_EntitlementName),
+        ('EntitlementId', EOS_Ecom_EntitlementId),
+        ('CatalogItemId', EOS_Ecom_CatalogItemId),
+        ('ServerIndex', c_int32),
+        ('bRedeemed', EOS_Bool),
+        ('EndTimestamp', c_int64),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_ENTITLEMENT_API_LATEST, EntitlementName = None, EntitlementId = None, CatalogItemId = None, ServerIndex = 0, bRedeemed = 0, EndTimestamp = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, EntitlementName = EntitlementName, EntitlementId = EntitlementId, CatalogItemId = CatalogItemId, ServerIndex = ServerIndex, bRedeemed = bRedeemed, EndTimestamp = EndTimestamp)
+    def Release(self):
+        # type: (POINTER(EOS_Ecom_Entitlement)) -> None
+        return EOS_Ecom_Entitlement_Release(self)
+class EOS_Ecom_ItemOwnership(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Id', EOS_Ecom_CatalogItemId),
+        ('OwnershipStatus', EOS_EOwnershipStatus),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_ITEMOWNERSHIP_API_LATEST, Id = None, OwnershipStatus = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Id = Id, OwnershipStatus = OwnershipStatus)
+class EOS_Ecom_CatalogItem(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('CatalogNamespace', c_char_p),
+        ('Id', EOS_Ecom_CatalogItemId),
+        ('EntitlementName', EOS_Ecom_EntitlementName),
+        ('TitleText', c_char_p),
+        ('DescriptionText', c_char_p),
+        ('LongDescriptionText', c_char_p),
+        ('TechnicalDetailsText', c_char_p),
+        ('DeveloperText', c_char_p),
+        ('ItemType', EOS_EEcomItemType),
+        ('EntitlementEndTimestamp', c_int64),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_CATALOGITEM_API_LATEST, CatalogNamespace = None, Id = None, EntitlementName = None, TitleText = None, DescriptionText = None, LongDescriptionText = None, TechnicalDetailsText = None, DeveloperText = None, ItemType = 0, EntitlementEndTimestamp = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, CatalogNamespace = CatalogNamespace, Id = Id, EntitlementName = EntitlementName, TitleText = TitleText, DescriptionText = DescriptionText, LongDescriptionText = LongDescriptionText, TechnicalDetailsText = TechnicalDetailsText, DeveloperText = DeveloperText, ItemType = ItemType, EntitlementEndTimestamp = EntitlementEndTimestamp)
+    def Release(self):
+        # type: (POINTER(EOS_Ecom_CatalogItem)) -> None
+        return EOS_Ecom_CatalogItem_Release(self)
+class EOS_Ecom_CatalogOffer(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ServerIndex', c_int32),
+        ('CatalogNamespace', c_char_p),
+        ('Id', EOS_Ecom_CatalogOfferId),
+        ('TitleText', c_char_p),
+        ('DescriptionText', c_char_p),
+        ('LongDescriptionText', c_char_p),
+        ('TechnicalDetailsText_DEPRECATED', c_char_p),
+        ('CurrencyCode', c_char_p),
+        ('PriceResult', EOS_EResult),
+        ('OriginalPrice_DEPRECATED', c_uint32),
+        ('CurrentPrice_DEPRECATED', c_uint32),
+        ('DiscountPercentage', c_uint8),
+        ('ExpirationTimestamp', c_int64),
+        ('PurchasedCount_DEPRECATED', c_uint32),
+        ('PurchaseLimit', c_int32),
+        ('bAvailableForPurchase', EOS_Bool),
+        ('OriginalPrice64', c_uint64),
+        ('CurrentPrice64', c_uint64),
+        ('DecimalPoint', c_uint32),
+        ('ReleaseDateTimestamp', c_int64),
+        ('EffectiveDateTimestamp', c_int64),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_CATALOGOFFER_API_LATEST, ServerIndex = 0, CatalogNamespace = None, Id = None, TitleText = None, DescriptionText = None, LongDescriptionText = None, TechnicalDetailsText_DEPRECATED = None, CurrencyCode = None, PriceResult = 0, OriginalPrice_DEPRECATED = 0, CurrentPrice_DEPRECATED = 0, DiscountPercentage = 0, ExpirationTimestamp = 0, PurchasedCount_DEPRECATED = 0, PurchaseLimit = 0, bAvailableForPurchase = 0, OriginalPrice64 = 0, CurrentPrice64 = 0, DecimalPoint = 0, ReleaseDateTimestamp = 0, EffectiveDateTimestamp = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, ServerIndex = ServerIndex, CatalogNamespace = CatalogNamespace, Id = Id, TitleText = TitleText, DescriptionText = DescriptionText, LongDescriptionText = LongDescriptionText, TechnicalDetailsText_DEPRECATED = TechnicalDetailsText_DEPRECATED, CurrencyCode = CurrencyCode, PriceResult = PriceResult, OriginalPrice_DEPRECATED = OriginalPrice_DEPRECATED, CurrentPrice_DEPRECATED = CurrentPrice_DEPRECATED, DiscountPercentage = DiscountPercentage, ExpirationTimestamp = ExpirationTimestamp, PurchasedCount_DEPRECATED = PurchasedCount_DEPRECATED, PurchaseLimit = PurchaseLimit, bAvailableForPurchase = bAvailableForPurchase, OriginalPrice64 = OriginalPrice64, CurrentPrice64 = CurrentPrice64, DecimalPoint = DecimalPoint, ReleaseDateTimestamp = ReleaseDateTimestamp, EffectiveDateTimestamp = EffectiveDateTimestamp)
+    def Release(self):
+        # type: (POINTER(EOS_Ecom_CatalogOffer)) -> None
+        return EOS_Ecom_CatalogOffer_Release(self)
+class EOS_Ecom_KeyImageInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Type', c_char_p),
+        ('Url', c_char_p),
+        ('Width', c_uint32),
+        ('Height', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_KEYIMAGEINFO_API_LATEST, Type = None, Url = None, Width = 0, Height = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Type = Type, Url = Url, Width = Width, Height = Height)
+    def Release(self):
+        # type: (POINTER(EOS_Ecom_KeyImageInfo)) -> None
+        return EOS_Ecom_KeyImageInfo_Release(self)
+class EOS_Ecom_CatalogRelease(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('CompatibleAppIdCount', c_uint32),
+        ('CompatibleAppIds', POINTER(c_char_p)),
+        ('CompatiblePlatformCount', c_uint32),
+        ('CompatiblePlatforms', POINTER(c_char_p)),
+        ('ReleaseNote', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_CATALOGRELEASE_API_LATEST, CompatibleAppIdCount = 0, CompatibleAppIds = None, CompatiblePlatformCount = 0, CompatiblePlatforms = None, ReleaseNote = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, CompatibleAppIdCount = CompatibleAppIdCount, CompatibleAppIds = CompatibleAppIds, CompatiblePlatformCount = CompatiblePlatformCount, CompatiblePlatforms = CompatiblePlatforms, ReleaseNote = ReleaseNote)
+    def Release(self):
+        # type: (POINTER(EOS_Ecom_CatalogRelease)) -> None
+        return EOS_Ecom_CatalogRelease_Release(self)
+class EOS_Ecom_CheckoutEntry(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('OfferId', EOS_Ecom_CatalogOfferId),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_CHECKOUTENTRY_API_LATEST, OfferId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, OfferId = OfferId)
+class EOS_Ecom_QueryOwnershipOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('CatalogItemIds', POINTER(EOS_Ecom_CatalogItemId)),
+        ('CatalogItemIdCount', c_uint32),
+        ('CatalogNamespace', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_QUERYOWNERSHIP_API_LATEST, LocalUserId = None, CatalogItemIds = None, CatalogItemIdCount = 0, CatalogNamespace = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, CatalogItemIds = CatalogItemIds, CatalogItemIdCount = CatalogItemIdCount, CatalogNamespace = CatalogNamespace)
+class EOS_Ecom_QueryOwnershipCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('ItemOwnership', POINTER(EOS_Ecom_ItemOwnership)),
+        ('ItemOwnershipCount', c_uint32),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, ItemOwnership = None, ItemOwnershipCount = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, ItemOwnership = ItemOwnership, ItemOwnershipCount = ItemOwnershipCount)
+class EOS_Ecom_QueryOwnershipBySandboxIdsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('SandboxIds', POINTER(EOS_Ecom_SandboxId)),
+        ('SandboxIdsCount', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_QUERYOWNERSHIPBYSANDBOXIDSOPTIONS_API_LATEST, LocalUserId = None, SandboxIds = None, SandboxIdsCount = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, SandboxIds = SandboxIds, SandboxIdsCount = SandboxIdsCount)
+class EOS_Ecom_SandboxIdItemOwnership(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('SandboxId', EOS_Ecom_SandboxId),
+        ('OwnedCatalogItemIds', POINTER(EOS_Ecom_CatalogItemId)),
+        ('OwnedCatalogItemIdsCount', c_uint32),
+    ]
+    def __init__(self, SandboxId = None, OwnedCatalogItemIds = None, OwnedCatalogItemIdsCount = 0):
+        Structure.__init__(self, SandboxId = SandboxId, OwnedCatalogItemIds = OwnedCatalogItemIds, OwnedCatalogItemIdsCount = OwnedCatalogItemIdsCount)
+class EOS_Ecom_QueryOwnershipBySandboxIdsCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('SandboxIdItemOwnerships', POINTER(EOS_Ecom_SandboxIdItemOwnership)),
+        ('SandboxIdItemOwnershipsCount', c_uint32),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, SandboxIdItemOwnerships = None, SandboxIdItemOwnershipsCount = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, SandboxIdItemOwnerships = SandboxIdItemOwnerships, SandboxIdItemOwnershipsCount = SandboxIdItemOwnershipsCount)
+class EOS_Ecom_QueryOwnershipTokenOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('CatalogItemIds', POINTER(EOS_Ecom_CatalogItemId)),
+        ('CatalogItemIdCount', c_uint32),
+        ('CatalogNamespace', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_QUERYOWNERSHIPTOKEN_API_LATEST, LocalUserId = None, CatalogItemIds = None, CatalogItemIdCount = 0, CatalogNamespace = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, CatalogItemIds = CatalogItemIds, CatalogItemIdCount = CatalogItemIdCount, CatalogNamespace = CatalogNamespace)
+class EOS_Ecom_QueryOwnershipTokenCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('OwnershipToken', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, OwnershipToken = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, OwnershipToken = OwnershipToken)
+class EOS_Ecom_QueryEntitlementsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('EntitlementNames', POINTER(EOS_Ecom_EntitlementName)),
+        ('EntitlementNameCount', c_uint32),
+        ('bIncludeRedeemed', EOS_Bool),
+        ('OverrideCatalogNamespace', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_QUERYENTITLEMENTS_API_LATEST, LocalUserId = None, EntitlementNames = None, EntitlementNameCount = 0, bIncludeRedeemed = 0, OverrideCatalogNamespace = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, EntitlementNames = EntitlementNames, EntitlementNameCount = EntitlementNameCount, bIncludeRedeemed = bIncludeRedeemed, OverrideCatalogNamespace = OverrideCatalogNamespace)
+class EOS_Ecom_QueryEntitlementsCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_Ecom_QueryEntitlementTokenOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('EntitlementNames', POINTER(EOS_Ecom_EntitlementName)),
+        ('EntitlementNameCount', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_QUERYENTITLEMENTTOKEN_API_LATEST, LocalUserId = None, EntitlementNames = None, EntitlementNameCount = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, EntitlementNames = EntitlementNames, EntitlementNameCount = EntitlementNameCount)
+class EOS_Ecom_QueryEntitlementTokenCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('EntitlementToken', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, EntitlementToken = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, EntitlementToken = EntitlementToken)
+class EOS_Ecom_QueryOffersOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('OverrideCatalogNamespace', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_QUERYOFFERS_API_LATEST, LocalUserId = None, OverrideCatalogNamespace = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, OverrideCatalogNamespace = OverrideCatalogNamespace)
+class EOS_Ecom_QueryOffersCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_Ecom_CheckoutOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('OverrideCatalogNamespace', c_char_p),
+        ('EntryCount', c_uint32),
+        ('Entries', POINTER(EOS_Ecom_CheckoutEntry)),
+        ('PreferredOrientation', EOS_ECheckoutOrientation),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_CHECKOUT_API_LATEST, LocalUserId = None, OverrideCatalogNamespace = None, EntryCount = 0, Entries = None, PreferredOrientation = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, OverrideCatalogNamespace = OverrideCatalogNamespace, EntryCount = EntryCount, Entries = Entries, PreferredOrientation = PreferredOrientation)
+class EOS_Ecom_CheckoutCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TransactionId', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TransactionId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TransactionId = TransactionId)
+class EOS_Ecom_RedeemEntitlementsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('EntitlementIdCount', c_uint32),
+        ('EntitlementIds', POINTER(EOS_Ecom_EntitlementId)),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_REDEEMENTITLEMENTS_API_LATEST, LocalUserId = None, EntitlementIdCount = 0, EntitlementIds = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, EntitlementIdCount = EntitlementIdCount, EntitlementIds = EntitlementIds)
+class EOS_Ecom_RedeemEntitlementsCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('RedeemedEntitlementIdsCount', c_uint32),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, RedeemedEntitlementIdsCount = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, RedeemedEntitlementIdsCount = RedeemedEntitlementIdsCount)
+class EOS_Ecom_GetLastRedeemedEntitlementsCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_GETLASTREDEEMEDENTITLEMENTSCOUNT_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_Ecom_CopyLastRedeemedEntitlementByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('RedeemedEntitlementIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_COPYLASTREDEEMEDENTITLEMENTBYINDEX_API_LATEST, LocalUserId = None, RedeemedEntitlementIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RedeemedEntitlementIndex = RedeemedEntitlementIndex)
+class EOS_Ecom_GetEntitlementsCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_GETENTITLEMENTSCOUNT_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_Ecom_GetEntitlementsByNameCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('EntitlementName', EOS_Ecom_EntitlementName),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_GETENTITLEMENTSBYNAMECOUNT_API_LATEST, LocalUserId = None, EntitlementName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, EntitlementName = EntitlementName)
+class EOS_Ecom_CopyEntitlementByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('EntitlementIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_COPYENTITLEMENTBYINDEX_API_LATEST, LocalUserId = None, EntitlementIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, EntitlementIndex = EntitlementIndex)
+class EOS_Ecom_CopyEntitlementByNameAndIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('EntitlementName', EOS_Ecom_EntitlementName),
+        ('Index', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_COPYENTITLEMENTBYNAMEANDINDEX_API_LATEST, LocalUserId = None, EntitlementName = None, Index = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, EntitlementName = EntitlementName, Index = Index)
+class EOS_Ecom_CopyEntitlementByIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('EntitlementId', EOS_Ecom_EntitlementId),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_COPYENTITLEMENTBYID_API_LATEST, LocalUserId = None, EntitlementId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, EntitlementId = EntitlementId)
+class EOS_Ecom_GetOfferCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_GETOFFERCOUNT_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_Ecom_CopyOfferByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('OfferIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_COPYOFFERBYINDEX_API_LATEST, LocalUserId = None, OfferIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, OfferIndex = OfferIndex)
+class EOS_Ecom_CopyOfferByIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('OfferId', EOS_Ecom_CatalogOfferId),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_COPYOFFERBYID_API_LATEST, LocalUserId = None, OfferId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, OfferId = OfferId)
+class EOS_Ecom_GetOfferItemCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('OfferId', EOS_Ecom_CatalogOfferId),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_GETOFFERITEMCOUNT_API_LATEST, LocalUserId = None, OfferId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, OfferId = OfferId)
+class EOS_Ecom_CopyOfferItemByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('OfferId', EOS_Ecom_CatalogOfferId),
+        ('ItemIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_COPYOFFERITEMBYINDEX_API_LATEST, LocalUserId = None, OfferId = None, ItemIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, OfferId = OfferId, ItemIndex = ItemIndex)
+class EOS_Ecom_CopyItemByIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('ItemId', EOS_Ecom_CatalogItemId),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_COPYITEMBYID_API_LATEST, LocalUserId = None, ItemId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, ItemId = ItemId)
+class EOS_Ecom_GetOfferImageInfoCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('OfferId', EOS_Ecom_CatalogOfferId),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_GETOFFERIMAGEINFOCOUNT_API_LATEST, LocalUserId = None, OfferId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, OfferId = OfferId)
+class EOS_Ecom_CopyOfferImageInfoByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('OfferId', EOS_Ecom_CatalogOfferId),
+        ('ImageInfoIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_COPYOFFERIMAGEINFOBYINDEX_API_LATEST, LocalUserId = None, OfferId = None, ImageInfoIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, OfferId = OfferId, ImageInfoIndex = ImageInfoIndex)
+class EOS_Ecom_GetItemImageInfoCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('ItemId', EOS_Ecom_CatalogItemId),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_GETITEMIMAGEINFOCOUNT_API_LATEST, LocalUserId = None, ItemId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, ItemId = ItemId)
+class EOS_Ecom_CopyItemImageInfoByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('ItemId', EOS_Ecom_CatalogItemId),
+        ('ImageInfoIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_COPYITEMIMAGEINFOBYINDEX_API_LATEST, LocalUserId = None, ItemId = None, ImageInfoIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, ItemId = ItemId, ImageInfoIndex = ImageInfoIndex)
+class EOS_Ecom_GetItemReleaseCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('ItemId', EOS_Ecom_CatalogItemId),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_GETITEMRELEASECOUNT_API_LATEST, LocalUserId = None, ItemId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, ItemId = ItemId)
+class EOS_Ecom_CopyItemReleaseByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('ItemId', EOS_Ecom_CatalogItemId),
+        ('ReleaseIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_COPYITEMRELEASEBYINDEX_API_LATEST, LocalUserId = None, ItemId = None, ReleaseIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, ItemId = ItemId, ReleaseIndex = ReleaseIndex)
+class EOS_Ecom_GetTransactionCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_GETTRANSACTIONCOUNT_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_Ecom_CopyTransactionByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TransactionIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_COPYTRANSACTIONBYINDEX_API_LATEST, LocalUserId = None, TransactionIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TransactionIndex = TransactionIndex)
+class EOS_Ecom_CopyTransactionByIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TransactionId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_COPYTRANSACTIONBYID_API_LATEST, LocalUserId = None, TransactionId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TransactionId = TransactionId)
+class EOS_Ecom_Transaction_GetEntitlementsCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_TRANSACTION_GETENTITLEMENTSCOUNT_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Ecom_Transaction_CopyEntitlementByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('EntitlementIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_TRANSACTION_COPYENTITLEMENTBYINDEX_API_LATEST, EntitlementIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, EntitlementIndex = EntitlementIndex)
+class EOS_Friends_QueryFriendsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_FRIENDS_QUERYFRIENDS_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_Friends_QueryFriendsCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_Friends_SendInviteOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_FRIENDS_SENDINVITE_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_Friends_SendInviteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_Friends_AcceptInviteOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_FRIENDS_ACCEPTINVITE_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_Friends_AcceptInviteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_Friends_RejectInviteOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_FRIENDS_REJECTINVITE_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_Friends_RejectInviteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_Friends_GetFriendsCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_FRIENDS_GETFRIENDSCOUNT_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_Friends_GetFriendAtIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('Index', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_FRIENDS_GETFRIENDATINDEX_API_LATEST, LocalUserId = None, Index = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Index = Index)
+class EOS_Friends_GetStatusOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_FRIENDS_GETSTATUS_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_Friends_AddNotifyFriendsUpdateOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_FRIENDS_ADDNOTIFYFRIENDSUPDATE_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Friends_OnFriendsUpdateInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+        ('PreviousStatus', EOS_EFriendsStatus),
+        ('CurrentStatus', EOS_EFriendsStatus),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, TargetUserId = None, PreviousStatus = 0, CurrentStatus = 0):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId, PreviousStatus = PreviousStatus, CurrentStatus = CurrentStatus)
+class EOS_Friends_GetBlockedUsersCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_FRIENDS_GETBLOCKEDUSERSCOUNT_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_Friends_GetBlockedUserAtIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('Index', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_FRIENDS_GETBLOCKEDUSERATINDEX_API_LATEST, LocalUserId = None, Index = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Index = Index)
+class EOS_Friends_AddNotifyBlockedUsersUpdateOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_FRIENDS_ADDNOTIFYBLOCKEDUSERSUPDATE_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Friends_OnBlockedUsersUpdateInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+        ('bBlocked', EOS_Bool),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, TargetUserId = None, bBlocked = 0):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId, bBlocked = bBlocked)
+class EOS_IntegratedPlatform_Options(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Type', EOS_IntegratedPlatformType),
+        ('Flags', EOS_EIntegratedPlatformManagementFlags),
+        ('InitOptions', c_void_p),
+    ]
+    def __init__(self, ApiVersion = EOS_INTEGRATEDPLATFORM_OPTIONS_API_LATEST, Type = None, Flags = 1, InitOptions = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, Type = Type, Flags = Flags, InitOptions = InitOptions)
+class EOS_IntegratedPlatform_Steam_Options(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('OverrideLibraryPath', c_char_p),
+        ('SteamMajorVersion', c_uint32),
+        ('SteamMinorVersion', c_uint32),
+        ('SteamApiInterfaceVersionsArray', c_char_p),
+        ('SteamApiInterfaceVersionsArrayBytes', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_INTEGRATEDPLATFORM_STEAM_OPTIONS_API_LATEST, OverrideLibraryPath = None, SteamMajorVersion = 0, SteamMinorVersion = 0, SteamApiInterfaceVersionsArray = None, SteamApiInterfaceVersionsArrayBytes = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, OverrideLibraryPath = OverrideLibraryPath, SteamMajorVersion = SteamMajorVersion, SteamMinorVersion = SteamMinorVersion, SteamApiInterfaceVersionsArray = SteamApiInterfaceVersionsArray, SteamApiInterfaceVersionsArrayBytes = SteamApiInterfaceVersionsArrayBytes)
+class EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_INTEGRATEDPLATFORM_CREATEINTEGRATEDPLATFORMOPTIONSCONTAINER_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_IntegratedPlatformOptionsContainer_AddOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Options', POINTER(EOS_IntegratedPlatform_Options)),
+    ]
+    def __init__(self, ApiVersion = EOS_INTEGRATEDPLATFORMOPTIONSCONTAINER_ADD_API_LATEST, Options = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, Options = Options)
+class EOS_IntegratedPlatform_SetUserLoginStatusOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('PlatformType', EOS_IntegratedPlatformType),
+        ('LocalPlatformUserId', c_char_p),
+        ('CurrentLoginStatus', EOS_ELoginStatus),
+    ]
+    def __init__(self, ApiVersion = EOS_INTEGRATEDPLATFORM_SETUSERLOGINSTATUS_API_LATEST, PlatformType = None, LocalPlatformUserId = None, CurrentLoginStatus = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, PlatformType = PlatformType, LocalPlatformUserId = LocalPlatformUserId, CurrentLoginStatus = CurrentLoginStatus)
+class EOS_IntegratedPlatform_AddNotifyUserLoginStatusChangedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_INTEGRATEDPLATFORM_ADDNOTIFYUSERLOGINSTATUSCHANGED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_IntegratedPlatform_UserLoginStatusChangedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('PlatformType', EOS_IntegratedPlatformType),
+        ('LocalPlatformUserId', c_char_p),
+        ('AccountId', EOS_EpicAccountId),
+        ('ProductUserId', EOS_ProductUserId),
+        ('PreviousLoginStatus', EOS_ELoginStatus),
+        ('CurrentLoginStatus', EOS_ELoginStatus),
+    ]
+    def __init__(self, ClientData = None, PlatformType = None, LocalPlatformUserId = None, AccountId = None, ProductUserId = None, PreviousLoginStatus = 0, CurrentLoginStatus = 0):
+        Structure.__init__(self, ClientData = ClientData, PlatformType = PlatformType, LocalPlatformUserId = LocalPlatformUserId, AccountId = AccountId, ProductUserId = ProductUserId, PreviousLoginStatus = PreviousLoginStatus, CurrentLoginStatus = CurrentLoginStatus)
+class EOS_IntegratedPlatform_SetUserPreLogoutCallbackOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_INTEGRATEDPLATFORM_SETUSERPRELOGOUTCALLBACK_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_IntegratedPlatform_UserPreLogoutCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('PlatformType', EOS_IntegratedPlatformType),
+        ('LocalPlatformUserId', c_char_p),
+        ('AccountId', EOS_EpicAccountId),
+        ('ProductUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ClientData = None, PlatformType = None, LocalPlatformUserId = None, AccountId = None, ProductUserId = None):
+        Structure.__init__(self, ClientData = ClientData, PlatformType = PlatformType, LocalPlatformUserId = LocalPlatformUserId, AccountId = AccountId, ProductUserId = ProductUserId)
+class EOS_IntegratedPlatform_ClearUserPreLogoutCallbackOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_INTEGRATEDPLATFORM_CLEARUSERPRELOGOUTCALLBACK_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_IntegratedPlatform_FinalizeDeferredUserLogoutOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('PlatformType', EOS_IntegratedPlatformType),
+        ('LocalPlatformUserId', c_char_p),
+        ('ExpectedLoginStatus', EOS_ELoginStatus),
+    ]
+    def __init__(self, ApiVersion = EOS_INTEGRATEDPLATFORM_FINALIZEDEFERREDUSERLOGOUT_API_LATEST, PlatformType = None, LocalPlatformUserId = None, ExpectedLoginStatus = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, PlatformType = PlatformType, LocalPlatformUserId = LocalPlatformUserId, ExpectedLoginStatus = ExpectedLoginStatus)
+class EOS_KWS_PermissionStatus(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Name', c_char_p),
+        ('Status', EOS_EKWSPermissionStatus),
+    ]
+    def __init__(self, ApiVersion = EOS_KWS_PERMISSIONSTATUS_API_LATEST, Name = None, Status = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Name = Name, Status = Status)
+    def Release(self):
+        # type: (POINTER(EOS_KWS_PermissionStatus)) -> None
+        return EOS_KWS_PermissionStatus_Release(self)
+class EOS_KWS_QueryAgeGateOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_KWS_QUERYAGEGATE_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_KWS_QueryAgeGateCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('CountryCode', c_char_p),
+        ('AgeOfConsent', c_uint32),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, CountryCode = None, AgeOfConsent = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, CountryCode = CountryCode, AgeOfConsent = AgeOfConsent)
+class EOS_KWS_CreateUserOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('DateOfBirth', c_char_p),
+        ('ParentEmail', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_KWS_CREATEUSER_API_LATEST, LocalUserId = None, DateOfBirth = None, ParentEmail = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, DateOfBirth = DateOfBirth, ParentEmail = ParentEmail)
+class EOS_KWS_CreateUserCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('KWSUserId', c_char_p),
+        ('bIsMinor', EOS_Bool),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, KWSUserId = None, bIsMinor = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, KWSUserId = KWSUserId, bIsMinor = bIsMinor)
+class EOS_KWS_QueryPermissionsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_KWS_QUERYPERMISSIONS_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_KWS_QueryPermissionsCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('KWSUserId', c_char_p),
+        ('DateOfBirth', c_char_p),
+        ('bIsMinor', EOS_Bool),
+        ('ParentEmail', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, KWSUserId = None, DateOfBirth = None, bIsMinor = 0, ParentEmail = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, KWSUserId = KWSUserId, DateOfBirth = DateOfBirth, bIsMinor = bIsMinor, ParentEmail = ParentEmail)
+class EOS_KWS_UpdateParentEmailOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('ParentEmail', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_KWS_UPDATEPARENTEMAIL_API_LATEST, LocalUserId = None, ParentEmail = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, ParentEmail = ParentEmail)
+class EOS_KWS_UpdateParentEmailCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_KWS_RequestPermissionsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('PermissionKeyCount', c_uint32),
+        ('PermissionKeys', POINTER(c_char_p)),
+    ]
+    def __init__(self, ApiVersion = EOS_KWS_REQUESTPERMISSIONS_API_LATEST, LocalUserId = None, PermissionKeyCount = 0, PermissionKeys = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, PermissionKeyCount = PermissionKeyCount, PermissionKeys = PermissionKeys)
+class EOS_KWS_RequestPermissionsCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_KWS_GetPermissionsCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_KWS_GETPERMISSIONSCOUNT_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_KWS_CopyPermissionByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Index', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_KWS_COPYPERMISSIONBYINDEX_API_LATEST, LocalUserId = None, Index = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Index = Index)
+class EOS_KWS_GetPermissionByKeyOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Key', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_KWS_GETPERMISSIONBYKEY_API_LATEST, LocalUserId = None, Key = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Key = Key)
+class EOS_KWS_AddNotifyPermissionsUpdateReceivedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_KWS_ADDNOTIFYPERMISSIONSUPDATERECEIVED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_KWS_PermissionsUpdateReceivedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('KWSUserId', c_char_p),
+        ('DateOfBirth', c_char_p),
+        ('bIsMinor', EOS_Bool),
+        ('ParentEmail', c_char_p),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, KWSUserId = None, DateOfBirth = None, bIsMinor = 0, ParentEmail = None):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, KWSUserId = KWSUserId, DateOfBirth = DateOfBirth, bIsMinor = bIsMinor, ParentEmail = ParentEmail)
 class EOS_LogMessage(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -630,30 +6839,2595 @@ class EOS_LogMessage(Structure):
         ('Message', c_char_p),
         ('Level', EOS_ELogLevel),
     ]
-
-EOS_LogMessageFunc = CFUNCTYPE(
-    None, POINTER(EOS_LogMessage))
-
-EOS_Logging_SetCallback = not_ready
-EOS_Logging_SetLogLevel = not_ready
-
-#####
-# Init
-#####
-
-# Init types
-class EOS_AllocateMemoryFunc(c_void_p):
-    # Not the actual signature
-    pass
-class EOS_ReallocateMemoryFunc(c_void_p):
-    # Not the actual signature
-    pass
-class EOS_ReleaseMemoryFunc(c_void_p):
-    # Not the actual signature
-    pass
-
-
-EOS_INITIALIZE_THREADAFFINITY_API_LATEST = 2
+    def __init__(self, Category = None, Message = None, Level = 0):
+        Structure.__init__(self, Category = Category, Message = Message, Level = Level)
+class EOS_Metrics_BeginPlayerSessionOptions_INTERNAL_UNION_AccountId(Union):
+    _pack_ = PACK
+    _fields_ = [
+        ('Epic', EOS_EpicAccountId),
+        ('External', c_char_p),
+    ]
+class EOS_Metrics_BeginPlayerSessionOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('AccountIdType', EOS_EMetricsAccountIdType),
+        ('AccountId', EOS_Metrics_BeginPlayerSessionOptions_INTERNAL_UNION_AccountId),
+        ('DisplayName', c_char_p),
+        ('ControllerType', EOS_EUserControllerType),
+        ('ServerIp', c_char_p),
+        ('GameSessionId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_METRICS_BEGINPLAYERSESSION_API_LATEST, AccountIdType = 0, AccountId = None, DisplayName = None, ControllerType = 0, ServerIp = None, GameSessionId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, AccountIdType = AccountIdType, AccountId = AccountId, DisplayName = DisplayName, ControllerType = ControllerType, ServerIp = ServerIp, GameSessionId = GameSessionId)
+class EOS_Metrics_EndPlayerSessionOptions_INTERNAL_UNION_AccountId(Union):
+    _pack_ = PACK
+    _fields_ = [
+        ('Epic', EOS_EpicAccountId),
+        ('External', c_char_p),
+    ]
+class EOS_Metrics_EndPlayerSessionOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('AccountIdType', EOS_EMetricsAccountIdType),
+        ('AccountId', EOS_Metrics_EndPlayerSessionOptions_INTERNAL_UNION_AccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_METRICS_ENDPLAYERSESSION_API_LATEST, AccountIdType = 0, AccountId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, AccountIdType = AccountIdType, AccountId = AccountId)
+class EOS_Mod_Identifier(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('NamespaceId', c_char_p),
+        ('ItemId', c_char_p),
+        ('ArtifactId', c_char_p),
+        ('Title', c_char_p),
+        ('Version', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_MOD_IDENTIFIER_API_LATEST, NamespaceId = None, ItemId = None, ArtifactId = None, Title = None, Version = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, NamespaceId = NamespaceId, ItemId = ItemId, ArtifactId = ArtifactId, Title = Title, Version = Version)
+class EOS_Mods_InstallModOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('Mod', POINTER(EOS_Mod_Identifier)),
+        ('bRemoveAfterExit', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_MODS_INSTALLMOD_API_LATEST, LocalUserId = None, Mod = None, bRemoveAfterExit = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Mod = Mod, bRemoveAfterExit = bRemoveAfterExit)
+class EOS_Mods_InstallModCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('ClientData', c_void_p),
+        ('Mod', POINTER(EOS_Mod_Identifier)),
+    ]
+    def __init__(self, ResultCode = 0, LocalUserId = None, ClientData = None, Mod = None):
+        Structure.__init__(self, ResultCode = ResultCode, LocalUserId = LocalUserId, ClientData = ClientData, Mod = Mod)
+class EOS_Mods_UninstallModOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('Mod', POINTER(EOS_Mod_Identifier)),
+    ]
+    def __init__(self, ApiVersion = EOS_MODS_UNINSTALLMOD_API_LATEST, LocalUserId = None, Mod = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Mod = Mod)
+class EOS_Mods_UninstallModCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('ClientData', c_void_p),
+        ('Mod', POINTER(EOS_Mod_Identifier)),
+    ]
+    def __init__(self, ResultCode = 0, LocalUserId = None, ClientData = None, Mod = None):
+        Structure.__init__(self, ResultCode = ResultCode, LocalUserId = LocalUserId, ClientData = ClientData, Mod = Mod)
+class EOS_Mods_EnumerateModsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('Type', EOS_EModEnumerationType),
+    ]
+    def __init__(self, ApiVersion = EOS_MODS_ENUMERATEMODS_API_LATEST, LocalUserId = None, Type = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Type = Type)
+class EOS_Mods_EnumerateModsCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('ClientData', c_void_p),
+        ('Type', EOS_EModEnumerationType),
+    ]
+    def __init__(self, ResultCode = 0, LocalUserId = None, ClientData = None, Type = 0):
+        Structure.__init__(self, ResultCode = ResultCode, LocalUserId = LocalUserId, ClientData = ClientData, Type = Type)
+class EOS_Mods_CopyModInfoOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('Type', EOS_EModEnumerationType),
+    ]
+    def __init__(self, ApiVersion = EOS_MODS_COPYMODINFO_API_LATEST, LocalUserId = None, Type = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Type = Type)
+class EOS_Mods_ModInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ModsCount', c_int32),
+        ('Mods', POINTER(EOS_Mod_Identifier)),
+        ('Type', EOS_EModEnumerationType),
+    ]
+    def __init__(self, ApiVersion = EOS_MODS_MODINFO_API_LATEST, ModsCount = 0, Mods = None, Type = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, ModsCount = ModsCount, Mods = Mods, Type = Type)
+    def Release(self):
+        # type: (POINTER(EOS_Mods_ModInfo)) -> None
+        return EOS_Mods_ModInfo_Release(self)
+class EOS_Mods_UpdateModOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('Mod', POINTER(EOS_Mod_Identifier)),
+    ]
+    def __init__(self, ApiVersion = EOS_MODS_UPDATEMOD_API_LATEST, LocalUserId = None, Mod = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Mod = Mod)
+class EOS_Mods_UpdateModCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('ClientData', c_void_p),
+        ('Mod', POINTER(EOS_Mod_Identifier)),
+    ]
+    def __init__(self, ResultCode = 0, LocalUserId = None, ClientData = None, Mod = None):
+        Structure.__init__(self, ResultCode = ResultCode, LocalUserId = LocalUserId, ClientData = ClientData, Mod = Mod)
+class EOS_P2P_SocketId(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SocketName', c_char * EOS_P2P_SOCKETID_SOCKETNAME_SIZE),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_SOCKETID_API_LATEST, SocketName = ''):
+        Structure.__init__(self, ApiVersion = ApiVersion, SocketName = SocketName)
+class EOS_P2P_SendPacketOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RemoteUserId', EOS_ProductUserId),
+        ('SocketId', POINTER(EOS_P2P_SocketId)),
+        ('Channel', c_uint8),
+        ('DataLengthBytes', c_uint32),
+        ('Data', c_void_p),
+        ('bAllowDelayedDelivery', EOS_Bool),
+        ('Reliability', EOS_EPacketReliability),
+        ('bDisableAutoAcceptConnection', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_SENDPACKET_API_LATEST, LocalUserId = None, RemoteUserId = None, SocketId = None, Channel = 0, DataLengthBytes = 0, Data = None, bAllowDelayedDelivery = 0, Reliability = 0, bDisableAutoAcceptConnection = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RemoteUserId = RemoteUserId, SocketId = SocketId, Channel = Channel, DataLengthBytes = DataLengthBytes, Data = Data, bAllowDelayedDelivery = bAllowDelayedDelivery, Reliability = Reliability, bDisableAutoAcceptConnection = bDisableAutoAcceptConnection)
+class EOS_P2P_GetNextReceivedPacketSizeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RequestedChannel', POINTER(c_uint8)),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_GETNEXTRECEIVEDPACKETSIZE_API_LATEST, LocalUserId = None, RequestedChannel = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RequestedChannel = RequestedChannel)
+class EOS_P2P_ReceivePacketOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('MaxDataSizeBytes', c_uint32),
+        ('RequestedChannel', POINTER(c_uint8)),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_RECEIVEPACKET_API_LATEST, LocalUserId = None, MaxDataSizeBytes = 0, RequestedChannel = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, MaxDataSizeBytes = MaxDataSizeBytes, RequestedChannel = RequestedChannel)
+class EOS_P2P_AddNotifyPeerConnectionRequestOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('SocketId', POINTER(EOS_P2P_SocketId)),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_ADDNOTIFYPEERCONNECTIONREQUEST_API_LATEST, LocalUserId = None, SocketId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, SocketId = SocketId)
+class EOS_P2P_OnIncomingConnectionRequestInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RemoteUserId', EOS_ProductUserId),
+        ('SocketId', POINTER(EOS_P2P_SocketId)),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, RemoteUserId = None, SocketId = None):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, RemoteUserId = RemoteUserId, SocketId = SocketId)
+class EOS_P2P_AddNotifyPeerConnectionEstablishedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('SocketId', POINTER(EOS_P2P_SocketId)),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_ADDNOTIFYPEERCONNECTIONESTABLISHED_API_LATEST, LocalUserId = None, SocketId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, SocketId = SocketId)
+class EOS_P2P_OnPeerConnectionEstablishedInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RemoteUserId', EOS_ProductUserId),
+        ('SocketId', POINTER(EOS_P2P_SocketId)),
+        ('ConnectionType', EOS_EConnectionEstablishedType),
+        ('NetworkType', EOS_ENetworkConnectionType),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, RemoteUserId = None, SocketId = None, ConnectionType = 0, NetworkType = 0):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, RemoteUserId = RemoteUserId, SocketId = SocketId, ConnectionType = ConnectionType, NetworkType = NetworkType)
+class EOS_P2P_AddNotifyPeerConnectionInterruptedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('SocketId', POINTER(EOS_P2P_SocketId)),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_ADDNOTIFYPEERCONNECTIONINTERRUPTED_API_LATEST, LocalUserId = None, SocketId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, SocketId = SocketId)
+class EOS_P2P_OnPeerConnectionInterruptedInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RemoteUserId', EOS_ProductUserId),
+        ('SocketId', POINTER(EOS_P2P_SocketId)),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, RemoteUserId = None, SocketId = None):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, RemoteUserId = RemoteUserId, SocketId = SocketId)
+class EOS_P2P_AddNotifyPeerConnectionClosedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('SocketId', POINTER(EOS_P2P_SocketId)),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_ADDNOTIFYPEERCONNECTIONCLOSED_API_LATEST, LocalUserId = None, SocketId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, SocketId = SocketId)
+class EOS_P2P_OnRemoteConnectionClosedInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RemoteUserId', EOS_ProductUserId),
+        ('SocketId', POINTER(EOS_P2P_SocketId)),
+        ('Reason', EOS_EConnectionClosedReason),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, RemoteUserId = None, SocketId = None, Reason = 0):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, RemoteUserId = RemoteUserId, SocketId = SocketId, Reason = Reason)
+class EOS_P2P_AcceptConnectionOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RemoteUserId', EOS_ProductUserId),
+        ('SocketId', POINTER(EOS_P2P_SocketId)),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_ACCEPTCONNECTION_API_LATEST, LocalUserId = None, RemoteUserId = None, SocketId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RemoteUserId = RemoteUserId, SocketId = SocketId)
+class EOS_P2P_CloseConnectionOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RemoteUserId', EOS_ProductUserId),
+        ('SocketId', POINTER(EOS_P2P_SocketId)),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_CLOSECONNECTION_API_LATEST, LocalUserId = None, RemoteUserId = None, SocketId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RemoteUserId = RemoteUserId, SocketId = SocketId)
+class EOS_P2P_CloseConnectionsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('SocketId', POINTER(EOS_P2P_SocketId)),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_CLOSECONNECTIONS_API_LATEST, LocalUserId = None, SocketId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, SocketId = SocketId)
+class EOS_P2P_QueryNATTypeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_QUERYNATTYPE_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_P2P_OnQueryNATTypeCompleteInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('NATType', EOS_ENATType),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, NATType = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, NATType = NATType)
+class EOS_P2P_GetNATTypeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_GETNATTYPE_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_P2P_SetRelayControlOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('RelayControl', EOS_ERelayControl),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_SETRELAYCONTROL_API_LATEST, RelayControl = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, RelayControl = RelayControl)
+class EOS_P2P_GetRelayControlOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_GETRELAYCONTROL_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_P2P_SetPortRangeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Port', c_uint16),
+        ('MaxAdditionalPortsToTry', c_uint16),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_SETPORTRANGE_API_LATEST, Port = 0, MaxAdditionalPortsToTry = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Port = Port, MaxAdditionalPortsToTry = MaxAdditionalPortsToTry)
+class EOS_P2P_GetPortRangeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_GETPORTRANGE_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_P2P_SetPacketQueueSizeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('IncomingPacketQueueMaxSizeBytes', c_uint64),
+        ('OutgoingPacketQueueMaxSizeBytes', c_uint64),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_SETPACKETQUEUESIZE_API_LATEST, IncomingPacketQueueMaxSizeBytes = 0, OutgoingPacketQueueMaxSizeBytes = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, IncomingPacketQueueMaxSizeBytes = IncomingPacketQueueMaxSizeBytes, OutgoingPacketQueueMaxSizeBytes = OutgoingPacketQueueMaxSizeBytes)
+class EOS_P2P_GetPacketQueueInfoOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_GETPACKETQUEUEINFO_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_P2P_PacketQueueInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('IncomingPacketQueueMaxSizeBytes', c_uint64),
+        ('IncomingPacketQueueCurrentSizeBytes', c_uint64),
+        ('IncomingPacketQueueCurrentPacketCount', c_uint64),
+        ('OutgoingPacketQueueMaxSizeBytes', c_uint64),
+        ('OutgoingPacketQueueCurrentSizeBytes', c_uint64),
+        ('OutgoingPacketQueueCurrentPacketCount', c_uint64),
+    ]
+    def __init__(self, IncomingPacketQueueMaxSizeBytes = 0, IncomingPacketQueueCurrentSizeBytes = 0, IncomingPacketQueueCurrentPacketCount = 0, OutgoingPacketQueueMaxSizeBytes = 0, OutgoingPacketQueueCurrentSizeBytes = 0, OutgoingPacketQueueCurrentPacketCount = 0):
+        Structure.__init__(self, IncomingPacketQueueMaxSizeBytes = IncomingPacketQueueMaxSizeBytes, IncomingPacketQueueCurrentSizeBytes = IncomingPacketQueueCurrentSizeBytes, IncomingPacketQueueCurrentPacketCount = IncomingPacketQueueCurrentPacketCount, OutgoingPacketQueueMaxSizeBytes = OutgoingPacketQueueMaxSizeBytes, OutgoingPacketQueueCurrentSizeBytes = OutgoingPacketQueueCurrentSizeBytes, OutgoingPacketQueueCurrentPacketCount = OutgoingPacketQueueCurrentPacketCount)
+class EOS_P2P_AddNotifyIncomingPacketQueueFullOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_ADDNOTIFYINCOMINGPACKETQUEUEFULL_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_P2P_OnIncomingPacketQueueFullInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('PacketQueueMaxSizeBytes', c_uint64),
+        ('PacketQueueCurrentSizeBytes', c_uint64),
+        ('OverflowPacketLocalUserId', EOS_ProductUserId),
+        ('OverflowPacketChannel', c_uint8),
+        ('OverflowPacketSizeBytes', c_uint32),
+    ]
+    def __init__(self, ClientData = None, PacketQueueMaxSizeBytes = 0, PacketQueueCurrentSizeBytes = 0, OverflowPacketLocalUserId = None, OverflowPacketChannel = 0, OverflowPacketSizeBytes = 0):
+        Structure.__init__(self, ClientData = ClientData, PacketQueueMaxSizeBytes = PacketQueueMaxSizeBytes, PacketQueueCurrentSizeBytes = PacketQueueCurrentSizeBytes, OverflowPacketLocalUserId = OverflowPacketLocalUserId, OverflowPacketChannel = OverflowPacketChannel, OverflowPacketSizeBytes = OverflowPacketSizeBytes)
+class EOS_P2P_ClearPacketQueueOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RemoteUserId', EOS_ProductUserId),
+        ('SocketId', POINTER(EOS_P2P_SocketId)),
+    ]
+    def __init__(self, ApiVersion = EOS_P2P_CLEARPACKETQUEUE_API_LATEST, LocalUserId = None, RemoteUserId = None, SocketId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RemoteUserId = RemoteUserId, SocketId = SocketId)
+class EOS_PlayerDataStorage_FileMetadata(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('FileSizeBytes', c_uint32),
+        ('MD5Hash', c_char_p),
+        ('Filename', c_char_p),
+        ('LastModifiedTime', c_int64),
+        ('UnencryptedDataSizeBytes', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_PLAYERDATASTORAGE_FILEMETADATA_API_LATEST, FileSizeBytes = 0, MD5Hash = None, Filename = None, LastModifiedTime = 0, UnencryptedDataSizeBytes = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, FileSizeBytes = FileSizeBytes, MD5Hash = MD5Hash, Filename = Filename, LastModifiedTime = LastModifiedTime, UnencryptedDataSizeBytes = UnencryptedDataSizeBytes)
+    def Release(self):
+        # type: (POINTER(EOS_PlayerDataStorage_FileMetadata)) -> None
+        return EOS_PlayerDataStorage_FileMetadata_Release(self)
+class EOS_PlayerDataStorage_QueryFileOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Filename', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_PLAYERDATASTORAGE_QUERYFILE_API_LATEST, LocalUserId = None, Filename = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Filename = Filename)
+class EOS_PlayerDataStorage_QueryFileCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_PlayerDataStorage_QueryFileListOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_PLAYERDATASTORAGE_QUERYFILELIST_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_PlayerDataStorage_QueryFileListCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('FileCount', c_uint32),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, FileCount = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, FileCount = FileCount)
+class EOS_PlayerDataStorage_GetFileMetadataCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_PLAYERDATASTORAGE_GETFILEMETADATACOUNT_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_PlayerDataStorage_CopyFileMetadataAtIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Index', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_PLAYERDATASTORAGE_COPYFILEMETADATAATINDEX_API_LATEST, LocalUserId = None, Index = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Index = Index)
+class EOS_PlayerDataStorage_CopyFileMetadataByFilenameOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Filename', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_PLAYERDATASTORAGE_COPYFILEMETADATABYFILENAME_API_LATEST, LocalUserId = None, Filename = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Filename = Filename)
+class EOS_PlayerDataStorage_DuplicateFileOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('SourceFilename', c_char_p),
+        ('DestinationFilename', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_PLAYERDATASTORAGE_DUPLICATEFILE_API_LATEST, LocalUserId = None, SourceFilename = None, DestinationFilename = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, SourceFilename = SourceFilename, DestinationFilename = DestinationFilename)
+class EOS_PlayerDataStorage_DuplicateFileCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_PlayerDataStorage_DeleteFileOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Filename', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_PLAYERDATASTORAGE_DELETEFILE_API_LATEST, LocalUserId = None, Filename = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Filename = Filename)
+class EOS_PlayerDataStorage_DeleteFileCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_PlayerDataStorage_FileTransferProgressCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Filename', c_char_p),
+        ('BytesTransferred', c_uint32),
+        ('TotalFileSizeBytes', c_uint32),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, Filename = None, BytesTransferred = 0, TotalFileSizeBytes = 0):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, Filename = Filename, BytesTransferred = BytesTransferred, TotalFileSizeBytes = TotalFileSizeBytes)
+class EOS_PlayerDataStorage_ReadFileDataCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Filename', c_char_p),
+        ('TotalFileSizeBytes', c_uint32),
+        ('bIsLastChunk', EOS_Bool),
+        ('DataChunkLengthBytes', c_uint32),
+        ('DataChunk', c_void_p),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, Filename = None, TotalFileSizeBytes = 0, bIsLastChunk = 0, DataChunkLengthBytes = 0, DataChunk = None):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, Filename = Filename, TotalFileSizeBytes = TotalFileSizeBytes, bIsLastChunk = bIsLastChunk, DataChunkLengthBytes = DataChunkLengthBytes, DataChunk = DataChunk)
+class EOS_PlayerDataStorage_ReadFileCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Filename', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, Filename = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, Filename = Filename)
+class EOS_PlayerDataStorage_WriteFileDataCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Filename', c_char_p),
+        ('DataBufferLengthBytes', c_uint32),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, Filename = None, DataBufferLengthBytes = 0):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, Filename = Filename, DataBufferLengthBytes = DataBufferLengthBytes)
+class EOS_PlayerDataStorage_WriteFileCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Filename', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, Filename = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, Filename = Filename)
+class EOS_PlayerDataStorage_DeleteCacheOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_PLAYERDATASTORAGE_DELETECACHE_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_PlayerDataStorage_DeleteCacheCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_ProgressionSnapshot_BeginSnapshotOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_PROGRESSIONSNAPSHOT_BEGINSNAPSHOT_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_ProgressionSnapshot_AddProgressionOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SnapshotId', c_uint32),
+        ('Key', c_char_p),
+        ('Value', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_PROGRESSIONSNAPSHOT_ADDPROGRESSION_API_LATEST, SnapshotId = 0, Key = None, Value = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, SnapshotId = SnapshotId, Key = Key, Value = Value)
+class EOS_ProgressionSnapshot_SubmitSnapshotOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SnapshotId', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_PROGRESSIONSNAPSHOT_SUBMITSNAPSHOT_API_LATEST, SnapshotId = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, SnapshotId = SnapshotId)
+class EOS_ProgressionSnapshot_EndSnapshotOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SnapshotId', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_PROGRESSIONSNAPSHOT_ENDSNAPSHOT_API_LATEST, SnapshotId = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, SnapshotId = SnapshotId)
+class EOS_ProgressionSnapshot_SubmitSnapshotCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('SnapshotId', c_uint32),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, SnapshotId = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, SnapshotId = SnapshotId, ClientData = ClientData)
+class EOS_ProgressionSnapshot_DeleteSnapshotOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_PROGRESSIONSNAPSHOT_DELETESNAPSHOT_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_ProgressionSnapshot_DeleteSnapshotCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('LocalUserId', EOS_ProductUserId),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, LocalUserId = None, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, LocalUserId = LocalUserId, ClientData = ClientData)
+class EOS_Reports_SendPlayerBehaviorReportOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ReporterUserId', EOS_ProductUserId),
+        ('ReportedUserId', EOS_ProductUserId),
+        ('Category', EOS_EPlayerReportsCategory),
+        ('Message', c_char_p),
+        ('Context', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_REPORTS_SENDPLAYERBEHAVIORREPORT_API_LATEST, ReporterUserId = None, ReportedUserId = None, Category = 0, Message = None, Context = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, ReporterUserId = ReporterUserId, ReportedUserId = ReportedUserId, Category = Category, Message = Message, Context = Context)
+class EOS_Reports_SendPlayerBehaviorReportCompleteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
+class EOS_RTCAdmin_QueryJoinRoomTokenOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('TargetUserIds', POINTER(EOS_ProductUserId)),
+        ('TargetUserIdsCount', c_uint32),
+        ('TargetUserIpAddresses', POINTER(c_char_p)),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCADMIN_QUERYJOINROOMTOKEN_API_LATEST, LocalUserId = None, RoomName = None, TargetUserIds = None, TargetUserIdsCount = 0, TargetUserIpAddresses = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName, TargetUserIds = TargetUserIds, TargetUserIdsCount = TargetUserIdsCount, TargetUserIpAddresses = TargetUserIpAddresses)
+class EOS_RTCAdmin_QueryJoinRoomTokenCompleteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('RoomName', c_char_p),
+        ('ClientBaseUrl', c_char_p),
+        ('QueryId', c_uint32),
+        ('TokenCount', c_uint32),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, RoomName = None, ClientBaseUrl = None, QueryId = 0, TokenCount = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, RoomName = RoomName, ClientBaseUrl = ClientBaseUrl, QueryId = QueryId, TokenCount = TokenCount)
+class EOS_RTCAdmin_UserToken(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ProductUserId', EOS_ProductUserId),
+        ('Token', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCADMIN_USERTOKEN_API_LATEST, ProductUserId = None, Token = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, ProductUserId = ProductUserId, Token = Token)
+    def Release(self):
+        # type: (POINTER(EOS_RTCAdmin_UserToken)) -> None
+        return EOS_RTCAdmin_UserToken_Release(self)
+class EOS_RTCAdmin_CopyUserTokenByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UserTokenIndex', c_uint32),
+        ('QueryId', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCADMIN_COPYUSERTOKENBYINDEX_API_LATEST, UserTokenIndex = 0, QueryId = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, UserTokenIndex = UserTokenIndex, QueryId = QueryId)
+class EOS_RTCAdmin_CopyUserTokenByUserIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+        ('QueryId', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCADMIN_COPYUSERTOKENBYUSERID_API_LATEST, TargetUserId = None, QueryId = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId, QueryId = QueryId)
+class EOS_RTCAdmin_KickOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('RoomName', c_char_p),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCADMIN_KICK_API_LATEST, RoomName = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, RoomName = RoomName, TargetUserId = TargetUserId)
+class EOS_RTCAdmin_KickCompleteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
+class EOS_RTCAdmin_SetParticipantHardMuteOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('RoomName', c_char_p),
+        ('TargetUserId', EOS_ProductUserId),
+        ('bMute', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCADMIN_SETPARTICIPANTHARDMUTE_API_LATEST, RoomName = None, TargetUserId = None, bMute = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, RoomName = RoomName, TargetUserId = TargetUserId, bMute = bMute)
+class EOS_RTCAdmin_SetParticipantHardMuteCompleteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
+class EOS_RTCAudio_RegisterPlatformAudioUserOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UserId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_REGISTERPLATFORMAUDIOUSER_API_LATEST, UserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, UserId = UserId)
+class EOS_RTCAudio_UnregisterPlatformAudioUserOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UserId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_UNREGISTERPLATFORMAUDIOUSER_API_LATEST, UserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, UserId = UserId)
+class EOS_RTCAudio_GetAudioInputDevicesCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_GETAUDIOINPUTDEVICESCOUNT_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_RTCAudio_GetAudioInputDeviceByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('DeviceInfoIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_GETAUDIOINPUTDEVICEBYINDEX_API_LATEST, DeviceInfoIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, DeviceInfoIndex = DeviceInfoIndex)
+class EOS_RTCAudio_AudioInputDeviceInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('bDefaultDevice', EOS_Bool),
+        ('DeviceId', c_char_p),
+        ('DeviceName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_AUDIOINPUTDEVICEINFO_API_LATEST, bDefaultDevice = 0, DeviceId = None, DeviceName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, bDefaultDevice = bDefaultDevice, DeviceId = DeviceId, DeviceName = DeviceName)
+class EOS_RTCAudio_GetAudioOutputDevicesCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_GETAUDIOOUTPUTDEVICESCOUNT_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_RTCAudio_GetAudioOutputDeviceByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('DeviceInfoIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_GETAUDIOOUTPUTDEVICEBYINDEX_API_LATEST, DeviceInfoIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, DeviceInfoIndex = DeviceInfoIndex)
+class EOS_RTCAudio_AudioOutputDeviceInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('bDefaultDevice', EOS_Bool),
+        ('DeviceId', c_char_p),
+        ('DeviceName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_AUDIOOUTPUTDEVICEINFO_API_LATEST, bDefaultDevice = 0, DeviceId = None, DeviceName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, bDefaultDevice = bDefaultDevice, DeviceId = DeviceId, DeviceName = DeviceName)
+class EOS_RTCAudio_SetAudioInputSettingsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('DeviceId', c_char_p),
+        ('Volume', c_float),
+        ('bPlatformAEC', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_SETAUDIOINPUTSETTINGS_API_LATEST, LocalUserId = None, DeviceId = None, Volume = 0, bPlatformAEC = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, DeviceId = DeviceId, Volume = Volume, bPlatformAEC = bPlatformAEC)
+class EOS_RTCAudio_SetAudioOutputSettingsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('DeviceId', c_char_p),
+        ('Volume', c_float),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_SETAUDIOOUTPUTSETTINGS_API_LATEST, LocalUserId = None, DeviceId = None, Volume = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, DeviceId = DeviceId, Volume = Volume)
+class EOS_RTCData_AddNotifyParticipantUpdatedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCDATA_ADDNOTIFYPARTICIPANTUPDATED_API_LATEST, LocalUserId = None, RoomName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName)
+class EOS_RTCData_ParticipantUpdatedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('ParticipantId', EOS_ProductUserId),
+        ('DataStatus', EOS_ERTCDataStatus),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, RoomName = None, ParticipantId = None, DataStatus = 0):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, ParticipantId = ParticipantId, DataStatus = DataStatus)
+class EOS_RTCData_SendDataOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('DataLengthBytes', c_uint32),
+        ('Data', c_void_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCDATA_SENDDATA_API_LATEST, LocalUserId = None, RoomName = None, DataLengthBytes = 0, Data = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName, DataLengthBytes = DataLengthBytes, Data = Data)
+class EOS_RTCData_AddNotifyDataReceivedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCDATA_ADDNOTIFYDATARECEIVED_API_LATEST, LocalUserId = None, RoomName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName)
+class EOS_RTCData_DataReceivedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('DataLengthBytes', c_uint32),
+        ('Data', c_void_p),
+        ('ParticipantId', EOS_ProductUserId),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, RoomName = None, DataLengthBytes = 0, Data = None, ParticipantId = None):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, DataLengthBytes = DataLengthBytes, Data = Data, ParticipantId = ParticipantId)
+class EOS_RTCData_UpdateSendingOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('bDataEnabled', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCDATA_UPDATESENDING_API_LATEST, LocalUserId = None, RoomName = None, bDataEnabled = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName, bDataEnabled = bDataEnabled)
+class EOS_RTCData_UpdateSendingCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('bDataEnabled', EOS_Bool),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, RoomName = None, bDataEnabled = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, bDataEnabled = bDataEnabled)
+class EOS_RTCData_UpdateReceivingOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('ParticipantId', EOS_ProductUserId),
+        ('bDataEnabled', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCDATA_UPDATERECEIVING_API_LATEST, LocalUserId = None, RoomName = None, ParticipantId = None, bDataEnabled = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName, ParticipantId = ParticipantId, bDataEnabled = bDataEnabled)
+class EOS_RTCData_UpdateReceivingCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('ParticipantId', EOS_ProductUserId),
+        ('bDataEnabled', EOS_Bool),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, RoomName = None, ParticipantId = None, bDataEnabled = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, ParticipantId = ParticipantId, bDataEnabled = bDataEnabled)
+class EOS_RTC_JoinRoomOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('ClientBaseUrl', c_char_p),
+        ('ParticipantToken', c_char_p),
+        ('ParticipantId', EOS_ProductUserId),
+        ('Flags', c_uint32),
+        ('bManualAudioInputEnabled', EOS_Bool),
+        ('bManualAudioOutputEnabled', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_RTC_JOINROOM_API_LATEST, LocalUserId = None, RoomName = None, ClientBaseUrl = None, ParticipantToken = None, ParticipantId = None, Flags = 0, bManualAudioInputEnabled = 0, bManualAudioOutputEnabled = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName, ClientBaseUrl = ClientBaseUrl, ParticipantToken = ParticipantToken, ParticipantId = ParticipantId, Flags = Flags, bManualAudioInputEnabled = bManualAudioInputEnabled, bManualAudioOutputEnabled = bManualAudioOutputEnabled)
+class EOS_RTC_Option(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Key', c_char_p),
+        ('Value', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTC_OPTION_API_LATEST, Key = None, Value = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, Key = Key, Value = Value)
+class EOS_RTC_JoinRoomCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('RoomOptionsCount', c_uint32),
+        ('RoomOptions', POINTER(EOS_RTC_Option)),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, RoomName = None, RoomOptionsCount = 0, RoomOptions = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, RoomOptionsCount = RoomOptionsCount, RoomOptions = RoomOptions)
+class EOS_RTC_LeaveRoomOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTC_LEAVEROOM_API_LATEST, LocalUserId = None, RoomName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName)
+class EOS_RTC_LeaveRoomCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, RoomName = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName)
+class EOS_RTC_BlockParticipantOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('ParticipantId', EOS_ProductUserId),
+        ('bBlocked', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_RTC_BLOCKPARTICIPANT_API_LATEST, LocalUserId = None, RoomName = None, ParticipantId = None, bBlocked = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName, ParticipantId = ParticipantId, bBlocked = bBlocked)
+class EOS_RTC_BlockParticipantCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('ParticipantId', EOS_ProductUserId),
+        ('bBlocked', EOS_Bool),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, RoomName = None, ParticipantId = None, bBlocked = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, ParticipantId = ParticipantId, bBlocked = bBlocked)
+class EOS_RTC_AddNotifyDisconnectedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTC_ADDNOTIFYDISCONNECTED_API_LATEST, LocalUserId = None, RoomName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName)
+class EOS_RTC_DisconnectedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, RoomName = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName)
+class EOS_RTC_ParticipantMetadata(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Key', c_char_p),
+        ('Value', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTC_PARTICIPANTMETADATA_API_LATEST, Key = None, Value = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, Key = Key, Value = Value)
+class EOS_RTC_AddNotifyParticipantStatusChangedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTC_ADDNOTIFYPARTICIPANTSTATUSCHANGED_API_LATEST, LocalUserId = None, RoomName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName)
+class EOS_RTC_ParticipantStatusChangedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('ParticipantId', EOS_ProductUserId),
+        ('ParticipantStatus', EOS_ERTCParticipantStatus),
+        ('ParticipantMetadataCount', c_uint32),
+        ('ParticipantMetadata', POINTER(EOS_RTC_ParticipantMetadata)),
+        ('bParticipantInBlocklist', EOS_Bool),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, RoomName = None, ParticipantId = None, ParticipantStatus = 0, ParticipantMetadataCount = 0, ParticipantMetadata = None, bParticipantInBlocklist = 0):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, ParticipantId = ParticipantId, ParticipantStatus = ParticipantStatus, ParticipantMetadataCount = ParticipantMetadataCount, ParticipantMetadata = ParticipantMetadata, bParticipantInBlocklist = bParticipantInBlocklist)
+class EOS_RTC_SetSettingOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SettingName', c_char_p),
+        ('SettingValue', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTC_SETSETTING_API_LATEST, SettingName = None, SettingValue = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, SettingName = SettingName, SettingValue = SettingValue)
+class EOS_RTC_SetRoomSettingOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('SettingName', c_char_p),
+        ('SettingValue', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTC_SETROOMSETTING_API_LATEST, LocalUserId = None, RoomName = None, SettingName = None, SettingValue = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName, SettingName = SettingName, SettingValue = SettingValue)
+class EOS_RTC_AddNotifyRoomStatisticsUpdatedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTC_ADDNOTIFYROOMSTATISTICSUPDATED_API_LATEST, LocalUserId = None, RoomName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName)
+class EOS_RTC_RoomStatisticsUpdatedInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('Statistic', c_char_p),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, RoomName = None, Statistic = None):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, Statistic = Statistic)
+class EOS_Sanctions_PlayerSanction(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TimePlaced', c_int64),
+        ('Action', c_char_p),
+        ('TimeExpires', c_int64),
+        ('ReferenceId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_SANCTIONS_PLAYERSANCTION_API_LATEST, TimePlaced = 0, Action = None, TimeExpires = 0, ReferenceId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, TimePlaced = TimePlaced, Action = Action, TimeExpires = TimeExpires, ReferenceId = ReferenceId)
+    def Release(self):
+        # type: (POINTER(EOS_Sanctions_PlayerSanction)) -> None
+        return EOS_Sanctions_PlayerSanction_Release(self)
+class EOS_Sanctions_QueryActivePlayerSanctionsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_SANCTIONS_QUERYACTIVEPLAYERSANCTIONS_API_LATEST, TargetUserId = None, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId, LocalUserId = LocalUserId)
+class EOS_Sanctions_QueryActivePlayerSanctionsCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('TargetUserId', EOS_ProductUserId),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, TargetUserId = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, TargetUserId = TargetUserId, LocalUserId = LocalUserId)
+class EOS_Sanctions_GetPlayerSanctionCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_SANCTIONS_GETPLAYERSANCTIONCOUNT_API_LATEST, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId)
+class EOS_Sanctions_CopyPlayerSanctionByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+        ('SanctionIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_SANCTIONS_COPYPLAYERSANCTIONBYINDEX_API_LATEST, TargetUserId = None, SanctionIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId, SanctionIndex = SanctionIndex)
+class EOS_Sanctions_CreatePlayerSanctionAppealOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Reason', EOS_ESanctionAppealReason),
+        ('ReferenceId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_SANCTIONS_CREATEPLAYERSANCTIONAPPEAL_API_LATEST, LocalUserId = None, Reason = 0, ReferenceId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Reason = Reason, ReferenceId = ReferenceId)
+class EOS_Sanctions_CreatePlayerSanctionAppealCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('ReferenceId', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, ReferenceId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, ReferenceId = ReferenceId)
+class EOS_Stats_IngestData(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('StatName', c_char_p),
+        ('IngestAmount', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_STATS_INGESTDATA_API_LATEST, StatName = None, IngestAmount = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, StatName = StatName, IngestAmount = IngestAmount)
+class EOS_Stats_IngestStatOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Stats', POINTER(EOS_Stats_IngestData)),
+        ('StatsCount', c_uint32),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_STATS_INGESTSTAT_API_LATEST, LocalUserId = None, Stats = None, StatsCount = 0, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Stats = Stats, StatsCount = StatsCount, TargetUserId = TargetUserId)
+class EOS_Stats_IngestStatCompleteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_Stats_QueryStatsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('StartTime', c_int64),
+        ('EndTime', c_int64),
+        ('StatNames', POINTER(c_char_p)),
+        ('StatNamesCount', c_uint32),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_STATS_QUERYSTATS_API_LATEST, LocalUserId = None, StartTime = 0, EndTime = 0, StatNames = None, StatNamesCount = 0, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, StartTime = StartTime, EndTime = EndTime, StatNames = StatNames, StatNamesCount = StatNamesCount, TargetUserId = TargetUserId)
+class EOS_Stats_Stat(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Name', c_char_p),
+        ('StartTime', c_int64),
+        ('EndTime', c_int64),
+        ('Value', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_STATS_STAT_API_LATEST, Name = None, StartTime = 0, EndTime = 0, Value = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Name = Name, StartTime = StartTime, EndTime = EndTime, Value = Value)
+    def Release(self):
+        # type: (POINTER(EOS_Stats_Stat)) -> None
+        return EOS_Stats_Stat_Release(self)
+class EOS_Stats_GetStatCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_STATS_GETSTATSCOUNT_API_LATEST, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId)
+class EOS_Stats_CopyStatByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+        ('StatIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_STATS_COPYSTATBYINDEX_API_LATEST, TargetUserId = None, StatIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId, StatIndex = StatIndex)
+class EOS_Stats_CopyStatByNameOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+        ('Name', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_STATS_COPYSTATBYNAME_API_LATEST, TargetUserId = None, Name = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId, Name = Name)
+class EOS_Stats_OnQueryStatsCompleteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_TitleStorage_FileMetadata(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('FileSizeBytes', c_uint32),
+        ('MD5Hash', c_char_p),
+        ('Filename', c_char_p),
+        ('UnencryptedDataSizeBytes', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_TITLESTORAGE_FILEMETADATA_API_LATEST, FileSizeBytes = 0, MD5Hash = None, Filename = None, UnencryptedDataSizeBytes = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, FileSizeBytes = FileSizeBytes, MD5Hash = MD5Hash, Filename = Filename, UnencryptedDataSizeBytes = UnencryptedDataSizeBytes)
+    def Release(self):
+        # type: (POINTER(EOS_TitleStorage_FileMetadata)) -> None
+        return EOS_TitleStorage_FileMetadata_Release(self)
+class EOS_TitleStorage_QueryFileOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Filename', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_TITLESTORAGE_QUERYFILE_API_LATEST, LocalUserId = None, Filename = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Filename = Filename)
+class EOS_TitleStorage_QueryFileCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_TitleStorage_QueryFileListOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('ListOfTags', POINTER(c_char_p)),
+        ('ListOfTagsCount', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_TITLESTORAGE_QUERYFILELIST_API_LATEST, LocalUserId = None, ListOfTags = None, ListOfTagsCount = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, ListOfTags = ListOfTags, ListOfTagsCount = ListOfTagsCount)
+class EOS_TitleStorage_QueryFileListCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('FileCount', c_uint32),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, FileCount = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, FileCount = FileCount)
+class EOS_TitleStorage_GetFileMetadataCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_TITLESTORAGE_GETFILEMETADATACOUNT_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_TitleStorage_CopyFileMetadataAtIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Index', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_TITLESTORAGE_COPYFILEMETADATAATINDEX_API_LATEST, LocalUserId = None, Index = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Index = Index)
+class EOS_TitleStorage_CopyFileMetadataByFilenameOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Filename', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_TITLESTORAGE_COPYFILEMETADATABYFILENAME_API_LATEST, LocalUserId = None, Filename = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Filename = Filename)
+class EOS_TitleStorage_FileTransferProgressCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Filename', c_char_p),
+        ('BytesTransferred', c_uint32),
+        ('TotalFileSizeBytes', c_uint32),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, Filename = None, BytesTransferred = 0, TotalFileSizeBytes = 0):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, Filename = Filename, BytesTransferred = BytesTransferred, TotalFileSizeBytes = TotalFileSizeBytes)
+class EOS_TitleStorage_ReadFileDataCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Filename', c_char_p),
+        ('TotalFileSizeBytes', c_uint32),
+        ('bIsLastChunk', EOS_Bool),
+        ('DataChunkLengthBytes', c_uint32),
+        ('DataChunk', c_void_p),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, Filename = None, TotalFileSizeBytes = 0, bIsLastChunk = 0, DataChunkLengthBytes = 0, DataChunk = None):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, Filename = Filename, TotalFileSizeBytes = TotalFileSizeBytes, bIsLastChunk = bIsLastChunk, DataChunkLengthBytes = DataChunkLengthBytes, DataChunk = DataChunk)
+class EOS_TitleStorage_ReadFileCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Filename', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, Filename = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, Filename = Filename)
+class EOS_TitleStorage_DeleteCacheOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_TITLESTORAGE_DELETECACHE_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_TitleStorage_DeleteCacheCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_Platform_ClientCredentials(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientId', c_char_p),
+        ('ClientSecret', c_char_p),
+    ]
+    def __init__(self, ClientId = None, ClientSecret = None):
+        Structure.__init__(self, ClientId = ClientId, ClientSecret = ClientSecret)
+class EOS_Platform_RTCOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('PlatformSpecificOptions', c_void_p),
+        ('BackgroundMode', EOS_ERTCBackgroundMode),
+    ]
+    def __init__(self, ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST, PlatformSpecificOptions = None, BackgroundMode = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, PlatformSpecificOptions = PlatformSpecificOptions, BackgroundMode = BackgroundMode)
+class EOS_Platform_Options(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Reserved', c_void_p),
+        ('ProductId', c_char_p),
+        ('SandboxId', c_char_p),
+        ('ClientCredentials', EOS_Platform_ClientCredentials),
+        ('bIsServer', EOS_Bool),
+        ('EncryptionKey', c_char_p),
+        ('OverrideCountryCode', c_char_p),
+        ('OverrideLocaleCode', c_char_p),
+        ('DeploymentId', c_char_p),
+        ('Flags', c_uint64),
+        ('CacheDirectory', c_char_p),
+        ('TickBudgetInMilliseconds', c_uint32),
+        ('RTCOptions', POINTER(EOS_Platform_RTCOptions)),
+        ('IntegratedPlatformOptionsContainerHandle', EOS_HIntegratedPlatformOptionsContainer),
+        ('SystemSpecificOptions', c_void_p),
+        ('TaskNetworkTimeoutSeconds', POINTER(c_double)),
+    ]
+    def __init__(self, ApiVersion = EOS_PLATFORM_OPTIONS_API_LATEST, Reserved = None, ProductId = None, SandboxId = None, ClientCredentials = EOS_Platform_ClientCredentials(), bIsServer = 0, EncryptionKey = None, OverrideCountryCode = None, OverrideLocaleCode = None, DeploymentId = None, Flags = 0, CacheDirectory = None, TickBudgetInMilliseconds = 0, RTCOptions = None, IntegratedPlatformOptionsContainerHandle = None, SystemSpecificOptions = None, TaskNetworkTimeoutSeconds = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, Reserved = Reserved, ProductId = ProductId, SandboxId = SandboxId, ClientCredentials = ClientCredentials, bIsServer = bIsServer, EncryptionKey = EncryptionKey, OverrideCountryCode = OverrideCountryCode, OverrideLocaleCode = OverrideLocaleCode, DeploymentId = DeploymentId, Flags = Flags, CacheDirectory = CacheDirectory, TickBudgetInMilliseconds = TickBudgetInMilliseconds, RTCOptions = RTCOptions, IntegratedPlatformOptionsContainerHandle = IntegratedPlatformOptionsContainerHandle, SystemSpecificOptions = SystemSpecificOptions, TaskNetworkTimeoutSeconds = TaskNetworkTimeoutSeconds)
+class EOS_Platform_GetDesktopCrossplayStatusOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_PLATFORM_GETDESKTOPCROSSPLAYSTATUS_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Platform_DesktopCrossplayStatusInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('Status', EOS_EDesktopCrossplayStatus),
+        ('ServiceInitResult', c_int32),
+    ]
+    def __init__(self, Status = 0, ServiceInitResult = 0):
+        Structure.__init__(self, Status = Status, ServiceInitResult = ServiceInitResult)
+class EOS_UI_ShowFriendsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_SHOWFRIENDS_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_UI_ShowFriendsCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_UI_HideFriendsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_HIDEFRIENDS_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_UI_HideFriendsCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_UI_GetFriendsVisibleOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_GETFRIENDSVISIBLE_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_UI_GetFriendsExclusiveInputOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_GETFRIENDSEXCLUSIVEINPUT_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_UI_AddNotifyDisplaySettingsUpdatedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_ADDNOTIFYDISPLAYSETTINGSUPDATED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_UI_OnDisplaySettingsUpdatedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('bIsVisible', EOS_Bool),
+        ('bIsExclusiveInput', EOS_Bool),
+    ]
+    def __init__(self, ClientData = None, bIsVisible = 0, bIsExclusiveInput = 0):
+        Structure.__init__(self, ClientData = ClientData, bIsVisible = bIsVisible, bIsExclusiveInput = bIsExclusiveInput)
+class EOS_UI_SetToggleFriendsKeyOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('KeyCombination', EOS_UI_EKeyCombination),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_SETTOGGLEFRIENDSKEY_API_LATEST, KeyCombination = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, KeyCombination = KeyCombination)
+class EOS_UI_GetToggleFriendsKeyOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_GETTOGGLEFRIENDSKEY_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_UI_SetToggleFriendsButtonOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ButtonCombination', EOS_UI_EInputStateButtonFlags),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_SETTOGGLEFRIENDSBUTTON_API_LATEST, ButtonCombination = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, ButtonCombination = ButtonCombination)
+class EOS_UI_GetToggleFriendsButtonOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_GETTOGGLEFRIENDSBUTTON_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_UI_SetDisplayPreferenceOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('NotificationLocation', EOS_UI_ENotificationLocation),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_SETDISPLAYPREFERENCE_API_LATEST, NotificationLocation = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, NotificationLocation = NotificationLocation)
+class EOS_UI_AcknowledgeEventIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UiEventId', EOS_UI_EventId),
+        ('Result', EOS_EResult),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_ACKNOWLEDGEEVENTID_API_LATEST, UiEventId = 0, Result = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, UiEventId = UiEventId, Result = Result)
+class EOS_UI_ReportInputStateOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ButtonDownFlags', EOS_UI_EInputStateButtonFlags),
+        ('bAcceptIsFaceButtonRight', EOS_Bool),
+        ('bMouseButtonDown', EOS_Bool),
+        ('MousePosX', c_uint32),
+        ('MousePosY', c_uint32),
+        ('GamepadIndex', c_uint32),
+        ('LeftStickX', c_float),
+        ('LeftStickY', c_float),
+        ('RightStickX', c_float),
+        ('RightStickY', c_float),
+        ('LeftTrigger', c_float),
+        ('RightTrigger', c_float),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_REPORTINPUTSTATE_API_LATEST, ButtonDownFlags = 0, bAcceptIsFaceButtonRight = 0, bMouseButtonDown = 0, MousePosX = 0, MousePosY = 0, GamepadIndex = 0, LeftStickX = 0, LeftStickY = 0, RightStickX = 0, RightStickY = 0, LeftTrigger = 0, RightTrigger = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, ButtonDownFlags = ButtonDownFlags, bAcceptIsFaceButtonRight = bAcceptIsFaceButtonRight, bMouseButtonDown = bMouseButtonDown, MousePosX = MousePosX, MousePosY = MousePosY, GamepadIndex = GamepadIndex, LeftStickX = LeftStickX, LeftStickY = LeftStickY, RightStickX = RightStickX, RightStickY = RightStickY, LeftTrigger = LeftTrigger, RightTrigger = RightTrigger)
+class EOS_UI_PrePresentOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('PlatformSpecificData', c_void_p),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_PREPRESENT_API_LATEST, PlatformSpecificData = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, PlatformSpecificData = PlatformSpecificData)
+class EOS_UI_ShowBlockPlayerOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_SHOWBLOCKPLAYER_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_UI_OnShowBlockPlayerCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_UI_ShowReportPlayerOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_SHOWREPORTPLAYER_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_UI_OnShowReportPlayerCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_UI_ShowNativeProfileOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_SHOWNATIVEPROFILE_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_UI_ShowNativeProfileCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_UI_PauseSocialOverlayOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('bIsPaused', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_PAUSESOCIALOVERLAY_API_LATEST, bIsPaused = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, bIsPaused = bIsPaused)
+class EOS_UI_IsSocialOverlayPausedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_ISSOCIALOVERLAYPAUSED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_UI_Rect(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('X', c_int32),
+        ('Y', c_int32),
+        ('Width', c_uint32),
+        ('Height', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_RECT_API_LATEST, X = 0, Y = 0, Width = 0, Height = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, X = X, Y = Y, Width = Width, Height = Height)
+class EOS_UI_MemoryMonitorCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('SystemMemoryMonitorReport', c_void_p),
+    ]
+    def __init__(self, ClientData = None, SystemMemoryMonitorReport = None):
+        Structure.__init__(self, ClientData = ClientData, SystemMemoryMonitorReport = SystemMemoryMonitorReport)
+class EOS_UI_AddNotifyMemoryMonitorOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_ADDNOTIFYMEMORYMONITOR_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_UserInfo_QueryUserInfoOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_USERINFO_QUERYUSERINFO_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_UserInfo_QueryUserInfoCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_UserInfo_QueryUserInfoByDisplayNameOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('DisplayName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_USERINFO_QUERYUSERINFOBYDISPLAYNAME_API_LATEST, LocalUserId = None, DisplayName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, DisplayName = DisplayName)
+class EOS_UserInfo_QueryUserInfoByDisplayNameCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+        ('DisplayName', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TargetUserId = None, DisplayName = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId, DisplayName = DisplayName)
+class EOS_UserInfo_QueryUserInfoByExternalAccountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('ExternalAccountId', c_char_p),
+        ('AccountType', EOS_EExternalAccountType),
+    ]
+    def __init__(self, ApiVersion = EOS_USERINFO_QUERYUSERINFOBYEXTERNALACCOUNT_API_LATEST, LocalUserId = None, ExternalAccountId = None, AccountType = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, ExternalAccountId = ExternalAccountId, AccountType = AccountType)
+class EOS_UserInfo_QueryUserInfoByExternalAccountCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('ExternalAccountId', c_char_p),
+        ('AccountType', EOS_EExternalAccountType),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, ExternalAccountId = None, AccountType = 0, TargetUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, ExternalAccountId = ExternalAccountId, AccountType = AccountType, TargetUserId = TargetUserId)
+class EOS_UserInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UserId', EOS_EpicAccountId),
+        ('Country', c_char_p),
+        ('DisplayName', c_char_p),
+        ('PreferredLanguage', c_char_p),
+        ('Nickname', c_char_p),
+        ('DisplayNameSanitized', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_USERINFO_COPYUSERINFO_API_LATEST, UserId = None, Country = None, DisplayName = None, PreferredLanguage = None, Nickname = None, DisplayNameSanitized = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, UserId = UserId, Country = Country, DisplayName = DisplayName, PreferredLanguage = PreferredLanguage, Nickname = Nickname, DisplayNameSanitized = DisplayNameSanitized)
+    def Release(self):
+        # type: (POINTER(EOS_UserInfo)) -> None
+        return EOS_UserInfo_Release(self)
+    def QueryUserInfo(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HUserInfo, POINTER(EOS_UserInfo_QueryUserInfoOptions), c_void_p, EOS_UserInfo_OnQueryUserInfoCallback) -> None
+        return EOS_UserInfo_QueryUserInfo(self, Options, ClientData, CompletionDelegate)
+    def QueryUserInfoByDisplayName(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HUserInfo, POINTER(EOS_UserInfo_QueryUserInfoByDisplayNameOptions), c_void_p, EOS_UserInfo_OnQueryUserInfoByDisplayNameCallback) -> None
+        return EOS_UserInfo_QueryUserInfoByDisplayName(self, Options, ClientData, CompletionDelegate)
+    def QueryUserInfoByExternalAccount(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HUserInfo, POINTER(EOS_UserInfo_QueryUserInfoByExternalAccountOptions), c_void_p, EOS_UserInfo_OnQueryUserInfoByExternalAccountCallback) -> None
+        return EOS_UserInfo_QueryUserInfoByExternalAccount(self, Options, ClientData, CompletionDelegate)
+    def CopyUserInfo(self, Options, OutUserInfo):
+        # type: (EOS_HUserInfo, POINTER(EOS_UserInfo_CopyUserInfoOptions), POINTER(POINTER(EOS_UserInfo))) -> EOS_EResult
+        return EOS_UserInfo_CopyUserInfo(self, Options, OutUserInfo)
+    def GetExternalUserInfoCount(self, Options):
+        # type: (EOS_HUserInfo, POINTER(EOS_UserInfo_GetExternalUserInfoCountOptions)) -> c_uint32
+        return EOS_UserInfo_GetExternalUserInfoCount(self, Options)
+    def CopyExternalUserInfoByIndex(self, Options, OutExternalUserInfo):
+        # type: (EOS_HUserInfo, POINTER(EOS_UserInfo_CopyExternalUserInfoByIndexOptions), POINTER(POINTER(EOS_UserInfo_ExternalUserInfo))) -> EOS_EResult
+        return EOS_UserInfo_CopyExternalUserInfoByIndex(self, Options, OutExternalUserInfo)
+    def CopyExternalUserInfoByAccountType(self, Options, OutExternalUserInfo):
+        # type: (EOS_HUserInfo, POINTER(EOS_UserInfo_CopyExternalUserInfoByAccountTypeOptions), POINTER(POINTER(EOS_UserInfo_ExternalUserInfo))) -> EOS_EResult
+        return EOS_UserInfo_CopyExternalUserInfoByAccountType(self, Options, OutExternalUserInfo)
+    def CopyExternalUserInfoByAccountId(self, Options, OutExternalUserInfo):
+        # type: (EOS_HUserInfo, POINTER(EOS_UserInfo_CopyExternalUserInfoByAccountIdOptions), POINTER(POINTER(EOS_UserInfo_ExternalUserInfo))) -> EOS_EResult
+        return EOS_UserInfo_CopyExternalUserInfoByAccountId(self, Options, OutExternalUserInfo)
+    def CopyBestDisplayName(self, Options, OutBestDisplayName):
+        # type: (EOS_HUserInfo, POINTER(EOS_UserInfo_CopyBestDisplayNameOptions), POINTER(POINTER(EOS_UserInfo_BestDisplayName))) -> EOS_EResult
+        return EOS_UserInfo_CopyBestDisplayName(self, Options, OutBestDisplayName)
+    def CopyBestDisplayNameWithPlatform(self, Options, OutBestDisplayName):
+        # type: (EOS_HUserInfo, POINTER(EOS_UserInfo_CopyBestDisplayNameWithPlatformOptions), POINTER(POINTER(EOS_UserInfo_BestDisplayName))) -> EOS_EResult
+        return EOS_UserInfo_CopyBestDisplayNameWithPlatform(self, Options, OutBestDisplayName)
+    def GetLocalPlatformType(self, Options):
+        # type: (EOS_HUserInfo, POINTER(EOS_UserInfo_GetLocalPlatformTypeOptions)) -> EOS_OnlinePlatformType
+        return EOS_UserInfo_GetLocalPlatformType(self, Options)
+class EOS_UserInfo_CopyUserInfoOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_USERINFO_COPYUSERINFO_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_UserInfo_ExternalUserInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('AccountType', EOS_EExternalAccountType),
+        ('AccountId', c_char_p),
+        ('DisplayName', c_char_p),
+        ('DisplayNameSanitized', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_USERINFO_EXTERNALUSERINFO_API_LATEST, AccountType = 0, AccountId = None, DisplayName = None, DisplayNameSanitized = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, AccountType = AccountType, AccountId = AccountId, DisplayName = DisplayName, DisplayNameSanitized = DisplayNameSanitized)
+    def Release(self):
+        # type: (POINTER(EOS_UserInfo_ExternalUserInfo)) -> None
+        return EOS_UserInfo_ExternalUserInfo_Release(self)
+class EOS_UserInfo_GetExternalUserInfoCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_USERINFO_GETEXTERNALUSERINFOCOUNT_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_UserInfo_CopyExternalUserInfoByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+        ('Index', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_USERINFO_COPYEXTERNALUSERINFOBYINDEX_API_LATEST, LocalUserId = None, TargetUserId = None, Index = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId, Index = Index)
+class EOS_UserInfo_CopyExternalUserInfoByAccountTypeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+        ('AccountType', EOS_EExternalAccountType),
+    ]
+    def __init__(self, ApiVersion = EOS_USERINFO_COPYEXTERNALUSERINFOBYACCOUNTTYPE_API_LATEST, LocalUserId = None, TargetUserId = None, AccountType = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId, AccountType = AccountType)
+class EOS_UserInfo_CopyExternalUserInfoByAccountIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+        ('AccountId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_USERINFO_COPYEXTERNALUSERINFOBYACCOUNTID_API_LATEST, LocalUserId = None, TargetUserId = None, AccountId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId, AccountId = AccountId)
+class EOS_UserInfo_BestDisplayName(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UserId', EOS_EpicAccountId),
+        ('DisplayName', c_char_p),
+        ('DisplayNameSanitized', c_char_p),
+        ('Nickname', c_char_p),
+        ('PlatformType', EOS_OnlinePlatformType),
+    ]
+    def __init__(self, ApiVersion = EOS_USERINFO_BESTDISPLAYNAME_API_LATEST, UserId = None, DisplayName = None, DisplayNameSanitized = None, Nickname = None, PlatformType = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, UserId = UserId, DisplayName = DisplayName, DisplayNameSanitized = DisplayNameSanitized, Nickname = Nickname, PlatformType = PlatformType)
+    def Release(self):
+        # type: (POINTER(EOS_UserInfo_BestDisplayName)) -> None
+        return EOS_UserInfo_BestDisplayName_Release(self)
+class EOS_UserInfo_CopyBestDisplayNameOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_USERINFO_COPYBESTDISPLAYNAME_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_UserInfo_CopyBestDisplayNameWithPlatformOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+        ('TargetPlatformType', EOS_OnlinePlatformType),
+    ]
+    def __init__(self, ApiVersion = EOS_USERINFO_COPYBESTDISPLAYNAMEWITHPLATFORM_API_LATEST, LocalUserId = None, TargetUserId = None, TargetPlatformType = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId, TargetPlatformType = TargetPlatformType)
+class EOS_UserInfo_GetLocalPlatformTypeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_USERINFO_GETLOCALPLATFORMTYPE_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Windows_RTCOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('XAudio29DllPath', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_WINDOWS_RTCOPTIONS_API_LATEST, XAudio29DllPath = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, XAudio29DllPath = XAudio29DllPath)
+class EOS_Achievements_CopyAchievementDefinitionByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('AchievementIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_COPYDEFINITIONBYINDEX_API_LATEST, AchievementIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, AchievementIndex = AchievementIndex)
+class EOS_Achievements_CopyAchievementDefinitionByAchievementIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('AchievementId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_COPYDEFINITIONBYACHIEVEMENTID_API_LATEST, AchievementId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, AchievementId = AchievementId)
+class EOS_Achievements_UnlockedAchievement(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('AchievementId', c_char_p),
+        ('UnlockTime', c_int64),
+    ]
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_UNLOCKEDACHIEVEMENT_API_LATEST, AchievementId = None, UnlockTime = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, AchievementId = AchievementId, UnlockTime = UnlockTime)
+    def Release(self):
+        # type: (POINTER(EOS_Achievements_UnlockedAchievement)) -> None
+        return EOS_Achievements_UnlockedAchievement_Release(self)
+class EOS_Achievements_GetUnlockedAchievementCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_GETUNLOCKEDACHIEVEMENTCOUNT_API_LATEST, UserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, UserId = UserId)
+class EOS_Achievements_CopyUnlockedAchievementByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UserId', EOS_ProductUserId),
+        ('AchievementIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_COPYUNLOCKEDACHIEVEMENTBYINDEX_API_LATEST, UserId = None, AchievementIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, UserId = UserId, AchievementIndex = AchievementIndex)
+class EOS_Achievements_CopyUnlockedAchievementByAchievementIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UserId', EOS_ProductUserId),
+        ('AchievementId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_COPYUNLOCKEDACHIEVEMENTBYACHIEVEMENTID_API_LATEST, UserId = None, AchievementId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, UserId = UserId, AchievementId = AchievementId)
+class EOS_Achievements_AddNotifyAchievementsUnlockedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_ADDNOTIFYACHIEVEMENTSUNLOCKED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Achievements_OnAchievementsUnlockedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('UserId', EOS_ProductUserId),
+        ('AchievementsCount', c_uint32),
+        ('AchievementIds', POINTER(c_char_p)),
+    ]
+    def __init__(self, ClientData = None, UserId = None, AchievementsCount = 0, AchievementIds = None):
+        Structure.__init__(self, ClientData = ClientData, UserId = UserId, AchievementsCount = AchievementsCount, AchievementIds = AchievementIds)
+class EOS_AntiCheatClient_PollStatusOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('OutMessageLength', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_POLLSTATUS_API_LATEST, OutMessageLength = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, OutMessageLength = OutMessageLength)
+class EOS_AntiCheatCommon_Vec3f(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('x', c_float),
+        ('y', c_float),
+        ('z', c_float),
+    ]
+    def __init__(self, x = 0, y = 0, z = 0):
+        Structure.__init__(self, x = x, y = y, z = z)
+class EOS_AntiCheatCommon_Quat(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('w', c_float),
+        ('x', c_float),
+        ('y', c_float),
+        ('z', c_float),
+    ]
+    def __init__(self, w = 0, x = 0, y = 0, z = 0):
+        Structure.__init__(self, w = w, x = x, y = y, z = z)
+class EOS_AntiCheatCommon_OnMessageToClientCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('ClientHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('MessageData', c_void_p),
+        ('MessageDataSizeBytes', c_uint32),
+    ]
+    def __init__(self, ClientData = None, ClientHandle = None, MessageData = None, MessageDataSizeBytes = 0):
+        Structure.__init__(self, ClientData = ClientData, ClientHandle = ClientHandle, MessageData = MessageData, MessageDataSizeBytes = MessageDataSizeBytes)
+class EOS_AntiCheatCommon_OnClientActionRequiredCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('ClientHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('ClientAction', EOS_EAntiCheatCommonClientAction),
+        ('ActionReasonCode', EOS_EAntiCheatCommonClientActionReason),
+        ('ActionReasonDetailsString', c_char_p),
+    ]
+    def __init__(self, ClientData = None, ClientHandle = None, ClientAction = 0, ActionReasonCode = 0, ActionReasonDetailsString = None):
+        Structure.__init__(self, ClientData = ClientData, ClientHandle = ClientHandle, ClientAction = ClientAction, ActionReasonCode = ActionReasonCode, ActionReasonDetailsString = ActionReasonDetailsString)
+class EOS_AntiCheatCommon_OnClientAuthStatusChangedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('ClientHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('ClientAuthStatus', EOS_EAntiCheatCommonClientAuthStatus),
+    ]
+    def __init__(self, ClientData = None, ClientHandle = None, ClientAuthStatus = 0):
+        Structure.__init__(self, ClientData = ClientData, ClientHandle = ClientHandle, ClientAuthStatus = ClientAuthStatus)
+class EOS_AntiCheatCommon_SetClientDetailsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ClientHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('ClientFlags', EOS_EAntiCheatCommonClientFlags),
+        ('ClientInputMethod', EOS_EAntiCheatCommonClientInput),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCOMMON_SETCLIENTDETAILS_API_LATEST, ClientHandle = None, ClientFlags = 0, ClientInputMethod = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, ClientHandle = ClientHandle, ClientFlags = ClientFlags, ClientInputMethod = ClientInputMethod)
+class EOS_AntiCheatCommon_SetGameSessionIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('GameSessionId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCOMMON_SETGAMESESSIONID_API_LATEST, GameSessionId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, GameSessionId = GameSessionId)
+class EOS_AntiCheatCommon_RegisterEventParamDef(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ParamName', c_char_p),
+        ('ParamType', EOS_EAntiCheatCommonEventParamType),
+    ]
+    def __init__(self, ParamName = None, ParamType = 0):
+        Structure.__init__(self, ParamName = ParamName, ParamType = ParamType)
+class EOS_AntiCheatCommon_RegisterEventOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('EventId', c_uint32),
+        ('EventName', c_char_p),
+        ('EventType', EOS_EAntiCheatCommonEventType),
+        ('ParamDefsCount', c_uint32),
+        ('ParamDefs', POINTER(EOS_AntiCheatCommon_RegisterEventParamDef)),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCOMMON_REGISTEREVENT_API_LATEST, EventId = 0, EventName = None, EventType = 0, ParamDefsCount = 0, ParamDefs = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, EventId = EventId, EventName = EventName, EventType = EventType, ParamDefsCount = ParamDefsCount, ParamDefs = ParamDefs)
+class EOS_AntiCheatCommon_LogEventParamPair_INTERNAL_UNION_ParamValue(Union):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('String', c_char_p),
+        ('UInt32', c_uint32),
+        ('Int32', c_int32),
+        ('UInt64', c_uint64),
+        ('Int64', c_int64),
+        ('Vec3f', EOS_AntiCheatCommon_Vec3f),
+        ('Quat', EOS_AntiCheatCommon_Quat),
+        ('Float', c_float),
+    ]
+class EOS_AntiCheatCommon_LogEventParamPair(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ParamValueType', EOS_EAntiCheatCommonEventParamType),
+        ('ParamValue', EOS_AntiCheatCommon_LogEventParamPair_INTERNAL_UNION_ParamValue),
+    ]
+    def __init__(self, ParamValueType = 0, ParamValue = None):
+        Structure.__init__(self, ParamValueType = ParamValueType, ParamValue = ParamValue)
+class EOS_AntiCheatCommon_LogEventOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ClientHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('EventId', c_uint32),
+        ('ParamsCount', c_uint32),
+        ('Params', POINTER(EOS_AntiCheatCommon_LogEventParamPair)),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCOMMON_LOGEVENT_API_LATEST, ClientHandle = None, EventId = 0, ParamsCount = 0, Params = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, ClientHandle = ClientHandle, EventId = EventId, ParamsCount = ParamsCount, Params = Params)
+class EOS_AntiCheatCommon_LogGameRoundStartOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionIdentifier', c_char_p),
+        ('LevelName', c_char_p),
+        ('ModeName', c_char_p),
+        ('RoundTimeSeconds', c_uint32),
+        ('CompetitionType', EOS_EAntiCheatCommonGameRoundCompetitionType),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCOMMON_LOGGAMEROUNDSTART_API_LATEST, SessionIdentifier = None, LevelName = None, ModeName = None, RoundTimeSeconds = 0, CompetitionType = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionIdentifier = SessionIdentifier, LevelName = LevelName, ModeName = ModeName, RoundTimeSeconds = RoundTimeSeconds, CompetitionType = CompetitionType)
+class EOS_AntiCheatCommon_LogGameRoundEndOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('WinningTeamId', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCOMMON_LOGGAMEROUNDEND_API_LATEST, WinningTeamId = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, WinningTeamId = WinningTeamId)
+class EOS_AntiCheatCommon_LogPlayerSpawnOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SpawnedPlayerHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('TeamId', c_uint32),
+        ('CharacterId', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCOMMON_LOGPLAYERSPAWN_API_LATEST, SpawnedPlayerHandle = None, TeamId = 0, CharacterId = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, SpawnedPlayerHandle = SpawnedPlayerHandle, TeamId = TeamId, CharacterId = CharacterId)
+class EOS_AntiCheatCommon_LogPlayerDespawnOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('DespawnedPlayerHandle', EOS_AntiCheatCommon_ClientHandle),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCOMMON_LOGPLAYERDESPAWN_API_LATEST, DespawnedPlayerHandle = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, DespawnedPlayerHandle = DespawnedPlayerHandle)
+class EOS_AntiCheatCommon_LogPlayerReviveOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('RevivedPlayerHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('ReviverPlayerHandle', EOS_AntiCheatCommon_ClientHandle),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCOMMON_LOGPLAYERREVIVE_API_LATEST, RevivedPlayerHandle = None, ReviverPlayerHandle = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, RevivedPlayerHandle = RevivedPlayerHandle, ReviverPlayerHandle = ReviverPlayerHandle)
+class EOS_AntiCheatCommon_LogPlayerTickOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('PlayerHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('PlayerPosition', POINTER(EOS_AntiCheatCommon_Vec3f)),
+        ('PlayerViewRotation', POINTER(EOS_AntiCheatCommon_Quat)),
+        ('bIsPlayerViewZoomed', EOS_Bool),
+        ('PlayerHealth', c_float),
+        ('PlayerMovementState', EOS_EAntiCheatCommonPlayerMovementState),
+        ('PlayerViewPosition', POINTER(EOS_AntiCheatCommon_Vec3f)),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCOMMON_LOGPLAYERTICK_API_LATEST, PlayerHandle = None, PlayerPosition = None, PlayerViewRotation = None, bIsPlayerViewZoomed = 0, PlayerHealth = 0, PlayerMovementState = 0, PlayerViewPosition = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, PlayerHandle = PlayerHandle, PlayerPosition = PlayerPosition, PlayerViewRotation = PlayerViewRotation, bIsPlayerViewZoomed = bIsPlayerViewZoomed, PlayerHealth = PlayerHealth, PlayerMovementState = PlayerMovementState, PlayerViewPosition = PlayerViewPosition)
+class EOS_AntiCheatCommon_LogPlayerUseWeaponData(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('PlayerHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('PlayerPosition', POINTER(EOS_AntiCheatCommon_Vec3f)),
+        ('PlayerViewRotation', POINTER(EOS_AntiCheatCommon_Quat)),
+        ('bIsPlayerViewZoomed', EOS_Bool),
+        ('bIsMeleeAttack', EOS_Bool),
+        ('WeaponName', c_char_p),
+    ]
+    def __init__(self, PlayerHandle = None, PlayerPosition = None, PlayerViewRotation = None, bIsPlayerViewZoomed = 0, bIsMeleeAttack = 0, WeaponName = None):
+        Structure.__init__(self, PlayerHandle = PlayerHandle, PlayerPosition = PlayerPosition, PlayerViewRotation = PlayerViewRotation, bIsPlayerViewZoomed = bIsPlayerViewZoomed, bIsMeleeAttack = bIsMeleeAttack, WeaponName = WeaponName)
+class EOS_AntiCheatCommon_LogPlayerUseWeaponOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UseWeaponData', POINTER(EOS_AntiCheatCommon_LogPlayerUseWeaponData)),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCOMMON_LOGPLAYERUSEWEAPON_API_LATEST, UseWeaponData = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, UseWeaponData = UseWeaponData)
+class EOS_AntiCheatCommon_LogPlayerUseAbilityOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('PlayerHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('AbilityId', c_uint32),
+        ('AbilityDurationMs', c_uint32),
+        ('AbilityCooldownMs', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCOMMON_LOGPLAYERUSEABILITY_API_LATEST, PlayerHandle = None, AbilityId = 0, AbilityDurationMs = 0, AbilityCooldownMs = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, PlayerHandle = PlayerHandle, AbilityId = AbilityId, AbilityDurationMs = AbilityDurationMs, AbilityCooldownMs = AbilityCooldownMs)
+class EOS_AntiCheatCommon_LogPlayerTakeDamageOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('VictimPlayerHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('VictimPlayerPosition', POINTER(EOS_AntiCheatCommon_Vec3f)),
+        ('VictimPlayerViewRotation', POINTER(EOS_AntiCheatCommon_Quat)),
+        ('AttackerPlayerHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('AttackerPlayerPosition', POINTER(EOS_AntiCheatCommon_Vec3f)),
+        ('AttackerPlayerViewRotation', POINTER(EOS_AntiCheatCommon_Quat)),
+        ('bIsHitscanAttack', EOS_Bool),
+        ('bHasLineOfSight', EOS_Bool),
+        ('bIsCriticalHit', EOS_Bool),
+        ('HitBoneId_DEPRECATED', c_uint32),
+        ('DamageTaken', c_float),
+        ('HealthRemaining', c_float),
+        ('DamageSource', EOS_EAntiCheatCommonPlayerTakeDamageSource),
+        ('DamageType', EOS_EAntiCheatCommonPlayerTakeDamageType),
+        ('DamageResult', EOS_EAntiCheatCommonPlayerTakeDamageResult),
+        ('PlayerUseWeaponData', POINTER(EOS_AntiCheatCommon_LogPlayerUseWeaponData)),
+        ('TimeSincePlayerUseWeaponMs', c_uint32),
+        ('DamagePosition', POINTER(EOS_AntiCheatCommon_Vec3f)),
+        ('AttackerPlayerViewPosition', POINTER(EOS_AntiCheatCommon_Vec3f)),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCOMMON_LOGPLAYERTAKEDAMAGE_API_LATEST, VictimPlayerHandle = None, VictimPlayerPosition = None, VictimPlayerViewRotation = None, AttackerPlayerHandle = None, AttackerPlayerPosition = None, AttackerPlayerViewRotation = None, bIsHitscanAttack = 0, bHasLineOfSight = 0, bIsCriticalHit = 0, HitBoneId_DEPRECATED = 0, DamageTaken = 0, HealthRemaining = 0, DamageSource = 0, DamageType = 0, DamageResult = 0, PlayerUseWeaponData = None, TimeSincePlayerUseWeaponMs = 0, DamagePosition = None, AttackerPlayerViewPosition = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, VictimPlayerHandle = VictimPlayerHandle, VictimPlayerPosition = VictimPlayerPosition, VictimPlayerViewRotation = VictimPlayerViewRotation, AttackerPlayerHandle = AttackerPlayerHandle, AttackerPlayerPosition = AttackerPlayerPosition, AttackerPlayerViewRotation = AttackerPlayerViewRotation, bIsHitscanAttack = bIsHitscanAttack, bHasLineOfSight = bHasLineOfSight, bIsCriticalHit = bIsCriticalHit, HitBoneId_DEPRECATED = HitBoneId_DEPRECATED, DamageTaken = DamageTaken, HealthRemaining = HealthRemaining, DamageSource = DamageSource, DamageType = DamageType, DamageResult = DamageResult, PlayerUseWeaponData = PlayerUseWeaponData, TimeSincePlayerUseWeaponMs = TimeSincePlayerUseWeaponMs, DamagePosition = DamagePosition, AttackerPlayerViewPosition = AttackerPlayerViewPosition)
+class EOS_AntiCheatServer_AddNotifyMessageToClientOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATSERVER_ADDNOTIFYMESSAGETOCLIENT_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_AntiCheatServer_AddNotifyClientActionRequiredOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATSERVER_ADDNOTIFYCLIENTACTIONREQUIRED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_AntiCheatServer_AddNotifyClientAuthStatusChangedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATSERVER_ADDNOTIFYCLIENTAUTHSTATUSCHANGED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_AntiCheatServer_BeginSessionOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('RegisterTimeoutSeconds', c_uint32),
+        ('ServerName', c_char_p),
+        ('bEnableGameplayData', EOS_Bool),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATSERVER_BEGINSESSION_API_LATEST, RegisterTimeoutSeconds = 0, ServerName = None, bEnableGameplayData = 0, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, RegisterTimeoutSeconds = RegisterTimeoutSeconds, ServerName = ServerName, bEnableGameplayData = bEnableGameplayData, LocalUserId = LocalUserId)
+class EOS_AntiCheatServer_EndSessionOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATSERVER_ENDSESSION_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_AntiCheatServer_RegisterClientOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ClientHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('ClientType', EOS_EAntiCheatCommonClientType),
+        ('ClientPlatform', EOS_EAntiCheatCommonClientPlatform),
+        ('AccountId_DEPRECATED', c_char_p),
+        ('IpAddress', c_char_p),
+        ('UserId', EOS_ProductUserId),
+        ('Reserved01', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATSERVER_REGISTERCLIENT_API_LATEST, ClientHandle = None, ClientType = 0, ClientPlatform = 0, AccountId_DEPRECATED = None, IpAddress = None, UserId = None, Reserved01 = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, ClientHandle = ClientHandle, ClientType = ClientType, ClientPlatform = ClientPlatform, AccountId_DEPRECATED = AccountId_DEPRECATED, IpAddress = IpAddress, UserId = UserId, Reserved01 = Reserved01)
+class EOS_AntiCheatServer_UnregisterClientOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ClientHandle', EOS_AntiCheatCommon_ClientHandle),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATSERVER_UNREGISTERCLIENT_API_LATEST, ClientHandle = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, ClientHandle = ClientHandle)
+class EOS_AntiCheatServer_ReceiveMessageFromClientOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ClientHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('DataLengthBytes', c_uint32),
+        ('Data', c_void_p),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATSERVER_RECEIVEMESSAGEFROMCLIENT_API_LATEST, ClientHandle = None, DataLengthBytes = 0, Data = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, ClientHandle = ClientHandle, DataLengthBytes = DataLengthBytes, Data = Data)
+class EOS_AntiCheatServer_SetClientNetworkStateOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ClientHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('bIsNetworkActive', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATSERVER_SETCLIENTNETWORKSTATE_API_LATEST, ClientHandle = None, bIsNetworkActive = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, ClientHandle = ClientHandle, bIsNetworkActive = bIsNetworkActive)
+class EOS_AntiCheatServer_GetProtectMessageOutputLengthOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('DataLengthBytes', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATSERVER_GETPROTECTMESSAGEOUTPUTLENGTH_API_LATEST, DataLengthBytes = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, DataLengthBytes = DataLengthBytes)
+class EOS_AntiCheatServer_ProtectMessageOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ClientHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('DataLengthBytes', c_uint32),
+        ('Data', c_void_p),
+        ('OutBufferSizeBytes', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATSERVER_PROTECTMESSAGE_API_LATEST, ClientHandle = None, DataLengthBytes = 0, Data = None, OutBufferSizeBytes = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, ClientHandle = ClientHandle, DataLengthBytes = DataLengthBytes, Data = Data, OutBufferSizeBytes = OutBufferSizeBytes)
+class EOS_AntiCheatServer_UnprotectMessageOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ClientHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('DataLengthBytes', c_uint32),
+        ('Data', c_void_p),
+        ('OutBufferSizeBytes', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATSERVER_UNPROTECTMESSAGE_API_LATEST, ClientHandle = None, DataLengthBytes = 0, Data = None, OutBufferSizeBytes = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, ClientHandle = ClientHandle, DataLengthBytes = DataLengthBytes, Data = Data, OutBufferSizeBytes = OutBufferSizeBytes)
+class EOS_Auth_AccountFeatureRestrictedInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('VerificationURI', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_AUTH_ACCOUNTFEATURERESTRICTEDINFO_API_LATEST, VerificationURI = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, VerificationURI = VerificationURI)
+class EOS_CustomInvites_SetCustomInviteOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Payload', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_CUSTOMINVITES_SETCUSTOMINVITE_API_LATEST, LocalUserId = None, Payload = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Payload = Payload)
+class EOS_CustomInvites_SendCustomInviteOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserIds', POINTER(EOS_ProductUserId)),
+        ('TargetUserIdsCount', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_CUSTOMINVITES_SENDCUSTOMINVITE_API_LATEST, LocalUserId = None, TargetUserIds = None, TargetUserIdsCount = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserIds = TargetUserIds, TargetUserIdsCount = TargetUserIdsCount)
+class EOS_CustomInvites_SendCustomInviteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserIds', POINTER(EOS_ProductUserId)),
+        ('TargetUserIdsCount', c_uint32),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TargetUserIds = None, TargetUserIdsCount = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserIds = TargetUserIds, TargetUserIdsCount = TargetUserIdsCount)
+class EOS_CustomInvites_AddNotifyCustomInviteReceivedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_CUSTOMINVITES_ADDNOTIFYCUSTOMINVITERECEIVED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_CustomInvites_OnCustomInviteReceivedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('TargetUserId', EOS_ProductUserId),
+        ('LocalUserId', EOS_ProductUserId),
+        ('CustomInviteId', c_char_p),
+        ('Payload', c_char_p),
+    ]
+    def __init__(self, ClientData = None, TargetUserId = None, LocalUserId = None, CustomInviteId = None, Payload = None):
+        Structure.__init__(self, ClientData = ClientData, TargetUserId = TargetUserId, LocalUserId = LocalUserId, CustomInviteId = CustomInviteId, Payload = Payload)
+class EOS_CustomInvites_AddNotifyCustomInviteAcceptedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_CUSTOMINVITES_ADDNOTIFYCUSTOMINVITEACCEPTED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_CustomInvites_OnCustomInviteAcceptedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('TargetUserId', EOS_ProductUserId),
+        ('LocalUserId', EOS_ProductUserId),
+        ('CustomInviteId', c_char_p),
+        ('Payload', c_char_p),
+    ]
+    def __init__(self, ClientData = None, TargetUserId = None, LocalUserId = None, CustomInviteId = None, Payload = None):
+        Structure.__init__(self, ClientData = ClientData, TargetUserId = TargetUserId, LocalUserId = LocalUserId, CustomInviteId = CustomInviteId, Payload = Payload)
+class EOS_CustomInvites_AddNotifyCustomInviteRejectedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_CUSTOMINVITES_ADDNOTIFYCUSTOMINVITEREJECTED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_CustomInvites_CustomInviteRejectedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('TargetUserId', EOS_ProductUserId),
+        ('LocalUserId', EOS_ProductUserId),
+        ('CustomInviteId', c_char_p),
+        ('Payload', c_char_p),
+    ]
+    def __init__(self, ClientData = None, TargetUserId = None, LocalUserId = None, CustomInviteId = None, Payload = None):
+        Structure.__init__(self, ClientData = ClientData, TargetUserId = TargetUserId, LocalUserId = LocalUserId, CustomInviteId = CustomInviteId, Payload = Payload)
+class EOS_CustomInvites_FinalizeInviteOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+        ('LocalUserId', EOS_ProductUserId),
+        ('CustomInviteId', c_char_p),
+        ('ProcessingResult', EOS_EResult),
+    ]
+    def __init__(self, ApiVersion = EOS_CUSTOMINVITES_FINALIZEINVITE_API_LATEST, TargetUserId = None, LocalUserId = None, CustomInviteId = None, ProcessingResult = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId, LocalUserId = LocalUserId, CustomInviteId = CustomInviteId, ProcessingResult = ProcessingResult)
+class EOS_CustomInvites_SendRequestToJoinOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_CUSTOMINVITES_SENDREQUESTTOJOIN_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_CustomInvites_SendRequestToJoinCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINRESPONSERECEIVED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_CustomInvites_RequestToJoinResponseReceivedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('FromUserId', EOS_ProductUserId),
+        ('ToUserId', EOS_ProductUserId),
+        ('Response', EOS_ERequestToJoinResponse),
+    ]
+    def __init__(self, ClientData = None, FromUserId = None, ToUserId = None, Response = 0):
+        Structure.__init__(self, ClientData = ClientData, FromUserId = FromUserId, ToUserId = ToUserId, Response = Response)
+class EOS_CustomInvites_AddNotifyRequestToJoinReceivedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINRECEIVED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_CustomInvites_RequestToJoinReceivedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('FromUserId', EOS_ProductUserId),
+        ('ToUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ClientData = None, FromUserId = None, ToUserId = None):
+        Structure.__init__(self, ClientData = ClientData, FromUserId = FromUserId, ToUserId = ToUserId)
+class EOS_CustomInvites_AcceptRequestToJoinOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_CUSTOMINVITES_ACCEPTREQUESTTOJOIN_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_CustomInvites_AcceptRequestToJoinCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_CustomInvites_RejectRequestToJoinOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_CUSTOMINVITES_REJECTREQUESTTOJOIN_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_CustomInvites_RejectRequestToJoinCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_CUSTOMINVITES_ADDNOTIFYSENDCUSTOMNATIVEINVITEREQUESTED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_CustomInvites_SendCustomNativeInviteRequestedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('UiEventId', EOS_UI_EventId),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetNativeAccountType', EOS_IntegratedPlatformType),
+        ('TargetUserNativeAccountId', c_char_p),
+        ('InviteId', c_char_p),
+    ]
+    def __init__(self, ClientData = None, UiEventId = 0, LocalUserId = None, TargetNativeAccountType = None, TargetUserNativeAccountId = None, InviteId = None):
+        Structure.__init__(self, ClientData = ClientData, UiEventId = UiEventId, LocalUserId = LocalUserId, TargetNativeAccountType = TargetNativeAccountType, TargetUserNativeAccountId = TargetUserNativeAccountId, InviteId = InviteId)
+class EOS_CustomInvites_AddNotifyRequestToJoinAcceptedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINACCEPTED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_CustomInvites_OnRequestToJoinAcceptedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('TargetUserId', EOS_ProductUserId),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ClientData = None, TargetUserId = None, LocalUserId = None):
+        Structure.__init__(self, ClientData = ClientData, TargetUserId = TargetUserId, LocalUserId = LocalUserId)
+class EOS_CustomInvites_AddNotifyRequestToJoinRejectedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINREJECTED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_CustomInvites_OnRequestToJoinRejectedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('TargetUserId', EOS_ProductUserId),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ClientData = None, TargetUserId = None, LocalUserId = None):
+        Structure.__init__(self, ClientData = ClientData, TargetUserId = TargetUserId, LocalUserId = LocalUserId)
 class EOS_Initialize_ThreadAffinity(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -664,19 +9438,11 @@ class EOS_Initialize_ThreadAffinity(Structure):
         ('P2PIo', c_uint64),
         ('HttpRequestIo', c_uint64),
         ('RTCIo', c_uint64),
+        ('EmbeddedOverlayMainThread', c_uint64),
+        ('EmbeddedOverlayWorkerThreads', c_uint64),
     ]
-    def __init__(self,
-            ApiVersion = EOS_INITIALIZE_THREADAFFINITY_API_LATEST,
-            NetworkWork = 0, StorageIo = 0, WebSocketIo = 0, P2PIo = 0,
-            HttpRequestIo = 0, RTCIo = 0, **kwargs):
-        Structure.__init__(self,
-            ApiVersion = ApiVersion, NetworkWork = NetworkWork, StorageIo = StorageIo,
-            WebSocketIo = WebSocketIo, P2PIo = P2PIo, HttpRequestIo = HttpRequestIo,
-            RTCIo = RTCIo, **kwargs)
-
-EOS_INITIALIZE_API_LATEST = 4
-EOS_INITIALIZEOPTIONS_PRODUCTNAME_MAX_LENGTH = 64
-EOS_INITIALIZEOPTIONS_PRODUCTVERSION_MAX_LENGTH = 64
+    def __init__(self, ApiVersion = EOS_INITIALIZE_THREADAFFINITY_API_LATEST, NetworkWork = 0, StorageIo = 0, WebSocketIo = 0, P2PIo = 0, HttpRequestIo = 0, RTCIo = 0, EmbeddedOverlayMainThread = 0, EmbeddedOverlayWorkerThreads = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, NetworkWork = NetworkWork, StorageIo = StorageIo, WebSocketIo = WebSocketIo, P2PIo = P2PIo, HttpRequestIo = HttpRequestIo, RTCIo = RTCIo, EmbeddedOverlayMainThread = EmbeddedOverlayMainThread, EmbeddedOverlayWorkerThreads = EmbeddedOverlayWorkerThreads)
 class EOS_InitializeOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -690,30 +9456,2285 @@ class EOS_InitializeOptions(Structure):
         ('SystemInitializeOptions', c_void_p),
         ('OverrideThreadAffinity', POINTER(EOS_Initialize_ThreadAffinity)),
     ]
-    def __init__(self,
-        ApiVersion = EOS_INITIALIZE_API_LATEST, AllocateMemoryFunction = None,
-        ReallocateMemoryFunction = None, ReleaseMemoryFunction = None,
-        Reserved = None, SystemInitializeOptions = None,
-        OverrideThreadAffinity = None,
-        **kwargs):
-        Structure.__init__(self,
-            ApiVersion = ApiVersion, AllocateMemoryFunction = AllocateMemoryFunction,
-            ReallocateMemoryFunction = ReallocateMemoryFunction, ReleaseMemoryFunction = ReleaseMemoryFunction,
-            Reserved = Reserved, SystemInitializeOptions = SystemInitializeOptions,
-            OverrideThreadAffinity = OverrideThreadAffinity,
-            **kwargs)
-EOS_Initialize = not_ready
-EOS_Shutdown = not_ready
-EOS_Platform_Create = not_ready
-EOS_Platform_Release = not_ready
-
-#####
-# Achievements
-#####
-
-# Achievements types
-
-EOS_ACHIEVEMENTS_QUERYDEFINITIONS_API_LATEST = c_int32(3)
+    def __init__(self, ApiVersion = EOS_INITIALIZE_API_LATEST, AllocateMemoryFunction = EOS_AllocateMemoryFunc(0), ReallocateMemoryFunction = EOS_ReallocateMemoryFunc(0), ReleaseMemoryFunction = EOS_ReleaseMemoryFunc(0), ProductName = None, ProductVersion = None, Reserved = None, SystemInitializeOptions = None, OverrideThreadAffinity = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, AllocateMemoryFunction = AllocateMemoryFunction, ReallocateMemoryFunction = ReallocateMemoryFunction, ReleaseMemoryFunction = ReleaseMemoryFunction, ProductName = ProductName, ProductVersion = ProductVersion, Reserved = Reserved, SystemInitializeOptions = SystemInitializeOptions, OverrideThreadAffinity = OverrideThreadAffinity)
+class EOS_Leaderboards_QueryLeaderboardDefinitionsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('StartTime', c_int64),
+        ('EndTime', c_int64),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LEADERBOARDS_QUERYLEADERBOARDDEFINITIONS_API_LATEST, StartTime = 0, EndTime = 0, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, StartTime = StartTime, EndTime = EndTime, LocalUserId = LocalUserId)
+class EOS_Leaderboards_Definition(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LeaderboardId', c_char_p),
+        ('StatName', c_char_p),
+        ('Aggregation', EOS_ELeaderboardAggregation),
+        ('StartTime', c_int64),
+        ('EndTime', c_int64),
+    ]
+    def __init__(self, ApiVersion = EOS_LEADERBOARDS_DEFINITION_API_LATEST, LeaderboardId = None, StatName = None, Aggregation = 0, StartTime = 0, EndTime = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LeaderboardId = LeaderboardId, StatName = StatName, Aggregation = Aggregation, StartTime = StartTime, EndTime = EndTime)
+    def Release(self):
+        # type: (POINTER(EOS_Leaderboards_Definition)) -> None
+        return EOS_Leaderboards_Definition_Release(self)
+class EOS_Leaderboards_GetLeaderboardDefinitionCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_LEADERBOARDS_GETLEADERBOARDDEFINITIONCOUNT_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Leaderboards_CopyLeaderboardDefinitionByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LeaderboardIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_LEADERBOARDS_COPYLEADERBOARDDEFINITIONBYINDEX_API_LATEST, LeaderboardIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LeaderboardIndex = LeaderboardIndex)
+class EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LeaderboardId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_LEADERBOARDS_COPYLEADERBOARDDEFINITIONBYLEADERBOARDID_API_LATEST, LeaderboardId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LeaderboardId = LeaderboardId)
+class EOS_Leaderboards_OnQueryLeaderboardDefinitionsCompleteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
+class EOS_Leaderboards_UserScoresQueryStatInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('StatName', c_char_p),
+        ('Aggregation', EOS_ELeaderboardAggregation),
+    ]
+    def __init__(self, ApiVersion = EOS_LEADERBOARDS_USERSCORESQUERYSTATINFO_API_LATEST, StatName = None, Aggregation = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, StatName = StatName, Aggregation = Aggregation)
+class EOS_Leaderboards_QueryLeaderboardUserScoresOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UserIds', POINTER(EOS_ProductUserId)),
+        ('UserIdsCount', c_uint32),
+        ('StatInfo', POINTER(EOS_Leaderboards_UserScoresQueryStatInfo)),
+        ('StatInfoCount', c_uint32),
+        ('StartTime', c_int64),
+        ('EndTime', c_int64),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LEADERBOARDS_QUERYLEADERBOARDUSERSCORES_API_LATEST, UserIds = None, UserIdsCount = 0, StatInfo = None, StatInfoCount = 0, StartTime = 0, EndTime = 0, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, UserIds = UserIds, UserIdsCount = UserIdsCount, StatInfo = StatInfo, StatInfoCount = StatInfoCount, StartTime = StartTime, EndTime = EndTime, LocalUserId = LocalUserId)
+class EOS_Leaderboards_LeaderboardUserScore(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UserId', EOS_ProductUserId),
+        ('Score', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_LEADERBOARDS_LEADERBOARDUSERSCORE_API_LATEST, UserId = None, Score = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, UserId = UserId, Score = Score)
+    def Release(self):
+        # type: (POINTER(EOS_Leaderboards_LeaderboardUserScore)) -> None
+        return EOS_Leaderboards_LeaderboardUserScore_Release(self)
+class EOS_Leaderboards_GetLeaderboardUserScoreCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('StatName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_LEADERBOARDS_GETLEADERBOARDUSERSCORECOUNT_API_LATEST, StatName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, StatName = StatName)
+class EOS_Leaderboards_CopyLeaderboardUserScoreByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LeaderboardUserScoreIndex', c_uint32),
+        ('StatName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_LEADERBOARDS_COPYLEADERBOARDUSERSCOREBYINDEX_API_LATEST, LeaderboardUserScoreIndex = 0, StatName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LeaderboardUserScoreIndex = LeaderboardUserScoreIndex, StatName = StatName)
+class EOS_Leaderboards_CopyLeaderboardUserScoreByUserIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UserId', EOS_ProductUserId),
+        ('StatName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_LEADERBOARDS_COPYLEADERBOARDUSERSCOREBYUSERID_API_LATEST, UserId = None, StatName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, UserId = UserId, StatName = StatName)
+class EOS_Leaderboards_OnQueryLeaderboardUserScoresCompleteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
+class EOS_Leaderboards_QueryLeaderboardRanksOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LeaderboardId', c_char_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LEADERBOARDS_QUERYLEADERBOARDRANKS_API_LATEST, LeaderboardId = None, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LeaderboardId = LeaderboardId, LocalUserId = LocalUserId)
+class EOS_Leaderboards_LeaderboardRecord(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UserId', EOS_ProductUserId),
+        ('Rank', c_uint32),
+        ('Score', c_int32),
+        ('UserDisplayName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_LEADERBOARDS_LEADERBOARDRECORD_API_LATEST, UserId = None, Rank = 0, Score = 0, UserDisplayName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, UserId = UserId, Rank = Rank, Score = Score, UserDisplayName = UserDisplayName)
+    def Release(self):
+        # type: (POINTER(EOS_Leaderboards_LeaderboardRecord)) -> None
+        return EOS_Leaderboards_LeaderboardRecord_Release(self)
+class EOS_Leaderboards_GetLeaderboardRecordCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_LEADERBOARDS_GETLEADERBOARDRECORDCOUNT_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Leaderboards_CopyLeaderboardRecordByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LeaderboardRecordIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_LEADERBOARDS_COPYLEADERBOARDRECORDBYINDEX_API_LATEST, LeaderboardRecordIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LeaderboardRecordIndex = LeaderboardRecordIndex)
+class EOS_Leaderboards_CopyLeaderboardRecordByUserIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LEADERBOARDS_COPYLEADERBOARDRECORDBYUSERID_API_LATEST, UserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, UserId = UserId)
+class EOS_Leaderboards_OnQueryLeaderboardRanksCompleteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LeaderboardId', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LeaderboardId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LeaderboardId = LeaderboardId)
+class EOS_LobbyDetails_Info(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LobbyId', EOS_LobbyId),
+        ('LobbyOwnerUserId', EOS_ProductUserId),
+        ('PermissionLevel', EOS_ELobbyPermissionLevel),
+        ('AvailableSlots', c_uint32),
+        ('MaxMembers', c_uint32),
+        ('bAllowInvites', EOS_Bool),
+        ('BucketId', c_char_p),
+        ('bAllowHostMigration', EOS_Bool),
+        ('bRTCRoomEnabled', EOS_Bool),
+        ('bAllowJoinById', EOS_Bool),
+        ('bRejoinAfterKickRequiresInvite', EOS_Bool),
+        ('bPresenceEnabled', EOS_Bool),
+        ('AllowedPlatformIds', POINTER(c_uint32)),
+        ('AllowedPlatformIdsCount', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYDETAILS_INFO_API_LATEST, LobbyId = None, LobbyOwnerUserId = None, PermissionLevel = 0, AvailableSlots = 0, MaxMembers = 0, bAllowInvites = 0, BucketId = None, bAllowHostMigration = 0, bRTCRoomEnabled = 0, bAllowJoinById = 0, bRejoinAfterKickRequiresInvite = 0, bPresenceEnabled = 0, AllowedPlatformIds = None, AllowedPlatformIdsCount = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LobbyId = LobbyId, LobbyOwnerUserId = LobbyOwnerUserId, PermissionLevel = PermissionLevel, AvailableSlots = AvailableSlots, MaxMembers = MaxMembers, bAllowInvites = bAllowInvites, BucketId = BucketId, bAllowHostMigration = bAllowHostMigration, bRTCRoomEnabled = bRTCRoomEnabled, bAllowJoinById = bAllowJoinById, bRejoinAfterKickRequiresInvite = bRejoinAfterKickRequiresInvite, bPresenceEnabled = bPresenceEnabled, AllowedPlatformIds = AllowedPlatformIds, AllowedPlatformIdsCount = AllowedPlatformIdsCount)
+    def Release(self):
+        # type: (POINTER(EOS_LobbyDetails_Info)) -> None
+        return EOS_LobbyDetails_Info_Release(self)
+class EOS_Lobby_LocalRTCOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Flags', c_uint32),
+        ('bUseManualAudioInput', EOS_Bool),
+        ('bUseManualAudioOutput', EOS_Bool),
+        ('bLocalAudioDeviceInputStartsMuted', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_LOCALRTCOPTIONS_API_LATEST, Flags = 0, bUseManualAudioInput = 0, bUseManualAudioOutput = 0, bLocalAudioDeviceInputStartsMuted = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Flags = Flags, bUseManualAudioInput = bUseManualAudioInput, bUseManualAudioOutput = bUseManualAudioOutput, bLocalAudioDeviceInputStartsMuted = bLocalAudioDeviceInputStartsMuted)
+class EOS_Lobby_CreateLobbyOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('MaxLobbyMembers', c_uint32),
+        ('PermissionLevel', EOS_ELobbyPermissionLevel),
+        ('bPresenceEnabled', EOS_Bool),
+        ('bAllowInvites', EOS_Bool),
+        ('BucketId', c_char_p),
+        ('bDisableHostMigration', EOS_Bool),
+        ('bEnableRTCRoom', EOS_Bool),
+        ('LocalRTCOptions', POINTER(EOS_Lobby_LocalRTCOptions)),
+        ('LobbyId', EOS_LobbyId),
+        ('bEnableJoinById', EOS_Bool),
+        ('bRejoinAfterKickRequiresInvite', EOS_Bool),
+        ('AllowedPlatformIds', POINTER(c_uint32)),
+        ('AllowedPlatformIdsCount', c_uint32),
+        ('bCrossplayOptOut', EOS_Bool),
+        ('RTCRoomJoinActionType', EOS_ELobbyRTCRoomJoinActionType),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_CREATELOBBY_API_LATEST, LocalUserId = None, MaxLobbyMembers = 0, PermissionLevel = 0, bPresenceEnabled = 0, bAllowInvites = 0, BucketId = None, bDisableHostMigration = 0, bEnableRTCRoom = 0, LocalRTCOptions = None, LobbyId = None, bEnableJoinById = 0, bRejoinAfterKickRequiresInvite = 0, AllowedPlatformIds = None, AllowedPlatformIdsCount = 0, bCrossplayOptOut = 0, RTCRoomJoinActionType = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, MaxLobbyMembers = MaxLobbyMembers, PermissionLevel = PermissionLevel, bPresenceEnabled = bPresenceEnabled, bAllowInvites = bAllowInvites, BucketId = BucketId, bDisableHostMigration = bDisableHostMigration, bEnableRTCRoom = bEnableRTCRoom, LocalRTCOptions = LocalRTCOptions, LobbyId = LobbyId, bEnableJoinById = bEnableJoinById, bRejoinAfterKickRequiresInvite = bRejoinAfterKickRequiresInvite, AllowedPlatformIds = AllowedPlatformIds, AllowedPlatformIdsCount = AllowedPlatformIdsCount, bCrossplayOptOut = bCrossplayOptOut, RTCRoomJoinActionType = RTCRoomJoinActionType)
+class EOS_Lobby_CreateLobbyCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LobbyId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LobbyId = LobbyId)
+class EOS_Lobby_DestroyLobbyOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_DESTROYLOBBY_API_LATEST, LocalUserId = None, LobbyId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, LobbyId = LobbyId)
+class EOS_Lobby_DestroyLobbyCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LobbyId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LobbyId = LobbyId)
+class EOS_Lobby_JoinLobbyOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LobbyDetailsHandle', EOS_HLobbyDetails),
+        ('LocalUserId', EOS_ProductUserId),
+        ('bPresenceEnabled', EOS_Bool),
+        ('LocalRTCOptions', POINTER(EOS_Lobby_LocalRTCOptions)),
+        ('bCrossplayOptOut', EOS_Bool),
+        ('RTCRoomJoinActionType', EOS_ELobbyRTCRoomJoinActionType),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_JOINLOBBY_API_LATEST, LobbyDetailsHandle = None, LocalUserId = None, bPresenceEnabled = 0, LocalRTCOptions = None, bCrossplayOptOut = 0, RTCRoomJoinActionType = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LobbyDetailsHandle = LobbyDetailsHandle, LocalUserId = LocalUserId, bPresenceEnabled = bPresenceEnabled, LocalRTCOptions = LocalRTCOptions, bCrossplayOptOut = bCrossplayOptOut, RTCRoomJoinActionType = RTCRoomJoinActionType)
+class EOS_Lobby_JoinLobbyCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LobbyId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LobbyId = LobbyId)
+class EOS_Lobby_JoinLobbyByIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LobbyId', EOS_LobbyId),
+        ('LocalUserId', EOS_ProductUserId),
+        ('bPresenceEnabled', EOS_Bool),
+        ('LocalRTCOptions', POINTER(EOS_Lobby_LocalRTCOptions)),
+        ('bCrossplayOptOut', EOS_Bool),
+        ('RTCRoomJoinActionType', EOS_ELobbyRTCRoomJoinActionType),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_JOINLOBBYBYID_API_LATEST, LobbyId = None, LocalUserId = None, bPresenceEnabled = 0, LocalRTCOptions = None, bCrossplayOptOut = 0, RTCRoomJoinActionType = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LobbyId = LobbyId, LocalUserId = LocalUserId, bPresenceEnabled = bPresenceEnabled, LocalRTCOptions = LocalRTCOptions, bCrossplayOptOut = bCrossplayOptOut, RTCRoomJoinActionType = RTCRoomJoinActionType)
+class EOS_Lobby_JoinLobbyByIdCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LobbyId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LobbyId = LobbyId)
+class EOS_Lobby_LeaveLobbyOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_LEAVELOBBY_API_LATEST, LocalUserId = None, LobbyId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, LobbyId = LobbyId)
+class EOS_Lobby_LeaveLobbyCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LobbyId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LobbyId = LobbyId)
+class EOS_Lobby_UpdateLobbyModificationOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_UPDATELOBBYMODIFICATION_API_LATEST, LocalUserId = None, LobbyId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, LobbyId = LobbyId)
+class EOS_Lobby_UpdateLobbyOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LobbyModificationHandle', EOS_HLobbyModification),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_UPDATELOBBY_API_LATEST, LobbyModificationHandle = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LobbyModificationHandle = LobbyModificationHandle)
+class EOS_Lobby_UpdateLobbyCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LobbyId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LobbyId = LobbyId)
+class EOS_Lobby_JoinRTCRoomOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LobbyId', EOS_LobbyId),
+        ('LocalUserId', EOS_ProductUserId),
+        ('LocalRTCOptions', POINTER(EOS_Lobby_LocalRTCOptions)),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_JOINRTCROOM_API_LATEST, LobbyId = None, LocalUserId = None, LocalRTCOptions = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LobbyId = LobbyId, LocalUserId = LocalUserId, LocalRTCOptions = LocalRTCOptions)
+class EOS_Lobby_JoinRTCRoomCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LobbyId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LobbyId = LobbyId)
+class EOS_Lobby_LeaveRTCRoomOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LobbyId', EOS_LobbyId),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_LEAVERTCROOM_API_LATEST, LobbyId = None, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LobbyId = LobbyId, LocalUserId = LocalUserId)
+class EOS_Lobby_LeaveRTCRoomCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LobbyId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LobbyId = LobbyId)
+class EOS_Lobby_PromoteMemberOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LobbyId', EOS_LobbyId),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_PROMOTEMEMBER_API_LATEST, LobbyId = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LobbyId = LobbyId, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_Lobby_PromoteMemberCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LobbyId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LobbyId = LobbyId)
+class EOS_Lobby_KickMemberOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LobbyId', EOS_LobbyId),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_KICKMEMBER_API_LATEST, LobbyId = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LobbyId = LobbyId, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_Lobby_KickMemberCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LobbyId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LobbyId = LobbyId)
+class EOS_Lobby_HardMuteMemberOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LobbyId', EOS_LobbyId),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+        ('bHardMute', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_HARDMUTEMEMBER_API_LATEST, LobbyId = None, LocalUserId = None, TargetUserId = None, bHardMute = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LobbyId = LobbyId, LocalUserId = LocalUserId, TargetUserId = TargetUserId, bHardMute = bHardMute)
+class EOS_Lobby_HardMuteMemberCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LobbyId', EOS_LobbyId),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LobbyId = None, TargetUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LobbyId = LobbyId, TargetUserId = TargetUserId)
+class EOS_Lobby_AddNotifyLobbyUpdateReceivedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_ADDNOTIFYLOBBYUPDATERECEIVED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Lobby_LobbyUpdateReceivedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ClientData = None, LobbyId = None):
+        Structure.__init__(self, ClientData = ClientData, LobbyId = LobbyId)
+class EOS_Lobby_AddNotifyLobbyMemberUpdateReceivedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_ADDNOTIFYLOBBYMEMBERUPDATERECEIVED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Lobby_LobbyMemberUpdateReceivedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LobbyId', EOS_LobbyId),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ClientData = None, LobbyId = None, TargetUserId = None):
+        Structure.__init__(self, ClientData = ClientData, LobbyId = LobbyId, TargetUserId = TargetUserId)
+class EOS_Lobby_AddNotifyLobbyMemberStatusReceivedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_ADDNOTIFYLOBBYMEMBERSTATUSRECEIVED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Lobby_LobbyMemberStatusReceivedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LobbyId', EOS_LobbyId),
+        ('TargetUserId', EOS_ProductUserId),
+        ('CurrentStatus', EOS_ELobbyMemberStatus),
+    ]
+    def __init__(self, ClientData = None, LobbyId = None, TargetUserId = None, CurrentStatus = 0):
+        Structure.__init__(self, ClientData = ClientData, LobbyId = LobbyId, TargetUserId = TargetUserId, CurrentStatus = CurrentStatus)
+class EOS_Lobby_AddNotifyLobbyInviteReceivedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_ADDNOTIFYLOBBYINVITERECEIVED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Lobby_LobbyInviteReceivedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('InviteId', c_char_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ClientData = None, InviteId = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ClientData = ClientData, InviteId = InviteId, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_Lobby_AddNotifyLobbyInviteAcceptedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_ADDNOTIFYLOBBYINVITEACCEPTED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Lobby_LobbyInviteAcceptedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('InviteId', c_char_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ClientData = None, InviteId = None, LocalUserId = None, TargetUserId = None, LobbyId = None):
+        Structure.__init__(self, ClientData = ClientData, InviteId = InviteId, LocalUserId = LocalUserId, TargetUserId = TargetUserId, LobbyId = LobbyId)
+class EOS_Lobby_AddNotifyJoinLobbyAcceptedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_ADDNOTIFYJOINLOBBYACCEPTED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Lobby_AddNotifyLobbyInviteRejectedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_ADDNOTIFYLOBBYINVITEREJECTED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Lobby_LobbyInviteRejectedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('InviteId', c_char_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ClientData = None, InviteId = None, LocalUserId = None, TargetUserId = None, LobbyId = None):
+        Structure.__init__(self, ClientData = ClientData, InviteId = InviteId, LocalUserId = LocalUserId, TargetUserId = TargetUserId, LobbyId = LobbyId)
+class EOS_Lobby_JoinLobbyAcceptedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('UiEventId', EOS_UI_EventId),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, UiEventId = 0):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, UiEventId = UiEventId)
+class EOS_Lobby_AddNotifySendLobbyNativeInviteRequestedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_ADDNOTIFYSENDLOBBYNATIVEINVITEREQUESTED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Lobby_SendLobbyNativeInviteRequestedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('UiEventId', EOS_UI_EventId),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetNativeAccountType', EOS_IntegratedPlatformType),
+        ('TargetUserNativeAccountId', c_char_p),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ClientData = None, UiEventId = 0, LocalUserId = None, TargetNativeAccountType = None, TargetUserNativeAccountId = None, LobbyId = None):
+        Structure.__init__(self, ClientData = ClientData, UiEventId = UiEventId, LocalUserId = LocalUserId, TargetNativeAccountType = TargetNativeAccountType, TargetUserNativeAccountId = TargetUserNativeAccountId, LobbyId = LobbyId)
+class EOS_Lobby_CopyLobbyDetailsHandleByInviteIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('InviteId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_COPYLOBBYDETAILSHANDLEBYINVITEID_API_LATEST, InviteId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, InviteId = InviteId)
+class EOS_Lobby_CopyLobbyDetailsHandleByUiEventIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UiEventId', EOS_UI_EventId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_COPYLOBBYDETAILSHANDLEBYUIEVENTID_API_LATEST, UiEventId = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, UiEventId = UiEventId)
+class EOS_Lobby_CreateLobbySearchOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('MaxResults', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_CREATELOBBYSEARCH_API_LATEST, MaxResults = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, MaxResults = MaxResults)
+class EOS_Lobby_SendInviteOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LobbyId', EOS_LobbyId),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_SENDINVITE_API_LATEST, LobbyId = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LobbyId = LobbyId, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_Lobby_SendInviteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LobbyId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LobbyId = LobbyId)
+class EOS_Lobby_RejectInviteOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('InviteId', c_char_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_REJECTINVITE_API_LATEST, InviteId = None, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, InviteId = InviteId, LocalUserId = LocalUserId)
+class EOS_Lobby_RejectInviteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('InviteId', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, InviteId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, InviteId = InviteId)
+class EOS_Lobby_QueryInvitesOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_QUERYINVITES_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_Lobby_QueryInvitesCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_Lobby_GetInviteCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_GETINVITECOUNT_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_Lobby_GetInviteIdByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Index', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_GETINVITEIDBYINDEX_API_LATEST, LocalUserId = None, Index = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Index = Index)
+class EOS_Lobby_CopyLobbyDetailsHandleOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LobbyId', EOS_LobbyId),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_COPYLOBBYDETAILSHANDLE_API_LATEST, LobbyId = None, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LobbyId = LobbyId, LocalUserId = LocalUserId)
+class EOS_Lobby_GetRTCRoomNameOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LobbyId', EOS_LobbyId),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_GETRTCROOMNAME_API_LATEST, LobbyId = None, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LobbyId = LobbyId, LocalUserId = LocalUserId)
+class EOS_Lobby_IsRTCRoomConnectedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LobbyId', EOS_LobbyId),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_ISRTCROOMCONNECTED_API_LATEST, LobbyId = None, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LobbyId = LobbyId, LocalUserId = LocalUserId)
+class EOS_Lobby_AddNotifyRTCRoomConnectionChangedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LobbyId_DEPRECATED', EOS_LobbyId),
+        ('LocalUserId_DEPRECATED', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_ADDNOTIFYRTCROOMCONNECTIONCHANGED_API_LATEST, LobbyId_DEPRECATED = None, LocalUserId_DEPRECATED = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LobbyId_DEPRECATED = LobbyId_DEPRECATED, LocalUserId_DEPRECATED = LocalUserId_DEPRECATED)
+class EOS_Lobby_RTCRoomConnectionChangedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LobbyId', EOS_LobbyId),
+        ('LocalUserId', EOS_ProductUserId),
+        ('bIsConnected', EOS_Bool),
+        ('DisconnectReason', EOS_EResult),
+    ]
+    def __init__(self, ClientData = None, LobbyId = None, LocalUserId = None, bIsConnected = 0, DisconnectReason = 0):
+        Structure.__init__(self, ClientData = ClientData, LobbyId = LobbyId, LocalUserId = LocalUserId, bIsConnected = bIsConnected, DisconnectReason = DisconnectReason)
+class EOS_Lobby_AttributeData_INTERNAL_UNION_Value(Union):
+    _pack_ = PACK
+    _fields_ = [
+        ('AsInt64', c_int64),
+        ('AsDouble', c_double),
+        ('AsBool', EOS_Bool),
+        ('AsUtf8', c_char_p),
+    ]
+class EOS_Lobby_AttributeData(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Key', c_char_p),
+        ('Value', EOS_Lobby_AttributeData_INTERNAL_UNION_Value),
+        ('ValueType', EOS_ELobbyAttributeType),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_ATTRIBUTEDATA_API_LATEST, Key = None, Value = 0, ValueType = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Key = Key, Value = Value, ValueType = ValueType)
+class EOS_Lobby_Attribute(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Data', POINTER(EOS_Lobby_AttributeData)),
+        ('Visibility', EOS_ELobbyAttributeVisibility),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_ATTRIBUTE_API_LATEST, Data = None, Visibility = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Data = Data, Visibility = Visibility)
+    def Release(self):
+        # type: (POINTER(EOS_Lobby_Attribute)) -> None
+        return EOS_Lobby_Attribute_Release(self)
+class EOS_Lobby_GetConnectStringOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_GETCONNECTSTRING_API_LATEST, LocalUserId = None, LobbyId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, LobbyId = LobbyId)
+class EOS_Lobby_ParseConnectStringOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('ConnectString', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_PARSECONNECTSTRING_API_LATEST, ConnectString = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, ConnectString = ConnectString)
+class EOS_LobbyModification_SetBucketIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('BucketId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYMODIFICATION_SETBUCKETID_API_LATEST, BucketId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, BucketId = BucketId)
+class EOS_LobbyModification_SetPermissionLevelOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('PermissionLevel', EOS_ELobbyPermissionLevel),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYMODIFICATION_SETPERMISSIONLEVEL_API_LATEST, PermissionLevel = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, PermissionLevel = PermissionLevel)
+class EOS_LobbyModification_SetMaxMembersOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('MaxMembers', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYMODIFICATION_SETMAXMEMBERS_API_LATEST, MaxMembers = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, MaxMembers = MaxMembers)
+class EOS_LobbyModification_SetInvitesAllowedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('bInvitesAllowed', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYMODIFICATION_SETINVITESALLOWED_API_LATEST, bInvitesAllowed = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, bInvitesAllowed = bInvitesAllowed)
+class EOS_LobbyModification_AddAttributeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Attribute', POINTER(EOS_Lobby_AttributeData)),
+        ('Visibility', EOS_ELobbyAttributeVisibility),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYMODIFICATION_ADDATTRIBUTE_API_LATEST, Attribute = None, Visibility = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Attribute = Attribute, Visibility = Visibility)
+class EOS_LobbyModification_RemoveAttributeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Key', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYMODIFICATION_REMOVEATTRIBUTE_API_LATEST, Key = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, Key = Key)
+class EOS_LobbyModification_AddMemberAttributeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Attribute', POINTER(EOS_Lobby_AttributeData)),
+        ('Visibility', EOS_ELobbyAttributeVisibility),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYMODIFICATION_ADDMEMBERATTRIBUTE_API_LATEST, Attribute = None, Visibility = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Attribute = Attribute, Visibility = Visibility)
+class EOS_LobbyModification_RemoveMemberAttributeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Key', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYMODIFICATION_REMOVEMEMBERATTRIBUTE_API_LATEST, Key = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, Key = Key)
+class EOS_LobbyModification_SetAllowedPlatformIdsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('AllowedPlatformIds', POINTER(c_uint32)),
+        ('AllowedPlatformIdsCount', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYMODIFICATION_SETALLOWEDPLATFORMIDS_API_LATEST, AllowedPlatformIds = None, AllowedPlatformIdsCount = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, AllowedPlatformIds = AllowedPlatformIds, AllowedPlatformIdsCount = AllowedPlatformIdsCount)
+class EOS_LobbyDetails_GetLobbyOwnerOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYDETAILS_GETLOBBYOWNER_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_LobbyDetails_CopyInfoOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYDETAILS_COPYINFO_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_LobbyDetails_GetAttributeCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYDETAILS_GETATTRIBUTECOUNT_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_LobbyDetails_CopyAttributeByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('AttrIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYDETAILS_COPYATTRIBUTEBYINDEX_API_LATEST, AttrIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, AttrIndex = AttrIndex)
+class EOS_LobbyDetails_CopyAttributeByKeyOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('AttrKey', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYDETAILS_COPYATTRIBUTEBYKEY_API_LATEST, AttrKey = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, AttrKey = AttrKey)
+class EOS_LobbyDetails_GetMemberAttributeCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYDETAILS_GETMEMBERATTRIBUTECOUNT_API_LATEST, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId)
+class EOS_LobbyDetails_CopyMemberAttributeByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+        ('AttrIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYDETAILS_COPYMEMBERATTRIBUTEBYINDEX_API_LATEST, TargetUserId = None, AttrIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId, AttrIndex = AttrIndex)
+class EOS_LobbyDetails_CopyMemberAttributeByKeyOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+        ('AttrKey', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYDETAILS_COPYMEMBERATTRIBUTEBYKEY_API_LATEST, TargetUserId = None, AttrKey = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId, AttrKey = AttrKey)
+class EOS_LobbyDetails_GetMemberCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYDETAILS_GETMEMBERCOUNT_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_LobbyDetails_GetMemberByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('MemberIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYDETAILS_GETMEMBERBYINDEX_API_LATEST, MemberIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, MemberIndex = MemberIndex)
+class EOS_LobbySearch_FindOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYSEARCH_FIND_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_LobbySearch_FindCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
+class EOS_LobbySearch_SetLobbyIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYSEARCH_SETLOBBYID_API_LATEST, LobbyId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LobbyId = LobbyId)
+class EOS_LobbySearch_SetTargetUserIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYSEARCH_SETTARGETUSERID_API_LATEST, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId)
+class EOS_LobbySearch_SetParameterOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Parameter', POINTER(EOS_Lobby_AttributeData)),
+        ('ComparisonOp', EOS_EComparisonOp),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYSEARCH_SETPARAMETER_API_LATEST, Parameter = None, ComparisonOp = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Parameter = Parameter, ComparisonOp = ComparisonOp)
+class EOS_LobbySearch_RemoveParameterOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Key', c_char_p),
+        ('ComparisonOp', EOS_EComparisonOp),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYSEARCH_REMOVEPARAMETER_API_LATEST, Key = None, ComparisonOp = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Key = Key, ComparisonOp = ComparisonOp)
+class EOS_LobbySearch_SetMaxResultsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('MaxResults', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYSEARCH_SETMAXRESULTS_API_LATEST, MaxResults = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, MaxResults = MaxResults)
+class EOS_LobbySearch_GetSearchResultCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYSEARCH_GETSEARCHRESULTCOUNT_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_LobbySearch_CopySearchResultByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LobbyIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYSEARCH_COPYSEARCHRESULTBYINDEX_API_LATEST, LobbyIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LobbyIndex = LobbyIndex)
+class EOS_LobbyDetails_CopyMemberInfoOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYDETAILS_COPYMEMBERINFO_API_LATEST, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId)
+class EOS_LobbyDetails_MemberInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UserId', EOS_ProductUserId),
+        ('Platform', EOS_OnlinePlatformType),
+        ('bAllowsCrossplay', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBYDETAILS_MEMBERINFO_API_LATEST, UserId = None, Platform = 0, bAllowsCrossplay = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, UserId = UserId, Platform = Platform, bAllowsCrossplay = bAllowsCrossplay)
+    def Release(self):
+        # type: (POINTER(EOS_LobbyDetails_MemberInfo)) -> None
+        return EOS_LobbyDetails_MemberInfo_Release(self)
+class EOS_Lobby_AddNotifyLeaveLobbyRequestedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_LOBBY_ADDNOTIFYLEAVELOBBYREQUESTED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Lobby_LeaveLobbyRequestedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('LobbyId', EOS_LobbyId),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, LobbyId = None):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, LobbyId = LobbyId)
+class EOS_Presence_DataRecord(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Key', c_char_p),
+        ('Value', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCE_DATARECORD_API_LATEST, Key = None, Value = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, Key = Key, Value = Value)
+class EOS_Presence_Info(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Status', EOS_Presence_EStatus),
+        ('UserId', EOS_EpicAccountId),
+        ('ProductId', c_char_p),
+        ('ProductVersion', c_char_p),
+        ('Platform', c_char_p),
+        ('RichText', c_char_p),
+        ('RecordsCount', c_int32),
+        ('Records', POINTER(EOS_Presence_DataRecord)),
+        ('ProductName', c_char_p),
+        ('IntegratedPlatform', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCE_INFO_API_LATEST, Status = 0, UserId = None, ProductId = None, ProductVersion = None, Platform = None, RichText = None, RecordsCount = 0, Records = None, ProductName = None, IntegratedPlatform = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, Status = Status, UserId = UserId, ProductId = ProductId, ProductVersion = ProductVersion, Platform = Platform, RichText = RichText, RecordsCount = RecordsCount, Records = Records, ProductName = ProductName, IntegratedPlatform = IntegratedPlatform)
+    def Release(self):
+        # type: (POINTER(EOS_Presence_Info)) -> None
+        return EOS_Presence_Info_Release(self)
+class EOS_Presence_QueryPresenceOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCE_QUERYPRESENCE_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_Presence_QueryPresenceCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_Presence_HasPresenceOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCE_HASPRESENCE_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_Presence_CopyPresenceOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCE_COPYPRESENCE_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_Presence_CreatePresenceModificationOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCE_CREATEPRESENCEMODIFICATION_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_Presence_SetPresenceOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('PresenceModificationHandle', EOS_HPresenceModification),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCE_SETPRESENCE_API_LATEST, LocalUserId = None, PresenceModificationHandle = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, PresenceModificationHandle = PresenceModificationHandle)
+class EOS_Presence_SetPresenceCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_Presence_AddNotifyOnPresenceChangedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCE_ADDNOTIFYONPRESENCECHANGED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Presence_PresenceChangedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('PresenceUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, PresenceUserId = None):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, PresenceUserId = PresenceUserId)
+class EOS_Presence_AddNotifyJoinGameAcceptedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCE_ADDNOTIFYJOINGAMEACCEPTED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Presence_JoinGameAcceptedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('JoinInfo', c_char_p),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+        ('UiEventId', EOS_UI_EventId),
+    ]
+    def __init__(self, ClientData = None, JoinInfo = None, LocalUserId = None, TargetUserId = None, UiEventId = 0):
+        Structure.__init__(self, ClientData = ClientData, JoinInfo = JoinInfo, LocalUserId = LocalUserId, TargetUserId = TargetUserId, UiEventId = UiEventId)
+class EOS_Presence_GetJoinInfoOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('TargetUserId', EOS_EpicAccountId),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCE_GETJOININFO_API_LATEST, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_PresenceModification_SetJoinInfoOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('JoinInfo', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCEMODIFICATION_SETJOININFO_API_LATEST, JoinInfo = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, JoinInfo = JoinInfo)
+class EOS_PresenceModification_SetStatusOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Status', EOS_Presence_EStatus),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCEMODIFICATION_SETSTATUS_API_LATEST, Status = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Status = Status)
+class EOS_PresenceModification_SetRawRichTextOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('RichText', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCEMODIFICATION_SETRAWRICHTEXT_API_LATEST, RichText = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, RichText = RichText)
+class EOS_PresenceModification_SetDataOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('RecordsCount', c_int32),
+        ('Records', POINTER(EOS_Presence_DataRecord)),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCEMODIFICATION_SETDATA_API_LATEST, RecordsCount = 0, Records = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, RecordsCount = RecordsCount, Records = Records)
+class EOS_PresenceModification_DataRecordId(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Key', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCEMODIFICATION_DATARECORDID_API_LATEST, Key = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, Key = Key)
+class EOS_PresenceModification_DeleteDataOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('RecordsCount', c_int32),
+        ('Records', POINTER(EOS_PresenceModification_DataRecordId)),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCEMODIFICATION_DELETEDATA_API_LATEST, RecordsCount = 0, Records = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, RecordsCount = RecordsCount, Records = Records)
+class EOS_RTCAudio_AddNotifyParticipantUpdatedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_ADDNOTIFYPARTICIPANTUPDATED_API_LATEST, LocalUserId = None, RoomName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName)
+class EOS_RTCAudio_ParticipantUpdatedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('ParticipantId', EOS_ProductUserId),
+        ('bSpeaking', EOS_Bool),
+        ('AudioStatus', EOS_ERTCAudioStatus),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, RoomName = None, ParticipantId = None, bSpeaking = 0, AudioStatus = 0):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, ParticipantId = ParticipantId, bSpeaking = bSpeaking, AudioStatus = AudioStatus)
+class EOS_RTCAudio_AddNotifyAudioDevicesChangedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_ADDNOTIFYAUDIODEVICESCHANGED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_RTCAudio_AudioDevicesChangedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ClientData = None):
+        Structure.__init__(self, ClientData = ClientData)
+class EOS_RTCAudio_AddNotifyAudioInputStateOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_ADDNOTIFYAUDIOINPUTSTATE_API_LATEST, LocalUserId = None, RoomName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName)
+class EOS_RTCAudio_AudioInputStateCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('Status', EOS_ERTCAudioInputStatus),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, RoomName = None, Status = 0):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, Status = Status)
+class EOS_RTCAudio_AddNotifyAudioOutputStateOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_ADDNOTIFYAUDIOOUTPUTSTATE_API_LATEST, LocalUserId = None, RoomName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName)
+class EOS_RTCAudio_AudioOutputStateCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('Status', EOS_ERTCAudioOutputStatus),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, RoomName = None, Status = 0):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, Status = Status)
+class EOS_RTCAudio_AddNotifyAudioBeforeSendOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_ADDNOTIFYAUDIOBEFORESEND_API_LATEST, LocalUserId = None, RoomName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName)
+class EOS_RTCAudio_AudioBuffer(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Frames', POINTER(c_int16)),
+        ('FramesCount', c_uint32),
+        ('SampleRate', c_uint32),
+        ('Channels', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_AUDIOBUFFER_API_LATEST, Frames = None, FramesCount = 0, SampleRate = 0, Channels = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Frames = Frames, FramesCount = FramesCount, SampleRate = SampleRate, Channels = Channels)
+class EOS_RTCAudio_AudioBeforeSendCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('Buffer', POINTER(EOS_RTCAudio_AudioBuffer)),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, RoomName = None, Buffer = None):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, Buffer = Buffer)
+class EOS_RTCAudio_AddNotifyAudioBeforeRenderOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('bUnmixedAudio', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_ADDNOTIFYAUDIOBEFORERENDER_API_LATEST, LocalUserId = None, RoomName = None, bUnmixedAudio = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName, bUnmixedAudio = bUnmixedAudio)
+class EOS_RTCAudio_AudioBeforeRenderCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('Buffer', POINTER(EOS_RTCAudio_AudioBuffer)),
+        ('ParticipantId', EOS_ProductUserId),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, RoomName = None, Buffer = None, ParticipantId = None):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, Buffer = Buffer, ParticipantId = ParticipantId)
+class EOS_RTCAudio_SendAudioOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('Buffer', POINTER(EOS_RTCAudio_AudioBuffer)),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_SENDAUDIO_API_LATEST, LocalUserId = None, RoomName = None, Buffer = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName, Buffer = Buffer)
+class EOS_RTCAudio_UpdateSendingOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('AudioStatus', EOS_ERTCAudioStatus),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_UPDATESENDING_API_LATEST, LocalUserId = None, RoomName = None, AudioStatus = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName, AudioStatus = AudioStatus)
+class EOS_RTCAudio_UpdateSendingCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('AudioStatus', EOS_ERTCAudioStatus),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, RoomName = None, AudioStatus = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, AudioStatus = AudioStatus)
+class EOS_RTCAudio_UpdateReceivingOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('ParticipantId', EOS_ProductUserId),
+        ('bAudioEnabled', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_UPDATERECEIVING_API_LATEST, LocalUserId = None, RoomName = None, ParticipantId = None, bAudioEnabled = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName, ParticipantId = ParticipantId, bAudioEnabled = bAudioEnabled)
+class EOS_RTCAudio_UpdateReceivingCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('ParticipantId', EOS_ProductUserId),
+        ('bAudioEnabled', EOS_Bool),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, RoomName = None, ParticipantId = None, bAudioEnabled = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, ParticipantId = ParticipantId, bAudioEnabled = bAudioEnabled)
+class EOS_RTCAudio_UpdateSendingVolumeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('Volume', c_float),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_UPDATESENDINGVOLUME_API_LATEST, LocalUserId = None, RoomName = None, Volume = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName, Volume = Volume)
+class EOS_RTCAudio_UpdateSendingVolumeCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('Volume', c_float),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, RoomName = None, Volume = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, Volume = Volume)
+class EOS_RTCAudio_UpdateReceivingVolumeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('Volume', c_float),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_UPDATERECEIVINGVOLUME_API_LATEST, LocalUserId = None, RoomName = None, Volume = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName, Volume = Volume)
+class EOS_RTCAudio_UpdateReceivingVolumeCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('Volume', c_float),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, RoomName = None, Volume = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, Volume = Volume)
+class EOS_RTCAudio_UpdateParticipantVolumeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('ParticipantId', EOS_ProductUserId),
+        ('Volume', c_float),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_UPDATEPARTICIPANTVOLUME_API_LATEST, LocalUserId = None, RoomName = None, ParticipantId = None, Volume = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RoomName = RoomName, ParticipantId = ParticipantId, Volume = Volume)
+class EOS_RTCAudio_UpdateParticipantVolumeCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+        ('ParticipantId', EOS_ProductUserId),
+        ('Volume', c_float),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, RoomName = None, ParticipantId = None, Volume = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, ParticipantId = ParticipantId, Volume = Volume)
+class EOS_RTCAudio_RegisterPlatformUserOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('PlatformUserId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_REGISTERPLATFORMUSER_API_LATEST, PlatformUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, PlatformUserId = PlatformUserId)
+class EOS_RTCAudio_OnRegisterPlatformUserCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('PlatformUserId', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, PlatformUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, PlatformUserId = PlatformUserId)
+class EOS_RTCAudio_UnregisterPlatformUserOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('PlatformUserId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_UNREGISTERPLATFORMUSER_API_LATEST, PlatformUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, PlatformUserId = PlatformUserId)
+class EOS_RTCAudio_OnUnregisterPlatformUserCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('PlatformUserId', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, PlatformUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, PlatformUserId = PlatformUserId)
+class EOS_RTCAudio_QueryInputDevicesInformationOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_QUERYINPUTDEVICESINFORMATION_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_RTCAudio_OnQueryInputDevicesInformationCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
+class EOS_RTCAudio_GetInputDevicesCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_GETINPUTDEVICESCOUNT_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_RTCAudio_CopyInputDeviceInformationByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('DeviceIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_COPYINPUTDEVICEINFORMATIONBYINDEX_API_LATEST, DeviceIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, DeviceIndex = DeviceIndex)
+class EOS_RTCAudio_InputDeviceInformation(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('bDefaultDevice', EOS_Bool),
+        ('DeviceId', c_char_p),
+        ('DeviceName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_INPUTDEVICEINFORMATION_API_LATEST, bDefaultDevice = 0, DeviceId = None, DeviceName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, bDefaultDevice = bDefaultDevice, DeviceId = DeviceId, DeviceName = DeviceName)
+    def Release(self):
+        # type: (POINTER(EOS_RTCAudio_InputDeviceInformation)) -> None
+        return EOS_RTCAudio_InputDeviceInformation_Release(self)
+class EOS_RTCAudio_QueryOutputDevicesInformationOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_QUERYOUTPUTDEVICESINFORMATION_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_RTCAudio_OnQueryOutputDevicesInformationCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
+class EOS_RTCAudio_GetOutputDevicesCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_GETOUTPUTDEVICESCOUNT_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_RTCAudio_CopyOutputDeviceInformationByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('DeviceIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_COPYOUTPUTDEVICEINFORMATIONBYINDEX_API_LATEST, DeviceIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, DeviceIndex = DeviceIndex)
+class EOS_RTCAudio_OutputDeviceInformation(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('bDefaultDevice', EOS_Bool),
+        ('DeviceId', c_char_p),
+        ('DeviceName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_OUTPUTDEVICEINFORMATION_API_LATEST, bDefaultDevice = 0, DeviceId = None, DeviceName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, bDefaultDevice = bDefaultDevice, DeviceId = DeviceId, DeviceName = DeviceName)
+    def Release(self):
+        # type: (POINTER(EOS_RTCAudio_OutputDeviceInformation)) -> None
+        return EOS_RTCAudio_OutputDeviceInformation_Release(self)
+class EOS_RTCAudio_SetInputDeviceSettingsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RealDeviceId', c_char_p),
+        ('bPlatformAEC', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_SETINPUTDEVICESETTINGS_API_LATEST, LocalUserId = None, RealDeviceId = None, bPlatformAEC = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RealDeviceId = RealDeviceId, bPlatformAEC = bPlatformAEC)
+class EOS_RTCAudio_OnSetInputDeviceSettingsCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('RealDeviceId', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, RealDeviceId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, RealDeviceId = RealDeviceId)
+class EOS_RTCAudio_SetOutputDeviceSettingsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RealDeviceId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_RTCAUDIO_SETOUTPUTDEVICESETTINGS_API_LATEST, LocalUserId = None, RealDeviceId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RealDeviceId = RealDeviceId)
+class EOS_RTCAudio_OnSetOutputDeviceSettingsCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('RealDeviceId', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, RealDeviceId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, RealDeviceId = RealDeviceId)
+class EOS_Sessions_CreateSessionModificationOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionName', c_char_p),
+        ('BucketId', c_char_p),
+        ('MaxPlayers', c_uint32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('bPresenceEnabled', EOS_Bool),
+        ('SessionId', c_char_p),
+        ('bSanctionsEnabled', EOS_Bool),
+        ('AllowedPlatformIds', POINTER(c_uint32)),
+        ('AllowedPlatformIdsCount', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_CREATESESSIONMODIFICATION_API_LATEST, SessionName = None, BucketId = None, MaxPlayers = 0, LocalUserId = None, bPresenceEnabled = 0, SessionId = None, bSanctionsEnabled = 0, AllowedPlatformIds = None, AllowedPlatformIdsCount = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionName = SessionName, BucketId = BucketId, MaxPlayers = MaxPlayers, LocalUserId = LocalUserId, bPresenceEnabled = bPresenceEnabled, SessionId = SessionId, bSanctionsEnabled = bSanctionsEnabled, AllowedPlatformIds = AllowedPlatformIds, AllowedPlatformIdsCount = AllowedPlatformIdsCount)
+class EOS_Sessions_UpdateSessionModificationOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_UPDATESESSIONMODIFICATION_API_LATEST, SessionName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionName = SessionName)
+class EOS_Sessions_SendInviteOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionName', c_char_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_SENDINVITE_API_LATEST, SessionName = None, LocalUserId = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionName = SessionName, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_Sessions_SendInviteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
+class EOS_Sessions_RejectInviteOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('InviteId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_REJECTINVITE_API_LATEST, LocalUserId = None, InviteId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, InviteId = InviteId)
+class EOS_Sessions_RejectInviteCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
+class EOS_Sessions_QueryInvitesOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_QUERYINVITES_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_Sessions_QueryInvitesCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+class EOS_Sessions_GetInviteCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_GETINVITECOUNT_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_Sessions_GetInviteIdByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Index', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_GETINVITEIDBYINDEX_API_LATEST, LocalUserId = None, Index = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Index = Index)
+class EOS_Sessions_CreateSessionSearchOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('MaxSearchResults', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_CREATESESSIONSEARCH_API_LATEST, MaxSearchResults = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, MaxSearchResults = MaxSearchResults)
+class EOS_Sessions_UpdateSessionOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionModificationHandle', EOS_HSessionModification),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_UPDATESESSION_API_LATEST, SessionModificationHandle = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionModificationHandle = SessionModificationHandle)
+class EOS_Sessions_UpdateSessionCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('SessionName', c_char_p),
+        ('SessionId', c_char_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, SessionName = None, SessionId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, SessionName = SessionName, SessionId = SessionId)
+class EOS_Sessions_DestroySessionOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_DESTROYSESSION_API_LATEST, SessionName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionName = SessionName)
+class EOS_Sessions_DestroySessionCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
+class EOS_Sessions_JoinSessionOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionName', c_char_p),
+        ('SessionHandle', EOS_HSessionDetails),
+        ('LocalUserId', EOS_ProductUserId),
+        ('bPresenceEnabled', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_JOINSESSION_API_LATEST, SessionName = None, SessionHandle = None, LocalUserId = None, bPresenceEnabled = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionName = SessionName, SessionHandle = SessionHandle, LocalUserId = LocalUserId, bPresenceEnabled = bPresenceEnabled)
+class EOS_Sessions_JoinSessionCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
+class EOS_Sessions_StartSessionOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_STARTSESSION_API_LATEST, SessionName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionName = SessionName)
+class EOS_Sessions_StartSessionCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
+class EOS_Sessions_EndSessionOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_ENDSESSION_API_LATEST, SessionName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionName = SessionName)
+class EOS_Sessions_EndSessionCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
+class EOS_Sessions_RegisterPlayersOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionName', c_char_p),
+        ('PlayersToRegister', POINTER(EOS_ProductUserId)),
+        ('PlayersToRegisterCount', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_REGISTERPLAYERS_API_LATEST, SessionName = None, PlayersToRegister = None, PlayersToRegisterCount = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionName = SessionName, PlayersToRegister = PlayersToRegister, PlayersToRegisterCount = PlayersToRegisterCount)
+class EOS_Sessions_RegisterPlayersCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('RegisteredPlayers', POINTER(EOS_ProductUserId)),
+        ('RegisteredPlayersCount', c_uint32),
+        ('SanctionedPlayers', POINTER(EOS_ProductUserId)),
+        ('SanctionedPlayersCount', c_uint32),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, RegisteredPlayers = None, RegisteredPlayersCount = 0, SanctionedPlayers = None, SanctionedPlayersCount = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, RegisteredPlayers = RegisteredPlayers, RegisteredPlayersCount = RegisteredPlayersCount, SanctionedPlayers = SanctionedPlayers, SanctionedPlayersCount = SanctionedPlayersCount)
+class EOS_Sessions_UnregisterPlayersOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionName', c_char_p),
+        ('PlayersToUnregister', POINTER(EOS_ProductUserId)),
+        ('PlayersToUnregisterCount', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_UNREGISTERPLAYERS_API_LATEST, SessionName = None, PlayersToUnregister = None, PlayersToUnregisterCount = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionName = SessionName, PlayersToUnregister = PlayersToUnregister, PlayersToUnregisterCount = PlayersToUnregisterCount)
+class EOS_Sessions_UnregisterPlayersCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+        ('UnregisteredPlayers', POINTER(EOS_ProductUserId)),
+        ('UnregisteredPlayersCount', c_uint32),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None, UnregisteredPlayers = None, UnregisteredPlayersCount = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, UnregisteredPlayers = UnregisteredPlayers, UnregisteredPlayersCount = UnregisteredPlayersCount)
+class EOS_SessionModification_SetBucketIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('BucketId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONMODIFICATION_SETBUCKETID_API_LATEST, BucketId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, BucketId = BucketId)
+class EOS_SessionModification_SetHostAddressOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('HostAddress', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONMODIFICATION_SETHOSTADDRESS_API_LATEST, HostAddress = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, HostAddress = HostAddress)
+class EOS_SessionModification_SetPermissionLevelOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('PermissionLevel', EOS_EOnlineSessionPermissionLevel),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONMODIFICATION_SETPERMISSIONLEVEL_API_LATEST, PermissionLevel = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, PermissionLevel = PermissionLevel)
+class EOS_SessionModification_SetJoinInProgressAllowedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('bAllowJoinInProgress', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONMODIFICATION_SETJOININPROGRESSALLOWED_API_LATEST, bAllowJoinInProgress = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, bAllowJoinInProgress = bAllowJoinInProgress)
+class EOS_SessionModification_SetMaxPlayersOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('MaxPlayers', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONMODIFICATION_SETMAXPLAYERS_API_LATEST, MaxPlayers = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, MaxPlayers = MaxPlayers)
+class EOS_SessionModification_SetInvitesAllowedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('bInvitesAllowed', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONMODIFICATION_SETINVITESALLOWED_API_LATEST, bInvitesAllowed = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, bInvitesAllowed = bInvitesAllowed)
+class EOS_SessionModification_SetAllowedPlatformIdsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('AllowedPlatformIds', POINTER(c_uint32)),
+        ('AllowedPlatformIdsCount', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONMODIFICATION_SETALLOWEDPLATFORMIDS_API_LATEST, AllowedPlatformIds = None, AllowedPlatformIdsCount = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, AllowedPlatformIds = AllowedPlatformIds, AllowedPlatformIdsCount = AllowedPlatformIdsCount)
+class EOS_Sessions_AttributeData_INTERNAL_UNION_Value(Union):
+    _pack_ = PACK
+    _fields_ = [
+        ('AsInt64', c_int64),
+        ('AsDouble', c_double),
+        ('AsBool', EOS_Bool),
+        ('AsUtf8', c_char_p),
+    ]
+class EOS_Sessions_AttributeData(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Key', c_char_p),
+        ('Value', EOS_Sessions_AttributeData_INTERNAL_UNION_Value),
+        ('ValueType', EOS_ESessionAttributeType),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_ATTRIBUTEDATA_API_LATEST, Key = None, Value = 0, ValueType = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Key = Key, Value = Value, ValueType = ValueType)
+class EOS_ActiveSession_CopyInfoOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_ACTIVESESSION_COPYINFO_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_ActiveSession_GetRegisteredPlayerCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_ACTIVESESSION_GETREGISTEREDPLAYERCOUNT_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_ActiveSession_GetRegisteredPlayerByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('PlayerIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ACTIVESESSION_GETREGISTEREDPLAYERBYINDEX_API_LATEST, PlayerIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, PlayerIndex = PlayerIndex)
+class EOS_SessionDetails_Attribute(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Data', POINTER(EOS_Sessions_AttributeData)),
+        ('AdvertisementType', EOS_ESessionAttributeAdvertisementType),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONDETAILS_ATTRIBUTE_API_LATEST, Data = None, AdvertisementType = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Data = Data, AdvertisementType = AdvertisementType)
+    def Release(self):
+        # type: (POINTER(EOS_SessionDetails_Attribute)) -> None
+        return EOS_SessionDetails_Attribute_Release(self)
+class EOS_SessionModification_AddAttributeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionAttribute', POINTER(EOS_Sessions_AttributeData)),
+        ('AdvertisementType', EOS_ESessionAttributeAdvertisementType),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONMODIFICATION_ADDATTRIBUTE_API_LATEST, SessionAttribute = None, AdvertisementType = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionAttribute = SessionAttribute, AdvertisementType = AdvertisementType)
+class EOS_SessionModification_RemoveAttributeOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Key', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONMODIFICATION_REMOVEATTRIBUTE_API_LATEST, Key = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, Key = Key)
+class EOS_SessionSearch_SetMaxResultsOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('MaxSearchResults', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONSEARCH_SETMAXSEARCHRESULTS_API_LATEST, MaxSearchResults = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, MaxSearchResults = MaxSearchResults)
+class EOS_SessionSearch_FindOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONSEARCH_FIND_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_SessionSearch_FindCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ResultCode', EOS_EResult),
+        ('ClientData', c_void_p),
+    ]
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
+class EOS_SessionSearch_GetSearchResultCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONSEARCH_GETSEARCHRESULTCOUNT_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_SessionSearch_CopySearchResultByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONSEARCH_COPYSEARCHRESULTBYINDEX_API_LATEST, SessionIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionIndex = SessionIndex)
+class EOS_SessionSearch_SetSessionIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONSEARCH_SETSESSIONID_API_LATEST, SessionId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionId = SessionId)
+class EOS_SessionSearch_SetTargetUserIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONSEARCH_SETTARGETUSERID_API_LATEST, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId)
+class EOS_SessionSearch_SetParameterOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Parameter', POINTER(EOS_Sessions_AttributeData)),
+        ('ComparisonOp', EOS_EOnlineComparisonOp),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONSEARCH_SETPARAMETER_API_LATEST, Parameter = None, ComparisonOp = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Parameter = Parameter, ComparisonOp = ComparisonOp)
+class EOS_SessionSearch_RemoveParameterOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Key', c_char_p),
+        ('ComparisonOp', EOS_EOnlineComparisonOp),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONSEARCH_REMOVEPARAMETER_API_LATEST, Key = None, ComparisonOp = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Key = Key, ComparisonOp = ComparisonOp)
+class EOS_SessionDetails_Settings(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('BucketId', c_char_p),
+        ('NumPublicConnections', c_uint32),
+        ('bAllowJoinInProgress', EOS_Bool),
+        ('PermissionLevel', EOS_EOnlineSessionPermissionLevel),
+        ('bInvitesAllowed', EOS_Bool),
+        ('bSanctionsEnabled', EOS_Bool),
+        ('AllowedPlatformIds', POINTER(c_uint32)),
+        ('AllowedPlatformIdsCount', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONDETAILS_SETTINGS_API_LATEST, BucketId = None, NumPublicConnections = 0, bAllowJoinInProgress = 0, PermissionLevel = 0, bInvitesAllowed = 0, bSanctionsEnabled = 0, AllowedPlatformIds = None, AllowedPlatformIdsCount = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, BucketId = BucketId, NumPublicConnections = NumPublicConnections, bAllowJoinInProgress = bAllowJoinInProgress, PermissionLevel = PermissionLevel, bInvitesAllowed = bInvitesAllowed, bSanctionsEnabled = bSanctionsEnabled, AllowedPlatformIds = AllowedPlatformIds, AllowedPlatformIdsCount = AllowedPlatformIdsCount)
+class EOS_SessionDetails_Info(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionId', c_char_p),
+        ('HostAddress', c_char_p),
+        ('NumOpenPublicConnections', c_uint32),
+        ('Settings', POINTER(EOS_SessionDetails_Settings)),
+        ('OwnerUserId', EOS_ProductUserId),
+        ('OwnerServerClientId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONDETAILS_INFO_API_LATEST, SessionId = None, HostAddress = None, NumOpenPublicConnections = 0, Settings = None, OwnerUserId = None, OwnerServerClientId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionId = SessionId, HostAddress = HostAddress, NumOpenPublicConnections = NumOpenPublicConnections, Settings = Settings, OwnerUserId = OwnerUserId, OwnerServerClientId = OwnerServerClientId)
+    def Release(self):
+        # type: (POINTER(EOS_SessionDetails_Info)) -> None
+        return EOS_SessionDetails_Info_Release(self)
+class EOS_SessionDetails_CopyInfoOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONDETAILS_COPYINFO_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_SessionDetails_GetSessionAttributeCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONDETAILS_GETSESSIONATTRIBUTECOUNT_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_SessionDetails_CopySessionAttributeByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('AttrIndex', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONDETAILS_COPYSESSIONATTRIBUTEBYINDEX_API_LATEST, AttrIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, AttrIndex = AttrIndex)
+class EOS_SessionDetails_CopySessionAttributeByKeyOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('AttrKey', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONDETAILS_COPYSESSIONATTRIBUTEBYKEY_API_LATEST, AttrKey = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, AttrKey = AttrKey)
+class EOS_ActiveSession_Info(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionName', c_char_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('State', EOS_EOnlineSessionState),
+        ('SessionDetails', POINTER(EOS_SessionDetails_Info)),
+    ]
+    def __init__(self, ApiVersion = EOS_ACTIVESESSION_INFO_API_LATEST, SessionName = None, LocalUserId = None, State = 0, SessionDetails = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionName = SessionName, LocalUserId = LocalUserId, State = State, SessionDetails = SessionDetails)
+    def Release(self):
+        # type: (POINTER(EOS_ActiveSession_Info)) -> None
+        return EOS_ActiveSession_Info_Release(self)
+class EOS_Sessions_CopyActiveSessionHandleOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_COPYACTIVESESSIONHANDLE_API_LATEST, SessionName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionName = SessionName)
+class EOS_Sessions_AddNotifySessionInviteReceivedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_ADDNOTIFYSESSIONINVITERECEIVED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Sessions_SessionInviteReceivedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+        ('InviteId', c_char_p),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, TargetUserId = None, InviteId = None):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId, InviteId = InviteId)
+class EOS_Sessions_AddNotifySessionInviteAcceptedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_ADDNOTIFYSESSIONINVITEACCEPTED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Sessions_SessionInviteAcceptedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('SessionId', c_char_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+        ('InviteId', c_char_p),
+    ]
+    def __init__(self, ClientData = None, SessionId = None, LocalUserId = None, TargetUserId = None, InviteId = None):
+        Structure.__init__(self, ClientData = ClientData, SessionId = SessionId, LocalUserId = LocalUserId, TargetUserId = TargetUserId, InviteId = InviteId)
+class EOS_Sessions_AddNotifySessionInviteRejectedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_ADDNOTIFYSESSIONINVITEREJECTED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Sessions_SessionInviteRejectedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('InviteId', c_char_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+        ('SessionId', c_char_p),
+    ]
+    def __init__(self, ClientData = None, InviteId = None, LocalUserId = None, TargetUserId = None, SessionId = None):
+        Structure.__init__(self, ClientData = ClientData, InviteId = InviteId, LocalUserId = LocalUserId, TargetUserId = TargetUserId, SessionId = SessionId)
+class EOS_Sessions_AddNotifyJoinSessionAcceptedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_ADDNOTIFYJOINSESSIONACCEPTED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Sessions_JoinSessionAcceptedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('UiEventId', EOS_UI_EventId),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, UiEventId = 0):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, UiEventId = UiEventId)
+class EOS_Sessions_CopySessionHandleByInviteIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('InviteId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_COPYSESSIONHANDLEBYINVITEID_API_LATEST, InviteId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, InviteId = InviteId)
+class EOS_Sessions_CopySessionHandleByUiEventIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('UiEventId', EOS_UI_EventId),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_COPYSESSIONHANDLEBYUIEVENTID_API_LATEST, UiEventId = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, UiEventId = UiEventId)
+class EOS_Sessions_CopySessionHandleForPresenceOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_COPYSESSIONHANDLEFORPRESENCE_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_Sessions_IsUserInSessionOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionName', c_char_p),
+        ('TargetUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_ISUSERINSESSION_API_LATEST, SessionName = None, TargetUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionName = SessionName, TargetUserId = TargetUserId)
+class EOS_Sessions_DumpSessionStateOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('SessionName', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_DUMPSESSIONSTATE_API_LATEST, SessionName = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, SessionName = SessionName)
+class EOS_Sessions_AddNotifyLeaveSessionRequestedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_ADDNOTIFYLEAVESESSIONREQUESTED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Sessions_LeaveSessionRequestedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('SessionName', c_char_p),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, SessionName = None):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, SessionName = SessionName)
+class EOS_Sessions_AddNotifySendSessionNativeInviteRequestedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_SESSIONS_ADDNOTIFYSENDSESSIONNATIVEINVITEREQUESTED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_Sessions_SendSessionNativeInviteRequestedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('UiEventId', EOS_UI_EventId),
+        ('LocalUserId', EOS_ProductUserId),
+        ('TargetNativeAccountType', EOS_IntegratedPlatformType),
+        ('TargetUserNativeAccountId', c_char_p),
+        ('SessionId', c_char_p),
+    ]
+    def __init__(self, ClientData = None, UiEventId = 0, LocalUserId = None, TargetNativeAccountType = None, TargetUserNativeAccountId = None, SessionId = None):
+        Structure.__init__(self, ClientData = ClientData, UiEventId = UiEventId, LocalUserId = LocalUserId, TargetNativeAccountType = TargetNativeAccountType, TargetUserNativeAccountId = TargetUserNativeAccountId, SessionId = SessionId)
 class EOS_Achievements_QueryDefinitionsOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -723,21 +11744,8 @@ class EOS_Achievements_QueryDefinitionsOptions(Structure):
         ('HiddenAchievementIds_DEPRECATED', POINTER(c_char_p)),
         ('HiddenAchievementsCount_DEPRECATED', c_uint32),
     ]
-    def __init__(self,
-            ApiVersion = EOS_ACHIEVEMENTS_QUERYDEFINITIONS_API_LATEST,
-            LocalUserId = None,
-            EpicUserId_DEPRECATED = None, HiddenAchievementIds_DEPRECATED = None,
-            HiddenAchievementsCount_DEPRECATED = 0,
-            **kwargs):
-        Structure.__init__(self,
-            ApiVersion = ApiVersion, LocalUserId = LocalUserId,
-            EpicUserId_DEPRECATED = EpicUserId_DEPRECATED,
-            HiddenAchievementIds_DEPRECATED = HiddenAchievementIds_DEPRECATED,
-            HiddenAchievementsCount_DEPRECATED = HiddenAchievementsCount_DEPRECATED,
-            **kwargs)
-
-EOS_ACHIEVEMENTS_STATTHRESHOLDS_API_LATEST = c_int32(1)
-EOS_ACHIEVEMENTS_STATTHRESHOLD_API_LATEST = EOS_ACHIEVEMENTS_STATTHRESHOLDS_API_LATEST
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_QUERYDEFINITIONS_API_LATEST, LocalUserId = None, EpicUserId_DEPRECATED = None, HiddenAchievementIds_DEPRECATED = None, HiddenAchievementsCount_DEPRECATED = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, EpicUserId_DEPRECATED = EpicUserId_DEPRECATED, HiddenAchievementIds_DEPRECATED = HiddenAchievementIds_DEPRECATED, HiddenAchievementsCount_DEPRECATED = HiddenAchievementsCount_DEPRECATED)
 class EOS_Achievements_StatThresholds(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -745,12 +11753,8 @@ class EOS_Achievements_StatThresholds(Structure):
         ('Name', c_char_p),
         ('Threshold', c_int32),
     ]
-    def __init__(self,
-            ApiVersion = EOS_ACHIEVEMENTS_STATTHRESHOLDS_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_ACHIEVEMENTS_PLAYERSTATINFO_API_LATEST = c_int32(1)
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_STATTHRESHOLDS_API_LATEST, Name = None, Threshold = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Name = Name, Threshold = Threshold)
 class EOS_Achievements_PlayerStatInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -759,12 +11763,8 @@ class EOS_Achievements_PlayerStatInfo(Structure):
         ('CurrentValue', c_int32),
         ('ThresholdValue', c_int32),
     ]
-    def __init__(self,
-            ApiVersion = EOS_ACHIEVEMENTS_PLAYERSTATINFO_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_ACHIEVEMENTS_DEFINITIONV2_API_LATEST = c_int32(2)
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_PLAYERSTATINFO_API_LATEST, Name = None, CurrentValue = 0, ThresholdValue = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Name = Name, CurrentValue = CurrentValue, ThresholdValue = ThresholdValue)
 class EOS_Achievements_DefinitionV2(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -779,62 +11779,44 @@ class EOS_Achievements_DefinitionV2(Structure):
         ('LockedIconURL', c_char_p),
         ('bIsHidden', EOS_Bool),
         ('StatThresholdsCount', c_uint32),
-        ('StatThresholds', POINTER(EOS_Achievements_StatThresholds))
+        ('StatThresholds', POINTER(EOS_Achievements_StatThresholds)),
     ]
-    def __init__(self,
-            ApiVersion = EOS_ACHIEVEMENTS_DEFINITIONV2_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-    def Release(self): # type: () -> None
-        EOS_Achievements_DefinitionV2_Release(self)
-EOS_Achievements_DefinitionV2_Release = not_ready
-
-EOS_ACHIEVEMENTS_GETACHIEVEMENTDEFINITIONCOUNT_API_LATEST = c_int32(1)
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_DEFINITIONV2_API_LATEST, AchievementId = None, UnlockedDisplayName = None, UnlockedDescription = None, LockedDisplayName = None, LockedDescription = None, FlavorText = None, UnlockedIconURL = None, LockedIconURL = None, bIsHidden = 0, StatThresholdsCount = 0, StatThresholds = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, AchievementId = AchievementId, UnlockedDisplayName = UnlockedDisplayName, UnlockedDescription = UnlockedDescription, LockedDisplayName = LockedDisplayName, LockedDescription = LockedDescription, FlavorText = FlavorText, UnlockedIconURL = UnlockedIconURL, LockedIconURL = LockedIconURL, bIsHidden = bIsHidden, StatThresholdsCount = StatThresholdsCount, StatThresholds = StatThresholds)
+    def Release(self):
+        # type: (POINTER(EOS_Achievements_DefinitionV2)) -> None
+        return EOS_Achievements_DefinitionV2_Release(self)
 class EOS_Achievements_GetAchievementDefinitionCountOptions(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ApiVersion', c_int32),
     ]
-    def __init__(self,
-            ApiVersion = EOS_ACHIEVEMENTS_GETACHIEVEMENTDEFINITIONCOUNT_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYINDEX_API_LATEST = c_int32(2)
-EOS_ACHIEVEMENTS_COPYDEFINITIONV2BYINDEX_API_LATEST = EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYINDEX_API_LATEST
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_GETACHIEVEMENTDEFINITIONCOUNT_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
 class EOS_Achievements_CopyAchievementDefinitionV2ByIndexOptions(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ApiVersion', c_int32),
         ('AchievementIndex', c_uint32),
     ]
-    def __init__(self,
-            ApiVersion = EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYINDEX_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYACHIEVEMENTID_API_LATEST = c_int32(2)
-EOS_ACHIEVEMENTS_COPYDEFINITIONV2BYACHIEVEMENTID_API_LATEST = EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYACHIEVEMENTID_API_LATEST
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYINDEX_API_LATEST, AchievementIndex = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, AchievementIndex = AchievementIndex)
 class EOS_Achievements_CopyAchievementDefinitionV2ByAchievementIdOptions(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ApiVersion', c_int32),
         ('AchievementId', c_char_p),
     ]
-    def __init__(self,
-            ApiVersion = EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYACHIEVEMENTID_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_COPYACHIEVEMENTDEFINITIONV2BYACHIEVEMENTID_API_LATEST, AchievementId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, AchievementId = AchievementId)
 class EOS_Achievements_OnQueryDefinitionsCompleteCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ResultCode', EOS_EResult),
         ('ClientData', c_void_p),
     ]
-EOS_Achievements_OnQueryDefinitionsCompleteCallback = CFUNCTYPE(
-    None, POINTER(EOS_Achievements_OnQueryDefinitionsCompleteCallbackInfo))
-
-EOS_ACHIEVEMENTS_QUERYPLAYERACHIEVEMENTS_API_LATEST = c_int32(2)
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
 class EOS_Achievements_QueryPlayerAchievementsOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -842,13 +11824,8 @@ class EOS_Achievements_QueryPlayerAchievementsOptions(Structure):
         ('TargetUserId', EOS_ProductUserId),
         ('LocalUserId', EOS_ProductUserId),
     ]
-    def __init__(self,
-            ApiVersion = EOS_ACHIEVEMENTS_QUERYPLAYERACHIEVEMENTS_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_ACHIEVEMENTS_ACHIEVEMENT_UNLOCKTIME_UNDEFINED = c_int32(-1)
-EOS_ACHIEVEMENTS_PLAYERACHIEVEMENT_API_LATEST = c_int32(2)
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_QUERYPLAYERACHIEVEMENTS_API_LATEST, TargetUserId = None, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId, LocalUserId = LocalUserId)
 class EOS_Achievements_PlayerAchievement(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -863,31 +11840,19 @@ class EOS_Achievements_PlayerAchievement(Structure):
         ('IconURL', c_char_p),
         ('FlavorText', c_char_p),
     ]
-    def __init__(self,
-            ApiVersion = EOS_ACHIEVEMENTS_PLAYERACHIEVEMENT_API_LATEST,
-            UnlockTime = EOS_ACHIEVEMENTS_ACHIEVEMENT_UNLOCKTIME_UNDEFINED,
-            IconURL = None, FlavorText = None,
-            **kwargs):
-        Structure.__init__(self,
-            ApiVersion = ApiVersion, UnlockTime = UnlockTime,
-            IconURL = IconURL, FlavorText = FlavorText,
-            **kwargs)
-    def Release(self): # type: () -> None
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_PLAYERACHIEVEMENT_API_LATEST, AchievementId = None, Progress = 0, UnlockTime = 0, StatInfoCount = 0, StatInfo = None, DisplayName = None, Description = None, IconURL = None, FlavorText = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, AchievementId = AchievementId, Progress = Progress, UnlockTime = UnlockTime, StatInfoCount = StatInfoCount, StatInfo = StatInfo, DisplayName = DisplayName, Description = Description, IconURL = IconURL, FlavorText = FlavorText)
+    def Release(self):
+        # type: (POINTER(EOS_Achievements_PlayerAchievement)) -> None
         return EOS_Achievements_PlayerAchievement_Release(self)
-
-EOS_ACHIEVEMENTS_GETPLAYERACHIEVEMENTCOUNT_API_LATEST = c_int32(1)
 class EOS_Achievements_GetPlayerAchievementCountOptions(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ApiVersion', c_int32),
         ('UserId', EOS_ProductUserId),
     ]
-    def __init__(self,
-            ApiVersion = EOS_ACHIEVEMENTS_GETPLAYERACHIEVEMENTCOUNT_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_ACHIEVEMENTS_COPYPLAYERACHIEVEMENTBYINDEX_API_LATEST = c_int32(2)
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_GETPLAYERACHIEVEMENTCOUNT_API_LATEST, UserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, UserId = UserId)
 class EOS_Achievements_CopyPlayerAchievementByIndexOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -896,12 +11861,8 @@ class EOS_Achievements_CopyPlayerAchievementByIndexOptions(Structure):
         ('AchievementIndex', c_uint32),
         ('LocalUserId', EOS_ProductUserId),
     ]
-    def __init__(self,
-            ApiVersion = EOS_ACHIEVEMENTS_COPYPLAYERACHIEVEMENTBYINDEX_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_ACHIEVEMENTS_COPYPLAYERACHIEVEMENTBYACHIEVEMENTID_API_LATEST = c_int32(2)
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_COPYPLAYERACHIEVEMENTBYINDEX_API_LATEST, TargetUserId = None, AchievementIndex = 0, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId, AchievementIndex = AchievementIndex, LocalUserId = LocalUserId)
 class EOS_Achievements_CopyPlayerAchievementByAchievementIdOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -910,24 +11871,18 @@ class EOS_Achievements_CopyPlayerAchievementByAchievementIdOptions(Structure):
         ('AchievementId', c_char_p),
         ('LocalUserId', EOS_ProductUserId),
     ]
-    def __init__(self,
-            ApiVersion = EOS_ACHIEVEMENTS_COPYPLAYERACHIEVEMENTBYACHIEVEMENTID_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_Achievements_PlayerAchievement_Release = not_ready
-
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_COPYPLAYERACHIEVEMENTBYACHIEVEMENTID_API_LATEST, TargetUserId = None, AchievementId = None, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, TargetUserId = TargetUserId, AchievementId = AchievementId, LocalUserId = LocalUserId)
 class EOS_Achievements_OnQueryPlayerAchievementsCompleteCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ResultCode', EOS_EResult),
         ('ClientData', c_void_p),
-        ('UserId', EOS_ProductUserId),
+        ('TargetUserId', EOS_ProductUserId),
+        ('LocalUserId', EOS_ProductUserId),
     ]
-EOS_Achievements_OnQueryPlayerAchievementsCompleteCallback = CFUNCTYPE(
-    None, POINTER(EOS_Achievements_OnQueryPlayerAchievementsCompleteCallbackInfo))
-
-EOS_ACHIEVEMENTS_UNLOCKACHIEVEMENTS_API_LATEST = c_int32(1)
+    def __init__(self, ResultCode = 0, ClientData = None, TargetUserId = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, TargetUserId = TargetUserId, LocalUserId = LocalUserId)
 class EOS_Achievements_UnlockAchievementsOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -936,10 +11891,8 @@ class EOS_Achievements_UnlockAchievementsOptions(Structure):
         ('AchievementIds', POINTER(c_char_p)),
         ('AchievementsCount', c_uint32),
     ]
-    def __init__(self,
-            ApiVersion = EOS_ACHIEVEMENTS_UNLOCKACHIEVEMENTS_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_UNLOCKACHIEVEMENTS_API_LATEST, UserId = None, AchievementIds = None, AchievementsCount = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, UserId = UserId, AchievementIds = AchievementIds, AchievementsCount = AchievementsCount)
 class EOS_Achievements_OnUnlockAchievementsCompleteCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -948,19 +11901,15 @@ class EOS_Achievements_OnUnlockAchievementsCompleteCallbackInfo(Structure):
         ('UserId', EOS_ProductUserId),
         ('AchievementsCount', c_uint32),
     ]
-EOS_Achievements_OnUnlockAchievementsCompleteCallback = CFUNCTYPE(
-    None, POINTER(EOS_Achievements_OnUnlockAchievementsCompleteCallbackInfo))
-
-EOS_ACHIEVEMENTS_ADDNOTIFYACHIEVEMENTSUNLOCKEDV2_API_LATEST = c_int32(2)
+    def __init__(self, ResultCode = 0, ClientData = None, UserId = None, AchievementsCount = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, UserId = UserId, AchievementsCount = AchievementsCount)
 class EOS_Achievements_AddNotifyAchievementsUnlockedV2Options(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ApiVersion', c_int32),
     ]
-    def __init__(self,
-            ApiVersion = EOS_ACHIEVEMENTS_ADDNOTIFYACHIEVEMENTSUNLOCKEDV2_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_ADDNOTIFYACHIEVEMENTSUNLOCKEDV2_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
 class EOS_Achievements_OnAchievementsUnlockedCallbackV2Info(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -969,150 +11918,161 @@ class EOS_Achievements_OnAchievementsUnlockedCallbackV2Info(Structure):
         ('AchievementId', c_char_p),
         ('UnlockTime', c_int64),
     ]
-EOS_Achievements_OnAchievementsUnlockedCallbackV2 = CFUNCTYPE(
-    None, POINTER(EOS_Achievements_OnAchievementsUnlockedCallbackV2Info))
-
-# DEPRECATED Achievements types
-
-EOS_ACHIEVEMENTS_DEFINITION_API_LATEST = 1
-class EOS_Achievements_Definition(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('AchievementId', c_char_p),
-        ('DisplayName', c_char_p),
-        ('Description', c_char_p),
-        ('LockedDisplayName', c_char_p),
-        ('LockedDescription', c_char_p),
-        ('HiddenDescription', c_char_p),
-        ('CompletionDescription', c_char_p),
-        ('UnlockedIconId', c_char_p),
-        ('LockedIconId', c_char_p),
-        ('bIsHidden', EOS_Bool),
-        ('StatThresholdsCount', c_int32),
-        ('StatThresholds', POINTER(EOS_Achievements_StatThresholds)),
-    ]
-    def Release(self): # type: () -> None
-        return EOS_Achievements_Definition_Release(self)
-EOS_Achievements_Definition_Release = not_ready
-
-EOS_ACHIEVEMENTS_COPYDEFINITIONBYINDEX_API_LATEST = 1
-class EOS_Achievements_CopyAchievementDefinitionByIndexOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('AchievementIndex', c_uint32),
-    ]
-
-EOS_ACHIEVEMENTS_COPYDEFINITIONBYACHIEVEMENTID_API_LATEST = 1
-class EOS_Achievements_CopyAchievementDefinitionByAchievementIdOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('AchievementId', c_char_p),
-    ]
-
-EOS_ACHIEVEMENTS_UNLOCKEDACHIEVEMENT_API_LATEST = 1
-class EOS_Achievements_UnlockedAchievement(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('AchievementId', c_char_p),
-        ('UnlockTime', c_int64),
-    ]
-    def Release(self): # type: () -> None
-        return EOS_Achievements_UnlockedAchievement_Release(self)
-
-EOS_ACHIEVEMENTS_GETUNLOCKEDACHIEVEMENTCOUNT_API_LATEST = 1
-class EOS_Achievements_GetUnlockedAchievementCountOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('UserId', EOS_ProductUserId),
-    ]
-
-EOS_ACHIEVEMENTS_COPYUNLOCKEDACHIEVEMENTBYINDEX_API_LATEST = 1
-class EOS_Achievements_CopyUnlockedAchievementByIndexOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('UserId', EOS_ProductUserId),
-        ('AchievementIndex', c_uint32),
-    ]
-
-EOS_ACHIEVEMENTS_COPYUNLOCKEDACHIEVEMENTBYACHIEVEMENTID_API_LATEST = 1
-class EOS_Achievements_CopyUnlockedAchievementByAchievementIdOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('UserId', EOS_ProductUserId),
-        ('AchievementId', c_char_p),
-    ]
-
-EOS_ACHIEVEMENTS_ADDNOTIFYACHIEVEMENTSUNLOCKED_API_LATEST = 1
-class EOS_Achievements_AddNotifyAchievementsUnlockedOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-    ]
-class EOS_Achievements_OnAchievementsUnlockedCallbackInfo(Structure):
+    def __init__(self, ClientData = None, UserId = None, AchievementId = None, UnlockTime = 0):
+        Structure.__init__(self, ClientData = ClientData, UserId = UserId, AchievementId = AchievementId, UnlockTime = UnlockTime)
+class EOS_AntiCheatClient_OnMessageToServerCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ClientData', c_void_p),
-        ('UserId', EOS_ProductUserId),
-        ('AchievementsCount', c_uint32),
-        ('AchievementIds', POINTER(c_char_p)),
+        ('MessageData', c_void_p),
+        ('MessageDataSizeBytes', c_uint32),
     ]
-EOS_Achievements_OnAchievementsUnlockedCallback = CFUNCTYPE(
-    None, POINTER(EOS_Achievements_OnAchievementsUnlockedCallbackInfo))
-EOS_Achievements_UnlockedAchievement_Release = not_ready
-
-# Achievements functions
-
-EOS_Achievements_QueryDefinitions = not_ready
-EOS_Achievements_GetAchievementDefinitionCount = not_ready
-EOS_Achievements_CopyAchievementDefinitionV2ByIndex = not_ready
-EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId = not_ready
-EOS_Achievements_QueryPlayerAchievements = not_ready
-EOS_Achievements_GetPlayerAchievementCount = not_ready
-EOS_Achievements_CopyPlayerAchievementByIndex = not_ready
-EOS_Achievements_CopyPlayerAchievementByAchievementId = not_ready
-EOS_Achievements_UnlockAchievements = not_ready
-EOS_Achievements_AddNotifyAchievementsUnlockedV2 = not_ready
-EOS_Achievements_RemoveNotifyAchievementsUnlocked = not_ready
-
-# DEPRECATED Achievements functions
-
-EOS_Achievements_CopyAchievementDefinitionByIndex = not_ready
-EOS_Achievements_CopyAchievementDefinitionByAchievementId = not_ready
-EOS_Achievements_GetUnlockedAchievementCount = not_ready
-EOS_Achievements_CopyUnlockedAchievementByIndex = not_ready
-EOS_Achievements_CopyUnlockedAchievementByAchievementId = not_ready
-EOS_Achievements_AddNotifyAchievementsUnlocked = not_ready
-
-#####
-# Auth
-#####
-
-# Auth types
-
-class EOS_ELoginCredentialType(c_int32):
-    pass
-EOS_LCT_Password = EOS_ELoginCredentialType(0)
-EOS_LCT_ExchangeCode = EOS_ELoginCredentialType(1)
-EOS_LCT_PersistentAuth = EOS_ELoginCredentialType(2)
-EOS_LCT_DeviceCode = EOS_ELoginCredentialType(3)
-EOS_LCT_Developer = EOS_ELoginCredentialType(4)
-EOS_LCT_RefreshToken = EOS_ELoginCredentialType(5)
-EOS_LCT_AccountPortal = EOS_ELoginCredentialType(6)
-EOS_LCT_ExternalAuth = EOS_ELoginCredentialType(7)
-
-EOS_AUTH_TOKEN_API_LATEST = 2
-class EOS_EAuthTokenType(c_int32):
-    pass
-EOS_ATT_Client = EOS_EAuthTokenType(0)
-EOS_ATT_User = EOS_EAuthTokenType(1)
-
+    def __init__(self, ClientData = None, MessageData = None, MessageDataSizeBytes = 0):
+        Structure.__init__(self, ClientData = ClientData, MessageData = MessageData, MessageDataSizeBytes = MessageDataSizeBytes)
+class EOS_AntiCheatClient_OnClientIntegrityViolatedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('ViolationType', EOS_EAntiCheatClientViolationType),
+        ('ViolationMessage', c_char_p),
+    ]
+    def __init__(self, ClientData = None, ViolationType = 0, ViolationMessage = None):
+        Structure.__init__(self, ClientData = ClientData, ViolationType = ViolationType, ViolationMessage = ViolationMessage)
+class EOS_AntiCheatClient_AddNotifyMessageToServerOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_ADDNOTIFYMESSAGETOSERVER_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_AntiCheatClient_AddNotifyMessageToPeerOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_ADDNOTIFYMESSAGETOPEER_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_AntiCheatClient_AddNotifyPeerActionRequiredOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_ADDNOTIFYPEERACTIONREQUIRED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_AntiCheatClient_AddNotifyPeerAuthStatusChangedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_ADDNOTIFYPEERAUTHSTATUSCHANGED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_AntiCheatClient_AddNotifyClientIntegrityViolatedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_ADDNOTIFYPEERAUTHSTATUSCHANGED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_AntiCheatClient_BeginSessionOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Mode', EOS_EAntiCheatClientMode),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_BEGINSESSION_API_LATEST, LocalUserId = None, Mode = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Mode = Mode)
+class EOS_AntiCheatClient_EndSessionOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_ENDSESSION_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_AntiCheatClient_Reserved01Options(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_RESERVED01_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_AntiCheatClient_AddExternalIntegrityCatalogOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('PathToBinFile', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_ADDEXTERNALINTEGRITYCATALOG_API_LATEST, PathToBinFile = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, PathToBinFile = PathToBinFile)
+class EOS_AntiCheatClient_ReceiveMessageFromServerOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('DataLengthBytes', c_uint32),
+        ('Data', c_void_p),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_RECEIVEMESSAGEFROMSERVER_API_LATEST, DataLengthBytes = 0, Data = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, DataLengthBytes = DataLengthBytes, Data = Data)
+class EOS_AntiCheatClient_GetProtectMessageOutputLengthOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('DataLengthBytes', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_GETPROTECTMESSAGEOUTPUTLENGTH_API_LATEST, DataLengthBytes = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, DataLengthBytes = DataLengthBytes)
+class EOS_AntiCheatClient_ProtectMessageOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('DataLengthBytes', c_uint32),
+        ('Data', c_void_p),
+        ('OutBufferSizeBytes', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_PROTECTMESSAGE_API_LATEST, DataLengthBytes = 0, Data = None, OutBufferSizeBytes = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, DataLengthBytes = DataLengthBytes, Data = Data, OutBufferSizeBytes = OutBufferSizeBytes)
+class EOS_AntiCheatClient_UnprotectMessageOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('DataLengthBytes', c_uint32),
+        ('Data', c_void_p),
+        ('OutBufferSizeBytes', c_uint32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_UNPROTECTMESSAGE_API_LATEST, DataLengthBytes = 0, Data = None, OutBufferSizeBytes = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, DataLengthBytes = DataLengthBytes, Data = Data, OutBufferSizeBytes = OutBufferSizeBytes)
+class EOS_AntiCheatClient_RegisterPeerOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('PeerHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('ClientType', EOS_EAntiCheatCommonClientType),
+        ('ClientPlatform', EOS_EAntiCheatCommonClientPlatform),
+        ('AuthenticationTimeout', c_uint32),
+        ('AccountId_DEPRECATED', c_char_p),
+        ('IpAddress', c_char_p),
+        ('PeerProductUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_REGISTERPEER_API_LATEST, PeerHandle = None, ClientType = 0, ClientPlatform = 0, AuthenticationTimeout = 0, AccountId_DEPRECATED = None, IpAddress = None, PeerProductUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, PeerHandle = PeerHandle, ClientType = ClientType, ClientPlatform = ClientPlatform, AuthenticationTimeout = AuthenticationTimeout, AccountId_DEPRECATED = AccountId_DEPRECATED, IpAddress = IpAddress, PeerProductUserId = PeerProductUserId)
+class EOS_AntiCheatClient_UnregisterPeerOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('PeerHandle', EOS_AntiCheatCommon_ClientHandle),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_UNREGISTERPEER_API_LATEST, PeerHandle = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, PeerHandle = PeerHandle)
+class EOS_AntiCheatClient_ReceiveMessageFromPeerOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('PeerHandle', EOS_AntiCheatCommon_ClientHandle),
+        ('DataLengthBytes', c_uint32),
+        ('Data', c_void_p),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_RECEIVEMESSAGEFROMPEER_API_LATEST, PeerHandle = None, DataLengthBytes = 0, Data = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, PeerHandle = PeerHandle, DataLengthBytes = DataLengthBytes, Data = Data)
 class EOS_Auth_Token(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1128,13 +12088,11 @@ class EOS_Auth_Token(Structure):
         ('RefreshExpiresIn', c_double),
         ('RefreshExpiresAt', c_char_p),
     ]
-    def __init__(self, ApiVersion = EOS_AUTH_TOKEN_API_LATEST, **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-    def Release(self): # type: () -> None
+    def __init__(self, ApiVersion = EOS_AUTH_TOKEN_API_LATEST, App = None, ClientId = None, AccountId = None, AccessToken = None, ExpiresIn = 0, ExpiresAt = None, AuthType = 0, RefreshToken = None, RefreshExpiresIn = 0, RefreshExpiresAt = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, App = App, ClientId = ClientId, AccountId = AccountId, AccessToken = AccessToken, ExpiresIn = ExpiresIn, ExpiresAt = ExpiresAt, AuthType = AuthType, RefreshToken = RefreshToken, RefreshExpiresIn = RefreshExpiresIn, RefreshExpiresAt = RefreshExpiresAt)
+    def Release(self):
+        # type: (POINTER(EOS_Auth_Token)) -> None
         return EOS_Auth_Token_Release(self)
-EOS_Auth_Token_Release = not_ready
-
-EOS_AUTH_CREDENTIALS_API_LATEST = 4
 class EOS_Auth_Credentials(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1145,10 +12103,8 @@ class EOS_Auth_Credentials(Structure):
         ('SystemAuthCredentialsOptions', c_void_p),
         ('ExternalType', EOS_EExternalCredentialType),
     ]
-    def __init__(self, ApiVersion = EOS_AUTH_CREDENTIALS_API_LATEST, **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_AUTH_PINGRANTINFO_API_LATEST = 2
+    def __init__(self, ApiVersion = EOS_AUTH_CREDENTIALS_API_LATEST, Id = None, Token = None, Type = 0, SystemAuthCredentialsOptions = None, ExternalType = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Id = Id, Token = Token, Type = Type, SystemAuthCredentialsOptions = SystemAuthCredentialsOptions, ExternalType = ExternalType)
 class EOS_Auth_PinGrantInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1158,47 +12114,18 @@ class EOS_Auth_PinGrantInfo(Structure):
         ('ExpiresIn', c_int32),
         ('VerificationURIComplete', c_char_p),
     ]
-    def __init__(self, ApiVersion = EOS_AUTH_PINGRANTINFO_API_LATEST, **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-# DEPRECATED
-EOS_AUTH_ACCOUNTFEATURERESTRICTEDINFO_API_LATEST = 1
-# DEPRECATED
-class EOS_Auth_AccountFeatureRestrictedInfo(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('VerificationURI', c_char_p),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_AUTH_ACCOUNTFEATURERESTRICTEDINFO_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-class EOS_EAuthScopeFlags(c_int32):
-    pass
-EOS_AS_NoFlags = EOS_EAuthScopeFlags(0x0)
-EOS_AS_BasicProfile = EOS_EAuthScopeFlags(0x1)
-EOS_AS_FriendsList = EOS_EAuthScopeFlags(0x2)
-EOS_AS_Presence = EOS_EAuthScopeFlags(0x4)
-EOS_AS_FriendsManagement = EOS_EAuthScopeFlags(0x8)
-EOS_AS_Email = EOS_EAuthScopeFlags(0x10)
-EOS_AS_Country = EOS_EAuthScopeFlags(0x20)
-
-EOS_LF_NO_USER_INTERFACE = 0x00001
-
-EOS_AUTH_LOGIN_API_LATEST = 3
+    def __init__(self, ApiVersion = EOS_AUTH_PINGRANTINFO_API_LATEST, UserCode = None, VerificationURI = None, ExpiresIn = 0, VerificationURIComplete = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, UserCode = UserCode, VerificationURI = VerificationURI, ExpiresIn = ExpiresIn, VerificationURIComplete = VerificationURIComplete)
 class EOS_Auth_LoginOptions(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ApiVersion', c_int32),
         ('Credentials', POINTER(EOS_Auth_Credentials)),
         ('ScopeFlags', EOS_EAuthScopeFlags),
+        ('LoginFlags', c_uint64),
     ]
-    def __init__(self,
-            ApiVersion = EOS_AUTH_LOGIN_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
+    def __init__(self, ApiVersion = EOS_AUTH_LOGIN_API_LATEST, Credentials = None, ScopeFlags = 0, LoginFlags = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Credentials = Credentials, ScopeFlags = ScopeFlags, LoginFlags = LoginFlags)
 class EOS_Auth_LoginCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1207,23 +12134,19 @@ class EOS_Auth_LoginCallbackInfo(Structure):
         ('LocalUserId', EOS_EpicAccountId),
         ('PinGrantInfo', POINTER(EOS_Auth_PinGrantInfo)),
         ('ContinuanceToken', EOS_ContinuanceToken),
-        ('AccountFeatureRestrictedInfo', POINTER(EOS_Auth_AccountFeatureRestrictedInfo)),
+        ('AccountFeatureRestrictedInfo_DEPRECATED', POINTER(EOS_Auth_AccountFeatureRestrictedInfo)),
         ('SelectedAccountId', EOS_EpicAccountId),
     ]
-EOS_Auth_OnLoginCallback = CFUNCTYPE(
-    None, POINTER(EOS_Auth_LoginCallbackInfo))
-
-EOS_AUTH_LOGOUT_API_LATEST = 1
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, PinGrantInfo = None, ContinuanceToken = None, AccountFeatureRestrictedInfo_DEPRECATED = None, SelectedAccountId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, PinGrantInfo = PinGrantInfo, ContinuanceToken = ContinuanceToken, AccountFeatureRestrictedInfo_DEPRECATED = AccountFeatureRestrictedInfo_DEPRECATED, SelectedAccountId = SelectedAccountId)
 class EOS_Auth_LogoutOptions(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ApiVersion', c_int32),
         ('LocalUserId', EOS_EpicAccountId),
     ]
-    def __init__(self,
-            ApiVersion = EOS_AUTH_LOGOUT_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
+    def __init__(self, ApiVersion = EOS_AUTH_LOGOUT_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
 class EOS_Auth_LogoutCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1231,15 +12154,8 @@ class EOS_Auth_LogoutCallbackInfo(Structure):
         ('ClientData', c_void_p),
         ('LocalUserId', EOS_EpicAccountId),
     ]
-EOS_Auth_OnLogoutCallback = CFUNCTYPE(
-    None, POINTER(EOS_Auth_LogoutCallbackInfo))
-
-class EOS_ELinkAccountFlags(c_int32):
-    pass
-EOS_LA_NoFlags = EOS_ELinkAccountFlags(0x0)
-EOS_LA_NintendoNsaId = EOS_ELinkAccountFlags(0x1)
-
-EOS_AUTH_LINKACCOUNT_API_LATEST = 1
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
 class EOS_Auth_LinkAccountOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1248,65 +12164,50 @@ class EOS_Auth_LinkAccountOptions(Structure):
         ('ContinuanceToken', EOS_ContinuanceToken),
         ('LocalUserId', EOS_EpicAccountId),
     ]
-    def __init__(self,
-            ApiVersion = EOS_AUTH_LINKACCOUNT_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
+    def __init__(self, ApiVersion = EOS_AUTH_LINKACCOUNT_API_LATEST, LinkAccountFlags = 0, ContinuanceToken = None, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LinkAccountFlags = LinkAccountFlags, ContinuanceToken = ContinuanceToken, LocalUserId = LocalUserId)
 class EOS_Auth_LinkAccountCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ResultCode', EOS_EResult),
         ('ClientData', c_void_p),
         ('LocalUserId', EOS_EpicAccountId),
-        ('PinGrantInfo', EOS_Auth_PinGrantInfo),
+        ('PinGrantInfo', POINTER(EOS_Auth_PinGrantInfo)),
         ('SelectedAccountId', EOS_EpicAccountId),
     ]
-EOS_Auth_OnLinkAccountCallback = CFUNCTYPE(
-    None, POINTER(EOS_Auth_LinkAccountCallbackInfo))
-
-EOS_AUTH_VERIFYUSERAUTH_API_LATEST = 1
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, PinGrantInfo = None, SelectedAccountId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, PinGrantInfo = PinGrantInfo, SelectedAccountId = SelectedAccountId)
 class EOS_Auth_VerifyUserAuthOptions(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ApiVersion', c_int32),
         ('AuthToken', POINTER(EOS_Auth_Token)),
     ]
-    def __init__(self,
-            ApiVersion = EOS_AUTH_VERIFYUSERAUTH_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
+    def __init__(self, ApiVersion = EOS_AUTH_VERIFYUSERAUTH_API_LATEST, AuthToken = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, AuthToken = AuthToken)
 class EOS_Auth_VerifyUserAuthCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ResultCode', EOS_EResult),
         ('ClientData', c_void_p),
     ]
-EOS_Auth_OnVerifyUserAuthCallback = CFUNCTYPE(
-    None, POINTER(EOS_Auth_VerifyUserAuthCallbackInfo))
-
-EOS_AUTH_COPYUSERAUTHTOKEN_API_LATEST = 1
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
 class EOS_Auth_CopyUserAuthTokenOptions(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ApiVersion', c_int32),
     ]
-    def __init__(self,
-            ApiVersion = EOS_AUTH_COPYUSERAUTHTOKEN_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-EOS_AUTH_COPYIDTOKEN_API_LATEST = 1
+    def __init__(self, ApiVersion = EOS_AUTH_COPYUSERAUTHTOKEN_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
 class EOS_Auth_CopyIdTokenOptions(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ApiVersion', c_int32),
         ('AccountId', EOS_EpicAccountId),
     ]
-    def __init__(self,
-            ApiVersion = EOS_AUTH_COPYIDTOKEN_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_AUTH_IDTOKEN_API_LATEST = 1
+    def __init__(self, ApiVersion = EOS_AUTH_COPYIDTOKEN_API_LATEST, AccountId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, AccountId = AccountId)
 class EOS_Auth_IdToken(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1314,15 +12215,11 @@ class EOS_Auth_IdToken(Structure):
         ('AccountId', EOS_EpicAccountId),
         ('JsonWebToken', c_char_p),
     ]
-    def __init__(self,
-            ApiVersion = EOS_AUTH_IDTOKEN_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-    def Release(self): # type: () -> None
+    def __init__(self, ApiVersion = EOS_AUTH_IDTOKEN_API_LATEST, AccountId = None, JsonWebToken = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, AccountId = AccountId, JsonWebToken = JsonWebToken)
+    def Release(self):
+        # type: (POINTER(EOS_Auth_IdToken)) -> None
         return EOS_Auth_IdToken_Release(self)
-EOS_Auth_IdToken_Release = not_ready
-
-EOS_AUTH_QUERYIDTOKEN_API_LATEST = 1
 class EOS_Auth_QueryIdTokenOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1330,10 +12227,8 @@ class EOS_Auth_QueryIdTokenOptions(Structure):
         ('LocalUserId', EOS_EpicAccountId),
         ('TargetAccountId', EOS_EpicAccountId),
     ]
-    def __init__(self,
-            ApiVersion = EOS_AUTH_QUERYIDTOKEN_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
+    def __init__(self, ApiVersion = EOS_AUTH_QUERYIDTOKEN_API_LATEST, LocalUserId = None, TargetAccountId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, TargetAccountId = TargetAccountId)
 class EOS_Auth_QueryIdTokenCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1342,20 +12237,16 @@ class EOS_Auth_QueryIdTokenCallbackInfo(Structure):
         ('LocalUserId', EOS_EpicAccountId),
         ('TargetAccountId', EOS_EpicAccountId),
     ]
-EOS_Auth_OnQueryIdTokenCallback = CFUNCTYPE(
-    None, POINTER(EOS_Auth_QueryIdTokenCallbackInfo))
-
-EOS_AUTH_VERIFYIDTOKEN_API_LATEST = 1
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TargetAccountId = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TargetAccountId = TargetAccountId)
 class EOS_Auth_VerifyIdTokenOptions(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ApiVersion', c_int32),
         ('IdToken', POINTER(EOS_Auth_IdToken)),
     ]
-    def __init__(self,
-            ApiVersion = EOS_AUTH_VERIFYIDTOKEN_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
+    def __init__(self, ApiVersion = EOS_AUTH_VERIFYIDTOKEN_API_LATEST, IdToken = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, IdToken = IdToken)
 class EOS_Auth_VerifyIdTokenCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1373,41 +12264,31 @@ class EOS_Auth_VerifyIdTokenCallbackInfo(Structure):
         ('ExternalAccountDisplayName', c_char_p),
         ('Platform', c_char_p),
     ]
-EOS_Auth_OnVerifyIdTokenCallback = CFUNCTYPE(
-    None, POINTER(EOS_Auth_VerifyIdTokenCallbackInfo))
-
-EOS_AUTH_ADDNOTIFYLOGINSTATUSCHANGED_API_LATEST = 1
+    def __init__(self, ResultCode = 0, ClientData = None, ApplicationId = None, ClientId = None, ProductId = None, SandboxId = None, DeploymentId = None, DisplayName = None, bIsExternalAccountInfoPresent = 0, ExternalAccountIdType = 0, ExternalAccountId = None, ExternalAccountDisplayName = None, Platform = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, ApplicationId = ApplicationId, ClientId = ClientId, ProductId = ProductId, SandboxId = SandboxId, DeploymentId = DeploymentId, DisplayName = DisplayName, bIsExternalAccountInfoPresent = bIsExternalAccountInfoPresent, ExternalAccountIdType = ExternalAccountIdType, ExternalAccountId = ExternalAccountId, ExternalAccountDisplayName = ExternalAccountDisplayName, Platform = Platform)
 class EOS_Auth_AddNotifyLoginStatusChangedOptions(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ApiVersion', c_int32),
     ]
-    def __init__(self,
-            ApiVersion = EOS_AUTH_ADDNOTIFYLOGINSTATUSCHANGED_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_AUTH_DELETEPERSISTENTAUTH_API_LATEST = 2
+    def __init__(self, ApiVersion = EOS_AUTH_ADDNOTIFYLOGINSTATUSCHANGED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
 class EOS_Auth_DeletePersistentAuthOptions(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ApiVersion', c_int32),
         ('RefreshToken', c_char_p),
     ]
-    def __init__(self,
-            ApiVersion = EOS_AUTH_DELETEPERSISTENTAUTH_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
+    def __init__(self, ApiVersion = EOS_AUTH_DELETEPERSISTENTAUTH_API_LATEST, RefreshToken = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, RefreshToken = RefreshToken)
 class EOS_Auth_DeletePersistentAuthCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ResultCode', EOS_EResult),
         ('ClientData', c_void_p),
     ]
-EOS_Auth_OnDeletePersistentAuthCallback = CFUNCTYPE(
-    None, POINTER(EOS_Auth_DeletePersistentAuthCallbackInfo))
-
+    def __init__(self, ResultCode = 0, ClientData = None):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData)
 class EOS_Auth_LoginStatusChangedCallbackInfo(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -1416,951 +12297,281 @@ class EOS_Auth_LoginStatusChangedCallbackInfo(Structure):
         ('PrevStatus', EOS_ELoginStatus),
         ('CurrentStatus', EOS_ELoginStatus),
     ]
-EOS_Auth_OnLoginStatusChangedCallback = CFUNCTYPE(
-    None, POINTER(EOS_Auth_LoginStatusChangedCallbackInfo))
-
-# Auth functions
-
-EOS_Auth_Login = not_ready
-EOS_Auth_Logout = not_ready
-EOS_Auth_LinkAccount = not_ready
-EOS_Auth_DeletePersistentAuth = not_ready
-EOS_Auth_VerifyUserAuth = not_ready
-EOS_Auth_GetLoggedInAccountsCount = not_ready
-EOS_Auth_GetLoggedInAccountByIndex = not_ready
-EOS_Auth_GetLoginStatus = not_ready
-EOS_Auth_CopyUserAuthToken = not_ready
-EOS_Auth_CopyIdToken = not_ready
-EOS_Auth_QueryIdToken = not_ready
-EOS_Auth_VerifyIdToken = not_ready
-EOS_Auth_GetSelectedAccountId = not_ready
-EOS_Auth_GetMergedAccountsCount = not_ready
-EOS_Auth_GetMergedAccountByIndex = not_ready
-EOS_Auth_AddNotifyLoginStatusChanged = not_ready
-EOS_Auth_RemoveNotifyLoginStatusChanged = not_ready
-
-#####
-# Connect
-#####
-
-# Connect types
-
-EOS_CONNECT_EXTERNAL_ACCOUNT_ID_MAX_LENGTH = 256
-EOS_CONNECT_CREDENTIALS_API_LATEST = 1
-class EOS_Connect_Credentials(Structure):
+    def __init__(self, ClientData = None, LocalUserId = None, PrevStatus = 0, CurrentStatus = 0):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, PrevStatus = PrevStatus, CurrentStatus = CurrentStatus)
+EOS_TRUE = EOS_Bool(1)
+EOS_FALSE = EOS_Bool(0)
+EOS_INVALID_NOTIFICATIONID = EOS_NotificationId(0)
+EOS_Platform_GetDesktopCrossplayStatusInfo = EOS_Platform_DesktopCrossplayStatusInfo
+EOS_PRESENCEMODIFICATION_JOININFO_MAX_LENGTH = EOS_PRESENCE_DATA_MAX_VALUE_LENGTH
+EOS_SAT_Boolean = EOS_AT_BOOLEAN
+EOS_SAT_Int64 = EOS_AT_INT64
+EOS_SAT_Double = EOS_AT_DOUBLE
+EOS_SAT_String = EOS_AT_STRING
+EOS_OCO_EQUAL = EOS_CO_EQUAL
+EOS_OCO_NOTEQUAL = EOS_CO_NOTEQUAL
+EOS_OCO_GREATERTHAN = EOS_CO_GREATERTHAN
+EOS_OCO_GREATERTHANOREQUAL = EOS_CO_GREATERTHANOREQUAL
+EOS_OCO_LESSTHAN = EOS_CO_LESSTHAN
+EOS_OCO_LESSTHANOREQUAL = EOS_CO_LESSTHANOREQUAL
+EOS_OCO_DISTANCE = EOS_CO_DISTANCE
+EOS_OCO_ANYOF = EOS_CO_ANYOF
+EOS_OCO_NOTANYOF = EOS_CO_NOTANYOF
+EOS_ANTICHEATCLIENT_PEER_SELF = EOS_AntiCheatCommon_ClientHandle(-1)
+EOS_LogMessageFunc = CFUNCTYPE(None, POINTER(EOS_LogMessage))
+EOS_Connect_OnLoginCallback = CFUNCTYPE(None, POINTER(EOS_Connect_LoginCallbackInfo))
+EOS_Connect_OnLogoutCallback = CFUNCTYPE(None, POINTER(EOS_Connect_LogoutCallbackInfo))
+EOS_Connect_OnCreateUserCallback = CFUNCTYPE(None, POINTER(EOS_Connect_CreateUserCallbackInfo))
+EOS_Connect_OnLinkAccountCallback = CFUNCTYPE(None, POINTER(EOS_Connect_LinkAccountCallbackInfo))
+EOS_Connect_OnUnlinkAccountCallback = CFUNCTYPE(None, POINTER(EOS_Connect_UnlinkAccountCallbackInfo))
+EOS_Connect_OnCreateDeviceIdCallback = CFUNCTYPE(None, POINTER(EOS_Connect_CreateDeviceIdCallbackInfo))
+EOS_Connect_OnDeleteDeviceIdCallback = CFUNCTYPE(None, POINTER(EOS_Connect_DeleteDeviceIdCallbackInfo))
+EOS_Connect_OnTransferDeviceIdAccountCallback = CFUNCTYPE(None, POINTER(EOS_Connect_TransferDeviceIdAccountCallbackInfo))
+EOS_Connect_OnQueryExternalAccountMappingsCallback = CFUNCTYPE(None, POINTER(EOS_Connect_QueryExternalAccountMappingsCallbackInfo))
+EOS_Connect_OnQueryProductUserIdMappingsCallback = CFUNCTYPE(None, POINTER(EOS_Connect_QueryProductUserIdMappingsCallbackInfo))
+EOS_Connect_OnAuthExpirationCallback = CFUNCTYPE(None, POINTER(EOS_Connect_AuthExpirationCallbackInfo))
+EOS_Connect_OnLoginStatusChangedCallback = CFUNCTYPE(None, POINTER(EOS_Connect_LoginStatusChangedCallbackInfo))
+EOS_Connect_OnVerifyIdTokenCallback = CFUNCTYPE(None, POINTER(EOS_Connect_VerifyIdTokenCallbackInfo))
+EOS_Ecom_OnQueryOwnershipCallback = CFUNCTYPE(None, POINTER(EOS_Ecom_QueryOwnershipCallbackInfo))
+EOS_Ecom_OnQueryOwnershipBySandboxIdsCallback = CFUNCTYPE(None, POINTER(EOS_Ecom_QueryOwnershipBySandboxIdsCallbackInfo))
+EOS_Ecom_OnQueryOwnershipTokenCallback = CFUNCTYPE(None, POINTER(EOS_Ecom_QueryOwnershipTokenCallbackInfo))
+EOS_Ecom_OnQueryEntitlementsCallback = CFUNCTYPE(None, POINTER(EOS_Ecom_QueryEntitlementsCallbackInfo))
+EOS_Ecom_OnQueryEntitlementTokenCallback = CFUNCTYPE(None, POINTER(EOS_Ecom_QueryEntitlementTokenCallbackInfo))
+EOS_Ecom_OnQueryOffersCallback = CFUNCTYPE(None, POINTER(EOS_Ecom_QueryOffersCallbackInfo))
+EOS_Ecom_OnCheckoutCallback = CFUNCTYPE(None, POINTER(EOS_Ecom_CheckoutCallbackInfo))
+EOS_Ecom_OnRedeemEntitlementsCallback = CFUNCTYPE(None, POINTER(EOS_Ecom_RedeemEntitlementsCallbackInfo))
+EOS_Friends_OnQueryFriendsCallback = CFUNCTYPE(None, POINTER(EOS_Friends_QueryFriendsCallbackInfo))
+EOS_Friends_OnSendInviteCallback = CFUNCTYPE(None, POINTER(EOS_Friends_SendInviteCallbackInfo))
+EOS_Friends_OnAcceptInviteCallback = CFUNCTYPE(None, POINTER(EOS_Friends_AcceptInviteCallbackInfo))
+EOS_Friends_OnRejectInviteCallback = CFUNCTYPE(None, POINTER(EOS_Friends_RejectInviteCallbackInfo))
+EOS_Friends_OnFriendsUpdateCallback = CFUNCTYPE(None, POINTER(EOS_Friends_OnFriendsUpdateInfo))
+EOS_Friends_OnBlockedUsersUpdateCallback = CFUNCTYPE(None, POINTER(EOS_Friends_OnBlockedUsersUpdateInfo))
+EOS_IntegratedPlatform_OnUserLoginStatusChangedCallback = CFUNCTYPE(None, POINTER(EOS_IntegratedPlatform_UserLoginStatusChangedCallbackInfo))
+EOS_IntegratedPlatform_OnUserPreLogoutCallback = CFUNCTYPE(EOS_EIntegratedPlatformPreLogoutAction, POINTER(EOS_IntegratedPlatform_UserPreLogoutCallbackInfo))
+EOS_KWS_OnQueryAgeGateCallback = CFUNCTYPE(None, POINTER(EOS_KWS_QueryAgeGateCallbackInfo))
+EOS_KWS_OnCreateUserCallback = CFUNCTYPE(None, POINTER(EOS_KWS_CreateUserCallbackInfo))
+EOS_KWS_OnQueryPermissionsCallback = CFUNCTYPE(None, POINTER(EOS_KWS_QueryPermissionsCallbackInfo))
+EOS_KWS_OnUpdateParentEmailCallback = CFUNCTYPE(None, POINTER(EOS_KWS_UpdateParentEmailCallbackInfo))
+EOS_KWS_OnRequestPermissionsCallback = CFUNCTYPE(None, POINTER(EOS_KWS_RequestPermissionsCallbackInfo))
+EOS_KWS_OnPermissionsUpdateReceivedCallback = CFUNCTYPE(None, POINTER(EOS_KWS_PermissionsUpdateReceivedCallbackInfo))
+EOS_Mods_OnInstallModCallback = CFUNCTYPE(None, POINTER(EOS_Mods_InstallModCallbackInfo))
+EOS_Mods_OnUninstallModCallback = CFUNCTYPE(None, POINTER(EOS_Mods_UninstallModCallbackInfo))
+EOS_Mods_OnEnumerateModsCallback = CFUNCTYPE(None, POINTER(EOS_Mods_EnumerateModsCallbackInfo))
+EOS_Mods_OnUpdateModCallback = CFUNCTYPE(None, POINTER(EOS_Mods_UpdateModCallbackInfo))
+EOS_P2P_OnIncomingConnectionRequestCallback = CFUNCTYPE(None, POINTER(EOS_P2P_OnIncomingConnectionRequestInfo))
+EOS_P2P_OnPeerConnectionEstablishedCallback = CFUNCTYPE(None, POINTER(EOS_P2P_OnPeerConnectionEstablishedInfo))
+EOS_P2P_OnPeerConnectionInterruptedCallback = CFUNCTYPE(None, POINTER(EOS_P2P_OnPeerConnectionInterruptedInfo))
+EOS_P2P_OnRemoteConnectionClosedCallback = CFUNCTYPE(None, POINTER(EOS_P2P_OnRemoteConnectionClosedInfo))
+EOS_P2P_OnQueryNATTypeCompleteCallback = CFUNCTYPE(None, POINTER(EOS_P2P_OnQueryNATTypeCompleteInfo))
+EOS_P2P_OnIncomingPacketQueueFullCallback = CFUNCTYPE(None, POINTER(EOS_P2P_OnIncomingPacketQueueFullInfo))
+EOS_PlayerDataStorage_OnQueryFileCompleteCallback = CFUNCTYPE(None, POINTER(EOS_PlayerDataStorage_QueryFileCallbackInfo))
+EOS_PlayerDataStorage_OnQueryFileListCompleteCallback = CFUNCTYPE(None, POINTER(EOS_PlayerDataStorage_QueryFileListCallbackInfo))
+EOS_PlayerDataStorage_OnDuplicateFileCompleteCallback = CFUNCTYPE(None, POINTER(EOS_PlayerDataStorage_DuplicateFileCallbackInfo))
+EOS_PlayerDataStorage_OnDeleteFileCompleteCallback = CFUNCTYPE(None, POINTER(EOS_PlayerDataStorage_DeleteFileCallbackInfo))
+EOS_PlayerDataStorage_OnFileTransferProgressCallback = CFUNCTYPE(None, POINTER(EOS_PlayerDataStorage_FileTransferProgressCallbackInfo))
+EOS_PlayerDataStorage_OnReadFileDataCallback = CFUNCTYPE(EOS_PlayerDataStorage_EReadResult, POINTER(EOS_PlayerDataStorage_ReadFileDataCallbackInfo))
+EOS_PlayerDataStorage_OnReadFileCompleteCallback = CFUNCTYPE(None, POINTER(EOS_PlayerDataStorage_ReadFileCallbackInfo))
+EOS_PlayerDataStorage_OnWriteFileDataCallback = CFUNCTYPE(EOS_PlayerDataStorage_EWriteResult, POINTER(EOS_PlayerDataStorage_WriteFileDataCallbackInfo), c_void_p, POINTER(c_uint32))
+EOS_PlayerDataStorage_OnWriteFileCompleteCallback = CFUNCTYPE(None, POINTER(EOS_PlayerDataStorage_WriteFileCallbackInfo))
+EOS_PlayerDataStorage_OnDeleteCacheCompleteCallback = CFUNCTYPE(None, POINTER(EOS_PlayerDataStorage_DeleteCacheCallbackInfo))
+EOS_ProgressionSnapshot_OnSubmitSnapshotCallback = CFUNCTYPE(None, POINTER(EOS_ProgressionSnapshot_SubmitSnapshotCallbackInfo))
+EOS_ProgressionSnapshot_OnDeleteSnapshotCallback = CFUNCTYPE(None, POINTER(EOS_ProgressionSnapshot_DeleteSnapshotCallbackInfo))
+EOS_Reports_OnSendPlayerBehaviorReportCompleteCallback = CFUNCTYPE(None, POINTER(EOS_Reports_SendPlayerBehaviorReportCompleteCallbackInfo))
+EOS_RTCAdmin_OnQueryJoinRoomTokenCompleteCallback = CFUNCTYPE(None, POINTER(EOS_RTCAdmin_QueryJoinRoomTokenCompleteCallbackInfo))
+EOS_RTCAdmin_OnKickCompleteCallback = CFUNCTYPE(None, POINTER(EOS_RTCAdmin_KickCompleteCallbackInfo))
+EOS_RTCAdmin_OnSetParticipantHardMuteCompleteCallback = CFUNCTYPE(None, POINTER(EOS_RTCAdmin_SetParticipantHardMuteCompleteCallbackInfo))
+EOS_RTCData_OnParticipantUpdatedCallback = CFUNCTYPE(None, POINTER(EOS_RTCData_ParticipantUpdatedCallbackInfo))
+EOS_RTCData_OnDataReceivedCallback = CFUNCTYPE(None, POINTER(EOS_RTCData_DataReceivedCallbackInfo))
+EOS_RTCData_OnUpdateSendingCallback = CFUNCTYPE(None, POINTER(EOS_RTCData_UpdateSendingCallbackInfo))
+EOS_RTCData_OnUpdateReceivingCallback = CFUNCTYPE(None, POINTER(EOS_RTCData_UpdateReceivingCallbackInfo))
+EOS_RTC_OnJoinRoomCallback = CFUNCTYPE(None, POINTER(EOS_RTC_JoinRoomCallbackInfo))
+EOS_RTC_OnLeaveRoomCallback = CFUNCTYPE(None, POINTER(EOS_RTC_LeaveRoomCallbackInfo))
+EOS_RTC_OnBlockParticipantCallback = CFUNCTYPE(None, POINTER(EOS_RTC_BlockParticipantCallbackInfo))
+EOS_RTC_OnDisconnectedCallback = CFUNCTYPE(None, POINTER(EOS_RTC_DisconnectedCallbackInfo))
+EOS_RTC_OnParticipantStatusChangedCallback = CFUNCTYPE(None, POINTER(EOS_RTC_ParticipantStatusChangedCallbackInfo))
+EOS_RTC_OnRoomStatisticsUpdatedCallback = CFUNCTYPE(None, POINTER(EOS_RTC_RoomStatisticsUpdatedInfo))
+EOS_Sanctions_OnQueryActivePlayerSanctionsCallback = CFUNCTYPE(None, POINTER(EOS_Sanctions_QueryActivePlayerSanctionsCallbackInfo))
+EOS_Sanctions_CreatePlayerSanctionAppealCallback = CFUNCTYPE(None, POINTER(EOS_Sanctions_CreatePlayerSanctionAppealCallbackInfo))
+EOS_Stats_OnIngestStatCompleteCallback = CFUNCTYPE(None, POINTER(EOS_Stats_IngestStatCompleteCallbackInfo))
+EOS_Stats_OnQueryStatsCompleteCallback = CFUNCTYPE(None, POINTER(EOS_Stats_OnQueryStatsCompleteCallbackInfo))
+EOS_TitleStorage_OnQueryFileCompleteCallback = CFUNCTYPE(None, POINTER(EOS_TitleStorage_QueryFileCallbackInfo))
+EOS_TitleStorage_OnQueryFileListCompleteCallback = CFUNCTYPE(None, POINTER(EOS_TitleStorage_QueryFileListCallbackInfo))
+EOS_TitleStorage_OnFileTransferProgressCallback = CFUNCTYPE(None, POINTER(EOS_TitleStorage_FileTransferProgressCallbackInfo))
+EOS_TitleStorage_OnReadFileDataCallback = CFUNCTYPE(EOS_TitleStorage_EReadResult, POINTER(EOS_TitleStorage_ReadFileDataCallbackInfo))
+EOS_TitleStorage_OnReadFileCompleteCallback = CFUNCTYPE(None, POINTER(EOS_TitleStorage_ReadFileCallbackInfo))
+EOS_TitleStorage_OnDeleteCacheCompleteCallback = CFUNCTYPE(None, POINTER(EOS_TitleStorage_DeleteCacheCallbackInfo))
+EOS_UI_OnShowFriendsCallback = CFUNCTYPE(None, POINTER(EOS_UI_ShowFriendsCallbackInfo))
+EOS_UI_OnHideFriendsCallback = CFUNCTYPE(None, POINTER(EOS_UI_HideFriendsCallbackInfo))
+EOS_UI_OnDisplaySettingsUpdatedCallback = CFUNCTYPE(None, POINTER(EOS_UI_OnDisplaySettingsUpdatedCallbackInfo))
+EOS_UI_OnShowBlockPlayerCallback = CFUNCTYPE(None, POINTER(EOS_UI_OnShowBlockPlayerCallbackInfo))
+EOS_UI_OnShowReportPlayerCallback = CFUNCTYPE(None, POINTER(EOS_UI_OnShowReportPlayerCallbackInfo))
+EOS_UI_OnShowNativeProfileCallback = CFUNCTYPE(None, POINTER(EOS_UI_ShowNativeProfileCallbackInfo))
+EOS_UI_OnMemoryMonitorCallback = CFUNCTYPE(None, POINTER(EOS_UI_MemoryMonitorCallbackInfo))
+EOS_UserInfo_OnQueryUserInfoCallback = CFUNCTYPE(None, POINTER(EOS_UserInfo_QueryUserInfoCallbackInfo))
+EOS_UserInfo_OnQueryUserInfoByDisplayNameCallback = CFUNCTYPE(None, POINTER(EOS_UserInfo_QueryUserInfoByDisplayNameCallbackInfo))
+EOS_UserInfo_OnQueryUserInfoByExternalAccountCallback = CFUNCTYPE(None, POINTER(EOS_UserInfo_QueryUserInfoByExternalAccountCallbackInfo))
+EOS_Achievements_OnAchievementsUnlockedCallback = CFUNCTYPE(None, POINTER(EOS_Achievements_OnAchievementsUnlockedCallbackInfo))
+EOS_AntiCheatServer_OnMessageToClientCallback = CFUNCTYPE(None, POINTER(EOS_AntiCheatCommon_OnMessageToClientCallbackInfo))
+EOS_AntiCheatServer_OnClientActionRequiredCallback = CFUNCTYPE(None, POINTER(EOS_AntiCheatCommon_OnClientActionRequiredCallbackInfo))
+EOS_AntiCheatServer_OnClientAuthStatusChangedCallback = CFUNCTYPE(None, POINTER(EOS_AntiCheatCommon_OnClientAuthStatusChangedCallbackInfo))
+EOS_CustomInvites_OnSendCustomInviteCallback = CFUNCTYPE(None, POINTER(EOS_CustomInvites_SendCustomInviteCallbackInfo))
+EOS_CustomInvites_OnCustomInviteReceivedCallback = CFUNCTYPE(None, POINTER(EOS_CustomInvites_OnCustomInviteReceivedCallbackInfo))
+EOS_CustomInvites_OnCustomInviteAcceptedCallback = CFUNCTYPE(None, POINTER(EOS_CustomInvites_OnCustomInviteAcceptedCallbackInfo))
+EOS_CustomInvites_OnCustomInviteRejectedCallback = CFUNCTYPE(None, POINTER(EOS_CustomInvites_CustomInviteRejectedCallbackInfo))
+EOS_CustomInvites_OnSendRequestToJoinCallback = CFUNCTYPE(None, POINTER(EOS_CustomInvites_SendRequestToJoinCallbackInfo))
+EOS_CustomInvites_OnRequestToJoinResponseReceivedCallback = CFUNCTYPE(None, POINTER(EOS_CustomInvites_RequestToJoinResponseReceivedCallbackInfo))
+EOS_CustomInvites_OnRequestToJoinReceivedCallback = CFUNCTYPE(None, POINTER(EOS_CustomInvites_RequestToJoinReceivedCallbackInfo))
+EOS_CustomInvites_OnAcceptRequestToJoinCallback = CFUNCTYPE(None, POINTER(EOS_CustomInvites_AcceptRequestToJoinCallbackInfo))
+EOS_CustomInvites_OnRejectRequestToJoinCallback = CFUNCTYPE(None, POINTER(EOS_CustomInvites_RejectRequestToJoinCallbackInfo))
+EOS_CustomInvites_OnSendCustomNativeInviteRequestedCallback = CFUNCTYPE(None, POINTER(EOS_CustomInvites_SendCustomNativeInviteRequestedCallbackInfo))
+EOS_CustomInvites_OnRequestToJoinAcceptedCallback = CFUNCTYPE(None, POINTER(EOS_CustomInvites_OnRequestToJoinAcceptedCallbackInfo))
+EOS_CustomInvites_OnRequestToJoinRejectedCallback = CFUNCTYPE(None, POINTER(EOS_CustomInvites_OnRequestToJoinRejectedCallbackInfo))
+EOS_Leaderboards_OnQueryLeaderboardDefinitionsCompleteCallback = CFUNCTYPE(None, POINTER(EOS_Leaderboards_OnQueryLeaderboardDefinitionsCompleteCallbackInfo))
+EOS_Leaderboards_OnQueryLeaderboardUserScoresCompleteCallback = CFUNCTYPE(None, POINTER(EOS_Leaderboards_OnQueryLeaderboardUserScoresCompleteCallbackInfo))
+EOS_Leaderboards_OnQueryLeaderboardRanksCompleteCallback = CFUNCTYPE(None, POINTER(EOS_Leaderboards_OnQueryLeaderboardRanksCompleteCallbackInfo))
+EOS_Lobby_OnCreateLobbyCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_CreateLobbyCallbackInfo))
+EOS_Lobby_OnDestroyLobbyCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_DestroyLobbyCallbackInfo))
+EOS_Lobby_OnJoinLobbyCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_JoinLobbyCallbackInfo))
+EOS_Lobby_OnJoinLobbyByIdCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_JoinLobbyByIdCallbackInfo))
+EOS_Lobby_OnLeaveLobbyCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_LeaveLobbyCallbackInfo))
+EOS_Lobby_OnUpdateLobbyCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_UpdateLobbyCallbackInfo))
+EOS_Lobby_OnJoinRTCRoomCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_JoinRTCRoomCallbackInfo))
+EOS_Lobby_OnLeaveRTCRoomCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_LeaveRTCRoomCallbackInfo))
+EOS_Lobby_OnPromoteMemberCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_PromoteMemberCallbackInfo))
+EOS_Lobby_OnKickMemberCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_KickMemberCallbackInfo))
+EOS_Lobby_OnHardMuteMemberCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_HardMuteMemberCallbackInfo))
+EOS_Lobby_OnLobbyUpdateReceivedCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_LobbyUpdateReceivedCallbackInfo))
+EOS_Lobby_OnLobbyMemberUpdateReceivedCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_LobbyMemberUpdateReceivedCallbackInfo))
+EOS_Lobby_OnLobbyMemberStatusReceivedCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_LobbyMemberStatusReceivedCallbackInfo))
+EOS_Lobby_OnLobbyInviteReceivedCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_LobbyInviteReceivedCallbackInfo))
+EOS_Lobby_OnLobbyInviteAcceptedCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_LobbyInviteAcceptedCallbackInfo))
+EOS_Lobby_OnLobbyInviteRejectedCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_LobbyInviteRejectedCallbackInfo))
+EOS_Lobby_OnJoinLobbyAcceptedCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_JoinLobbyAcceptedCallbackInfo))
+EOS_Lobby_OnSendLobbyNativeInviteRequestedCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_SendLobbyNativeInviteRequestedCallbackInfo))
+EOS_Lobby_OnSendInviteCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_SendInviteCallbackInfo))
+EOS_Lobby_OnRejectInviteCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_RejectInviteCallbackInfo))
+EOS_Lobby_OnQueryInvitesCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_QueryInvitesCallbackInfo))
+EOS_Lobby_OnRTCRoomConnectionChangedCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_RTCRoomConnectionChangedCallbackInfo))
+EOS_LobbySearch_OnFindCallback = CFUNCTYPE(None, POINTER(EOS_LobbySearch_FindCallbackInfo))
+EOS_Lobby_OnLeaveLobbyRequestedCallback = CFUNCTYPE(None, POINTER(EOS_Lobby_LeaveLobbyRequestedCallbackInfo))
+EOS_Presence_OnQueryPresenceCompleteCallback = CFUNCTYPE(None, POINTER(EOS_Presence_QueryPresenceCallbackInfo))
+EOS_Presence_SetPresenceCompleteCallback = CFUNCTYPE(None, POINTER(EOS_Presence_SetPresenceCallbackInfo))
+EOS_Presence_OnJoinGameAcceptedCallback = CFUNCTYPE(None, POINTER(EOS_Presence_JoinGameAcceptedCallbackInfo))
+EOS_Presence_OnPresenceChangedCallback = CFUNCTYPE(None, POINTER(EOS_Presence_PresenceChangedCallbackInfo))
+EOS_RTCAudio_OnParticipantUpdatedCallback = CFUNCTYPE(None, POINTER(EOS_RTCAudio_ParticipantUpdatedCallbackInfo))
+EOS_RTCAudio_OnAudioDevicesChangedCallback = CFUNCTYPE(None, POINTER(EOS_RTCAudio_AudioDevicesChangedCallbackInfo))
+EOS_RTCAudio_OnAudioInputStateCallback = CFUNCTYPE(None, POINTER(EOS_RTCAudio_AudioInputStateCallbackInfo))
+EOS_RTCAudio_OnAudioOutputStateCallback = CFUNCTYPE(None, POINTER(EOS_RTCAudio_AudioOutputStateCallbackInfo))
+EOS_RTCAudio_OnAudioBeforeSendCallback = CFUNCTYPE(None, POINTER(EOS_RTCAudio_AudioBeforeSendCallbackInfo))
+EOS_RTCAudio_OnAudioBeforeRenderCallback = CFUNCTYPE(None, POINTER(EOS_RTCAudio_AudioBeforeRenderCallbackInfo))
+EOS_RTCAudio_OnUpdateSendingCallback = CFUNCTYPE(None, POINTER(EOS_RTCAudio_UpdateSendingCallbackInfo))
+EOS_RTCAudio_OnUpdateReceivingCallback = CFUNCTYPE(None, POINTER(EOS_RTCAudio_UpdateReceivingCallbackInfo))
+EOS_RTCAudio_OnUpdateSendingVolumeCallback = CFUNCTYPE(None, POINTER(EOS_RTCAudio_UpdateSendingVolumeCallbackInfo))
+EOS_RTCAudio_OnUpdateReceivingVolumeCallback = CFUNCTYPE(None, POINTER(EOS_RTCAudio_UpdateReceivingVolumeCallbackInfo))
+EOS_RTCAudio_OnUpdateParticipantVolumeCallback = CFUNCTYPE(None, POINTER(EOS_RTCAudio_UpdateParticipantVolumeCallbackInfo))
+EOS_RTCAudio_OnRegisterPlatformUserCallback = CFUNCTYPE(None, POINTER(EOS_RTCAudio_OnRegisterPlatformUserCallbackInfo))
+EOS_RTCAudio_OnUnregisterPlatformUserCallback = CFUNCTYPE(None, POINTER(EOS_RTCAudio_OnUnregisterPlatformUserCallbackInfo))
+EOS_RTCAudio_OnQueryInputDevicesInformationCallback = CFUNCTYPE(None, POINTER(EOS_RTCAudio_OnQueryInputDevicesInformationCallbackInfo))
+EOS_RTCAudio_OnQueryOutputDevicesInformationCallback = CFUNCTYPE(None, POINTER(EOS_RTCAudio_OnQueryOutputDevicesInformationCallbackInfo))
+EOS_RTCAudio_OnSetInputDeviceSettingsCallback = CFUNCTYPE(None, POINTER(EOS_RTCAudio_OnSetInputDeviceSettingsCallbackInfo))
+EOS_RTCAudio_OnSetOutputDeviceSettingsCallback = CFUNCTYPE(None, POINTER(EOS_RTCAudio_OnSetOutputDeviceSettingsCallbackInfo))
+EOS_Sessions_OnSendInviteCallback = CFUNCTYPE(None, POINTER(EOS_Sessions_SendInviteCallbackInfo))
+EOS_Sessions_OnRejectInviteCallback = CFUNCTYPE(None, POINTER(EOS_Sessions_RejectInviteCallbackInfo))
+EOS_Sessions_OnQueryInvitesCallback = CFUNCTYPE(None, POINTER(EOS_Sessions_QueryInvitesCallbackInfo))
+EOS_Sessions_OnUpdateSessionCallback = CFUNCTYPE(None, POINTER(EOS_Sessions_UpdateSessionCallbackInfo))
+EOS_Sessions_OnDestroySessionCallback = CFUNCTYPE(None, POINTER(EOS_Sessions_DestroySessionCallbackInfo))
+EOS_Sessions_OnJoinSessionCallback = CFUNCTYPE(None, POINTER(EOS_Sessions_JoinSessionCallbackInfo))
+EOS_Sessions_OnStartSessionCallback = CFUNCTYPE(None, POINTER(EOS_Sessions_StartSessionCallbackInfo))
+EOS_Sessions_OnEndSessionCallback = CFUNCTYPE(None, POINTER(EOS_Sessions_EndSessionCallbackInfo))
+EOS_Sessions_OnRegisterPlayersCallback = CFUNCTYPE(None, POINTER(EOS_Sessions_RegisterPlayersCallbackInfo))
+EOS_Sessions_OnUnregisterPlayersCallback = CFUNCTYPE(None, POINTER(EOS_Sessions_UnregisterPlayersCallbackInfo))
+EOS_SessionSearch_OnFindCallback = CFUNCTYPE(None, POINTER(EOS_SessionSearch_FindCallbackInfo))
+EOS_Sessions_OnSessionInviteReceivedCallback = CFUNCTYPE(None, POINTER(EOS_Sessions_SessionInviteReceivedCallbackInfo))
+EOS_Sessions_OnSessionInviteAcceptedCallback = CFUNCTYPE(None, POINTER(EOS_Sessions_SessionInviteAcceptedCallbackInfo))
+EOS_Sessions_OnSessionInviteRejectedCallback = CFUNCTYPE(None, POINTER(EOS_Sessions_SessionInviteRejectedCallbackInfo))
+EOS_Sessions_OnJoinSessionAcceptedCallback = CFUNCTYPE(None, POINTER(EOS_Sessions_JoinSessionAcceptedCallbackInfo))
+EOS_Sessions_OnLeaveSessionRequestedCallback = CFUNCTYPE(None, POINTER(EOS_Sessions_LeaveSessionRequestedCallbackInfo))
+EOS_Sessions_OnSendSessionNativeInviteRequestedCallback = CFUNCTYPE(None, POINTER(EOS_Sessions_SendSessionNativeInviteRequestedCallbackInfo))
+EOS_Achievements_OnQueryDefinitionsCompleteCallback = CFUNCTYPE(None, POINTER(EOS_Achievements_OnQueryDefinitionsCompleteCallbackInfo))
+EOS_Achievements_OnQueryPlayerAchievementsCompleteCallback = CFUNCTYPE(None, POINTER(EOS_Achievements_OnQueryPlayerAchievementsCompleteCallbackInfo))
+EOS_Achievements_OnUnlockAchievementsCompleteCallback = CFUNCTYPE(None, POINTER(EOS_Achievements_OnUnlockAchievementsCompleteCallbackInfo))
+EOS_Achievements_OnAchievementsUnlockedCallbackV2 = CFUNCTYPE(None, POINTER(EOS_Achievements_OnAchievementsUnlockedCallbackV2Info))
+EOS_AntiCheatClient_OnMessageToServerCallback = CFUNCTYPE(None, POINTER(EOS_AntiCheatClient_OnMessageToServerCallbackInfo))
+EOS_AntiCheatClient_OnClientIntegrityViolatedCallback = CFUNCTYPE(None, POINTER(EOS_AntiCheatClient_OnClientIntegrityViolatedCallbackInfo))
+EOS_AntiCheatClient_OnMessageToPeerCallback = CFUNCTYPE(None, POINTER(EOS_AntiCheatCommon_OnMessageToClientCallbackInfo))
+EOS_AntiCheatClient_OnPeerActionRequiredCallback = CFUNCTYPE(None, POINTER(EOS_AntiCheatCommon_OnClientActionRequiredCallbackInfo))
+EOS_AntiCheatClient_OnPeerAuthStatusChangedCallback = CFUNCTYPE(None, POINTER(EOS_AntiCheatCommon_OnClientAuthStatusChangedCallbackInfo))
+EOS_Auth_OnLoginCallback = CFUNCTYPE(None, POINTER(EOS_Auth_LoginCallbackInfo))
+EOS_Auth_OnLogoutCallback = CFUNCTYPE(None, POINTER(EOS_Auth_LogoutCallbackInfo))
+EOS_Auth_OnLinkAccountCallback = CFUNCTYPE(None, POINTER(EOS_Auth_LinkAccountCallbackInfo))
+EOS_Auth_OnVerifyUserAuthCallback = CFUNCTYPE(None, POINTER(EOS_Auth_VerifyUserAuthCallbackInfo))
+EOS_Auth_OnQueryIdTokenCallback = CFUNCTYPE(None, POINTER(EOS_Auth_QueryIdTokenCallbackInfo))
+EOS_Auth_OnVerifyIdTokenCallback = CFUNCTYPE(None, POINTER(EOS_Auth_VerifyIdTokenCallbackInfo))
+EOS_Auth_OnDeletePersistentAuthCallback = CFUNCTYPE(None, POINTER(EOS_Auth_DeletePersistentAuthCallbackInfo))
+EOS_Auth_OnLoginStatusChangedCallback = CFUNCTYPE(None, POINTER(EOS_Auth_LoginStatusChangedCallbackInfo))
+class EOS_PlayerDataStorage_ReadFileOptions(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ApiVersion', c_int32),
-        ('Token', c_char_p),
-        ('Type', EOS_EExternalCredentialType),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Filename', c_char_p),
+        ('ReadChunkLengthBytes', c_uint32),
+        ('ReadFileDataCallback', EOS_PlayerDataStorage_OnReadFileDataCallback),
+        ('FileTransferProgressCallback', EOS_PlayerDataStorage_OnFileTransferProgressCallback),
     ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_CREDENTIALS_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_CONNECT_USERLOGININFO_DISPLAYNAME_MAX_LENGTH = 32
-EOS_CONNECT_USERLOGININFO_API_LATEST = 2
-class EOS_Connect_UserLoginInfo(Structure):
+    def __init__(self, ApiVersion = EOS_PLAYERDATASTORAGE_READFILE_API_LATEST, LocalUserId = None, Filename = None, ReadChunkLengthBytes = 0, ReadFileDataCallback = None, FileTransferProgressCallback = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Filename = Filename, ReadChunkLengthBytes = ReadChunkLengthBytes, ReadFileDataCallback = ReadFileDataCallback, FileTransferProgressCallback = FileTransferProgressCallback)
+class EOS_PlayerDataStorage_WriteFileOptions(Structure):
     _pack_ = PACK
     _fields_ = [
         ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Filename', c_char_p),
+        ('ChunkLengthBytes', c_uint32),
+        ('WriteFileDataCallback', EOS_PlayerDataStorage_OnWriteFileDataCallback),
+        ('FileTransferProgressCallback', EOS_PlayerDataStorage_OnFileTransferProgressCallback),
+    ]
+    def __init__(self, ApiVersion = EOS_PLAYERDATASTORAGE_WRITEFILE_API_LATEST, LocalUserId = None, Filename = None, ChunkLengthBytes = 0, WriteFileDataCallback = None, FileTransferProgressCallback = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Filename = Filename, ChunkLengthBytes = ChunkLengthBytes, WriteFileDataCallback = WriteFileDataCallback, FileTransferProgressCallback = FileTransferProgressCallback)
+class EOS_TitleStorage_ReadFileOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+        ('Filename', c_char_p),
+        ('ReadChunkLengthBytes', c_uint32),
+        ('ReadFileDataCallback', EOS_TitleStorage_OnReadFileDataCallback),
+        ('FileTransferProgressCallback', EOS_TitleStorage_OnFileTransferProgressCallback),
+    ]
+    def __init__(self, ApiVersion = EOS_TITLESTORAGE_READFILE_API_LATEST, LocalUserId = None, Filename = None, ReadChunkLengthBytes = 0, ReadFileDataCallback = None, FileTransferProgressCallback = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, Filename = Filename, ReadChunkLengthBytes = ReadChunkLengthBytes, ReadFileDataCallback = ReadFileDataCallback, FileTransferProgressCallback = FileTransferProgressCallback)
+class EOS_Achievements_Definition(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('AchievementId', c_char_p),
         ('DisplayName', c_char_p),
-        ('NsaIdToken', c_char_p),
+        ('Description', c_char_p),
+        ('LockedDisplayName', c_char_p),
+        ('LockedDescription', c_char_p),
+        ('HiddenDescription', c_char_p),
+        ('CompletionDescription', c_char_p),
+        ('UnlockedIconId', c_char_p),
+        ('LockedIconId', c_char_p),
+        ('bIsHidden', EOS_Bool),
+        ('StatThresholdsCount', c_int32),
+        ('StatThresholds', POINTER(EOS_Achievements_StatThresholds)),
     ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_USERLOGININFO_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_CONNECT_LOGIN_API_LATEST = 2
-class EOS_Connect_LoginOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('Credentials', POINTER(EOS_Connect_Credentials)),
-        ('UserLoginInfo', POINTER(EOS_Connect_UserLoginInfo)),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_LOGIN_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-class EOS_Connect_LoginCallbackInfo(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ResultCode', EOS_EResult),
-        ('ClientData', c_void_p),
-        ('LocalUserId', EOS_ProductUserId),
-        ('ContinuanceToken', EOS_ContinuanceToken),
-    ]
-EOS_Connect_OnLoginCallback = CFUNCTYPE(
-    None, POINTER(EOS_Connect_LoginCallbackInfo))
-
-EOS_CONNECT_CREATEUSER_API_LATEST = 1
-class EOS_Connect_CreateUserOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('ContinuanceToken', EOS_ContinuanceToken),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_CREATEUSER_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-class EOS_Connect_CreateUserCallbackInfo(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ResultCode', EOS_EResult),
-        ('ClientData', c_void_p),
-        ('LocalUserId', EOS_ProductUserId),
-    ]
-EOS_Connect_OnCreateUserCallback = CFUNCTYPE(
-    None, POINTER(EOS_Connect_CreateUserCallbackInfo))
-
-EOS_CONNECT_LINKACCOUNT_API_LATEST = 1
-class EOS_Connect_LinkAccountOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('LocalUserId', EOS_ProductUserId),
-        ('ContinuanceToken', EOS_ContinuanceToken),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_LINKACCOUNT_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-class EOS_Connect_LinkAccountCallbackInfo(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ResultCode', EOS_EResult),
-        ('ClientData', c_void_p),
-        ('LocalUserId', EOS_ProductUserId),
-    ]
-EOS_Connect_OnLinkAccountCallback = CFUNCTYPE(
-    None, POINTER(EOS_Connect_LinkAccountCallbackInfo))
-
-EOS_CONNECT_UNLINKACCOUNT_API_LATEST = 1
-class EOS_Connect_UnlinkAccountOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('LocalUserId', EOS_ProductUserId),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_UNLINKACCOUNT_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-class EOS_Connect_UnlinkAccountCallbackInfo(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ResultCode', EOS_EResult),
-        ('ClientData', c_void_p),
-        ('LocalUserId', EOS_ProductUserId),
-    ]
-EOS_Connect_OnUnlinkAccountCallback = CFUNCTYPE(
-    None, POINTER(EOS_Connect_UnlinkAccountCallbackInfo))
-
-EOS_CONNECT_CREATEDEVICEID_API_LATEST = 1
-EOS_CONNECT_CREATEDEVICEID_DEVICEMODEL_MAX_LENGTH = 64
-class EOS_Connect_CreateDeviceIdOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('DeviceModel', c_char_p),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_CREATEDEVICEID_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-class EOS_Connect_CreateDeviceIdCallbackInfo(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ResultCode', EOS_EResult),
-        ('ClientData', c_void_p),
-    ]
-EOS_Connect_OnCreateDeviceIdCallback = CFUNCTYPE(
-    None, POINTER(EOS_Connect_CreateDeviceIdCallbackInfo))
-
-EOS_CONNECT_DELETEDEVICEID_API_LATEST = 1
-class EOS_Connect_DeleteDeviceIdOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_DELETEDEVICEID_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-class EOS_Connect_DeleteDeviceIdCallbackInfo(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ResultCode', EOS_EResult),
-        ('ClientData', c_void_p),
-    ]
-EOS_Connect_OnDeleteDeviceIdCallback = CFUNCTYPE(
-    None, POINTER(EOS_Connect_DeleteDeviceIdCallbackInfo))
-
-EOS_CONNECT_TRANSFERDEVICEIDACCOUNT_API_LATEST = 1
-class EOS_Connect_TransferDeviceIdAccountOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('PrimaryLocalUserId', EOS_ProductUserId),
-        ('LocalDeviceUserId', EOS_ProductUserId),
-        ('ProductUserIdToPreserve', EOS_ProductUserId),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_TRANSFERDEVICEIDACCOUNT_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-class EOS_Connect_TransferDeviceIdAccountCallbackInfo(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ResultCode', EOS_EResult),
-        ('ClientData', c_void_p),
-        ('LocalUserId', EOS_ProductUserId),
-    ]
-EOS_Connect_OnTransferDeviceIdAccountCallback = CFUNCTYPE(
-    None, POINTER(EOS_Connect_TransferDeviceIdAccountCallbackInfo))
-
-EOS_CONNECT_QUERYEXTERNALACCOUNTMAPPINGS_API_LATEST = 1
-EOS_CONNECT_QUERYEXTERNALACCOUNTMAPPINGS_MAX_ACCOUNT_IDS = 128
-class EOS_Connect_QueryExternalAccountMappingsOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('LocalUserId', EOS_ProductUserId),
-        ('AccountIdType', EOS_EExternalAccountType),
-        ('ExternalAccountIds', POINTER(c_char_p)),
-        ('ExternalAccountIdCount', c_uint32),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_QUERYEXTERNALACCOUNTMAPPINGS_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-class EOS_Connect_QueryExternalAccountMappingsCallbackInfo(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ResultCode', EOS_EResult),
-        ('ClientData', c_void_p),
-        ('LocalUserId', EOS_ProductUserId),
-    ]
-EOS_Connect_OnQueryExternalAccountMappingsCallback = CFUNCTYPE(
-    None, POINTER(EOS_Connect_QueryExternalAccountMappingsCallbackInfo))
-
-EOS_CONNECT_GETEXTERNALACCOUNTMAPPING_API_LATEST = 1
-EOS_CONNECT_GETEXTERNALACCOUNTMAPPINGS_API_LATEST = EOS_CONNECT_GETEXTERNALACCOUNTMAPPING_API_LATEST
-class EOS_Connect_GetExternalAccountMappingsOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('LocalUserId', EOS_ProductUserId),
-        ('AccountIdType', EOS_EExternalAccountType),
-        ('TargetExternalUserId', c_char_p),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_GETEXTERNALACCOUNTMAPPING_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_CONNECT_QUERYPRODUCTUSERIDMAPPINGS_API_LATEST = 2
-class EOS_Connect_QueryProductUserIdMappingsOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('LocalUserId', EOS_ProductUserId),
-        ('AccountIdType_DEPRECATED', EOS_EExternalAccountType),
-        ('ProductUserIds', POINTER(EOS_ProductUserId)),
-        ('ProductUserIdCount', c_uint32),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_QUERYPRODUCTUSERIDMAPPINGS_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-class EOS_Connect_QueryProductUserIdMappingsCallbackInfo(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ResultCode', EOS_EResult),
-        ('ClientData', c_void_p),
-        ('LocalUserId', EOS_ProductUserId),
-    ]
-EOS_Connect_OnQueryProductUserIdMappingsCallback = CFUNCTYPE(
-    None, POINTER(EOS_Connect_QueryProductUserIdMappingsCallbackInfo))
-
-EOS_CONNECT_GETPRODUCTUSERIDMAPPING_API_LATEST = 1
-class EOS_Connect_GetProductUserIdMappingOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('LocalUserId', EOS_ProductUserId),
-        ('AccountIdType', EOS_EExternalAccountType),
-        ('TargetProductUserId', EOS_ProductUserId),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_GETPRODUCTUSERIDMAPPING_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_CONNECT_GETPRODUCTUSEREXTERNALACCOUNTCOUNT_API_LATEST = 1
-class EOS_Connect_GetProductUserExternalAccountCountOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('TargetUserId', EOS_ProductUserId),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_GETPRODUCTUSEREXTERNALACCOUNTCOUNT_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYINDEX_API_LATEST = 1
-class EOS_Connect_CopyProductUserExternalAccountByIndexOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('TargetUserId', EOS_ProductUserId),
-        ('ExternalAccountInfoIndex', c_uint32),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYINDEX_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYACCOUNTTYPE_API_LATEST = 1
-class EOS_Connect_CopyProductUserExternalAccountByAccountTypeOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('TargetUserId', EOS_ProductUserId),
-        ('AccountIdType', EOS_EExternalAccountType),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYACCOUNTTYPE_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYACCOUNTID_API_LATEST = 1
-class EOS_Connect_CopyProductUserExternalAccountByAccountIdOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('TargetUserId', EOS_ProductUserId),
-        ('AccountId', c_char_p),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_COPYPRODUCTUSEREXTERNALACCOUNTBYACCOUNTID_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_CONNECT_COPYPRODUCTUSERINFO_API_LATEST = 1
-class EOS_Connect_CopyProductUserInfoOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('TargetUserId', EOS_ProductUserId),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_COPYPRODUCTUSERINFO_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_CONNECT_TIME_UNDEFINED = -1
-EOS_CONNECT_EXTERNALACCOUNTINFO_API_LATEST = 1
-class EOS_Connect_ExternalAccountInfo(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('ProductUserId', EOS_ProductUserId),
-        ('DisplayName', c_char_p),
-        ('AccountId', c_char_p),
-        ('AccountIdType', EOS_EExternalAccountType),
-        ('LastLoginTime', c_int64),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_EXTERNALACCOUNTINFO_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-    def Release(self): # type: () -> None
-        return EOS_Connect_ExternalAccountInfo_Release(self)
-EOS_Connect_ExternalAccountInfo_Release = not_ready
-
-EOS_CONNECT_ADDNOTIFYAUTHEXPIRATION_API_LATEST = 1
-class EOS_Connect_AddNotifyAuthExpirationOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_ADDNOTIFYAUTHEXPIRATION_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_CONNECT_ONAUTHEXPIRATIONCALLBACK_API_LATEST = 1 # deprecated
-class EOS_Connect_AuthExpirationCallbackInfo(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ClientData', c_void_p),
-        ('LocalUserId', EOS_ProductUserId),
-    ]
-EOS_Connect_OnAuthExpirationCallback = CFUNCTYPE(
-    None, POINTER(EOS_Connect_AuthExpirationCallbackInfo))
-
-EOS_CONNECT_ADDNOTIFYLOGINSTATUSCHANGED_API_LATEST = 1
-class EOS_Connect_AddNotifyLoginStatusChangedOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_ADDNOTIFYLOGINSTATUSCHANGED_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-class EOS_Connect_LoginStatusChangedCallbackInfo(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ClientData', c_void_p),
-        ('LocalUserId', EOS_ProductUserId),
-        ('PreviousStatus', EOS_ELoginStatus),
-        ('CurrentStatus', EOS_ELoginStatus),
-    ]
-EOS_Connect_OnLoginStatusChangedCallback = CFUNCTYPE(
-    None, POINTER(EOS_Connect_LoginStatusChangedCallbackInfo))
-
-EOS_CONNECT_IDTOKEN_API_LATEST = 1
-class EOS_Connect_IdToken(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('ProductUserId', EOS_ProductUserId),
-        ('JsonWebToken', c_char_p),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_IDTOKEN_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-    def Release(self): # type: () -> None
-        return EOS_Connect_IdToken_Release(self)
-EOS_Connect_IdToken_Release = not_ready
-
-EOS_CONNECT_COPYIDTOKEN_API_LATEST = 1
-class EOS_Connect_CopyIdTokenOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('LocalUserId', EOS_ProductUserId),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_COPYIDTOKEN_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-
-EOS_CONNECT_VERIFYIDTOKEN_API_LATEST = 1
-class EOS_Connect_VerifyIdTokenOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('IdToken', POINTER(EOS_Connect_IdToken)),
-    ]
-    def __init__(self,
-            ApiVersion = EOS_CONNECT_VERIFYIDTOKEN_API_LATEST,
-            **kwargs):
-        Structure.__init__(self, ApiVersion = ApiVersion, **kwargs)
-class EOS_Connect_VerifyIdTokenCallbackInfo(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ResultCode', EOS_EResult),
-        ('ClientData', c_void_p),
-        ('ProductUserId', EOS_ProductUserId),
-        ('bIsAccountInfoPresent', EOS_Bool),
-        ('AccountIdType', EOS_EExternalAccountType),
-        ('AccountId', c_char_p),
-        ('Platform', c_char_p),
-        ('DeviceType', c_char_p),
-        ('ClientId', c_char_p),
-        ('ProductId', c_char_p),
-        ('SandboxId', c_char_p),
-        ('DeploymentId', c_char_p),
-    ]
-EOS_Connect_OnVerifyIdTokenCallback = CFUNCTYPE(
-    None, POINTER(EOS_Connect_VerifyIdTokenCallbackInfo))
-
-# Connect functions
-
-EOS_Connect_Login = not_ready
-EOS_Connect_CreateUser = not_ready
-EOS_Connect_LinkAccount = not_ready
-EOS_Connect_UnlinkAccount = not_ready
-EOS_Connect_CreateDeviceId = not_ready
-EOS_Connect_DeleteDeviceId = not_ready
-EOS_Connect_TransferDeviceIdAccount = not_ready
-EOS_Connect_QueryExternalAccountMappings = not_ready
-EOS_Connect_QueryProductUserIdMappings = not_ready
-EOS_Connect_GetExternalAccountMapping = not_ready
-EOS_Connect_GetProductUserIdMapping = not_ready
-EOS_Connect_GetProductUserExternalAccountCount = not_ready
-EOS_Connect_CopyProductUserExternalAccountByIndex = not_ready
-EOS_Connect_CopyProductUserExternalAccountByAccountType = not_ready
-EOS_Connect_CopyProductUserExternalAccountByAccountId = not_ready
-EOS_Connect_CopyProductUserInfo = not_ready
-EOS_Connect_GetLoggedInUsersCount = not_ready
-EOS_Connect_GetLoggedInUserByIndex = not_ready
-EOS_Connect_GetLoginStatus = not_ready
-EOS_Connect_AddNotifyAuthExpiration = not_ready
-EOS_Connect_RemoveNotifyAuthExpiration = not_ready
-EOS_Connect_AddNotifyLoginStatusChanged = not_ready
-EOS_Connect_RemoveNotifyLoginStatusChanged = not_ready
-EOS_Connect_CopyIdToken = not_ready
-EOS_Connect_VerifyIdToken = not_ready
-
-#####
-# Stats
-#####
-
-# Stats types
-
-EOS_STATS_INGESTDATA_API_LATEST = 1
-class EOS_Stats_IngestData(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('StatName', c_char_p),
-        ('IngestAmount', c_int32),
-    ]
-    def __init__(self,
-        ApiVersion = EOS_STATS_INGESTDATA_API_LATEST,
-        **kwargs):
-        Structure.__init__(self, ApiVersion, **kwargs)
-
-EOS_STATS_MAX_INGEST_STATS = 3000
-EOS_STATS_INGESTSTAT_API_LATEST = 3
-class EOS_Stats_IngestStatOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('LocalUserId', EOS_ProductUserId),
-        ('Stats', POINTER(EOS_Stats_IngestData)),
-        ('StatsCount', c_uint32),
-        ('TargetUserId', EOS_ProductUserId),
-    ]
-    def __init__(self,
-        ApiVersion = EOS_STATS_INGESTSTAT_API_LATEST,
-        **kwargs):
-        Structure.__init__(self, ApiVersion, **kwargs)
-class EOS_Stats_IngestStatCompleteCallbackInfo(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ResultCode', EOS_EResult),
-        ('ClientData', c_void_p),
-        ('LocalUserId', EOS_ProductUserId),
-        ('TargetUserId', EOS_ProductUserId),
-    ]
-EOS_Stats_OnIngestStatCompleteCallback = CFUNCTYPE(
-    None, POINTER(EOS_Stats_IngestStatCompleteCallbackInfo))
-
-EOS_STATS_MAX_QUERY_STATS = 1000
-EOS_STATS_QUERYSTATS_API_LATEST = 3
-class EOS_Stats_QueryStatsOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('LocalUserId', EOS_ProductUserId),
-        ('StartTime', c_int64),
-        ('EndTime', c_int64),
-        ('StatNames', POINTER(c_char_p)),
-        ('StatNamesCount', c_uint32),
-        ('TargetUserId', EOS_ProductUserId),
-    ]
-    def __init__(self,
-        ApiVersion = EOS_STATS_QUERYSTATS_API_LATEST,
-        **kwargs):
-        Structure.__init__(self, ApiVersion, **kwargs)
-
-EOS_STATS_TIME_UNDEFINED = -1
-EOS_STATS_STAT_API_LATEST = 1
-class EOS_Stats_Stat(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('Name', c_char_p),
-        ('StartTime', c_int64),
-        ('EndTime', c_int64),
-        ('Value', c_int32),
-    ]
-    def __init__(self,
-        ApiVersion = EOS_STATS_STAT_API_LATEST,
-        **kwargs):
-        Structure.__init__(self, ApiVersion, **kwargs)
-    def Release(self): # type: () -> None
-        return EOS_Stats_Stat_Release(self)
-
-EOS_STATS_GETSTATSCOUNT_API_LATEST = 1
-EOS_STATS_GETSTATCOUNT_API_LATEST = EOS_STATS_GETSTATSCOUNT_API_LATEST
-class EOS_Stats_GetStatCountOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('TargetUserId', EOS_ProductUserId),
-    ]
-    def __init__(self,
-        ApiVersion = EOS_STATS_GETSTATSCOUNT_API_LATEST,
-        **kwargs):
-        Structure.__init__(self, ApiVersion, **kwargs)
-
-EOS_STATS_COPYSTATBYINDEX_API_LATEST = 1
-class EOS_Stats_CopyStatByIndexOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('TargetUserId', EOS_ProductUserId),
-        ('StatIndex', c_uint32),
-    ]
-    def __init__(self,
-        ApiVersion = EOS_STATS_COPYSTATBYINDEX_API_LATEST,
-        **kwargs):
-        Structure.__init__(self, ApiVersion, **kwargs)
-
-EOS_STATS_COPYSTATBYNAME_API_LATEST = 1
-class EOS_Stats_CopyStatByNameOptions(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('TargetUserId', EOS_ProductUserId),
-        ('Name', c_char_p),
-    ]
-    def __init__(self,
-        ApiVersion = EOS_STATS_COPYSTATBYNAME_API_LATEST,
-        **kwargs):
-        Structure.__init__(self, ApiVersion, **kwargs)
-EOS_Stats_Stat_Release = not_ready
-class EOS_Stats_OnQueryStatsCompleteCallbackInfo(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ResultCode', EOS_EResult),
-        ('ClientData', c_void_p),
-        ('LocalUserId', EOS_ProductUserId),
-        ('TargetUserId', EOS_ProductUserId),
-    ]
-EOS_Stats_OnQueryStatsCompleteCallback = CFUNCTYPE(
-    None, POINTER(EOS_Stats_OnQueryStatsCompleteCallbackInfo))
-
-# Stats functions
-
-EOS_Stats_IngestStat = not_ready
-EOS_Stats_QueryStats = not_ready
-EOS_Stats_GetStatsCount = not_ready
-EOS_Stats_CopyStatByIndex = not_ready
-EOS_Stats_CopyStatByName = not_ready
-
-#####
-# SDK
-#####
-
-# SDK functions
-
-EOS_Platform_Tick = not_ready
-EOS_Platform_GetMetricsInterface = not_ready
-EOS_Platform_GetAuthInterface = not_ready
-EOS_Platform_GetConnectInterface = not_ready
-EOS_Platform_GetEcomInterface = not_ready
-EOS_Platform_GetUIInterface = not_ready
-EOS_Platform_GetFriendsInterface = not_ready
-EOS_Platform_GetPresenceInterface = not_ready
-EOS_Platform_GetSessionsInterface = not_ready
-EOS_Platform_GetLobbyInterface = not_ready
-EOS_Platform_GetUserInfoInterface = not_ready
-EOS_Platform_GetP2PInterface = not_ready
-EOS_Platform_GetRTCInterface = not_ready
-EOS_Platform_GetRTCAdminInterface = not_ready
-EOS_Platform_GetPlayerDataStorageInterface = not_ready
-EOS_Platform_GetTitleStorageInterface = not_ready
-EOS_Platform_GetAchievementsInterface = not_ready
-EOS_Platform_GetStatsInterface = not_ready
-EOS_Platform_GetLeaderboardsInterface = not_ready
-EOS_Platform_GetModsInterface = not_ready
-EOS_Platform_GetAntiCheatClientInterface = not_ready
-EOS_Platform_GetAntiCheatServerInterface = not_ready
-EOS_Platform_GetProgressionSnapshotInterface = not_ready
-EOS_Platform_GetReportsInterface = not_ready
-EOS_Platform_GetSanctionsInterface = not_ready
-EOS_Platform_GetKWSInterface = not_ready
-EOS_Platform_GetCustomInvitesInterface = not_ready
-EOS_Platform_GetIntegratedPlatformInterface = not_ready
-EOS_Platform_GetActiveCountryCode = not_ready
-EOS_Platform_GetActiveLocaleCode = not_ready
-EOS_Platform_GetOverrideCountryCode = not_ready
-EOS_Platform_GetOverrideLocaleCode = not_ready
-EOS_Platform_SetOverrideCountryCode = not_ready
-EOS_Platform_SetOverrideLocaleCode = not_ready
-EOS_Platform_CheckForLauncherAndRestart = not_ready
-EOS_Platform_GetDesktopCrossplayStatus = not_ready
-EOS_Platform_SetApplicationStatus = not_ready
-EOS_Platform_GetApplicationStatus = not_ready
-EOS_Platform_SetNetworkStatus = not_ready
-EOS_Platform_GetNetworkStatus = not_ready
-
-# SDK handle wrappers for exposed functions
-
-class EOS_HPlatform(c_void_p):
-    @staticmethod
-    def Create(Options):
-        # type: (POINTER(EOS_Platform_Options)) -> EOS_HPlatform
-        return EOS_Platform_Create(Options)
-    def Release(self): # type: () -> None
-        return EOS_Platform_Release(self)
-    def GetAchievementsInterface(self): # type: () -> EOS_HAchievements
-        return EOS_Platform_GetAchievementsInterface(self)
-    def GetApplicationStatus(self): # type: () -> EOS_EApplicationStatus
-        return EOS_Platform_GetApplicationStatus(self)
-    def GetAuthInterface(self): # type: () -> EOS_HAuth
-        return EOS_Platform_GetAuthInterface(self)
-    def GetConnectInterface(self): # type: () -> EOS_HConnect
-        return EOS_Platform_GetConnectInterface(self)
-    def GetDesktopCrossplayStatus(self, Options, OutDesktopCrossplayStatusInfo):
-        # type: (POINTER(EOS_Platform_GetDesktopCrossplayStatusOptions), POINTER(EOS_Platform_DesktopCrossplayStatusInfo)) -> EOS_EResult
-        return EOS_Platform_GetDesktopCrossplayStatus(self, Options, OutDesktopCrossplayStatusInfo)
-    def GetUserInfoInterface(self): # type: () -> EOS_HUserInfo
-        return EOS_Platform_GetUserInfoInterface(self)
-    def GetStatsInterface(self): # type: () -> EOS_HStats
-        return EOS_Platform_GetStatsInterface(self)
-    def Tick(self): # type: () -> None
-        return EOS_Platform_Tick(self)
-
-class EOS_HAchievements(c_void_p):
-    def AddNotifyAchievementsUnlockedV2(self, Options, ClientData, NotificationFn):
-        # type: (POINTER(EOS_Achievements_AddNotifyAchievementsUnlockedV2Options), c_void_p, EOS_Achievements_OnAchievementsUnlockedCallbackV2) -> EOS_NotificationId
-        return EOS_Achievements_AddNotifyAchievementsUnlockedV2(self, Options, ClientData, NotificationFn)
-    def CopyAchievementDefinitionV2ByAchievementId(self, Options, OutDefinition):
-        # type: (POINTER(EOS_Achievements_CopyAchievementDefinitionV2ByAchievementIdOptions), POINTER(POINTER(EOS_Achievements_DefinitionV2))) -> EOS_EResult
-        return EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId(self, Options, OutDefinition)
-    def CopyAchievementDefinitionV2ByIndex(self, Options, OutDefinition):
-        # type: (POINTER(EOS_Achievements_CopyAchievementDefinitionV2ByIndexOptions), POINTER(POINTER(EOS_Achievements_DefinitionV2))) -> EOS_EResult
-        return EOS_Achievements_CopyAchievementDefinitionV2ByIndex(self, Options, OutDefinition)
-    def CopyPlayerAchievementByAchievementId(self, Options, OutAchievement):
-        # type: (POINTER(EOS_Achievements_CopyPlayerAchievementByAchievementIdOptions), POINTER(POINTER(EOS_Achievements_PlayerAchievement))) -> EOS_EResult
-        return EOS_Achievements_CopyPlayerAchievementByAchievementId(self, Options, OutAchievement)
-    def CopyPlayerAchievementByIndex(self, Options, OutAchievement):
-        # type: (POINTER(EOS_Achievements_CopyPlayerAchievementByIndexOptions), POINTER(POINTER(EOS_Achievements_PlayerAchievement))) -> EOS_EResult
-        return EOS_Achievements_CopyPlayerAchievementByIndex(self, Options, OutAchievement)
-    def GetAchievementDefinitionCount(self, Options):
-        # type: (POINTER(EOS_Achievements_GetAchievementDefinitionCountOptions)) -> c_uint32
-        return EOS_Achievements_GetAchievementDefinitionCount(self, Options)
-    def GetPlayerAchievementCount(self, Options):
-        # type: (POINTER(EOS_Achievements_GetPlayerAchievementCountOptions)) -> c_uint32
-        return EOS_Achievements_GetPlayerAchievementCount(self, Options)
-    def QueryDefinitions(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Achievements_QueryDefinitionsOptions), c_void_p, EOS_Achievements_OnQueryDefinitionsCompleteCallback) -> EOS_EResult
-        return EOS_Achievements_QueryDefinitions(self, Options, ClientData, CompletionDelegate)
-    def QueryPlayerAchievements(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Achievements_QueryPlayerAchievementsOptions), c_void_p, EOS_Achievements_OnQueryPlayerAchievementsCompleteCallback) -> EOS_EResult
-        return EOS_Achievements_QueryPlayerAchievements(self, Options, ClientData, CompletionDelegate)
-    def RemoveNotifyAchievementsUnlocked(self, InId):
-        # type: (EOS_NotificationId) -> None
-        return EOS_Achievements_RemoveNotifyAchievementsUnlocked(self, InId)
-    def UnlockAchievements(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Achievements_UnlockAchievementsOptions), c_void_p, EOS_Achievements_OnUnlockAchievementsCompleteCallback) -> EOS_EResult
-        return EOS_Achievements_UnlockAchievements(self, Options, ClientData, CompletionDelegate)
-
-class EOS_HAuth(c_void_p):
-    def AddNotifyLoginStatusChanged(self, Options, ClientData, Notification):
-        # type: (POINTER(EOS_Auth_AddNotifyLoginStatusChangedOptions), c_void_p, EOS_Auth_OnLoginStatusChangedCallback) -> EOS_NotificationId
-        return EOS_Auth_AddNotifyLoginStatusChanged(self, Options, ClientData, Notification)
-    def CopyIdToken(self, Options, OutIdToken):
-        # type: (POINTER(EOS_Auth_CopyIdTokenOptions), POINTER(POINTER(EOS_Auth_IdToken))) -> EOS_EResult
-        return EOS_Auth_CopyIdToken(self, Options, OutIdToken)
-    def CopyUserAuthToken(self, Options, LocalUserId, OutUserAuthToken):
-        # type: (POINTER(EOS_Auth_CopyUserAuthTokenOptions), EOS_EpicAccountId, POINTER(POINTER(EOS_Auth_Token))) -> EOS_EResult
-        return EOS_Auth_CopyUserAuthToken(self, Options, LocalUserId, OutUserAuthToken)
-    def DeletePersistentAuth(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Auth_DeletePersistentAuthOptions), c_void_p, EOS_Auth_OnDeletePersistentAuthCallback) -> None
-        return EOS_Auth_DeletePersistentAuth(self, Options, ClientData, CompletionDelegate)
-    def GetLoggedInAccountByIndex(self, Index):
-        # type: (c_int32) -> EOS_EpicAccountId
-        return EOS_Auth_GetLoggedInAccountByIndex(self, Index)
-    def GetLoggedInAccountsCount(self):
-        # type: () -> c_uint32
-        return EOS_Auth_GetLoggedInAccountsCount(self)
-    def GetLoginStatus(self, LocalUserId):
-        # type: (EOS_EpicAccountId) -> EOS_ELoginStatus
-        return EOS_Auth_GetLoginStatus(self, LocalUserId)
-    def GetMergedAccountByIndex(self, LocalUserId, Index):
-        # type: (EOS_EpicAccountId, c_uint32) -> EOS_EpicAccountId
-        return EOS_Auth_GetMergedAccountByIndex(self, LocalUserId, Index)
-    def GetMergedAccountsCount(self, LocalUserId):
-        # type: (EOS_EpicAccountId) -> c_uint32
-        return EOS_Auth_GetMergedAccountsCount(self, LocalUserId)
-    def GetSelectedAccountId(self, LocalUserId, OutSelectedAccoundId):
-        # type: (EOS_EpicAccountId, POINTER(EOS_EpicAccountId)) -> EOS_EResult
-        return EOS_Auth_GetSelectedAccountId(self, LocalUserId, OutSelectedAccoundId)
-    def LinkAccount(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Auth_LinkAccountOptions), c_void_p, EOS_Auth_OnLinkAccountCallback) -> None
-        return EOS_Auth_LinkAccount(self, Options, ClientData, CompletionDelegate)
-    def Login(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Auth_LoginOptions), c_void_p, EOS_Auth_OnLoginCallback) -> None
-        return EOS_Auth_Login(self, Options, ClientData, CompletionDelegate)
-    def Logout(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Auth_LogoutOptions), c_void_p, EOS_Auth_OnLogoutCallback) -> None
-        return EOS_Auth_Logout(self, Options, ClientData, CompletionDelegate)
-    def QueryIdToken(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Auth_QueryIdTokenOptions), c_void_p, EOS_Auth_OnQueryIdTokenCallback) -> None
-        return EOS_Auth_QueryIdToken(self, Options, ClientData, CompletionDelegate)
-    def RemoveNotifyLoginStatusChanged(self, InId):
-        # type: (EOS_NotificationId) -> None
-        return EOS_Auth_RemoveNotifyLoginStatusChanged(self, InId)
-    def VerifyIdToken(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Auth_VerifyIdTokenOptions), c_void_p, EOS_Auth_OnVerifyIdTokenCallback) -> None
-        return EOS_Auth_VerifyIdToken(self, Options, ClientData, CompletionDelegate)
-    def VerifyUserAuth(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Auth_VerifyUserAuthOptions), c_void_p, EOS_Auth_OnVerifyUserAuthCallback) -> None
-        return EOS_Auth_VerifyUserAuth(self, Options, ClientData, CompletionDelegate)
-
-class EOS_HConnect(c_void_p):
-    def AddNotifyAuthExpiration(self, Options, ClientData, Notification):
-        # type: (POINTER(EOS_Connect_AddNotifyAuthExpirationOptions), c_void_p, EOS_Connect_OnAuthExpirationCallback) -> EOS_NotificationId
-        return EOS_Connect_AddNotifyAuthExpiration(self, Options, ClientData, Notification)
-    def AddNotifyLoginStatusChanged(self, Options, ClientData, Notification):
-        # type: (POINTER(EOS_Connect_AddNotifyLoginStatusChangedOptions), c_void_p, EOS_Connect_OnLoginStatusChangedCallback) -> EOS_NotificationId
-        return EOS_Connect_AddNotifyLoginStatusChanged(self, Options, ClientData, Notification)
-    def CopyIdToken(self, Options, OutIdToken):
-        # type: (POINTER(EOS_Connect_CopyIdTokenOptions), POINTER(POINTER(EOS_Connect_IdToken))) -> EOS_EResult
-        return EOS_Connect_CopyIdToken(self, Options, OutIdToken)
-    def CopyProductUserExternalAccountByAccountId(self, Options, OutExternalAccountInfo):
-        # type: (POINTER(EOS_Connect_CopyProductUserExternalAccountByAccountIdOptions), POINTER(POINTER(EOS_Connect_ExternalAccountInfo))) -> EOS_EResult
-        return EOS_Connect_CopyProductUserExternalAccountByAccountId(self, Options, OutExternalAccountInfo)
-    def CopyProductUserExternalAccountByAccountType(self, Options, OutExternalAccountInfo):
-        # type: (POINTER(EOS_Connect_CopyProductUserExternalAccountByAccountTypeOptions), POINTER(POINTER(EOS_Connect_ExternalAccountInfo))) -> EOS_EResult
-        return EOS_Connect_CopyProductUserExternalAccountByAccountType(self, Options, OutExternalAccountInfo)
-    def CopyProductUserExternalAccountByIndex(self, Options, OutExternalAccountInfo):
-        # type: (POINTER(EOS_Connect_CopyProductUserExternalAccountByIndexOptions), POINTER(POINTER(EOS_Connect_ExternalAccountInfo))) -> EOS_EResult
-        return EOS_Connect_CopyProductUserExternalAccountByIndex(self, Options, OutExternalAccountInfo)
-    def CopyProductUserInfo(self, Options, OutExternalAccountInfo):
-        # type: (POINTER(EOS_Connect_CopyProductUserInfoOptions), POINTER(POINTER(EOS_Connect_ExternalAccountInfo))) -> EOS_EResult
-        return EOS_Connect_CopyProductUserInfo(self, Options, OutExternalAccountInfo)
-    def CreateDeviceId(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Connect_CreateDeviceIdOptions), c_void_p, EOS_Connect_OnCreateDeviceIdCallback) -> None
-        return EOS_Connect_CreateDeviceId(self, Options, ClientData, CompletionDelegate)
-    def CreateUser(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Connect_CreateUserOptions), c_void_p, EOS_Connect_OnCreateUserCallback) -> None
-        return EOS_Connect_CreateUser(self, Options, ClientData, CompletionDelegate)
-    def DeleteDeviceId(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Connect_DeleteDeviceIdOptions), c_void_p, EOS_Connect_OnDeleteDeviceIdCallback) -> None
-        return EOS_Connect_DeleteDeviceId(self, Options, ClientData, CompletionDelegate)
-    def GetExternalAccountMapping(self, Options):
-        # type: (POINTER(EOS_Connect_GetExternalAccountMappingsOptions)) -> EOS_ProductUserId
-        return EOS_Connect_GetExternalAccountMapping(self, Options)
-    def GetLoggedInUserByIndex(self, Index):
-        # type: (c_int32) -> EOS_ProductUserId
-        return EOS_Connect_GetLoggedInUserByIndex(self, Index)
-    def GetLoggedInUsersCount(self): # type: () -> c_int32
-        return EOS_Connect_GetLoggedInUsersCount(self)
-    def GetLoginStatus(self, LocalUserId):
-        # type: (EOS_ProductUserId) -> EOS_ELoginStatus
-        return EOS_Connect_GetLoginStatus(self, LocalUserId)
-    def GetProductUserExternalAccountCount(self, Options):
-        # type: (POINTER(EOS_Connect_GetProductUserExternalAccountCountOptions)) -> c_uint32
-        return EOS_Connect_GetProductUserExternalAccountCount(self, Options)
-    def GetProductUserIdMapping(self, Options, OutBuffer, InOutBufferLength):
-        # type: (POINTER(EOS_Connect_GetProductUserIdMappingOptions), c_char_p, POINTER(c_int32)) -> EOS_EResult
-        return EOS_Connect_GetProductUserIdMapping(self, Options, OutBuffer, InOutBufferLength)
-    def QueryExternalAccountMappings(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Connect_QueryExternalAccountMappingsOptions), c_void_p, EOS_Connect_OnQueryExternalAccountMappingsCallback) -> None
-        return EOS_Connect_QueryExternalAccountMappings(self, Options, ClientData, CompletionDelegate)
-    def QueryProductUserIdMappings(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Connect_QueryProductUserIdMappingsOptions), c_void_p, EOS_Connect_OnQueryProductUserIdMappingsCallback) -> None
-        return EOS_Connect_QueryProductUserIdMappings(self, Options, ClientData, CompletionDelegate)
-    def LinkAccount(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Connect_LinkAccountOptions), c_void_p, EOS_Connect_OnLinkAccountCallback) -> None
-        return EOS_Connect_LinkAccount(self, Options, ClientData, CompletionDelegate)
-    def Login(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Connect_LoginOptions), c_void_p, EOS_Connect_OnLoginCallback) -> None
-        return EOS_Connect_Login(self, Options, ClientData, CompletionDelegate)
-    def RemoveNotifyAuthExpiration(self, InId):
-        # type: (EOS_NotificationId) -> None
-        return EOS_Connect_RemoveNotifyAuthExpiration(self, InId)
-    def RemoveNotifyLoginStatusChanged(self, InId):
-        # type: (EOS_NotificationId) -> None
-        return EOS_Connect_RemoveNotifyLoginStatusChanged(self, InId)
-    def TransferDeviceIdAccount(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Connect_TransferDeviceIdAccountOptions), c_void_p, EOS_Connect_OnTransferDeviceIdAccountCallback) -> None
-        return EOS_Connect_TransferDeviceIdAccount(self, Options, ClientData, CompletionDelegate)
-    def UnlinkAccount(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Connect_UnlinkAccountOptions), c_void_p, EOS_Connect_OnUnlinkAccountCallback) -> None
-        return EOS_Connect_UnlinkAccount(self, Options, ClientData, CompletionDelegate)
-    def VerifyIdToken(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Connect_VerifyIdTokenOptions), c_void_p, EOS_Connect_OnVerifyIdTokenCallback) -> None
-        return EOS_Connect_VerifyIdToken(self, Options, ClientData, CompletionDelegate)
-
-class EOS_HMetrics(c_void_p):
-    pass
-class EOS_HEcom(c_void_p):
-    pass
-class EOS_HUI(c_void_p):
-    pass
-class EOS_HFriends(c_void_p):
-    pass
-class EOS_HPresence(c_void_p):
-    pass
-class EOS_HSessions(c_void_p):
-    pass
-class EOS_HLobby(c_void_p):
-    pass
-class EOS_HUserInfo(c_void_p):
-    pass
-class EOS_HP2P(c_void_p):
-    pass
-class EOS_HRTC(c_void_p):
-    pass
-class EOS_HRTCAdmin(c_void_p):
-    pass
-class EOS_HPlayerDataStorage(c_void_p):
-    pass
-class EOS_HTitleStorage(c_void_p):
-    pass
-class EOS_HStats(c_void_p):
-    def IngestStat(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Stats_IngestStatOptions), c_void_p, EOS_Stats_OnIngestStatCompleteCallback) -> None
-        return EOS_Stats_IngestStat(self, Options, ClientData, CompletionDelegate)
-    def QueryStats(self, Options, ClientData, CompletionDelegate):
-        # type: (POINTER(EOS_Stats_QueryStatsOptions), c_void_p, EOS_Stats_OnQueryStatsCompleteCallback) -> None
-        return EOS_Stats_QueryStats(self, Options, ClientData, CompletionDelegate)
-    def GetStatsCount(self, Options):
-        # type: (POINTER(EOS_Stats_GetStatCountOptions)) -> c_uint32
-        return EOS_Stats_GetStatsCount(self, Options)
-    def EOS_Stats_CopyStatByIndex(self, Options, OutStat):
-        # type: (POINTER(EOS_Stats_CopyStatByIndexOptions), POINTER(POINTER(EOS_Stats_Stat))) -> EOS_EResult
-        return EOS_Stats_CopyStatByIndex(self, Options, OutStat)
-    def EOS_Stats_CopyStatByName(self, Options, OutStat):
-        # type: (POINTER(EOS_Stats_CopyStatByNameOptions), POINTER(POINTER(EOS_Stats_Stat))) -> EOS_EResult
-        return EOS_Stats_CopyStatByIndex(self, Options, OutStat)
-
-class EOS_HLeaderboards(c_void_p):
-    pass
-class EOS_HMods(c_void_p):
-    pass
-class EOS_HAntiCheatClient(c_void_p):
-    pass
-class EOS_HAntiCheatServer(c_void_p):
-    pass
-class EOS_HProgressionSnapshot(c_void_p):
-    pass
-class EOS_HReports(c_void_p):
-    pass
-class EOS_HSanctions(c_void_p):
-    pass
-class EOS_HKWS(c_void_p):
-    pass
-class EOS_HCustomInvites(c_void_p):
-    pass
-
+    def __init__(self, ApiVersion = EOS_ACHIEVEMENTS_DEFINITION_API_LATEST, AchievementId = None, DisplayName = None, Description = None, LockedDisplayName = None, LockedDescription = None, HiddenDescription = None, CompletionDescription = None, UnlockedIconId = None, LockedIconId = None, bIsHidden = 0, StatThresholdsCount = 0, StatThresholds = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, AchievementId = AchievementId, DisplayName = DisplayName, Description = Description, LockedDisplayName = LockedDisplayName, LockedDescription = LockedDescription, HiddenDescription = HiddenDescription, CompletionDescription = CompletionDescription, UnlockedIconId = UnlockedIconId, LockedIconId = LockedIconId, bIsHidden = bIsHidden, StatThresholdsCount = StatThresholdsCount, StatThresholds = StatThresholds)
+    def Release(self):
+        # type: (POINTER(EOS_Achievements_Definition)) -> None
+        return EOS_Achievements_Definition_Release(self)
 def load(dll):
-
-    # Version
-
     global EOS_GetVersion
     EOS_GetVersion = dll.EOS_GetVersion
     EOS_GetVersion.argtypes = []
     EOS_GetVersion.restype = c_char_p
-
-    # Commons
 
     global EOS_EResult_ToString
     EOS_EResult_ToString = dll.EOS_EResult_ToString
@@ -2412,262 +12623,6 @@ def load(dll):
     EOS_ContinuanceToken_ToString.argtypes = [EOS_ContinuanceToken, c_char_p, POINTER(c_int32)]
     EOS_ContinuanceToken_ToString.restype = EOS_EResult
 
-    # Types
-
-    global EOS_EApplicationStatus_ToString
-    EOS_EApplicationStatus_ToString = dll.EOS_EApplicationStatus_ToString
-    EOS_EApplicationStatus_ToString.argtypes = [EOS_EApplicationStatus]
-    EOS_EApplicationStatus_ToString.restype = c_char_p
-
-    global EOS_ENetworkStatus_ToString
-    EOS_ENetworkStatus_ToString = dll.EOS_ENetworkStatus_ToString
-    EOS_ENetworkStatus_ToString.argtypes = [EOS_EApplicationStatus]
-    EOS_ENetworkStatus_ToString.restype = c_char_p
-
-    # Logging
-
-    global EOS_Logging_SetCallback
-    EOS_Logging_SetCallback = dll.EOS_Logging_SetCallback
-    EOS_Logging_SetCallback.argtypes = [EOS_LogMessageFunc]
-    EOS_Logging_SetCallback.restype = EOS_EResult
-
-    global EOS_Logging_SetLogLevel
-    EOS_Logging_SetLogLevel = dll.EOS_Logging_SetLogLevel
-    EOS_Logging_SetLogLevel.argtypes = [EOS_ELogCategory, EOS_ELogLevel]
-    EOS_Logging_SetLogLevel.restype = EOS_EResult
-
-    # Init
-
-    global EOS_Initialize
-    EOS_Initialize = dll.EOS_Initialize
-    EOS_Initialize.argtypes = [POINTER(EOS_InitializeOptions)]
-    EOS_Initialize.restype = EOS_EResult
-
-    global EOS_Shutdown
-    EOS_Shutdown = dll.EOS_Shutdown
-    EOS_Shutdown.argtypes = []
-    EOS_Shutdown.restype = EOS_EResult
-
-    global EOS_Platform_Create
-    EOS_Platform_Create = dll.EOS_Platform_Create
-    EOS_Platform_Create.argtypes = [POINTER(EOS_Platform_Options)]
-    EOS_Platform_Create.restype = EOS_HPlatform
-
-    global EOS_Platform_Release
-    EOS_Platform_Release = dll.EOS_Platform_Release
-    EOS_Platform_Release.argtypes = [EOS_HPlatform]
-    EOS_Platform_Release.restype = c_void_p
-
-    # Auth types
-
-    global EOS_Auth_Token_Release
-    EOS_Auth_Token_Release = dll.EOS_Auth_Token_Release
-    EOS_Auth_Token_Release.argtypes = [POINTER(EOS_Auth_Token)]
-    EOS_Auth_Token_Release.restype = None
-
-    global EOS_Auth_IdToken_Release
-    EOS_Auth_IdToken_Release = dll.EOS_Auth_IdToken_Release
-    EOS_Auth_IdToken_Release.argtypes = [POINTER(EOS_Auth_IdToken)]
-    EOS_Auth_IdToken_Release.restype = None
-
-    # Auth
-
-    global EOS_Auth_Login
-    EOS_Auth_Login = dll.EOS_Auth_Login
-    EOS_Auth_Login.argtypes = [EOS_HAuth, POINTER(EOS_Auth_LoginOptions), c_void_p, EOS_Auth_OnLoginCallback]
-    EOS_Auth_Login.restype = None
-
-    global EOS_Auth_Logout
-    EOS_Auth_Logout = dll.EOS_Auth_Logout
-    EOS_Auth_Logout.argtypes = [EOS_HAuth, POINTER(EOS_Auth_LogoutOptions), c_void_p, EOS_Auth_OnLogoutCallback]
-    EOS_Auth_Logout.restype = None
-
-    global EOS_Auth_LinkAccount
-    EOS_Auth_LinkAccount = dll.EOS_Auth_LinkAccount
-    EOS_Auth_LinkAccount.argtypes = [EOS_HAuth, POINTER(EOS_Auth_LinkAccountOptions), c_void_p, EOS_Auth_OnLinkAccountCallback]
-    EOS_Auth_LinkAccount.restype = None
-
-    global EOS_Auth_DeletePersistentAuth
-    EOS_Auth_DeletePersistentAuth = dll.EOS_Auth_DeletePersistentAuth
-    EOS_Auth_DeletePersistentAuth.argtypes = [EOS_HAuth, POINTER(EOS_Auth_DeletePersistentAuthOptions), c_void_p, EOS_Auth_OnDeletePersistentAuthCallback]
-    EOS_Auth_DeletePersistentAuth.restype = None
-
-    global EOS_Auth_VerifyUserAuth
-    EOS_Auth_VerifyUserAuth = dll.EOS_Auth_VerifyUserAuth
-    EOS_Auth_VerifyUserAuth.argtypes = [EOS_HAuth, POINTER(EOS_Auth_VerifyUserAuthOptions), c_void_p, EOS_Auth_OnVerifyUserAuthCallback]
-    EOS_Auth_VerifyUserAuth.restype = None
-
-    global EOS_Auth_GetLoggedInAccountsCount
-    EOS_Auth_GetLoggedInAccountsCount = dll.EOS_Auth_GetLoggedInAccountsCount
-    EOS_Auth_GetLoggedInAccountsCount.argtypes = [EOS_HAuth]
-    EOS_Auth_GetLoggedInAccountsCount.restype = c_int32
-
-    global EOS_Auth_GetLoggedInAccountByIndex
-    EOS_Auth_GetLoggedInAccountByIndex = dll.EOS_Auth_GetLoggedInAccountByIndex
-    EOS_Auth_GetLoggedInAccountByIndex.argtypes = [EOS_HAuth, c_int32]
-    EOS_Auth_GetLoggedInAccountByIndex.restype = EOS_EpicAccountId
-
-    global EOS_Auth_GetLoginStatus
-    EOS_Auth_GetLoginStatus = dll.EOS_Auth_GetLoginStatus
-    EOS_Auth_GetLoginStatus.argtypes = [EOS_HAuth, EOS_EpicAccountId]
-    EOS_Auth_GetLoginStatus.restype = EOS_ELoginStatus
-
-    global EOS_Auth_CopyUserAuthToken
-    EOS_Auth_CopyUserAuthToken = dll.EOS_Auth_CopyUserAuthToken
-    EOS_Auth_CopyUserAuthToken.argtypes = [EOS_HAuth, POINTER(EOS_Auth_CopyUserAuthTokenOptions), EOS_EpicAccountId, POINTER(POINTER(EOS_Auth_Token))]
-    EOS_Auth_CopyUserAuthToken.restype = EOS_EResult
-
-    global EOS_Auth_CopyIdToken
-    EOS_Auth_CopyIdToken = dll.EOS_Auth_CopyIdToken
-    EOS_Auth_CopyIdToken.argtypes = [EOS_HAuth, POINTER(EOS_Auth_CopyIdTokenOptions), POINTER(POINTER(EOS_Auth_IdToken))]
-    EOS_Auth_CopyIdToken.restype = EOS_EResult
-
-    global EOS_Auth_QueryIdToken
-    EOS_Auth_QueryIdToken = dll.EOS_Auth_QueryIdToken
-    EOS_Auth_QueryIdToken.argtypes = [EOS_HAuth, POINTER(EOS_Auth_QueryIdTokenOptions), c_void_p, EOS_Auth_OnQueryIdTokenCallback]
-    EOS_Auth_QueryIdToken.restype = None
-
-    global EOS_Auth_VerifyIdToken
-    EOS_Auth_VerifyIdToken = dll.EOS_Auth_VerifyIdToken
-    EOS_Auth_VerifyIdToken.argtypes = [EOS_HAuth, POINTER(EOS_Auth_VerifyIdTokenOptions), c_void_p, EOS_Auth_OnVerifyIdTokenCallback]
-    EOS_Auth_VerifyIdToken.restype = None
-
-    global EOS_Auth_GetSelectedAccountId
-    EOS_Auth_GetSelectedAccountId = dll.EOS_Auth_GetSelectedAccountId
-    EOS_Auth_GetSelectedAccountId.argtypes = [EOS_HAuth, EOS_EpicAccountId, POINTER(EOS_EpicAccountId)]
-    EOS_Auth_GetSelectedAccountId.restype = EOS_EResult
-
-    global EOS_Auth_GetMergedAccountsCount
-    EOS_Auth_GetMergedAccountsCount = dll.EOS_Auth_GetMergedAccountsCount
-    EOS_Auth_GetMergedAccountsCount.argtypes = [EOS_HAuth, EOS_EpicAccountId]
-    EOS_Auth_GetMergedAccountsCount.restype = c_uint32
-
-    global EOS_Auth_GetMergedAccountByIndex
-    EOS_Auth_GetMergedAccountByIndex = dll.EOS_Auth_GetMergedAccountByIndex
-    EOS_Auth_GetMergedAccountByIndex.argtypes = [EOS_HAuth, EOS_EpicAccountId, c_uint32]
-    EOS_Auth_GetMergedAccountByIndex.restype = EOS_EpicAccountId
-
-    global EOS_Auth_AddNotifyLoginStatusChanged
-    EOS_Auth_AddNotifyLoginStatusChanged = dll.EOS_Auth_AddNotifyLoginStatusChanged
-    EOS_Auth_AddNotifyLoginStatusChanged.argtypes = [EOS_HAuth, POINTER(EOS_Auth_AddNotifyLoginStatusChangedOptions), c_void_p, EOS_Auth_OnLoginStatusChangedCallback]
-    EOS_Auth_AddNotifyLoginStatusChanged.restype = EOS_NotificationId
-
-    global EOS_Auth_RemoveNotifyLoginStatusChanged
-    EOS_Auth_RemoveNotifyLoginStatusChanged = dll.EOS_Auth_RemoveNotifyLoginStatusChanged
-    EOS_Auth_RemoveNotifyLoginStatusChanged.argtypes = [EOS_HAuth, EOS_NotificationId]
-    EOS_Auth_RemoveNotifyLoginStatusChanged.restype = None
-
-    # Achievements
-
-    global EOS_Achievements_AddNotifyAchievementsUnlockedV2
-    EOS_Achievements_AddNotifyAchievementsUnlockedV2 = dll.EOS_Achievements_AddNotifyAchievementsUnlockedV2
-    EOS_Achievements_AddNotifyAchievementsUnlockedV2.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_AddNotifyAchievementsUnlockedV2Options), c_void_p, EOS_Achievements_OnAchievementsUnlockedCallbackV2]
-    EOS_Achievements_AddNotifyAchievementsUnlockedV2.restype = EOS_EResult
-
-    global EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId
-    EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId = dll.EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId
-    EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_CopyAchievementDefinitionV2ByAchievementIdOptions), POINTER(POINTER(EOS_Achievements_DefinitionV2))]
-    EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId.restype = EOS_EResult
-
-    global EOS_Achievements_CopyAchievementDefinitionV2ByIndex
-    EOS_Achievements_CopyAchievementDefinitionV2ByIndex = dll.EOS_Achievements_CopyAchievementDefinitionV2ByIndex
-    EOS_Achievements_CopyAchievementDefinitionV2ByIndex.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_CopyAchievementDefinitionV2ByIndexOptions), POINTER(POINTER(EOS_Achievements_DefinitionV2))]
-    EOS_Achievements_CopyAchievementDefinitionV2ByIndex.restype = EOS_EResult
-
-    global EOS_Achievements_CopyPlayerAchievementByAchievementId
-    EOS_Achievements_CopyPlayerAchievementByAchievementId = dll.EOS_Achievements_CopyPlayerAchievementByAchievementId
-    EOS_Achievements_CopyPlayerAchievementByAchievementId.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_CopyPlayerAchievementByAchievementIdOptions), POINTER(POINTER(EOS_Achievements_PlayerAchievement))]
-    EOS_Achievements_CopyPlayerAchievementByAchievementId.restype = EOS_EResult
-
-    global EOS_Achievements_CopyPlayerAchievementByIndex
-    EOS_Achievements_CopyPlayerAchievementByIndex = dll.EOS_Achievements_CopyPlayerAchievementByIndex
-    EOS_Achievements_CopyPlayerAchievementByIndex.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_CopyPlayerAchievementByIndexOptions), POINTER(POINTER(EOS_Achievements_PlayerAchievement))]
-    EOS_Achievements_CopyPlayerAchievementByIndex.restype = EOS_EResult
-
-    global EOS_Achievements_DefinitionV2_Release
-    EOS_Achievements_DefinitionV2_Release = dll.EOS_Achievements_DefinitionV2_Release
-    EOS_Achievements_DefinitionV2_Release.argtypes = [POINTER(EOS_Achievements_DefinitionV2)]
-    EOS_Achievements_DefinitionV2_Release.restype = EOS_EResult
-
-    global EOS_Achievements_GetAchievementDefinitionCount
-    EOS_Achievements_GetAchievementDefinitionCount = dll.EOS_Achievements_GetAchievementDefinitionCount
-    EOS_Achievements_GetAchievementDefinitionCount.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_GetAchievementDefinitionCountOptions)]
-    EOS_Achievements_GetAchievementDefinitionCount.restype = c_uint32
-
-    global EOS_Achievements_GetPlayerAchievementCount
-    EOS_Achievements_GetPlayerAchievementCount = dll.EOS_Achievements_GetPlayerAchievementCount
-    EOS_Achievements_GetPlayerAchievementCount.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_GetPlayerAchievementCountOptions)]
-    EOS_Achievements_GetPlayerAchievementCount.restype = c_uint32
-
-    global EOS_Achievements_PlayerAchievement_Release
-    EOS_Achievements_PlayerAchievement_Release = dll.EOS_Achievements_PlayerAchievement_Release
-    EOS_Achievements_PlayerAchievement_Release.argtypes = [POINTER(EOS_Achievements_PlayerAchievement)]
-    EOS_Achievements_PlayerAchievement_Release.restype = EOS_EResult
-
-    global EOS_Achievements_QueryDefinitions
-    EOS_Achievements_QueryDefinitions = dll.EOS_Achievements_QueryDefinitions
-    EOS_Achievements_QueryDefinitions.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_QueryDefinitionsOptions), c_void_p, EOS_Achievements_OnQueryDefinitionsCompleteCallback]
-    EOS_Achievements_QueryDefinitions.restype = None
-
-    global EOS_Achievements_QueryPlayerAchievements
-    EOS_Achievements_QueryPlayerAchievements = dll.EOS_Achievements_QueryPlayerAchievements
-    EOS_Achievements_QueryPlayerAchievements.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_QueryPlayerAchievementsOptions), c_void_p, EOS_Achievements_OnQueryPlayerAchievementsCompleteCallback]
-    EOS_Achievements_QueryPlayerAchievements.restype = EOS_EResult
-
-    global EOS_Achievements_RemoveNotifyAchievementsUnlocked
-    EOS_Achievements_RemoveNotifyAchievementsUnlocked = dll.EOS_Achievements_RemoveNotifyAchievementsUnlocked
-    EOS_Achievements_RemoveNotifyAchievementsUnlocked.argtypes = [EOS_HAchievements, EOS_NotificationId]
-    EOS_Achievements_RemoveNotifyAchievementsUnlocked.restype = EOS_EResult
-
-    global EOS_Achievements_UnlockAchievements
-    EOS_Achievements_UnlockAchievements = dll.EOS_Achievements_UnlockAchievements
-    EOS_Achievements_UnlockAchievements.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_UnlockAchievementsOptions), c_void_p, EOS_Achievements_OnUnlockAchievementsCompleteCallback]
-    EOS_Achievements_UnlockAchievements.restype = EOS_EResult
-
-    # DEPRECATED Achievements
-
-    global EOS_Achievements_Definition_Release
-    EOS_Achievements_Definition_Release = dll.EOS_Achievements_Definition_Release
-    EOS_Achievements_Definition_Release.argtypes = [POINTER(EOS_Achievements_Definition)]
-    EOS_Achievements_Definition_Release.restype = None
-
-    global EOS_Achievements_UnlockedAchievement_Release
-    EOS_Achievements_UnlockedAchievement_Release = dll.EOS_Achievements_UnlockedAchievement_Release
-    EOS_Achievements_UnlockedAchievement_Release.argtypes = [POINTER(EOS_Achievements_UnlockedAchievement)]
-    EOS_Achievements_UnlockedAchievement_Release.restype = None
-
-    global EOS_Achievements_AddNotifyAchievementsUnlocked
-    EOS_Achievements_AddNotifyAchievementsUnlocked = dll.EOS_Achievements_AddNotifyAchievementsUnlocked
-    EOS_Achievements_AddNotifyAchievementsUnlocked.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_AddNotifyAchievementsUnlockedOptions), c_void_p, EOS_Achievements_OnAchievementsUnlockedCallback]
-    EOS_Achievements_AddNotifyAchievementsUnlocked.restype = EOS_NotificationId
-
-    global EOS_Achievements_CopyAchievementDefinitionByAchievementId
-    EOS_Achievements_CopyAchievementDefinitionByAchievementId = dll.EOS_Achievements_CopyAchievementDefinitionByAchievementId
-    EOS_Achievements_CopyAchievementDefinitionByAchievementId.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_CopyAchievementDefinitionByAchievementIdOptions), POINTER(POINTER(EOS_Achievements_Definition))]
-    EOS_Achievements_CopyAchievementDefinitionByAchievementId.restype = EOS_EResult
-
-    global EOS_Achievements_CopyAchievementDefinitionByIndex
-    EOS_Achievements_CopyAchievementDefinitionByIndex = dll.EOS_Achievements_CopyAchievementDefinitionByIndex
-    EOS_Achievements_CopyAchievementDefinitionByIndex.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_CopyAchievementDefinitionByIndexOptions), POINTER(POINTER(EOS_Achievements_Definition))]
-    EOS_Achievements_CopyAchievementDefinitionByIndex.restype = EOS_EResult
-
-    global EOS_Achievements_CopyUnlockedAchievementByAchievementId
-    EOS_Achievements_CopyUnlockedAchievementByAchievementId = dll.EOS_Achievements_CopyUnlockedAchievementByAchievementId
-    EOS_Achievements_CopyUnlockedAchievementByAchievementId.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_CopyUnlockedAchievementByAchievementIdOptions), POINTER(POINTER(EOS_Achievements_UnlockedAchievement))]
-    EOS_Achievements_CopyUnlockedAchievementByAchievementId.restype = EOS_EResult
-
-    global EOS_Achievements_CopyUnlockedAchievementByIndex
-    EOS_Achievements_CopyUnlockedAchievementByIndex = dll.EOS_Achievements_CopyUnlockedAchievementByIndex
-    EOS_Achievements_CopyUnlockedAchievementByIndex.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_CopyUnlockedAchievementByIndexOptions), POINTER(POINTER(EOS_Achievements_UnlockedAchievement))]
-    EOS_Achievements_CopyUnlockedAchievementByIndex.restype = EOS_EResult
-
-    global EOS_Achievements_GetUnlockedAchievementCount
-    EOS_Achievements_GetUnlockedAchievementCount = dll.EOS_Achievements_GetUnlockedAchievementCount
-    EOS_Achievements_GetUnlockedAchievementCount.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_GetUnlockedAchievementCountOptions)]
-    EOS_Achievements_GetUnlockedAchievementCount.restype = c_uint32
-
-    # Connect
-
     global EOS_Connect_ExternalAccountInfo_Release
     EOS_Connect_ExternalAccountInfo_Release = dll.EOS_Connect_ExternalAccountInfo_Release
     EOS_Connect_ExternalAccountInfo_Release.argtypes = [POINTER(EOS_Connect_ExternalAccountInfo)]
@@ -2678,50 +12633,130 @@ def load(dll):
     EOS_Connect_IdToken_Release.argtypes = [POINTER(EOS_Connect_IdToken)]
     EOS_Connect_IdToken_Release.restype = None
 
-    global EOS_Connect_Login
-    EOS_Connect_Login = dll.EOS_Connect_Login
-    EOS_Connect_Login.argtypes = [EOS_HConnect, POINTER(EOS_Connect_LoginOptions), c_void_p, EOS_Connect_OnLoginCallback]
-    EOS_Connect_Login.restype = None
+    global EOS_Ecom_Entitlement_Release
+    EOS_Ecom_Entitlement_Release = dll.EOS_Ecom_Entitlement_Release
+    EOS_Ecom_Entitlement_Release.argtypes = [POINTER(EOS_Ecom_Entitlement)]
+    EOS_Ecom_Entitlement_Release.restype = None
 
-    global EOS_Connect_CreateUser
-    EOS_Connect_CreateUser = dll.EOS_Connect_CreateUser
-    EOS_Connect_CreateUser.argtypes = [EOS_HConnect, POINTER(EOS_Connect_CreateUserOptions), c_void_p, EOS_Connect_OnCreateUserCallback]
-    EOS_Connect_CreateUser.restype = None
+    global EOS_Ecom_CatalogItem_Release
+    EOS_Ecom_CatalogItem_Release = dll.EOS_Ecom_CatalogItem_Release
+    EOS_Ecom_CatalogItem_Release.argtypes = [POINTER(EOS_Ecom_CatalogItem)]
+    EOS_Ecom_CatalogItem_Release.restype = None
 
-    global EOS_Connect_LinkAccount
-    EOS_Connect_LinkAccount = dll.EOS_Connect_LinkAccount
-    EOS_Connect_LinkAccount.argtypes = [EOS_HConnect, POINTER(EOS_Connect_LinkAccountOptions), c_void_p, EOS_Connect_OnLinkAccountCallback]
-    EOS_Connect_LinkAccount.restype = None
+    global EOS_Ecom_CatalogOffer_Release
+    EOS_Ecom_CatalogOffer_Release = dll.EOS_Ecom_CatalogOffer_Release
+    EOS_Ecom_CatalogOffer_Release.argtypes = [POINTER(EOS_Ecom_CatalogOffer)]
+    EOS_Ecom_CatalogOffer_Release.restype = None
 
-    global EOS_Connect_UnlinkAccount
-    EOS_Connect_UnlinkAccount = dll.EOS_Connect_UnlinkAccount
-    EOS_Connect_UnlinkAccount.argtypes = [EOS_HConnect, POINTER(EOS_Connect_UnlinkAccountOptions), c_void_p, EOS_Connect_OnUnlinkAccountCallback]
-    EOS_Connect_UnlinkAccount.restype = None
+    global EOS_Ecom_KeyImageInfo_Release
+    EOS_Ecom_KeyImageInfo_Release = dll.EOS_Ecom_KeyImageInfo_Release
+    EOS_Ecom_KeyImageInfo_Release.argtypes = [POINTER(EOS_Ecom_KeyImageInfo)]
+    EOS_Ecom_KeyImageInfo_Release.restype = None
 
-    global EOS_Connect_CreateDeviceId
-    EOS_Connect_CreateDeviceId = dll.EOS_Connect_CreateDeviceId
-    EOS_Connect_CreateDeviceId.argtypes = [EOS_HConnect, POINTER(EOS_Connect_CreateDeviceIdOptions), c_void_p, EOS_Connect_OnCreateDeviceIdCallback]
-    EOS_Connect_CreateDeviceId.restype = None
+    global EOS_Ecom_CatalogRelease_Release
+    EOS_Ecom_CatalogRelease_Release = dll.EOS_Ecom_CatalogRelease_Release
+    EOS_Ecom_CatalogRelease_Release.argtypes = [POINTER(EOS_Ecom_CatalogRelease)]
+    EOS_Ecom_CatalogRelease_Release.restype = None
 
-    global EOS_Connect_DeleteDeviceId
-    EOS_Connect_DeleteDeviceId = dll.EOS_Connect_DeleteDeviceId
-    EOS_Connect_DeleteDeviceId.argtypes = [EOS_HConnect, POINTER(EOS_Connect_DeleteDeviceIdOptions), c_void_p, EOS_Connect_OnDeleteDeviceIdCallback]
-    EOS_Connect_DeleteDeviceId.restype = None
+    global EOS_Ecom_Transaction_Release
+    EOS_Ecom_Transaction_Release = dll.EOS_Ecom_Transaction_Release
+    EOS_Ecom_Transaction_Release.argtypes = [EOS_Ecom_HTransaction]
+    EOS_Ecom_Transaction_Release.restype = None
 
-    global EOS_Connect_TransferDeviceIdAccount
-    EOS_Connect_TransferDeviceIdAccount = dll.EOS_Connect_TransferDeviceIdAccount
-    EOS_Connect_TransferDeviceIdAccount.argtypes = [EOS_HConnect, POINTER(EOS_Connect_TransferDeviceIdAccountOptions), c_void_p, EOS_Connect_OnTransferDeviceIdAccountCallback]
-    EOS_Connect_TransferDeviceIdAccount.restype = None
+    global EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer
+    EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer = dll.EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer
+    EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer.argtypes = [POINTER(EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainerOptions), POINTER(EOS_HIntegratedPlatformOptionsContainer)]
+    EOS_IntegratedPlatform_CreateIntegratedPlatformOptionsContainer.restype = EOS_EResult
 
-    global EOS_Connect_QueryExternalAccountMappings
-    EOS_Connect_QueryExternalAccountMappings = dll.EOS_Connect_QueryExternalAccountMappings
-    EOS_Connect_QueryExternalAccountMappings.argtypes = [EOS_HConnect, POINTER(EOS_Connect_QueryExternalAccountMappingsOptions), c_void_p, EOS_Connect_OnQueryExternalAccountMappingsCallback]
-    EOS_Connect_QueryExternalAccountMappings.restype = None
+    global EOS_IntegratedPlatformOptionsContainer_Release
+    EOS_IntegratedPlatformOptionsContainer_Release = dll.EOS_IntegratedPlatformOptionsContainer_Release
+    EOS_IntegratedPlatformOptionsContainer_Release.argtypes = [EOS_HIntegratedPlatformOptionsContainer]
+    EOS_IntegratedPlatformOptionsContainer_Release.restype = None
 
-    global EOS_Connect_QueryProductUserIdMappings
-    EOS_Connect_QueryProductUserIdMappings = dll.EOS_Connect_QueryProductUserIdMappings
-    EOS_Connect_QueryProductUserIdMappings.argtypes = [EOS_HConnect, POINTER(EOS_Connect_QueryProductUserIdMappingsOptions), c_void_p, EOS_Connect_OnQueryProductUserIdMappingsCallback]
-    EOS_Connect_QueryProductUserIdMappings.restype = None
+    global EOS_KWS_PermissionStatus_Release
+    EOS_KWS_PermissionStatus_Release = dll.EOS_KWS_PermissionStatus_Release
+    EOS_KWS_PermissionStatus_Release.argtypes = [POINTER(EOS_KWS_PermissionStatus)]
+    EOS_KWS_PermissionStatus_Release.restype = None
+
+    global EOS_Leaderboards_LeaderboardDefinition_Release
+    EOS_Leaderboards_LeaderboardDefinition_Release = dll.EOS_Leaderboards_LeaderboardDefinition_Release
+    EOS_Leaderboards_LeaderboardDefinition_Release.argtypes = [POINTER(EOS_Leaderboards_Definition)]
+    EOS_Leaderboards_LeaderboardDefinition_Release.restype = None
+
+    global EOS_Logging_SetLogLevel
+    EOS_Logging_SetLogLevel = dll.EOS_Logging_SetLogLevel
+    EOS_Logging_SetLogLevel.argtypes = [EOS_ELogCategory, EOS_ELogLevel]
+    EOS_Logging_SetLogLevel.restype = EOS_EResult
+
+    global EOS_Mods_ModInfo_Release
+    EOS_Mods_ModInfo_Release = dll.EOS_Mods_ModInfo_Release
+    EOS_Mods_ModInfo_Release.argtypes = [POINTER(EOS_Mods_ModInfo)]
+    EOS_Mods_ModInfo_Release.restype = None
+
+    global EOS_PlayerDataStorage_FileMetadata_Release
+    EOS_PlayerDataStorage_FileMetadata_Release = dll.EOS_PlayerDataStorage_FileMetadata_Release
+    EOS_PlayerDataStorage_FileMetadata_Release.argtypes = [POINTER(EOS_PlayerDataStorage_FileMetadata)]
+    EOS_PlayerDataStorage_FileMetadata_Release.restype = None
+
+    global EOS_PlayerDataStorageFileTransferRequest_Release
+    EOS_PlayerDataStorageFileTransferRequest_Release = dll.EOS_PlayerDataStorageFileTransferRequest_Release
+    EOS_PlayerDataStorageFileTransferRequest_Release.argtypes = [EOS_HPlayerDataStorageFileTransferRequest]
+    EOS_PlayerDataStorageFileTransferRequest_Release.restype = None
+
+    global EOS_RTCAdmin_UserToken_Release
+    EOS_RTCAdmin_UserToken_Release = dll.EOS_RTCAdmin_UserToken_Release
+    EOS_RTCAdmin_UserToken_Release.argtypes = [POINTER(EOS_RTCAdmin_UserToken)]
+    EOS_RTCAdmin_UserToken_Release.restype = None
+
+    global EOS_Sanctions_PlayerSanction_Release
+    EOS_Sanctions_PlayerSanction_Release = dll.EOS_Sanctions_PlayerSanction_Release
+    EOS_Sanctions_PlayerSanction_Release.argtypes = [POINTER(EOS_Sanctions_PlayerSanction)]
+    EOS_Sanctions_PlayerSanction_Release.restype = None
+
+    global EOS_Stats_Stat_Release
+    EOS_Stats_Stat_Release = dll.EOS_Stats_Stat_Release
+    EOS_Stats_Stat_Release.argtypes = [POINTER(EOS_Stats_Stat)]
+    EOS_Stats_Stat_Release.restype = None
+
+    global EOS_TitleStorage_FileMetadata_Release
+    EOS_TitleStorage_FileMetadata_Release = dll.EOS_TitleStorage_FileMetadata_Release
+    EOS_TitleStorage_FileMetadata_Release.argtypes = [POINTER(EOS_TitleStorage_FileMetadata)]
+    EOS_TitleStorage_FileMetadata_Release.restype = None
+
+    global EOS_TitleStorageFileTransferRequest_Release
+    EOS_TitleStorageFileTransferRequest_Release = dll.EOS_TitleStorageFileTransferRequest_Release
+    EOS_TitleStorageFileTransferRequest_Release.argtypes = [EOS_HTitleStorageFileTransferRequest]
+    EOS_TitleStorageFileTransferRequest_Release.restype = None
+
+    global EOS_EApplicationStatus_ToString
+    EOS_EApplicationStatus_ToString = dll.EOS_EApplicationStatus_ToString
+    EOS_EApplicationStatus_ToString.argtypes = [EOS_EApplicationStatus]
+    EOS_EApplicationStatus_ToString.restype = c_char_p
+
+    global EOS_ENetworkStatus_ToString
+    EOS_ENetworkStatus_ToString = dll.EOS_ENetworkStatus_ToString
+    EOS_ENetworkStatus_ToString.argtypes = [EOS_ENetworkStatus]
+    EOS_ENetworkStatus_ToString.restype = c_char_p
+
+    global EOS_UserInfo_Release
+    EOS_UserInfo_Release = dll.EOS_UserInfo_Release
+    EOS_UserInfo_Release.argtypes = [POINTER(EOS_UserInfo)]
+    EOS_UserInfo_Release.restype = None
+
+    global EOS_UserInfo_ExternalUserInfo_Release
+    EOS_UserInfo_ExternalUserInfo_Release = dll.EOS_UserInfo_ExternalUserInfo_Release
+    EOS_UserInfo_ExternalUserInfo_Release.argtypes = [POINTER(EOS_UserInfo_ExternalUserInfo)]
+    EOS_UserInfo_ExternalUserInfo_Release.restype = None
+
+    global EOS_UserInfo_BestDisplayName_Release
+    EOS_UserInfo_BestDisplayName_Release = dll.EOS_UserInfo_BestDisplayName_Release
+    EOS_UserInfo_BestDisplayName_Release.argtypes = [POINTER(EOS_UserInfo_BestDisplayName)]
+    EOS_UserInfo_BestDisplayName_Release.restype = None
+
+    global EOS_Achievements_UnlockedAchievement_Release
+    EOS_Achievements_UnlockedAchievement_Release = dll.EOS_Achievements_UnlockedAchievement_Release
+    EOS_Achievements_UnlockedAchievement_Release.argtypes = [POINTER(EOS_Achievements_UnlockedAchievement)]
+    EOS_Achievements_UnlockedAchievement_Release.restype = None
 
     global EOS_Connect_GetExternalAccountMapping
     EOS_Connect_GetExternalAccountMapping = dll.EOS_Connect_GetExternalAccountMapping
@@ -2773,20 +12808,10 @@ def load(dll):
     EOS_Connect_GetLoginStatus.argtypes = [EOS_HConnect, EOS_ProductUserId]
     EOS_Connect_GetLoginStatus.restype = EOS_ELoginStatus
 
-    global EOS_Connect_AddNotifyAuthExpiration
-    EOS_Connect_AddNotifyAuthExpiration = dll.EOS_Connect_AddNotifyAuthExpiration
-    EOS_Connect_AddNotifyAuthExpiration.argtypes = [EOS_HConnect, POINTER(EOS_Connect_AddNotifyAuthExpirationOptions), c_void_p, EOS_Connect_OnAuthExpirationCallback]
-    EOS_Connect_AddNotifyAuthExpiration.restype = EOS_NotificationId
-
     global EOS_Connect_RemoveNotifyAuthExpiration
     EOS_Connect_RemoveNotifyAuthExpiration = dll.EOS_Connect_RemoveNotifyAuthExpiration
     EOS_Connect_RemoveNotifyAuthExpiration.argtypes = [EOS_HConnect, EOS_NotificationId]
     EOS_Connect_RemoveNotifyAuthExpiration.restype = None
-
-    global EOS_Connect_AddNotifyLoginStatusChanged
-    EOS_Connect_AddNotifyLoginStatusChanged = dll.EOS_Connect_AddNotifyLoginStatusChanged
-    EOS_Connect_AddNotifyLoginStatusChanged.argtypes = [EOS_HConnect, POINTER(EOS_Connect_AddNotifyLoginStatusChangedOptions), c_void_p, EOS_Connect_OnLoginStatusChangedCallback]
-    EOS_Connect_AddNotifyLoginStatusChanged.restype = EOS_NotificationId
 
     global EOS_Connect_RemoveNotifyLoginStatusChanged
     EOS_Connect_RemoveNotifyLoginStatusChanged = dll.EOS_Connect_RemoveNotifyLoginStatusChanged
@@ -2798,27 +12823,520 @@ def load(dll):
     EOS_Connect_CopyIdToken.argtypes = [EOS_HConnect, POINTER(EOS_Connect_CopyIdTokenOptions), POINTER(POINTER(EOS_Connect_IdToken))]
     EOS_Connect_CopyIdToken.restype = EOS_EResult
 
-    global EOS_Connect_VerifyIdToken
-    EOS_Connect_VerifyIdToken = dll.EOS_Connect_VerifyIdToken
-    EOS_Connect_VerifyIdToken.argtypes = [EOS_HConnect, POINTER(EOS_Connect_VerifyIdTokenOptions), c_void_p, EOS_Connect_OnVerifyIdTokenCallback]
-    EOS_Connect_VerifyIdToken.restype = None
+    global EOS_Ecom_GetLastRedeemedEntitlementsCount
+    EOS_Ecom_GetLastRedeemedEntitlementsCount = dll.EOS_Ecom_GetLastRedeemedEntitlementsCount
+    EOS_Ecom_GetLastRedeemedEntitlementsCount.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_GetLastRedeemedEntitlementsCountOptions)]
+    EOS_Ecom_GetLastRedeemedEntitlementsCount.restype = c_uint32
 
-    # Stats
+    global EOS_Ecom_CopyLastRedeemedEntitlementByIndex
+    EOS_Ecom_CopyLastRedeemedEntitlementByIndex = dll.EOS_Ecom_CopyLastRedeemedEntitlementByIndex
+    EOS_Ecom_CopyLastRedeemedEntitlementByIndex.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_CopyLastRedeemedEntitlementByIndexOptions), c_char_p, POINTER(c_int32)]
+    EOS_Ecom_CopyLastRedeemedEntitlementByIndex.restype = EOS_EResult
 
-    global EOS_Stats_Stat_Release
-    EOS_Stats_Stat_Release = dll.EOS_Stats_Stat_Release
-    EOS_Stats_Stat_Release.argtypes = [POINTER(EOS_Stats_Stat)]
-    EOS_Stats_Stat_Release.restype = None
+    global EOS_Ecom_GetEntitlementsCount
+    EOS_Ecom_GetEntitlementsCount = dll.EOS_Ecom_GetEntitlementsCount
+    EOS_Ecom_GetEntitlementsCount.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_GetEntitlementsCountOptions)]
+    EOS_Ecom_GetEntitlementsCount.restype = c_uint32
 
-    global EOS_Stats_IngestStat
-    EOS_Stats_IngestStat = dll.EOS_Stats_IngestStat
-    EOS_Stats_IngestStat.argtypes = [EOS_HStats, POINTER(EOS_Stats_IngestStatOptions), c_void_p, EOS_Stats_OnIngestStatCompleteCallback]
-    EOS_Stats_IngestStat.restype = None
+    global EOS_Ecom_GetEntitlementsByNameCount
+    EOS_Ecom_GetEntitlementsByNameCount = dll.EOS_Ecom_GetEntitlementsByNameCount
+    EOS_Ecom_GetEntitlementsByNameCount.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_GetEntitlementsByNameCountOptions)]
+    EOS_Ecom_GetEntitlementsByNameCount.restype = c_uint32
 
-    global EOS_Stats_QueryStats
-    EOS_Stats_QueryStats = dll.EOS_Stats_QueryStats
-    EOS_Stats_QueryStats.argtypes = [EOS_HStats, POINTER(EOS_Stats_QueryStatsOptions), c_void_p, EOS_Stats_OnQueryStatsCompleteCallback]
-    EOS_Stats_QueryStats.restype = None
+    global EOS_Ecom_CopyEntitlementByIndex
+    EOS_Ecom_CopyEntitlementByIndex = dll.EOS_Ecom_CopyEntitlementByIndex
+    EOS_Ecom_CopyEntitlementByIndex.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_CopyEntitlementByIndexOptions), POINTER(POINTER(EOS_Ecom_Entitlement))]
+    EOS_Ecom_CopyEntitlementByIndex.restype = EOS_EResult
+
+    global EOS_Ecom_CopyEntitlementByNameAndIndex
+    EOS_Ecom_CopyEntitlementByNameAndIndex = dll.EOS_Ecom_CopyEntitlementByNameAndIndex
+    EOS_Ecom_CopyEntitlementByNameAndIndex.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_CopyEntitlementByNameAndIndexOptions), POINTER(POINTER(EOS_Ecom_Entitlement))]
+    EOS_Ecom_CopyEntitlementByNameAndIndex.restype = EOS_EResult
+
+    global EOS_Ecom_CopyEntitlementById
+    EOS_Ecom_CopyEntitlementById = dll.EOS_Ecom_CopyEntitlementById
+    EOS_Ecom_CopyEntitlementById.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_CopyEntitlementByIdOptions), POINTER(POINTER(EOS_Ecom_Entitlement))]
+    EOS_Ecom_CopyEntitlementById.restype = EOS_EResult
+
+    global EOS_Ecom_GetOfferCount
+    EOS_Ecom_GetOfferCount = dll.EOS_Ecom_GetOfferCount
+    EOS_Ecom_GetOfferCount.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_GetOfferCountOptions)]
+    EOS_Ecom_GetOfferCount.restype = c_uint32
+
+    global EOS_Ecom_CopyOfferByIndex
+    EOS_Ecom_CopyOfferByIndex = dll.EOS_Ecom_CopyOfferByIndex
+    EOS_Ecom_CopyOfferByIndex.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_CopyOfferByIndexOptions), POINTER(POINTER(EOS_Ecom_CatalogOffer))]
+    EOS_Ecom_CopyOfferByIndex.restype = EOS_EResult
+
+    global EOS_Ecom_CopyOfferById
+    EOS_Ecom_CopyOfferById = dll.EOS_Ecom_CopyOfferById
+    EOS_Ecom_CopyOfferById.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_CopyOfferByIdOptions), POINTER(POINTER(EOS_Ecom_CatalogOffer))]
+    EOS_Ecom_CopyOfferById.restype = EOS_EResult
+
+    global EOS_Ecom_GetOfferItemCount
+    EOS_Ecom_GetOfferItemCount = dll.EOS_Ecom_GetOfferItemCount
+    EOS_Ecom_GetOfferItemCount.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_GetOfferItemCountOptions)]
+    EOS_Ecom_GetOfferItemCount.restype = c_uint32
+
+    global EOS_Ecom_CopyOfferItemByIndex
+    EOS_Ecom_CopyOfferItemByIndex = dll.EOS_Ecom_CopyOfferItemByIndex
+    EOS_Ecom_CopyOfferItemByIndex.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_CopyOfferItemByIndexOptions), POINTER(POINTER(EOS_Ecom_CatalogItem))]
+    EOS_Ecom_CopyOfferItemByIndex.restype = EOS_EResult
+
+    global EOS_Ecom_CopyItemById
+    EOS_Ecom_CopyItemById = dll.EOS_Ecom_CopyItemById
+    EOS_Ecom_CopyItemById.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_CopyItemByIdOptions), POINTER(POINTER(EOS_Ecom_CatalogItem))]
+    EOS_Ecom_CopyItemById.restype = EOS_EResult
+
+    global EOS_Ecom_GetOfferImageInfoCount
+    EOS_Ecom_GetOfferImageInfoCount = dll.EOS_Ecom_GetOfferImageInfoCount
+    EOS_Ecom_GetOfferImageInfoCount.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_GetOfferImageInfoCountOptions)]
+    EOS_Ecom_GetOfferImageInfoCount.restype = c_uint32
+
+    global EOS_Ecom_CopyOfferImageInfoByIndex
+    EOS_Ecom_CopyOfferImageInfoByIndex = dll.EOS_Ecom_CopyOfferImageInfoByIndex
+    EOS_Ecom_CopyOfferImageInfoByIndex.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_CopyOfferImageInfoByIndexOptions), POINTER(POINTER(EOS_Ecom_KeyImageInfo))]
+    EOS_Ecom_CopyOfferImageInfoByIndex.restype = EOS_EResult
+
+    global EOS_Ecom_GetItemImageInfoCount
+    EOS_Ecom_GetItemImageInfoCount = dll.EOS_Ecom_GetItemImageInfoCount
+    EOS_Ecom_GetItemImageInfoCount.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_GetItemImageInfoCountOptions)]
+    EOS_Ecom_GetItemImageInfoCount.restype = c_uint32
+
+    global EOS_Ecom_CopyItemImageInfoByIndex
+    EOS_Ecom_CopyItemImageInfoByIndex = dll.EOS_Ecom_CopyItemImageInfoByIndex
+    EOS_Ecom_CopyItemImageInfoByIndex.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_CopyItemImageInfoByIndexOptions), POINTER(POINTER(EOS_Ecom_KeyImageInfo))]
+    EOS_Ecom_CopyItemImageInfoByIndex.restype = EOS_EResult
+
+    global EOS_Ecom_GetItemReleaseCount
+    EOS_Ecom_GetItemReleaseCount = dll.EOS_Ecom_GetItemReleaseCount
+    EOS_Ecom_GetItemReleaseCount.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_GetItemReleaseCountOptions)]
+    EOS_Ecom_GetItemReleaseCount.restype = c_uint32
+
+    global EOS_Ecom_CopyItemReleaseByIndex
+    EOS_Ecom_CopyItemReleaseByIndex = dll.EOS_Ecom_CopyItemReleaseByIndex
+    EOS_Ecom_CopyItemReleaseByIndex.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_CopyItemReleaseByIndexOptions), POINTER(POINTER(EOS_Ecom_CatalogRelease))]
+    EOS_Ecom_CopyItemReleaseByIndex.restype = EOS_EResult
+
+    global EOS_Ecom_GetTransactionCount
+    EOS_Ecom_GetTransactionCount = dll.EOS_Ecom_GetTransactionCount
+    EOS_Ecom_GetTransactionCount.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_GetTransactionCountOptions)]
+    EOS_Ecom_GetTransactionCount.restype = c_uint32
+
+    global EOS_Ecom_CopyTransactionByIndex
+    EOS_Ecom_CopyTransactionByIndex = dll.EOS_Ecom_CopyTransactionByIndex
+    EOS_Ecom_CopyTransactionByIndex.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_CopyTransactionByIndexOptions), POINTER(EOS_Ecom_HTransaction)]
+    EOS_Ecom_CopyTransactionByIndex.restype = EOS_EResult
+
+    global EOS_Ecom_CopyTransactionById
+    EOS_Ecom_CopyTransactionById = dll.EOS_Ecom_CopyTransactionById
+    EOS_Ecom_CopyTransactionById.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_CopyTransactionByIdOptions), POINTER(EOS_Ecom_HTransaction)]
+    EOS_Ecom_CopyTransactionById.restype = EOS_EResult
+
+    global EOS_Ecom_Transaction_GetTransactionId
+    EOS_Ecom_Transaction_GetTransactionId = dll.EOS_Ecom_Transaction_GetTransactionId
+    EOS_Ecom_Transaction_GetTransactionId.argtypes = [EOS_Ecom_HTransaction, c_char_p, POINTER(c_int32)]
+    EOS_Ecom_Transaction_GetTransactionId.restype = EOS_EResult
+
+    global EOS_Ecom_Transaction_GetEntitlementsCount
+    EOS_Ecom_Transaction_GetEntitlementsCount = dll.EOS_Ecom_Transaction_GetEntitlementsCount
+    EOS_Ecom_Transaction_GetEntitlementsCount.argtypes = [EOS_Ecom_HTransaction, POINTER(EOS_Ecom_Transaction_GetEntitlementsCountOptions)]
+    EOS_Ecom_Transaction_GetEntitlementsCount.restype = c_uint32
+
+    global EOS_Ecom_Transaction_CopyEntitlementByIndex
+    EOS_Ecom_Transaction_CopyEntitlementByIndex = dll.EOS_Ecom_Transaction_CopyEntitlementByIndex
+    EOS_Ecom_Transaction_CopyEntitlementByIndex.argtypes = [EOS_Ecom_HTransaction, POINTER(EOS_Ecom_Transaction_CopyEntitlementByIndexOptions), POINTER(POINTER(EOS_Ecom_Entitlement))]
+    EOS_Ecom_Transaction_CopyEntitlementByIndex.restype = EOS_EResult
+
+    global EOS_Friends_GetFriendsCount
+    EOS_Friends_GetFriendsCount = dll.EOS_Friends_GetFriendsCount
+    EOS_Friends_GetFriendsCount.argtypes = [EOS_HFriends, POINTER(EOS_Friends_GetFriendsCountOptions)]
+    EOS_Friends_GetFriendsCount.restype = c_int32
+
+    global EOS_Friends_GetFriendAtIndex
+    EOS_Friends_GetFriendAtIndex = dll.EOS_Friends_GetFriendAtIndex
+    EOS_Friends_GetFriendAtIndex.argtypes = [EOS_HFriends, POINTER(EOS_Friends_GetFriendAtIndexOptions)]
+    EOS_Friends_GetFriendAtIndex.restype = EOS_EpicAccountId
+
+    global EOS_Friends_GetStatus
+    EOS_Friends_GetStatus = dll.EOS_Friends_GetStatus
+    EOS_Friends_GetStatus.argtypes = [EOS_HFriends, POINTER(EOS_Friends_GetStatusOptions)]
+    EOS_Friends_GetStatus.restype = EOS_EFriendsStatus
+
+    global EOS_Friends_RemoveNotifyFriendsUpdate
+    EOS_Friends_RemoveNotifyFriendsUpdate = dll.EOS_Friends_RemoveNotifyFriendsUpdate
+    EOS_Friends_RemoveNotifyFriendsUpdate.argtypes = [EOS_HFriends, EOS_NotificationId]
+    EOS_Friends_RemoveNotifyFriendsUpdate.restype = None
+
+    global EOS_Friends_GetBlockedUsersCount
+    EOS_Friends_GetBlockedUsersCount = dll.EOS_Friends_GetBlockedUsersCount
+    EOS_Friends_GetBlockedUsersCount.argtypes = [EOS_HFriends, POINTER(EOS_Friends_GetBlockedUsersCountOptions)]
+    EOS_Friends_GetBlockedUsersCount.restype = c_int32
+
+    global EOS_Friends_GetBlockedUserAtIndex
+    EOS_Friends_GetBlockedUserAtIndex = dll.EOS_Friends_GetBlockedUserAtIndex
+    EOS_Friends_GetBlockedUserAtIndex.argtypes = [EOS_HFriends, POINTER(EOS_Friends_GetBlockedUserAtIndexOptions)]
+    EOS_Friends_GetBlockedUserAtIndex.restype = EOS_EpicAccountId
+
+    global EOS_Friends_RemoveNotifyBlockedUsersUpdate
+    EOS_Friends_RemoveNotifyBlockedUsersUpdate = dll.EOS_Friends_RemoveNotifyBlockedUsersUpdate
+    EOS_Friends_RemoveNotifyBlockedUsersUpdate.argtypes = [EOS_HFriends, EOS_NotificationId]
+    EOS_Friends_RemoveNotifyBlockedUsersUpdate.restype = None
+
+    global EOS_Initialize
+    EOS_Initialize = dll.EOS_Initialize
+    EOS_Initialize.argtypes = [POINTER(EOS_InitializeOptions)]
+    EOS_Initialize.restype = EOS_EResult
+
+    global EOS_Shutdown
+    EOS_Shutdown = dll.EOS_Shutdown
+    EOS_Shutdown.argtypes = []
+    EOS_Shutdown.restype = EOS_EResult
+
+    global EOS_Platform_Create
+    EOS_Platform_Create = dll.EOS_Platform_Create
+    EOS_Platform_Create.argtypes = [POINTER(EOS_Platform_Options)]
+    EOS_Platform_Create.restype = EOS_HPlatform
+
+    global EOS_Platform_Release
+    EOS_Platform_Release = dll.EOS_Platform_Release
+    EOS_Platform_Release.argtypes = [EOS_HPlatform]
+    EOS_Platform_Release.restype = None
+
+    global EOS_IntegratedPlatformOptionsContainer_Add
+    EOS_IntegratedPlatformOptionsContainer_Add = dll.EOS_IntegratedPlatformOptionsContainer_Add
+    EOS_IntegratedPlatformOptionsContainer_Add.argtypes = [EOS_HIntegratedPlatformOptionsContainer, POINTER(EOS_IntegratedPlatformOptionsContainer_AddOptions)]
+    EOS_IntegratedPlatformOptionsContainer_Add.restype = EOS_EResult
+
+    global EOS_IntegratedPlatform_SetUserLoginStatus
+    EOS_IntegratedPlatform_SetUserLoginStatus = dll.EOS_IntegratedPlatform_SetUserLoginStatus
+    EOS_IntegratedPlatform_SetUserLoginStatus.argtypes = [EOS_HIntegratedPlatform, POINTER(EOS_IntegratedPlatform_SetUserLoginStatusOptions)]
+    EOS_IntegratedPlatform_SetUserLoginStatus.restype = EOS_EResult
+
+    global EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged
+    EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged = dll.EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged
+    EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged.argtypes = [EOS_HIntegratedPlatform, EOS_NotificationId]
+    EOS_IntegratedPlatform_RemoveNotifyUserLoginStatusChanged.restype = None
+
+    global EOS_IntegratedPlatform_ClearUserPreLogoutCallback
+    EOS_IntegratedPlatform_ClearUserPreLogoutCallback = dll.EOS_IntegratedPlatform_ClearUserPreLogoutCallback
+    EOS_IntegratedPlatform_ClearUserPreLogoutCallback.argtypes = [EOS_HIntegratedPlatform, POINTER(EOS_IntegratedPlatform_ClearUserPreLogoutCallbackOptions)]
+    EOS_IntegratedPlatform_ClearUserPreLogoutCallback.restype = None
+
+    global EOS_IntegratedPlatform_FinalizeDeferredUserLogout
+    EOS_IntegratedPlatform_FinalizeDeferredUserLogout = dll.EOS_IntegratedPlatform_FinalizeDeferredUserLogout
+    EOS_IntegratedPlatform_FinalizeDeferredUserLogout.argtypes = [EOS_HIntegratedPlatform, POINTER(EOS_IntegratedPlatform_FinalizeDeferredUserLogoutOptions)]
+    EOS_IntegratedPlatform_FinalizeDeferredUserLogout.restype = EOS_EResult
+
+    global EOS_KWS_GetPermissionsCount
+    EOS_KWS_GetPermissionsCount = dll.EOS_KWS_GetPermissionsCount
+    EOS_KWS_GetPermissionsCount.argtypes = [EOS_HKWS, POINTER(EOS_KWS_GetPermissionsCountOptions)]
+    EOS_KWS_GetPermissionsCount.restype = c_int32
+
+    global EOS_KWS_CopyPermissionByIndex
+    EOS_KWS_CopyPermissionByIndex = dll.EOS_KWS_CopyPermissionByIndex
+    EOS_KWS_CopyPermissionByIndex.argtypes = [EOS_HKWS, POINTER(EOS_KWS_CopyPermissionByIndexOptions), POINTER(POINTER(EOS_KWS_PermissionStatus))]
+    EOS_KWS_CopyPermissionByIndex.restype = EOS_EResult
+
+    global EOS_KWS_GetPermissionByKey
+    EOS_KWS_GetPermissionByKey = dll.EOS_KWS_GetPermissionByKey
+    EOS_KWS_GetPermissionByKey.argtypes = [EOS_HKWS, POINTER(EOS_KWS_GetPermissionByKeyOptions), POINTER(EOS_EKWSPermissionStatus)]
+    EOS_KWS_GetPermissionByKey.restype = EOS_EResult
+
+    global EOS_KWS_RemoveNotifyPermissionsUpdateReceived
+    EOS_KWS_RemoveNotifyPermissionsUpdateReceived = dll.EOS_KWS_RemoveNotifyPermissionsUpdateReceived
+    EOS_KWS_RemoveNotifyPermissionsUpdateReceived.argtypes = [EOS_HKWS, EOS_NotificationId]
+    EOS_KWS_RemoveNotifyPermissionsUpdateReceived.restype = None
+
+    global EOS_Leaderboards_Definition_Release
+    EOS_Leaderboards_Definition_Release = dll.EOS_Leaderboards_Definition_Release
+    EOS_Leaderboards_Definition_Release.argtypes = [POINTER(EOS_Leaderboards_Definition)]
+    EOS_Leaderboards_Definition_Release.restype = None
+
+    global EOS_Leaderboards_LeaderboardUserScore_Release
+    EOS_Leaderboards_LeaderboardUserScore_Release = dll.EOS_Leaderboards_LeaderboardUserScore_Release
+    EOS_Leaderboards_LeaderboardUserScore_Release.argtypes = [POINTER(EOS_Leaderboards_LeaderboardUserScore)]
+    EOS_Leaderboards_LeaderboardUserScore_Release.restype = None
+
+    global EOS_Leaderboards_LeaderboardRecord_Release
+    EOS_Leaderboards_LeaderboardRecord_Release = dll.EOS_Leaderboards_LeaderboardRecord_Release
+    EOS_Leaderboards_LeaderboardRecord_Release.argtypes = [POINTER(EOS_Leaderboards_LeaderboardRecord)]
+    EOS_Leaderboards_LeaderboardRecord_Release.restype = None
+
+    global EOS_LobbyModification_Release
+    EOS_LobbyModification_Release = dll.EOS_LobbyModification_Release
+    EOS_LobbyModification_Release.argtypes = [EOS_HLobbyModification]
+    EOS_LobbyModification_Release.restype = None
+
+    global EOS_LobbyDetails_Release
+    EOS_LobbyDetails_Release = dll.EOS_LobbyDetails_Release
+    EOS_LobbyDetails_Release.argtypes = [EOS_HLobbyDetails]
+    EOS_LobbyDetails_Release.restype = None
+
+    global EOS_LobbySearch_Release
+    EOS_LobbySearch_Release = dll.EOS_LobbySearch_Release
+    EOS_LobbySearch_Release.argtypes = [EOS_HLobbySearch]
+    EOS_LobbySearch_Release.restype = None
+
+    global EOS_LobbyDetails_Info_Release
+    EOS_LobbyDetails_Info_Release = dll.EOS_LobbyDetails_Info_Release
+    EOS_LobbyDetails_Info_Release.argtypes = [POINTER(EOS_LobbyDetails_Info)]
+    EOS_LobbyDetails_Info_Release.restype = None
+
+    global EOS_Lobby_Attribute_Release
+    EOS_Lobby_Attribute_Release = dll.EOS_Lobby_Attribute_Release
+    EOS_Lobby_Attribute_Release.argtypes = [POINTER(EOS_Lobby_Attribute)]
+    EOS_Lobby_Attribute_Release.restype = None
+
+    global EOS_LobbyDetails_MemberInfo_Release
+    EOS_LobbyDetails_MemberInfo_Release = dll.EOS_LobbyDetails_MemberInfo_Release
+    EOS_LobbyDetails_MemberInfo_Release.argtypes = [POINTER(EOS_LobbyDetails_MemberInfo)]
+    EOS_LobbyDetails_MemberInfo_Release.restype = None
+
+    global EOS_Metrics_BeginPlayerSession
+    EOS_Metrics_BeginPlayerSession = dll.EOS_Metrics_BeginPlayerSession
+    EOS_Metrics_BeginPlayerSession.argtypes = [EOS_HMetrics, POINTER(EOS_Metrics_BeginPlayerSessionOptions)]
+    EOS_Metrics_BeginPlayerSession.restype = EOS_EResult
+
+    global EOS_Metrics_EndPlayerSession
+    EOS_Metrics_EndPlayerSession = dll.EOS_Metrics_EndPlayerSession
+    EOS_Metrics_EndPlayerSession.argtypes = [EOS_HMetrics, POINTER(EOS_Metrics_EndPlayerSessionOptions)]
+    EOS_Metrics_EndPlayerSession.restype = EOS_EResult
+
+    global EOS_Mods_CopyModInfo
+    EOS_Mods_CopyModInfo = dll.EOS_Mods_CopyModInfo
+    EOS_Mods_CopyModInfo.argtypes = [EOS_HMods, POINTER(EOS_Mods_CopyModInfoOptions), POINTER(POINTER(EOS_Mods_ModInfo))]
+    EOS_Mods_CopyModInfo.restype = EOS_EResult
+
+    global EOS_P2P_SendPacket
+    EOS_P2P_SendPacket = dll.EOS_P2P_SendPacket
+    EOS_P2P_SendPacket.argtypes = [EOS_HP2P, POINTER(EOS_P2P_SendPacketOptions)]
+    EOS_P2P_SendPacket.restype = EOS_EResult
+
+    global EOS_P2P_GetNextReceivedPacketSize
+    EOS_P2P_GetNextReceivedPacketSize = dll.EOS_P2P_GetNextReceivedPacketSize
+    EOS_P2P_GetNextReceivedPacketSize.argtypes = [EOS_HP2P, POINTER(EOS_P2P_GetNextReceivedPacketSizeOptions), POINTER(c_uint32)]
+    EOS_P2P_GetNextReceivedPacketSize.restype = EOS_EResult
+
+    global EOS_P2P_ReceivePacket
+    EOS_P2P_ReceivePacket = dll.EOS_P2P_ReceivePacket
+    EOS_P2P_ReceivePacket.argtypes = [EOS_HP2P, POINTER(EOS_P2P_ReceivePacketOptions), POINTER(EOS_ProductUserId), POINTER(EOS_P2P_SocketId), POINTER(c_uint8), c_void_p, POINTER(c_uint32)]
+    EOS_P2P_ReceivePacket.restype = EOS_EResult
+
+    global EOS_P2P_RemoveNotifyPeerConnectionRequest
+    EOS_P2P_RemoveNotifyPeerConnectionRequest = dll.EOS_P2P_RemoveNotifyPeerConnectionRequest
+    EOS_P2P_RemoveNotifyPeerConnectionRequest.argtypes = [EOS_HP2P, EOS_NotificationId]
+    EOS_P2P_RemoveNotifyPeerConnectionRequest.restype = None
+
+    global EOS_P2P_RemoveNotifyPeerConnectionEstablished
+    EOS_P2P_RemoveNotifyPeerConnectionEstablished = dll.EOS_P2P_RemoveNotifyPeerConnectionEstablished
+    EOS_P2P_RemoveNotifyPeerConnectionEstablished.argtypes = [EOS_HP2P, EOS_NotificationId]
+    EOS_P2P_RemoveNotifyPeerConnectionEstablished.restype = None
+
+    global EOS_P2P_RemoveNotifyPeerConnectionInterrupted
+    EOS_P2P_RemoveNotifyPeerConnectionInterrupted = dll.EOS_P2P_RemoveNotifyPeerConnectionInterrupted
+    EOS_P2P_RemoveNotifyPeerConnectionInterrupted.argtypes = [EOS_HP2P, EOS_NotificationId]
+    EOS_P2P_RemoveNotifyPeerConnectionInterrupted.restype = None
+
+    global EOS_P2P_RemoveNotifyPeerConnectionClosed
+    EOS_P2P_RemoveNotifyPeerConnectionClosed = dll.EOS_P2P_RemoveNotifyPeerConnectionClosed
+    EOS_P2P_RemoveNotifyPeerConnectionClosed.argtypes = [EOS_HP2P, EOS_NotificationId]
+    EOS_P2P_RemoveNotifyPeerConnectionClosed.restype = None
+
+    global EOS_P2P_AcceptConnection
+    EOS_P2P_AcceptConnection = dll.EOS_P2P_AcceptConnection
+    EOS_P2P_AcceptConnection.argtypes = [EOS_HP2P, POINTER(EOS_P2P_AcceptConnectionOptions)]
+    EOS_P2P_AcceptConnection.restype = EOS_EResult
+
+    global EOS_P2P_CloseConnection
+    EOS_P2P_CloseConnection = dll.EOS_P2P_CloseConnection
+    EOS_P2P_CloseConnection.argtypes = [EOS_HP2P, POINTER(EOS_P2P_CloseConnectionOptions)]
+    EOS_P2P_CloseConnection.restype = EOS_EResult
+
+    global EOS_P2P_CloseConnections
+    EOS_P2P_CloseConnections = dll.EOS_P2P_CloseConnections
+    EOS_P2P_CloseConnections.argtypes = [EOS_HP2P, POINTER(EOS_P2P_CloseConnectionsOptions)]
+    EOS_P2P_CloseConnections.restype = EOS_EResult
+
+    global EOS_P2P_GetNATType
+    EOS_P2P_GetNATType = dll.EOS_P2P_GetNATType
+    EOS_P2P_GetNATType.argtypes = [EOS_HP2P, POINTER(EOS_P2P_GetNATTypeOptions), POINTER(EOS_ENATType)]
+    EOS_P2P_GetNATType.restype = EOS_EResult
+
+    global EOS_P2P_SetRelayControl
+    EOS_P2P_SetRelayControl = dll.EOS_P2P_SetRelayControl
+    EOS_P2P_SetRelayControl.argtypes = [EOS_HP2P, POINTER(EOS_P2P_SetRelayControlOptions)]
+    EOS_P2P_SetRelayControl.restype = EOS_EResult
+
+    global EOS_P2P_GetRelayControl
+    EOS_P2P_GetRelayControl = dll.EOS_P2P_GetRelayControl
+    EOS_P2P_GetRelayControl.argtypes = [EOS_HP2P, POINTER(EOS_P2P_GetRelayControlOptions), POINTER(EOS_ERelayControl)]
+    EOS_P2P_GetRelayControl.restype = EOS_EResult
+
+    global EOS_P2P_SetPortRange
+    EOS_P2P_SetPortRange = dll.EOS_P2P_SetPortRange
+    EOS_P2P_SetPortRange.argtypes = [EOS_HP2P, POINTER(EOS_P2P_SetPortRangeOptions)]
+    EOS_P2P_SetPortRange.restype = EOS_EResult
+
+    global EOS_P2P_GetPortRange
+    EOS_P2P_GetPortRange = dll.EOS_P2P_GetPortRange
+    EOS_P2P_GetPortRange.argtypes = [EOS_HP2P, POINTER(EOS_P2P_GetPortRangeOptions), POINTER(c_uint16), POINTER(c_uint16)]
+    EOS_P2P_GetPortRange.restype = EOS_EResult
+
+    global EOS_P2P_SetPacketQueueSize
+    EOS_P2P_SetPacketQueueSize = dll.EOS_P2P_SetPacketQueueSize
+    EOS_P2P_SetPacketQueueSize.argtypes = [EOS_HP2P, POINTER(EOS_P2P_SetPacketQueueSizeOptions)]
+    EOS_P2P_SetPacketQueueSize.restype = EOS_EResult
+
+    global EOS_P2P_GetPacketQueueInfo
+    EOS_P2P_GetPacketQueueInfo = dll.EOS_P2P_GetPacketQueueInfo
+    EOS_P2P_GetPacketQueueInfo.argtypes = [EOS_HP2P, POINTER(EOS_P2P_GetPacketQueueInfoOptions), POINTER(EOS_P2P_PacketQueueInfo)]
+    EOS_P2P_GetPacketQueueInfo.restype = EOS_EResult
+
+    global EOS_P2P_RemoveNotifyIncomingPacketQueueFull
+    EOS_P2P_RemoveNotifyIncomingPacketQueueFull = dll.EOS_P2P_RemoveNotifyIncomingPacketQueueFull
+    EOS_P2P_RemoveNotifyIncomingPacketQueueFull.argtypes = [EOS_HP2P, EOS_NotificationId]
+    EOS_P2P_RemoveNotifyIncomingPacketQueueFull.restype = None
+
+    global EOS_P2P_ClearPacketQueue
+    EOS_P2P_ClearPacketQueue = dll.EOS_P2P_ClearPacketQueue
+    EOS_P2P_ClearPacketQueue.argtypes = [EOS_HP2P, POINTER(EOS_P2P_ClearPacketQueueOptions)]
+    EOS_P2P_ClearPacketQueue.restype = EOS_EResult
+
+    global EOS_PlayerDataStorage_CopyFileMetadataByFilename
+    EOS_PlayerDataStorage_CopyFileMetadataByFilename = dll.EOS_PlayerDataStorage_CopyFileMetadataByFilename
+    EOS_PlayerDataStorage_CopyFileMetadataByFilename.argtypes = [EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_CopyFileMetadataByFilenameOptions), POINTER(POINTER(EOS_PlayerDataStorage_FileMetadata))]
+    EOS_PlayerDataStorage_CopyFileMetadataByFilename.restype = EOS_EResult
+
+    global EOS_PlayerDataStorage_GetFileMetadataCount
+    EOS_PlayerDataStorage_GetFileMetadataCount = dll.EOS_PlayerDataStorage_GetFileMetadataCount
+    EOS_PlayerDataStorage_GetFileMetadataCount.argtypes = [EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_GetFileMetadataCountOptions), POINTER(c_int32)]
+    EOS_PlayerDataStorage_GetFileMetadataCount.restype = EOS_EResult
+
+    global EOS_PlayerDataStorage_CopyFileMetadataAtIndex
+    EOS_PlayerDataStorage_CopyFileMetadataAtIndex = dll.EOS_PlayerDataStorage_CopyFileMetadataAtIndex
+    EOS_PlayerDataStorage_CopyFileMetadataAtIndex.argtypes = [EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_CopyFileMetadataAtIndexOptions), POINTER(POINTER(EOS_PlayerDataStorage_FileMetadata))]
+    EOS_PlayerDataStorage_CopyFileMetadataAtIndex.restype = EOS_EResult
+
+    global EOS_PlayerDataStorageFileTransferRequest_GetFileRequestState
+    EOS_PlayerDataStorageFileTransferRequest_GetFileRequestState = dll.EOS_PlayerDataStorageFileTransferRequest_GetFileRequestState
+    EOS_PlayerDataStorageFileTransferRequest_GetFileRequestState.argtypes = [EOS_HPlayerDataStorageFileTransferRequest]
+    EOS_PlayerDataStorageFileTransferRequest_GetFileRequestState.restype = EOS_EResult
+
+    global EOS_PlayerDataStorageFileTransferRequest_GetFilename
+    EOS_PlayerDataStorageFileTransferRequest_GetFilename = dll.EOS_PlayerDataStorageFileTransferRequest_GetFilename
+    EOS_PlayerDataStorageFileTransferRequest_GetFilename.argtypes = [EOS_HPlayerDataStorageFileTransferRequest, c_uint32, c_char_p, POINTER(c_int32)]
+    EOS_PlayerDataStorageFileTransferRequest_GetFilename.restype = EOS_EResult
+
+    global EOS_PlayerDataStorageFileTransferRequest_CancelRequest
+    EOS_PlayerDataStorageFileTransferRequest_CancelRequest = dll.EOS_PlayerDataStorageFileTransferRequest_CancelRequest
+    EOS_PlayerDataStorageFileTransferRequest_CancelRequest.argtypes = [EOS_HPlayerDataStorageFileTransferRequest]
+    EOS_PlayerDataStorageFileTransferRequest_CancelRequest.restype = EOS_EResult
+
+    global EOS_Presence_Info_Release
+    EOS_Presence_Info_Release = dll.EOS_Presence_Info_Release
+    EOS_Presence_Info_Release.argtypes = [POINTER(EOS_Presence_Info)]
+    EOS_Presence_Info_Release.restype = None
+
+    global EOS_PresenceModification_Release
+    EOS_PresenceModification_Release = dll.EOS_PresenceModification_Release
+    EOS_PresenceModification_Release.argtypes = [EOS_HPresenceModification]
+    EOS_PresenceModification_Release.restype = None
+
+    global EOS_ProgressionSnapshot_BeginSnapshot
+    EOS_ProgressionSnapshot_BeginSnapshot = dll.EOS_ProgressionSnapshot_BeginSnapshot
+    EOS_ProgressionSnapshot_BeginSnapshot.argtypes = [EOS_HProgressionSnapshot, POINTER(EOS_ProgressionSnapshot_BeginSnapshotOptions), POINTER(c_uint32)]
+    EOS_ProgressionSnapshot_BeginSnapshot.restype = EOS_EResult
+
+    global EOS_ProgressionSnapshot_AddProgression
+    EOS_ProgressionSnapshot_AddProgression = dll.EOS_ProgressionSnapshot_AddProgression
+    EOS_ProgressionSnapshot_AddProgression.argtypes = [EOS_HProgressionSnapshot, POINTER(EOS_ProgressionSnapshot_AddProgressionOptions)]
+    EOS_ProgressionSnapshot_AddProgression.restype = EOS_EResult
+
+    global EOS_ProgressionSnapshot_EndSnapshot
+    EOS_ProgressionSnapshot_EndSnapshot = dll.EOS_ProgressionSnapshot_EndSnapshot
+    EOS_ProgressionSnapshot_EndSnapshot.argtypes = [EOS_HProgressionSnapshot, POINTER(EOS_ProgressionSnapshot_EndSnapshotOptions)]
+    EOS_ProgressionSnapshot_EndSnapshot.restype = EOS_EResult
+
+    global EOS_RTCAdmin_CopyUserTokenByIndex
+    EOS_RTCAdmin_CopyUserTokenByIndex = dll.EOS_RTCAdmin_CopyUserTokenByIndex
+    EOS_RTCAdmin_CopyUserTokenByIndex.argtypes = [EOS_HRTCAdmin, POINTER(EOS_RTCAdmin_CopyUserTokenByIndexOptions), POINTER(POINTER(EOS_RTCAdmin_UserToken))]
+    EOS_RTCAdmin_CopyUserTokenByIndex.restype = EOS_EResult
+
+    global EOS_RTCAdmin_CopyUserTokenByUserId
+    EOS_RTCAdmin_CopyUserTokenByUserId = dll.EOS_RTCAdmin_CopyUserTokenByUserId
+    EOS_RTCAdmin_CopyUserTokenByUserId.argtypes = [EOS_HRTCAdmin, POINTER(EOS_RTCAdmin_CopyUserTokenByUserIdOptions), POINTER(POINTER(EOS_RTCAdmin_UserToken))]
+    EOS_RTCAdmin_CopyUserTokenByUserId.restype = EOS_EResult
+
+    global EOS_RTCAudio_InputDeviceInformation_Release
+    EOS_RTCAudio_InputDeviceInformation_Release = dll.EOS_RTCAudio_InputDeviceInformation_Release
+    EOS_RTCAudio_InputDeviceInformation_Release.argtypes = [POINTER(EOS_RTCAudio_InputDeviceInformation)]
+    EOS_RTCAudio_InputDeviceInformation_Release.restype = None
+
+    global EOS_RTCAudio_OutputDeviceInformation_Release
+    EOS_RTCAudio_OutputDeviceInformation_Release = dll.EOS_RTCAudio_OutputDeviceInformation_Release
+    EOS_RTCAudio_OutputDeviceInformation_Release.argtypes = [POINTER(EOS_RTCAudio_OutputDeviceInformation)]
+    EOS_RTCAudio_OutputDeviceInformation_Release.restype = None
+
+    global EOS_RTCData_RemoveNotifyDataReceived
+    EOS_RTCData_RemoveNotifyDataReceived = dll.EOS_RTCData_RemoveNotifyDataReceived
+    EOS_RTCData_RemoveNotifyDataReceived.argtypes = [EOS_HRTCData, EOS_NotificationId]
+    EOS_RTCData_RemoveNotifyDataReceived.restype = None
+
+    global EOS_RTCData_SendData
+    EOS_RTCData_SendData = dll.EOS_RTCData_SendData
+    EOS_RTCData_SendData.argtypes = [EOS_HRTCData, POINTER(EOS_RTCData_SendDataOptions)]
+    EOS_RTCData_SendData.restype = EOS_EResult
+
+    global EOS_RTCData_RemoveNotifyParticipantUpdated
+    EOS_RTCData_RemoveNotifyParticipantUpdated = dll.EOS_RTCData_RemoveNotifyParticipantUpdated
+    EOS_RTCData_RemoveNotifyParticipantUpdated.argtypes = [EOS_HRTCData, EOS_NotificationId]
+    EOS_RTCData_RemoveNotifyParticipantUpdated.restype = None
+
+    global EOS_Sanctions_GetPlayerSanctionCount
+    EOS_Sanctions_GetPlayerSanctionCount = dll.EOS_Sanctions_GetPlayerSanctionCount
+    EOS_Sanctions_GetPlayerSanctionCount.argtypes = [EOS_HSanctions, POINTER(EOS_Sanctions_GetPlayerSanctionCountOptions)]
+    EOS_Sanctions_GetPlayerSanctionCount.restype = c_uint32
+
+    global EOS_Sanctions_CopyPlayerSanctionByIndex
+    EOS_Sanctions_CopyPlayerSanctionByIndex = dll.EOS_Sanctions_CopyPlayerSanctionByIndex
+    EOS_Sanctions_CopyPlayerSanctionByIndex.argtypes = [EOS_HSanctions, POINTER(EOS_Sanctions_CopyPlayerSanctionByIndexOptions), POINTER(POINTER(EOS_Sanctions_PlayerSanction))]
+    EOS_Sanctions_CopyPlayerSanctionByIndex.restype = EOS_EResult
+
+    global EOS_SessionModification_Release
+    EOS_SessionModification_Release = dll.EOS_SessionModification_Release
+    EOS_SessionModification_Release.argtypes = [EOS_HSessionModification]
+    EOS_SessionModification_Release.restype = None
+
+    global EOS_ActiveSession_Release
+    EOS_ActiveSession_Release = dll.EOS_ActiveSession_Release
+    EOS_ActiveSession_Release.argtypes = [EOS_HActiveSession]
+    EOS_ActiveSession_Release.restype = None
+
+    global EOS_SessionDetails_Release
+    EOS_SessionDetails_Release = dll.EOS_SessionDetails_Release
+    EOS_SessionDetails_Release.argtypes = [EOS_HSessionDetails]
+    EOS_SessionDetails_Release.restype = None
+
+    global EOS_SessionSearch_Release
+    EOS_SessionSearch_Release = dll.EOS_SessionSearch_Release
+    EOS_SessionSearch_Release.argtypes = [EOS_HSessionSearch]
+    EOS_SessionSearch_Release.restype = None
+
+    global EOS_SessionDetails_Attribute_Release
+    EOS_SessionDetails_Attribute_Release = dll.EOS_SessionDetails_Attribute_Release
+    EOS_SessionDetails_Attribute_Release.argtypes = [POINTER(EOS_SessionDetails_Attribute)]
+    EOS_SessionDetails_Attribute_Release.restype = None
+
+    global EOS_SessionDetails_Info_Release
+    EOS_SessionDetails_Info_Release = dll.EOS_SessionDetails_Info_Release
+    EOS_SessionDetails_Info_Release.argtypes = [POINTER(EOS_SessionDetails_Info)]
+    EOS_SessionDetails_Info_Release.restype = None
+
+    global EOS_ActiveSession_Info_Release
+    EOS_ActiveSession_Info_Release = dll.EOS_ActiveSession_Info_Release
+    EOS_ActiveSession_Info_Release.argtypes = [POINTER(EOS_ActiveSession_Info)]
+    EOS_ActiveSession_Info_Release.restype = None
 
     global EOS_Stats_GetStatsCount
     EOS_Stats_GetStatsCount = dll.EOS_Stats_GetStatsCount
@@ -2835,7 +13353,825 @@ def load(dll):
     EOS_Stats_CopyStatByName.argtypes = [EOS_HStats, POINTER(EOS_Stats_CopyStatByNameOptions), POINTER(POINTER(EOS_Stats_Stat))]
     EOS_Stats_CopyStatByName.restype = EOS_EResult
 
-    # SDK
+    global EOS_TitleStorage_CopyFileMetadataByFilename
+    EOS_TitleStorage_CopyFileMetadataByFilename = dll.EOS_TitleStorage_CopyFileMetadataByFilename
+    EOS_TitleStorage_CopyFileMetadataByFilename.argtypes = [EOS_HTitleStorage, POINTER(EOS_TitleStorage_CopyFileMetadataByFilenameOptions), POINTER(POINTER(EOS_TitleStorage_FileMetadata))]
+    EOS_TitleStorage_CopyFileMetadataByFilename.restype = EOS_EResult
+
+    global EOS_TitleStorage_GetFileMetadataCount
+    EOS_TitleStorage_GetFileMetadataCount = dll.EOS_TitleStorage_GetFileMetadataCount
+    EOS_TitleStorage_GetFileMetadataCount.argtypes = [EOS_HTitleStorage, POINTER(EOS_TitleStorage_GetFileMetadataCountOptions)]
+    EOS_TitleStorage_GetFileMetadataCount.restype = c_uint32
+
+    global EOS_TitleStorage_CopyFileMetadataAtIndex
+    EOS_TitleStorage_CopyFileMetadataAtIndex = dll.EOS_TitleStorage_CopyFileMetadataAtIndex
+    EOS_TitleStorage_CopyFileMetadataAtIndex.argtypes = [EOS_HTitleStorage, POINTER(EOS_TitleStorage_CopyFileMetadataAtIndexOptions), POINTER(POINTER(EOS_TitleStorage_FileMetadata))]
+    EOS_TitleStorage_CopyFileMetadataAtIndex.restype = EOS_EResult
+
+    global EOS_TitleStorageFileTransferRequest_GetFileRequestState
+    EOS_TitleStorageFileTransferRequest_GetFileRequestState = dll.EOS_TitleStorageFileTransferRequest_GetFileRequestState
+    EOS_TitleStorageFileTransferRequest_GetFileRequestState.argtypes = [EOS_HTitleStorageFileTransferRequest]
+    EOS_TitleStorageFileTransferRequest_GetFileRequestState.restype = EOS_EResult
+
+    global EOS_TitleStorageFileTransferRequest_GetFilename
+    EOS_TitleStorageFileTransferRequest_GetFilename = dll.EOS_TitleStorageFileTransferRequest_GetFilename
+    EOS_TitleStorageFileTransferRequest_GetFilename.argtypes = [EOS_HTitleStorageFileTransferRequest, c_uint32, c_char_p, POINTER(c_int32)]
+    EOS_TitleStorageFileTransferRequest_GetFilename.restype = EOS_EResult
+
+    global EOS_TitleStorageFileTransferRequest_CancelRequest
+    EOS_TitleStorageFileTransferRequest_CancelRequest = dll.EOS_TitleStorageFileTransferRequest_CancelRequest
+    EOS_TitleStorageFileTransferRequest_CancelRequest.argtypes = [EOS_HTitleStorageFileTransferRequest]
+    EOS_TitleStorageFileTransferRequest_CancelRequest.restype = EOS_EResult
+
+    global EOS_UI_GetFriendsVisible
+    EOS_UI_GetFriendsVisible = dll.EOS_UI_GetFriendsVisible
+    EOS_UI_GetFriendsVisible.argtypes = [EOS_HUI, POINTER(EOS_UI_GetFriendsVisibleOptions)]
+    EOS_UI_GetFriendsVisible.restype = EOS_Bool
+
+    global EOS_UI_GetFriendsExclusiveInput
+    EOS_UI_GetFriendsExclusiveInput = dll.EOS_UI_GetFriendsExclusiveInput
+    EOS_UI_GetFriendsExclusiveInput.argtypes = [EOS_HUI, POINTER(EOS_UI_GetFriendsExclusiveInputOptions)]
+    EOS_UI_GetFriendsExclusiveInput.restype = EOS_Bool
+
+    global EOS_UI_RemoveNotifyDisplaySettingsUpdated
+    EOS_UI_RemoveNotifyDisplaySettingsUpdated = dll.EOS_UI_RemoveNotifyDisplaySettingsUpdated
+    EOS_UI_RemoveNotifyDisplaySettingsUpdated.argtypes = [EOS_HUI, EOS_NotificationId]
+    EOS_UI_RemoveNotifyDisplaySettingsUpdated.restype = None
+
+    global EOS_UI_SetToggleFriendsKey
+    EOS_UI_SetToggleFriendsKey = dll.EOS_UI_SetToggleFriendsKey
+    EOS_UI_SetToggleFriendsKey.argtypes = [EOS_HUI, POINTER(EOS_UI_SetToggleFriendsKeyOptions)]
+    EOS_UI_SetToggleFriendsKey.restype = EOS_EResult
+
+    global EOS_UI_GetToggleFriendsKey
+    EOS_UI_GetToggleFriendsKey = dll.EOS_UI_GetToggleFriendsKey
+    EOS_UI_GetToggleFriendsKey.argtypes = [EOS_HUI, POINTER(EOS_UI_GetToggleFriendsKeyOptions)]
+    EOS_UI_GetToggleFriendsKey.restype = EOS_UI_EKeyCombination
+
+    global EOS_UI_IsValidKeyCombination
+    EOS_UI_IsValidKeyCombination = dll.EOS_UI_IsValidKeyCombination
+    EOS_UI_IsValidKeyCombination.argtypes = [EOS_HUI, EOS_UI_EKeyCombination]
+    EOS_UI_IsValidKeyCombination.restype = EOS_Bool
+
+    global EOS_UI_SetToggleFriendsButton
+    EOS_UI_SetToggleFriendsButton = dll.EOS_UI_SetToggleFriendsButton
+    EOS_UI_SetToggleFriendsButton.argtypes = [EOS_HUI, POINTER(EOS_UI_SetToggleFriendsButtonOptions)]
+    EOS_UI_SetToggleFriendsButton.restype = EOS_EResult
+
+    global EOS_UI_GetToggleFriendsButton
+    EOS_UI_GetToggleFriendsButton = dll.EOS_UI_GetToggleFriendsButton
+    EOS_UI_GetToggleFriendsButton.argtypes = [EOS_HUI, POINTER(EOS_UI_GetToggleFriendsButtonOptions)]
+    EOS_UI_GetToggleFriendsButton.restype = EOS_UI_EInputStateButtonFlags
+
+    global EOS_UI_IsValidButtonCombination
+    EOS_UI_IsValidButtonCombination = dll.EOS_UI_IsValidButtonCombination
+    EOS_UI_IsValidButtonCombination.argtypes = [EOS_HUI, EOS_UI_EInputStateButtonFlags]
+    EOS_UI_IsValidButtonCombination.restype = EOS_Bool
+
+    global EOS_UI_SetDisplayPreference
+    EOS_UI_SetDisplayPreference = dll.EOS_UI_SetDisplayPreference
+    EOS_UI_SetDisplayPreference.argtypes = [EOS_HUI, POINTER(EOS_UI_SetDisplayPreferenceOptions)]
+    EOS_UI_SetDisplayPreference.restype = EOS_EResult
+
+    global EOS_UI_GetNotificationLocationPreference
+    EOS_UI_GetNotificationLocationPreference = dll.EOS_UI_GetNotificationLocationPreference
+    EOS_UI_GetNotificationLocationPreference.argtypes = [EOS_HUI]
+    EOS_UI_GetNotificationLocationPreference.restype = EOS_UI_ENotificationLocation
+
+    global EOS_UI_AcknowledgeEventId
+    EOS_UI_AcknowledgeEventId = dll.EOS_UI_AcknowledgeEventId
+    EOS_UI_AcknowledgeEventId.argtypes = [EOS_HUI, POINTER(EOS_UI_AcknowledgeEventIdOptions)]
+    EOS_UI_AcknowledgeEventId.restype = EOS_EResult
+
+    global EOS_UI_ReportInputState
+    EOS_UI_ReportInputState = dll.EOS_UI_ReportInputState
+    EOS_UI_ReportInputState.argtypes = [EOS_HUI, POINTER(EOS_UI_ReportInputStateOptions)]
+    EOS_UI_ReportInputState.restype = EOS_EResult
+
+    global EOS_UI_PrePresent
+    EOS_UI_PrePresent = dll.EOS_UI_PrePresent
+    EOS_UI_PrePresent.argtypes = [EOS_HUI, POINTER(EOS_UI_PrePresentOptions)]
+    EOS_UI_PrePresent.restype = EOS_EResult
+
+    global EOS_UI_PauseSocialOverlay
+    EOS_UI_PauseSocialOverlay = dll.EOS_UI_PauseSocialOverlay
+    EOS_UI_PauseSocialOverlay.argtypes = [EOS_HUI, POINTER(EOS_UI_PauseSocialOverlayOptions)]
+    EOS_UI_PauseSocialOverlay.restype = EOS_EResult
+
+    global EOS_UI_IsSocialOverlayPaused
+    EOS_UI_IsSocialOverlayPaused = dll.EOS_UI_IsSocialOverlayPaused
+    EOS_UI_IsSocialOverlayPaused.argtypes = [EOS_HUI, POINTER(EOS_UI_IsSocialOverlayPausedOptions)]
+    EOS_UI_IsSocialOverlayPaused.restype = EOS_Bool
+
+    global EOS_UI_RemoveNotifyMemoryMonitor
+    EOS_UI_RemoveNotifyMemoryMonitor = dll.EOS_UI_RemoveNotifyMemoryMonitor
+    EOS_UI_RemoveNotifyMemoryMonitor.argtypes = [EOS_HUI, EOS_NotificationId]
+    EOS_UI_RemoveNotifyMemoryMonitor.restype = None
+
+    global EOS_UserInfo_CopyUserInfo
+    EOS_UserInfo_CopyUserInfo = dll.EOS_UserInfo_CopyUserInfo
+    EOS_UserInfo_CopyUserInfo.argtypes = [EOS_HUserInfo, POINTER(EOS_UserInfo_CopyUserInfoOptions), POINTER(POINTER(EOS_UserInfo))]
+    EOS_UserInfo_CopyUserInfo.restype = EOS_EResult
+
+    global EOS_UserInfo_GetExternalUserInfoCount
+    EOS_UserInfo_GetExternalUserInfoCount = dll.EOS_UserInfo_GetExternalUserInfoCount
+    EOS_UserInfo_GetExternalUserInfoCount.argtypes = [EOS_HUserInfo, POINTER(EOS_UserInfo_GetExternalUserInfoCountOptions)]
+    EOS_UserInfo_GetExternalUserInfoCount.restype = c_uint32
+
+    global EOS_UserInfo_CopyExternalUserInfoByIndex
+    EOS_UserInfo_CopyExternalUserInfoByIndex = dll.EOS_UserInfo_CopyExternalUserInfoByIndex
+    EOS_UserInfo_CopyExternalUserInfoByIndex.argtypes = [EOS_HUserInfo, POINTER(EOS_UserInfo_CopyExternalUserInfoByIndexOptions), POINTER(POINTER(EOS_UserInfo_ExternalUserInfo))]
+    EOS_UserInfo_CopyExternalUserInfoByIndex.restype = EOS_EResult
+
+    global EOS_UserInfo_CopyExternalUserInfoByAccountType
+    EOS_UserInfo_CopyExternalUserInfoByAccountType = dll.EOS_UserInfo_CopyExternalUserInfoByAccountType
+    EOS_UserInfo_CopyExternalUserInfoByAccountType.argtypes = [EOS_HUserInfo, POINTER(EOS_UserInfo_CopyExternalUserInfoByAccountTypeOptions), POINTER(POINTER(EOS_UserInfo_ExternalUserInfo))]
+    EOS_UserInfo_CopyExternalUserInfoByAccountType.restype = EOS_EResult
+
+    global EOS_UserInfo_CopyExternalUserInfoByAccountId
+    EOS_UserInfo_CopyExternalUserInfoByAccountId = dll.EOS_UserInfo_CopyExternalUserInfoByAccountId
+    EOS_UserInfo_CopyExternalUserInfoByAccountId.argtypes = [EOS_HUserInfo, POINTER(EOS_UserInfo_CopyExternalUserInfoByAccountIdOptions), POINTER(POINTER(EOS_UserInfo_ExternalUserInfo))]
+    EOS_UserInfo_CopyExternalUserInfoByAccountId.restype = EOS_EResult
+
+    global EOS_UserInfo_CopyBestDisplayName
+    EOS_UserInfo_CopyBestDisplayName = dll.EOS_UserInfo_CopyBestDisplayName
+    EOS_UserInfo_CopyBestDisplayName.argtypes = [EOS_HUserInfo, POINTER(EOS_UserInfo_CopyBestDisplayNameOptions), POINTER(POINTER(EOS_UserInfo_BestDisplayName))]
+    EOS_UserInfo_CopyBestDisplayName.restype = EOS_EResult
+
+    global EOS_UserInfo_CopyBestDisplayNameWithPlatform
+    EOS_UserInfo_CopyBestDisplayNameWithPlatform = dll.EOS_UserInfo_CopyBestDisplayNameWithPlatform
+    EOS_UserInfo_CopyBestDisplayNameWithPlatform.argtypes = [EOS_HUserInfo, POINTER(EOS_UserInfo_CopyBestDisplayNameWithPlatformOptions), POINTER(POINTER(EOS_UserInfo_BestDisplayName))]
+    EOS_UserInfo_CopyBestDisplayNameWithPlatform.restype = EOS_EResult
+
+    global EOS_UserInfo_GetLocalPlatformType
+    EOS_UserInfo_GetLocalPlatformType = dll.EOS_UserInfo_GetLocalPlatformType
+    EOS_UserInfo_GetLocalPlatformType.argtypes = [EOS_HUserInfo, POINTER(EOS_UserInfo_GetLocalPlatformTypeOptions)]
+    EOS_UserInfo_GetLocalPlatformType.restype = EOS_OnlinePlatformType
+
+    global EOS_Achievements_DefinitionV2_Release
+    EOS_Achievements_DefinitionV2_Release = dll.EOS_Achievements_DefinitionV2_Release
+    EOS_Achievements_DefinitionV2_Release.argtypes = [POINTER(EOS_Achievements_DefinitionV2)]
+    EOS_Achievements_DefinitionV2_Release.restype = None
+
+    global EOS_Achievements_PlayerAchievement_Release
+    EOS_Achievements_PlayerAchievement_Release = dll.EOS_Achievements_PlayerAchievement_Release
+    EOS_Achievements_PlayerAchievement_Release.argtypes = [POINTER(EOS_Achievements_PlayerAchievement)]
+    EOS_Achievements_PlayerAchievement_Release.restype = None
+
+    global EOS_AntiCheatServer_RemoveNotifyMessageToClient
+    EOS_AntiCheatServer_RemoveNotifyMessageToClient = dll.EOS_AntiCheatServer_RemoveNotifyMessageToClient
+    EOS_AntiCheatServer_RemoveNotifyMessageToClient.argtypes = [EOS_HAntiCheatServer, EOS_NotificationId]
+    EOS_AntiCheatServer_RemoveNotifyMessageToClient.restype = None
+
+    global EOS_AntiCheatServer_RemoveNotifyClientActionRequired
+    EOS_AntiCheatServer_RemoveNotifyClientActionRequired = dll.EOS_AntiCheatServer_RemoveNotifyClientActionRequired
+    EOS_AntiCheatServer_RemoveNotifyClientActionRequired.argtypes = [EOS_HAntiCheatServer, EOS_NotificationId]
+    EOS_AntiCheatServer_RemoveNotifyClientActionRequired.restype = None
+
+    global EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged
+    EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged = dll.EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged
+    EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged.argtypes = [EOS_HAntiCheatServer, EOS_NotificationId]
+    EOS_AntiCheatServer_RemoveNotifyClientAuthStatusChanged.restype = None
+
+    global EOS_AntiCheatServer_BeginSession
+    EOS_AntiCheatServer_BeginSession = dll.EOS_AntiCheatServer_BeginSession
+    EOS_AntiCheatServer_BeginSession.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_BeginSessionOptions)]
+    EOS_AntiCheatServer_BeginSession.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_EndSession
+    EOS_AntiCheatServer_EndSession = dll.EOS_AntiCheatServer_EndSession
+    EOS_AntiCheatServer_EndSession.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_EndSessionOptions)]
+    EOS_AntiCheatServer_EndSession.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_RegisterClient
+    EOS_AntiCheatServer_RegisterClient = dll.EOS_AntiCheatServer_RegisterClient
+    EOS_AntiCheatServer_RegisterClient.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_RegisterClientOptions)]
+    EOS_AntiCheatServer_RegisterClient.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_UnregisterClient
+    EOS_AntiCheatServer_UnregisterClient = dll.EOS_AntiCheatServer_UnregisterClient
+    EOS_AntiCheatServer_UnregisterClient.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_UnregisterClientOptions)]
+    EOS_AntiCheatServer_UnregisterClient.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_ReceiveMessageFromClient
+    EOS_AntiCheatServer_ReceiveMessageFromClient = dll.EOS_AntiCheatServer_ReceiveMessageFromClient
+    EOS_AntiCheatServer_ReceiveMessageFromClient.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_ReceiveMessageFromClientOptions)]
+    EOS_AntiCheatServer_ReceiveMessageFromClient.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_SetClientDetails
+    EOS_AntiCheatServer_SetClientDetails = dll.EOS_AntiCheatServer_SetClientDetails
+    EOS_AntiCheatServer_SetClientDetails.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_SetClientDetailsOptions)]
+    EOS_AntiCheatServer_SetClientDetails.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_SetGameSessionId
+    EOS_AntiCheatServer_SetGameSessionId = dll.EOS_AntiCheatServer_SetGameSessionId
+    EOS_AntiCheatServer_SetGameSessionId.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_SetGameSessionIdOptions)]
+    EOS_AntiCheatServer_SetGameSessionId.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_SetClientNetworkState
+    EOS_AntiCheatServer_SetClientNetworkState = dll.EOS_AntiCheatServer_SetClientNetworkState
+    EOS_AntiCheatServer_SetClientNetworkState.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_SetClientNetworkStateOptions)]
+    EOS_AntiCheatServer_SetClientNetworkState.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_GetProtectMessageOutputLength
+    EOS_AntiCheatServer_GetProtectMessageOutputLength = dll.EOS_AntiCheatServer_GetProtectMessageOutputLength
+    EOS_AntiCheatServer_GetProtectMessageOutputLength.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_GetProtectMessageOutputLengthOptions), POINTER(c_uint32)]
+    EOS_AntiCheatServer_GetProtectMessageOutputLength.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_ProtectMessage
+    EOS_AntiCheatServer_ProtectMessage = dll.EOS_AntiCheatServer_ProtectMessage
+    EOS_AntiCheatServer_ProtectMessage.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_ProtectMessageOptions), c_void_p, POINTER(c_uint32)]
+    EOS_AntiCheatServer_ProtectMessage.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_UnprotectMessage
+    EOS_AntiCheatServer_UnprotectMessage = dll.EOS_AntiCheatServer_UnprotectMessage
+    EOS_AntiCheatServer_UnprotectMessage.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_UnprotectMessageOptions), c_void_p, POINTER(c_uint32)]
+    EOS_AntiCheatServer_UnprotectMessage.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_RegisterEvent
+    EOS_AntiCheatServer_RegisterEvent = dll.EOS_AntiCheatServer_RegisterEvent
+    EOS_AntiCheatServer_RegisterEvent.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_RegisterEventOptions)]
+    EOS_AntiCheatServer_RegisterEvent.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_LogEvent
+    EOS_AntiCheatServer_LogEvent = dll.EOS_AntiCheatServer_LogEvent
+    EOS_AntiCheatServer_LogEvent.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogEventOptions)]
+    EOS_AntiCheatServer_LogEvent.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_LogGameRoundStart
+    EOS_AntiCheatServer_LogGameRoundStart = dll.EOS_AntiCheatServer_LogGameRoundStart
+    EOS_AntiCheatServer_LogGameRoundStart.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogGameRoundStartOptions)]
+    EOS_AntiCheatServer_LogGameRoundStart.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_LogGameRoundEnd
+    EOS_AntiCheatServer_LogGameRoundEnd = dll.EOS_AntiCheatServer_LogGameRoundEnd
+    EOS_AntiCheatServer_LogGameRoundEnd.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogGameRoundEndOptions)]
+    EOS_AntiCheatServer_LogGameRoundEnd.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_LogPlayerSpawn
+    EOS_AntiCheatServer_LogPlayerSpawn = dll.EOS_AntiCheatServer_LogPlayerSpawn
+    EOS_AntiCheatServer_LogPlayerSpawn.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogPlayerSpawnOptions)]
+    EOS_AntiCheatServer_LogPlayerSpawn.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_LogPlayerDespawn
+    EOS_AntiCheatServer_LogPlayerDespawn = dll.EOS_AntiCheatServer_LogPlayerDespawn
+    EOS_AntiCheatServer_LogPlayerDespawn.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogPlayerDespawnOptions)]
+    EOS_AntiCheatServer_LogPlayerDespawn.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_LogPlayerRevive
+    EOS_AntiCheatServer_LogPlayerRevive = dll.EOS_AntiCheatServer_LogPlayerRevive
+    EOS_AntiCheatServer_LogPlayerRevive.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogPlayerReviveOptions)]
+    EOS_AntiCheatServer_LogPlayerRevive.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_LogPlayerTick
+    EOS_AntiCheatServer_LogPlayerTick = dll.EOS_AntiCheatServer_LogPlayerTick
+    EOS_AntiCheatServer_LogPlayerTick.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogPlayerTickOptions)]
+    EOS_AntiCheatServer_LogPlayerTick.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_LogPlayerUseWeapon
+    EOS_AntiCheatServer_LogPlayerUseWeapon = dll.EOS_AntiCheatServer_LogPlayerUseWeapon
+    EOS_AntiCheatServer_LogPlayerUseWeapon.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogPlayerUseWeaponOptions)]
+    EOS_AntiCheatServer_LogPlayerUseWeapon.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_LogPlayerUseAbility
+    EOS_AntiCheatServer_LogPlayerUseAbility = dll.EOS_AntiCheatServer_LogPlayerUseAbility
+    EOS_AntiCheatServer_LogPlayerUseAbility.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogPlayerUseAbilityOptions)]
+    EOS_AntiCheatServer_LogPlayerUseAbility.restype = EOS_EResult
+
+    global EOS_AntiCheatServer_LogPlayerTakeDamage
+    EOS_AntiCheatServer_LogPlayerTakeDamage = dll.EOS_AntiCheatServer_LogPlayerTakeDamage
+    EOS_AntiCheatServer_LogPlayerTakeDamage.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatCommon_LogPlayerTakeDamageOptions)]
+    EOS_AntiCheatServer_LogPlayerTakeDamage.restype = EOS_EResult
+
+    global EOS_Auth_Token_Release
+    EOS_Auth_Token_Release = dll.EOS_Auth_Token_Release
+    EOS_Auth_Token_Release.argtypes = [POINTER(EOS_Auth_Token)]
+    EOS_Auth_Token_Release.restype = None
+
+    global EOS_Auth_IdToken_Release
+    EOS_Auth_IdToken_Release = dll.EOS_Auth_IdToken_Release
+    EOS_Auth_IdToken_Release.argtypes = [POINTER(EOS_Auth_IdToken)]
+    EOS_Auth_IdToken_Release.restype = None
+
+    global EOS_CustomInvites_SetCustomInvite
+    EOS_CustomInvites_SetCustomInvite = dll.EOS_CustomInvites_SetCustomInvite
+    EOS_CustomInvites_SetCustomInvite.argtypes = [EOS_HCustomInvites, POINTER(EOS_CustomInvites_SetCustomInviteOptions)]
+    EOS_CustomInvites_SetCustomInvite.restype = EOS_EResult
+
+    global EOS_CustomInvites_RemoveNotifyCustomInviteReceived
+    EOS_CustomInvites_RemoveNotifyCustomInviteReceived = dll.EOS_CustomInvites_RemoveNotifyCustomInviteReceived
+    EOS_CustomInvites_RemoveNotifyCustomInviteReceived.argtypes = [EOS_HCustomInvites, EOS_NotificationId]
+    EOS_CustomInvites_RemoveNotifyCustomInviteReceived.restype = None
+
+    global EOS_CustomInvites_RemoveNotifyCustomInviteAccepted
+    EOS_CustomInvites_RemoveNotifyCustomInviteAccepted = dll.EOS_CustomInvites_RemoveNotifyCustomInviteAccepted
+    EOS_CustomInvites_RemoveNotifyCustomInviteAccepted.argtypes = [EOS_HCustomInvites, EOS_NotificationId]
+    EOS_CustomInvites_RemoveNotifyCustomInviteAccepted.restype = None
+
+    global EOS_CustomInvites_RemoveNotifyCustomInviteRejected
+    EOS_CustomInvites_RemoveNotifyCustomInviteRejected = dll.EOS_CustomInvites_RemoveNotifyCustomInviteRejected
+    EOS_CustomInvites_RemoveNotifyCustomInviteRejected.argtypes = [EOS_HCustomInvites, EOS_NotificationId]
+    EOS_CustomInvites_RemoveNotifyCustomInviteRejected.restype = None
+
+    global EOS_CustomInvites_FinalizeInvite
+    EOS_CustomInvites_FinalizeInvite = dll.EOS_CustomInvites_FinalizeInvite
+    EOS_CustomInvites_FinalizeInvite.argtypes = [EOS_HCustomInvites, POINTER(EOS_CustomInvites_FinalizeInviteOptions)]
+    EOS_CustomInvites_FinalizeInvite.restype = EOS_EResult
+
+    global EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived
+    EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived = dll.EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived
+    EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived.argtypes = [EOS_HCustomInvites, EOS_NotificationId]
+    EOS_CustomInvites_RemoveNotifyRequestToJoinResponseReceived.restype = None
+
+    global EOS_CustomInvites_RemoveNotifyRequestToJoinReceived
+    EOS_CustomInvites_RemoveNotifyRequestToJoinReceived = dll.EOS_CustomInvites_RemoveNotifyRequestToJoinReceived
+    EOS_CustomInvites_RemoveNotifyRequestToJoinReceived.argtypes = [EOS_HCustomInvites, EOS_NotificationId]
+    EOS_CustomInvites_RemoveNotifyRequestToJoinReceived.restype = None
+
+    global EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested
+    EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested = dll.EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested
+    EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested.argtypes = [EOS_HCustomInvites, EOS_NotificationId]
+    EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested.restype = None
+
+    global EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted
+    EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted = dll.EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted
+    EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted.argtypes = [EOS_HCustomInvites, EOS_NotificationId]
+    EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted.restype = None
+
+    global EOS_CustomInvites_RemoveNotifyRequestToJoinRejected
+    EOS_CustomInvites_RemoveNotifyRequestToJoinRejected = dll.EOS_CustomInvites_RemoveNotifyRequestToJoinRejected
+    EOS_CustomInvites_RemoveNotifyRequestToJoinRejected.argtypes = [EOS_HCustomInvites, EOS_NotificationId]
+    EOS_CustomInvites_RemoveNotifyRequestToJoinRejected.restype = None
+
+    global EOS_Leaderboards_GetLeaderboardDefinitionCount
+    EOS_Leaderboards_GetLeaderboardDefinitionCount = dll.EOS_Leaderboards_GetLeaderboardDefinitionCount
+    EOS_Leaderboards_GetLeaderboardDefinitionCount.argtypes = [EOS_HLeaderboards, POINTER(EOS_Leaderboards_GetLeaderboardDefinitionCountOptions)]
+    EOS_Leaderboards_GetLeaderboardDefinitionCount.restype = c_uint32
+
+    global EOS_Leaderboards_CopyLeaderboardDefinitionByIndex
+    EOS_Leaderboards_CopyLeaderboardDefinitionByIndex = dll.EOS_Leaderboards_CopyLeaderboardDefinitionByIndex
+    EOS_Leaderboards_CopyLeaderboardDefinitionByIndex.argtypes = [EOS_HLeaderboards, POINTER(EOS_Leaderboards_CopyLeaderboardDefinitionByIndexOptions), POINTER(POINTER(EOS_Leaderboards_Definition))]
+    EOS_Leaderboards_CopyLeaderboardDefinitionByIndex.restype = EOS_EResult
+
+    global EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId
+    EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId = dll.EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId
+    EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId.argtypes = [EOS_HLeaderboards, POINTER(EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardIdOptions), POINTER(POINTER(EOS_Leaderboards_Definition))]
+    EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId.restype = EOS_EResult
+
+    global EOS_Leaderboards_GetLeaderboardRecordCount
+    EOS_Leaderboards_GetLeaderboardRecordCount = dll.EOS_Leaderboards_GetLeaderboardRecordCount
+    EOS_Leaderboards_GetLeaderboardRecordCount.argtypes = [EOS_HLeaderboards, POINTER(EOS_Leaderboards_GetLeaderboardRecordCountOptions)]
+    EOS_Leaderboards_GetLeaderboardRecordCount.restype = c_uint32
+
+    global EOS_Leaderboards_CopyLeaderboardRecordByIndex
+    EOS_Leaderboards_CopyLeaderboardRecordByIndex = dll.EOS_Leaderboards_CopyLeaderboardRecordByIndex
+    EOS_Leaderboards_CopyLeaderboardRecordByIndex.argtypes = [EOS_HLeaderboards, POINTER(EOS_Leaderboards_CopyLeaderboardRecordByIndexOptions), POINTER(POINTER(EOS_Leaderboards_LeaderboardRecord))]
+    EOS_Leaderboards_CopyLeaderboardRecordByIndex.restype = EOS_EResult
+
+    global EOS_Leaderboards_CopyLeaderboardRecordByUserId
+    EOS_Leaderboards_CopyLeaderboardRecordByUserId = dll.EOS_Leaderboards_CopyLeaderboardRecordByUserId
+    EOS_Leaderboards_CopyLeaderboardRecordByUserId.argtypes = [EOS_HLeaderboards, POINTER(EOS_Leaderboards_CopyLeaderboardRecordByUserIdOptions), POINTER(POINTER(EOS_Leaderboards_LeaderboardRecord))]
+    EOS_Leaderboards_CopyLeaderboardRecordByUserId.restype = EOS_EResult
+
+    global EOS_Leaderboards_GetLeaderboardUserScoreCount
+    EOS_Leaderboards_GetLeaderboardUserScoreCount = dll.EOS_Leaderboards_GetLeaderboardUserScoreCount
+    EOS_Leaderboards_GetLeaderboardUserScoreCount.argtypes = [EOS_HLeaderboards, POINTER(EOS_Leaderboards_GetLeaderboardUserScoreCountOptions)]
+    EOS_Leaderboards_GetLeaderboardUserScoreCount.restype = c_uint32
+
+    global EOS_Leaderboards_CopyLeaderboardUserScoreByIndex
+    EOS_Leaderboards_CopyLeaderboardUserScoreByIndex = dll.EOS_Leaderboards_CopyLeaderboardUserScoreByIndex
+    EOS_Leaderboards_CopyLeaderboardUserScoreByIndex.argtypes = [EOS_HLeaderboards, POINTER(EOS_Leaderboards_CopyLeaderboardUserScoreByIndexOptions), POINTER(POINTER(EOS_Leaderboards_LeaderboardUserScore))]
+    EOS_Leaderboards_CopyLeaderboardUserScoreByIndex.restype = EOS_EResult
+
+    global EOS_Leaderboards_CopyLeaderboardUserScoreByUserId
+    EOS_Leaderboards_CopyLeaderboardUserScoreByUserId = dll.EOS_Leaderboards_CopyLeaderboardUserScoreByUserId
+    EOS_Leaderboards_CopyLeaderboardUserScoreByUserId.argtypes = [EOS_HLeaderboards, POINTER(EOS_Leaderboards_CopyLeaderboardUserScoreByUserIdOptions), POINTER(POINTER(EOS_Leaderboards_LeaderboardUserScore))]
+    EOS_Leaderboards_CopyLeaderboardUserScoreByUserId.restype = EOS_EResult
+
+    global EOS_Lobby_UpdateLobbyModification
+    EOS_Lobby_UpdateLobbyModification = dll.EOS_Lobby_UpdateLobbyModification
+    EOS_Lobby_UpdateLobbyModification.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_UpdateLobbyModificationOptions), POINTER(EOS_HLobbyModification)]
+    EOS_Lobby_UpdateLobbyModification.restype = EOS_EResult
+
+    global EOS_Lobby_RemoveNotifyLobbyUpdateReceived
+    EOS_Lobby_RemoveNotifyLobbyUpdateReceived = dll.EOS_Lobby_RemoveNotifyLobbyUpdateReceived
+    EOS_Lobby_RemoveNotifyLobbyUpdateReceived.argtypes = [EOS_HLobby, EOS_NotificationId]
+    EOS_Lobby_RemoveNotifyLobbyUpdateReceived.restype = None
+
+    global EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived
+    EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived = dll.EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived
+    EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived.argtypes = [EOS_HLobby, EOS_NotificationId]
+    EOS_Lobby_RemoveNotifyLobbyMemberUpdateReceived.restype = None
+
+    global EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived
+    EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived = dll.EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived
+    EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived.argtypes = [EOS_HLobby, EOS_NotificationId]
+    EOS_Lobby_RemoveNotifyLobbyMemberStatusReceived.restype = None
+
+    global EOS_Lobby_GetInviteCount
+    EOS_Lobby_GetInviteCount = dll.EOS_Lobby_GetInviteCount
+    EOS_Lobby_GetInviteCount.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_GetInviteCountOptions)]
+    EOS_Lobby_GetInviteCount.restype = c_uint32
+
+    global EOS_Lobby_GetInviteIdByIndex
+    EOS_Lobby_GetInviteIdByIndex = dll.EOS_Lobby_GetInviteIdByIndex
+    EOS_Lobby_GetInviteIdByIndex.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_GetInviteIdByIndexOptions), c_char_p, POINTER(c_int32)]
+    EOS_Lobby_GetInviteIdByIndex.restype = EOS_EResult
+
+    global EOS_Lobby_CreateLobbySearch
+    EOS_Lobby_CreateLobbySearch = dll.EOS_Lobby_CreateLobbySearch
+    EOS_Lobby_CreateLobbySearch.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_CreateLobbySearchOptions), POINTER(EOS_HLobbySearch)]
+    EOS_Lobby_CreateLobbySearch.restype = EOS_EResult
+
+    global EOS_Lobby_RemoveNotifyLobbyInviteReceived
+    EOS_Lobby_RemoveNotifyLobbyInviteReceived = dll.EOS_Lobby_RemoveNotifyLobbyInviteReceived
+    EOS_Lobby_RemoveNotifyLobbyInviteReceived.argtypes = [EOS_HLobby, EOS_NotificationId]
+    EOS_Lobby_RemoveNotifyLobbyInviteReceived.restype = None
+
+    global EOS_Lobby_RemoveNotifyLobbyInviteAccepted
+    EOS_Lobby_RemoveNotifyLobbyInviteAccepted = dll.EOS_Lobby_RemoveNotifyLobbyInviteAccepted
+    EOS_Lobby_RemoveNotifyLobbyInviteAccepted.argtypes = [EOS_HLobby, EOS_NotificationId]
+    EOS_Lobby_RemoveNotifyLobbyInviteAccepted.restype = None
+
+    global EOS_Lobby_RemoveNotifyLobbyInviteRejected
+    EOS_Lobby_RemoveNotifyLobbyInviteRejected = dll.EOS_Lobby_RemoveNotifyLobbyInviteRejected
+    EOS_Lobby_RemoveNotifyLobbyInviteRejected.argtypes = [EOS_HLobby, EOS_NotificationId]
+    EOS_Lobby_RemoveNotifyLobbyInviteRejected.restype = None
+
+    global EOS_Lobby_RemoveNotifyJoinLobbyAccepted
+    EOS_Lobby_RemoveNotifyJoinLobbyAccepted = dll.EOS_Lobby_RemoveNotifyJoinLobbyAccepted
+    EOS_Lobby_RemoveNotifyJoinLobbyAccepted.argtypes = [EOS_HLobby, EOS_NotificationId]
+    EOS_Lobby_RemoveNotifyJoinLobbyAccepted.restype = None
+
+    global EOS_Lobby_RemoveNotifySendLobbyNativeInviteRequested
+    EOS_Lobby_RemoveNotifySendLobbyNativeInviteRequested = dll.EOS_Lobby_RemoveNotifySendLobbyNativeInviteRequested
+    EOS_Lobby_RemoveNotifySendLobbyNativeInviteRequested.argtypes = [EOS_HLobby, EOS_NotificationId]
+    EOS_Lobby_RemoveNotifySendLobbyNativeInviteRequested.restype = None
+
+    global EOS_Lobby_CopyLobbyDetailsHandleByInviteId
+    EOS_Lobby_CopyLobbyDetailsHandleByInviteId = dll.EOS_Lobby_CopyLobbyDetailsHandleByInviteId
+    EOS_Lobby_CopyLobbyDetailsHandleByInviteId.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_CopyLobbyDetailsHandleByInviteIdOptions), POINTER(EOS_HLobbyDetails)]
+    EOS_Lobby_CopyLobbyDetailsHandleByInviteId.restype = EOS_EResult
+
+    global EOS_Lobby_CopyLobbyDetailsHandleByUiEventId
+    EOS_Lobby_CopyLobbyDetailsHandleByUiEventId = dll.EOS_Lobby_CopyLobbyDetailsHandleByUiEventId
+    EOS_Lobby_CopyLobbyDetailsHandleByUiEventId.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_CopyLobbyDetailsHandleByUiEventIdOptions), POINTER(EOS_HLobbyDetails)]
+    EOS_Lobby_CopyLobbyDetailsHandleByUiEventId.restype = EOS_EResult
+
+    global EOS_Lobby_CopyLobbyDetailsHandle
+    EOS_Lobby_CopyLobbyDetailsHandle = dll.EOS_Lobby_CopyLobbyDetailsHandle
+    EOS_Lobby_CopyLobbyDetailsHandle.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_CopyLobbyDetailsHandleOptions), POINTER(EOS_HLobbyDetails)]
+    EOS_Lobby_CopyLobbyDetailsHandle.restype = EOS_EResult
+
+    global EOS_Lobby_GetRTCRoomName
+    EOS_Lobby_GetRTCRoomName = dll.EOS_Lobby_GetRTCRoomName
+    EOS_Lobby_GetRTCRoomName.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_GetRTCRoomNameOptions), c_char_p, POINTER(c_uint32)]
+    EOS_Lobby_GetRTCRoomName.restype = EOS_EResult
+
+    global EOS_Lobby_IsRTCRoomConnected
+    EOS_Lobby_IsRTCRoomConnected = dll.EOS_Lobby_IsRTCRoomConnected
+    EOS_Lobby_IsRTCRoomConnected.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_IsRTCRoomConnectedOptions), POINTER(EOS_Bool)]
+    EOS_Lobby_IsRTCRoomConnected.restype = EOS_EResult
+
+    global EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged
+    EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged = dll.EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged
+    EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged.argtypes = [EOS_HLobby, EOS_NotificationId]
+    EOS_Lobby_RemoveNotifyRTCRoomConnectionChanged.restype = None
+
+    global EOS_Lobby_GetConnectString
+    EOS_Lobby_GetConnectString = dll.EOS_Lobby_GetConnectString
+    EOS_Lobby_GetConnectString.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_GetConnectStringOptions), c_char_p, POINTER(c_uint32)]
+    EOS_Lobby_GetConnectString.restype = EOS_EResult
+
+    global EOS_Lobby_ParseConnectString
+    EOS_Lobby_ParseConnectString = dll.EOS_Lobby_ParseConnectString
+    EOS_Lobby_ParseConnectString.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_ParseConnectStringOptions), c_char_p, POINTER(c_uint32)]
+    EOS_Lobby_ParseConnectString.restype = EOS_EResult
+
+    global EOS_Lobby_RemoveNotifyLeaveLobbyRequested
+    EOS_Lobby_RemoveNotifyLeaveLobbyRequested = dll.EOS_Lobby_RemoveNotifyLeaveLobbyRequested
+    EOS_Lobby_RemoveNotifyLeaveLobbyRequested.argtypes = [EOS_HLobby, EOS_NotificationId]
+    EOS_Lobby_RemoveNotifyLeaveLobbyRequested.restype = None
+
+    global EOS_LobbyModification_SetBucketId
+    EOS_LobbyModification_SetBucketId = dll.EOS_LobbyModification_SetBucketId
+    EOS_LobbyModification_SetBucketId.argtypes = [EOS_HLobbyModification, POINTER(EOS_LobbyModification_SetBucketIdOptions)]
+    EOS_LobbyModification_SetBucketId.restype = EOS_EResult
+
+    global EOS_LobbyModification_SetPermissionLevel
+    EOS_LobbyModification_SetPermissionLevel = dll.EOS_LobbyModification_SetPermissionLevel
+    EOS_LobbyModification_SetPermissionLevel.argtypes = [EOS_HLobbyModification, POINTER(EOS_LobbyModification_SetPermissionLevelOptions)]
+    EOS_LobbyModification_SetPermissionLevel.restype = EOS_EResult
+
+    global EOS_LobbyModification_SetMaxMembers
+    EOS_LobbyModification_SetMaxMembers = dll.EOS_LobbyModification_SetMaxMembers
+    EOS_LobbyModification_SetMaxMembers.argtypes = [EOS_HLobbyModification, POINTER(EOS_LobbyModification_SetMaxMembersOptions)]
+    EOS_LobbyModification_SetMaxMembers.restype = EOS_EResult
+
+    global EOS_LobbyModification_SetInvitesAllowed
+    EOS_LobbyModification_SetInvitesAllowed = dll.EOS_LobbyModification_SetInvitesAllowed
+    EOS_LobbyModification_SetInvitesAllowed.argtypes = [EOS_HLobbyModification, POINTER(EOS_LobbyModification_SetInvitesAllowedOptions)]
+    EOS_LobbyModification_SetInvitesAllowed.restype = EOS_EResult
+
+    global EOS_LobbyModification_AddAttribute
+    EOS_LobbyModification_AddAttribute = dll.EOS_LobbyModification_AddAttribute
+    EOS_LobbyModification_AddAttribute.argtypes = [EOS_HLobbyModification, POINTER(EOS_LobbyModification_AddAttributeOptions)]
+    EOS_LobbyModification_AddAttribute.restype = EOS_EResult
+
+    global EOS_LobbyModification_RemoveAttribute
+    EOS_LobbyModification_RemoveAttribute = dll.EOS_LobbyModification_RemoveAttribute
+    EOS_LobbyModification_RemoveAttribute.argtypes = [EOS_HLobbyModification, POINTER(EOS_LobbyModification_RemoveAttributeOptions)]
+    EOS_LobbyModification_RemoveAttribute.restype = EOS_EResult
+
+    global EOS_LobbyModification_AddMemberAttribute
+    EOS_LobbyModification_AddMemberAttribute = dll.EOS_LobbyModification_AddMemberAttribute
+    EOS_LobbyModification_AddMemberAttribute.argtypes = [EOS_HLobbyModification, POINTER(EOS_LobbyModification_AddMemberAttributeOptions)]
+    EOS_LobbyModification_AddMemberAttribute.restype = EOS_EResult
+
+    global EOS_LobbyModification_RemoveMemberAttribute
+    EOS_LobbyModification_RemoveMemberAttribute = dll.EOS_LobbyModification_RemoveMemberAttribute
+    EOS_LobbyModification_RemoveMemberAttribute.argtypes = [EOS_HLobbyModification, POINTER(EOS_LobbyModification_RemoveMemberAttributeOptions)]
+    EOS_LobbyModification_RemoveMemberAttribute.restype = EOS_EResult
+
+    global EOS_LobbyModification_SetAllowedPlatformIds
+    EOS_LobbyModification_SetAllowedPlatformIds = dll.EOS_LobbyModification_SetAllowedPlatformIds
+    EOS_LobbyModification_SetAllowedPlatformIds.argtypes = [EOS_HLobbyModification, POINTER(EOS_LobbyModification_SetAllowedPlatformIdsOptions)]
+    EOS_LobbyModification_SetAllowedPlatformIds.restype = EOS_EResult
+
+    global EOS_LobbyDetails_GetLobbyOwner
+    EOS_LobbyDetails_GetLobbyOwner = dll.EOS_LobbyDetails_GetLobbyOwner
+    EOS_LobbyDetails_GetLobbyOwner.argtypes = [EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_GetLobbyOwnerOptions)]
+    EOS_LobbyDetails_GetLobbyOwner.restype = EOS_ProductUserId
+
+    global EOS_LobbyDetails_CopyInfo
+    EOS_LobbyDetails_CopyInfo = dll.EOS_LobbyDetails_CopyInfo
+    EOS_LobbyDetails_CopyInfo.argtypes = [EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_CopyInfoOptions), POINTER(POINTER(EOS_LobbyDetails_Info))]
+    EOS_LobbyDetails_CopyInfo.restype = EOS_EResult
+
+    global EOS_LobbyDetails_CopyMemberInfo
+    EOS_LobbyDetails_CopyMemberInfo = dll.EOS_LobbyDetails_CopyMemberInfo
+    EOS_LobbyDetails_CopyMemberInfo.argtypes = [EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_CopyMemberInfoOptions), POINTER(POINTER(EOS_LobbyDetails_MemberInfo))]
+    EOS_LobbyDetails_CopyMemberInfo.restype = EOS_EResult
+
+    global EOS_LobbyDetails_GetAttributeCount
+    EOS_LobbyDetails_GetAttributeCount = dll.EOS_LobbyDetails_GetAttributeCount
+    EOS_LobbyDetails_GetAttributeCount.argtypes = [EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_GetAttributeCountOptions)]
+    EOS_LobbyDetails_GetAttributeCount.restype = c_uint32
+
+    global EOS_LobbyDetails_CopyAttributeByIndex
+    EOS_LobbyDetails_CopyAttributeByIndex = dll.EOS_LobbyDetails_CopyAttributeByIndex
+    EOS_LobbyDetails_CopyAttributeByIndex.argtypes = [EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_CopyAttributeByIndexOptions), POINTER(POINTER(EOS_Lobby_Attribute))]
+    EOS_LobbyDetails_CopyAttributeByIndex.restype = EOS_EResult
+
+    global EOS_LobbyDetails_CopyAttributeByKey
+    EOS_LobbyDetails_CopyAttributeByKey = dll.EOS_LobbyDetails_CopyAttributeByKey
+    EOS_LobbyDetails_CopyAttributeByKey.argtypes = [EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_CopyAttributeByKeyOptions), POINTER(POINTER(EOS_Lobby_Attribute))]
+    EOS_LobbyDetails_CopyAttributeByKey.restype = EOS_EResult
+
+    global EOS_LobbyDetails_GetMemberCount
+    EOS_LobbyDetails_GetMemberCount = dll.EOS_LobbyDetails_GetMemberCount
+    EOS_LobbyDetails_GetMemberCount.argtypes = [EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_GetMemberCountOptions)]
+    EOS_LobbyDetails_GetMemberCount.restype = c_uint32
+
+    global EOS_LobbyDetails_GetMemberByIndex
+    EOS_LobbyDetails_GetMemberByIndex = dll.EOS_LobbyDetails_GetMemberByIndex
+    EOS_LobbyDetails_GetMemberByIndex.argtypes = [EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_GetMemberByIndexOptions)]
+    EOS_LobbyDetails_GetMemberByIndex.restype = EOS_ProductUserId
+
+    global EOS_LobbyDetails_GetMemberAttributeCount
+    EOS_LobbyDetails_GetMemberAttributeCount = dll.EOS_LobbyDetails_GetMemberAttributeCount
+    EOS_LobbyDetails_GetMemberAttributeCount.argtypes = [EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_GetMemberAttributeCountOptions)]
+    EOS_LobbyDetails_GetMemberAttributeCount.restype = c_uint32
+
+    global EOS_LobbyDetails_CopyMemberAttributeByIndex
+    EOS_LobbyDetails_CopyMemberAttributeByIndex = dll.EOS_LobbyDetails_CopyMemberAttributeByIndex
+    EOS_LobbyDetails_CopyMemberAttributeByIndex.argtypes = [EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_CopyMemberAttributeByIndexOptions), POINTER(POINTER(EOS_Lobby_Attribute))]
+    EOS_LobbyDetails_CopyMemberAttributeByIndex.restype = EOS_EResult
+
+    global EOS_LobbyDetails_CopyMemberAttributeByKey
+    EOS_LobbyDetails_CopyMemberAttributeByKey = dll.EOS_LobbyDetails_CopyMemberAttributeByKey
+    EOS_LobbyDetails_CopyMemberAttributeByKey.argtypes = [EOS_HLobbyDetails, POINTER(EOS_LobbyDetails_CopyMemberAttributeByKeyOptions), POINTER(POINTER(EOS_Lobby_Attribute))]
+    EOS_LobbyDetails_CopyMemberAttributeByKey.restype = EOS_EResult
+
+    global EOS_LobbySearch_SetLobbyId
+    EOS_LobbySearch_SetLobbyId = dll.EOS_LobbySearch_SetLobbyId
+    EOS_LobbySearch_SetLobbyId.argtypes = [EOS_HLobbySearch, POINTER(EOS_LobbySearch_SetLobbyIdOptions)]
+    EOS_LobbySearch_SetLobbyId.restype = EOS_EResult
+
+    global EOS_LobbySearch_SetTargetUserId
+    EOS_LobbySearch_SetTargetUserId = dll.EOS_LobbySearch_SetTargetUserId
+    EOS_LobbySearch_SetTargetUserId.argtypes = [EOS_HLobbySearch, POINTER(EOS_LobbySearch_SetTargetUserIdOptions)]
+    EOS_LobbySearch_SetTargetUserId.restype = EOS_EResult
+
+    global EOS_LobbySearch_SetParameter
+    EOS_LobbySearch_SetParameter = dll.EOS_LobbySearch_SetParameter
+    EOS_LobbySearch_SetParameter.argtypes = [EOS_HLobbySearch, POINTER(EOS_LobbySearch_SetParameterOptions)]
+    EOS_LobbySearch_SetParameter.restype = EOS_EResult
+
+    global EOS_LobbySearch_RemoveParameter
+    EOS_LobbySearch_RemoveParameter = dll.EOS_LobbySearch_RemoveParameter
+    EOS_LobbySearch_RemoveParameter.argtypes = [EOS_HLobbySearch, POINTER(EOS_LobbySearch_RemoveParameterOptions)]
+    EOS_LobbySearch_RemoveParameter.restype = EOS_EResult
+
+    global EOS_LobbySearch_SetMaxResults
+    EOS_LobbySearch_SetMaxResults = dll.EOS_LobbySearch_SetMaxResults
+    EOS_LobbySearch_SetMaxResults.argtypes = [EOS_HLobbySearch, POINTER(EOS_LobbySearch_SetMaxResultsOptions)]
+    EOS_LobbySearch_SetMaxResults.restype = EOS_EResult
+
+    global EOS_LobbySearch_GetSearchResultCount
+    EOS_LobbySearch_GetSearchResultCount = dll.EOS_LobbySearch_GetSearchResultCount
+    EOS_LobbySearch_GetSearchResultCount.argtypes = [EOS_HLobbySearch, POINTER(EOS_LobbySearch_GetSearchResultCountOptions)]
+    EOS_LobbySearch_GetSearchResultCount.restype = c_uint32
+
+    global EOS_LobbySearch_CopySearchResultByIndex
+    EOS_LobbySearch_CopySearchResultByIndex = dll.EOS_LobbySearch_CopySearchResultByIndex
+    EOS_LobbySearch_CopySearchResultByIndex.argtypes = [EOS_HLobbySearch, POINTER(EOS_LobbySearch_CopySearchResultByIndexOptions), POINTER(EOS_HLobbyDetails)]
+    EOS_LobbySearch_CopySearchResultByIndex.restype = EOS_EResult
+
+    global EOS_Presence_HasPresence
+    EOS_Presence_HasPresence = dll.EOS_Presence_HasPresence
+    EOS_Presence_HasPresence.argtypes = [EOS_HPresence, POINTER(EOS_Presence_HasPresenceOptions)]
+    EOS_Presence_HasPresence.restype = EOS_Bool
+
+    global EOS_Presence_CopyPresence
+    EOS_Presence_CopyPresence = dll.EOS_Presence_CopyPresence
+    EOS_Presence_CopyPresence.argtypes = [EOS_HPresence, POINTER(EOS_Presence_CopyPresenceOptions), POINTER(POINTER(EOS_Presence_Info))]
+    EOS_Presence_CopyPresence.restype = EOS_EResult
+
+    global EOS_Presence_CreatePresenceModification
+    EOS_Presence_CreatePresenceModification = dll.EOS_Presence_CreatePresenceModification
+    EOS_Presence_CreatePresenceModification.argtypes = [EOS_HPresence, POINTER(EOS_Presence_CreatePresenceModificationOptions), POINTER(EOS_HPresenceModification)]
+    EOS_Presence_CreatePresenceModification.restype = EOS_EResult
+
+    global EOS_Presence_RemoveNotifyOnPresenceChanged
+    EOS_Presence_RemoveNotifyOnPresenceChanged = dll.EOS_Presence_RemoveNotifyOnPresenceChanged
+    EOS_Presence_RemoveNotifyOnPresenceChanged.argtypes = [EOS_HPresence, EOS_NotificationId]
+    EOS_Presence_RemoveNotifyOnPresenceChanged.restype = None
+
+    global EOS_Presence_RemoveNotifyJoinGameAccepted
+    EOS_Presence_RemoveNotifyJoinGameAccepted = dll.EOS_Presence_RemoveNotifyJoinGameAccepted
+    EOS_Presence_RemoveNotifyJoinGameAccepted.argtypes = [EOS_HPresence, EOS_NotificationId]
+    EOS_Presence_RemoveNotifyJoinGameAccepted.restype = None
+
+    global EOS_Presence_GetJoinInfo
+    EOS_Presence_GetJoinInfo = dll.EOS_Presence_GetJoinInfo
+    EOS_Presence_GetJoinInfo.argtypes = [EOS_HPresence, POINTER(EOS_Presence_GetJoinInfoOptions), c_char_p, POINTER(c_int32)]
+    EOS_Presence_GetJoinInfo.restype = EOS_EResult
+
+    global EOS_PresenceModification_SetStatus
+    EOS_PresenceModification_SetStatus = dll.EOS_PresenceModification_SetStatus
+    EOS_PresenceModification_SetStatus.argtypes = [EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetStatusOptions)]
+    EOS_PresenceModification_SetStatus.restype = EOS_EResult
+
+    global EOS_PresenceModification_SetRawRichText
+    EOS_PresenceModification_SetRawRichText = dll.EOS_PresenceModification_SetRawRichText
+    EOS_PresenceModification_SetRawRichText.argtypes = [EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetRawRichTextOptions)]
+    EOS_PresenceModification_SetRawRichText.restype = EOS_EResult
+
+    global EOS_PresenceModification_SetData
+    EOS_PresenceModification_SetData = dll.EOS_PresenceModification_SetData
+    EOS_PresenceModification_SetData.argtypes = [EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetDataOptions)]
+    EOS_PresenceModification_SetData.restype = EOS_EResult
+
+    global EOS_PresenceModification_DeleteData
+    EOS_PresenceModification_DeleteData = dll.EOS_PresenceModification_DeleteData
+    EOS_PresenceModification_DeleteData.argtypes = [EOS_HPresenceModification, POINTER(EOS_PresenceModification_DeleteDataOptions)]
+    EOS_PresenceModification_DeleteData.restype = EOS_EResult
+
+    global EOS_PresenceModification_SetJoinInfo
+    EOS_PresenceModification_SetJoinInfo = dll.EOS_PresenceModification_SetJoinInfo
+    EOS_PresenceModification_SetJoinInfo.argtypes = [EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetJoinInfoOptions)]
+    EOS_PresenceModification_SetJoinInfo.restype = EOS_EResult
+
+    global EOS_RTC_GetAudioInterface
+    EOS_RTC_GetAudioInterface = dll.EOS_RTC_GetAudioInterface
+    EOS_RTC_GetAudioInterface.argtypes = [EOS_HRTC]
+    EOS_RTC_GetAudioInterface.restype = EOS_HRTCAudio
+
+    global EOS_RTC_GetDataInterface
+    EOS_RTC_GetDataInterface = dll.EOS_RTC_GetDataInterface
+    EOS_RTC_GetDataInterface.argtypes = [EOS_HRTC]
+    EOS_RTC_GetDataInterface.restype = EOS_HRTCData
+
+    global EOS_RTC_RemoveNotifyDisconnected
+    EOS_RTC_RemoveNotifyDisconnected = dll.EOS_RTC_RemoveNotifyDisconnected
+    EOS_RTC_RemoveNotifyDisconnected.argtypes = [EOS_HRTC, EOS_NotificationId]
+    EOS_RTC_RemoveNotifyDisconnected.restype = None
+
+    global EOS_RTC_RemoveNotifyParticipantStatusChanged
+    EOS_RTC_RemoveNotifyParticipantStatusChanged = dll.EOS_RTC_RemoveNotifyParticipantStatusChanged
+    EOS_RTC_RemoveNotifyParticipantStatusChanged.argtypes = [EOS_HRTC, EOS_NotificationId]
+    EOS_RTC_RemoveNotifyParticipantStatusChanged.restype = None
+
+    global EOS_RTC_SetSetting
+    EOS_RTC_SetSetting = dll.EOS_RTC_SetSetting
+    EOS_RTC_SetSetting.argtypes = [EOS_HRTC, POINTER(EOS_RTC_SetSettingOptions)]
+    EOS_RTC_SetSetting.restype = EOS_EResult
+
+    global EOS_RTC_SetRoomSetting
+    EOS_RTC_SetRoomSetting = dll.EOS_RTC_SetRoomSetting
+    EOS_RTC_SetRoomSetting.argtypes = [EOS_HRTC, POINTER(EOS_RTC_SetRoomSettingOptions)]
+    EOS_RTC_SetRoomSetting.restype = EOS_EResult
+
+    global EOS_RTC_RemoveNotifyRoomStatisticsUpdated
+    EOS_RTC_RemoveNotifyRoomStatisticsUpdated = dll.EOS_RTC_RemoveNotifyRoomStatisticsUpdated
+    EOS_RTC_RemoveNotifyRoomStatisticsUpdated.argtypes = [EOS_HRTC, EOS_NotificationId]
+    EOS_RTC_RemoveNotifyRoomStatisticsUpdated.restype = None
+
+    global EOS_RTCAudio_SendAudio
+    EOS_RTCAudio_SendAudio = dll.EOS_RTCAudio_SendAudio
+    EOS_RTCAudio_SendAudio.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_SendAudioOptions)]
+    EOS_RTCAudio_SendAudio.restype = EOS_EResult
+
+    global EOS_RTCAudio_RemoveNotifyParticipantUpdated
+    EOS_RTCAudio_RemoveNotifyParticipantUpdated = dll.EOS_RTCAudio_RemoveNotifyParticipantUpdated
+    EOS_RTCAudio_RemoveNotifyParticipantUpdated.argtypes = [EOS_HRTCAudio, EOS_NotificationId]
+    EOS_RTCAudio_RemoveNotifyParticipantUpdated.restype = None
+
+    global EOS_RTCAudio_RemoveNotifyAudioDevicesChanged
+    EOS_RTCAudio_RemoveNotifyAudioDevicesChanged = dll.EOS_RTCAudio_RemoveNotifyAudioDevicesChanged
+    EOS_RTCAudio_RemoveNotifyAudioDevicesChanged.argtypes = [EOS_HRTCAudio, EOS_NotificationId]
+    EOS_RTCAudio_RemoveNotifyAudioDevicesChanged.restype = None
+
+    global EOS_RTCAudio_RemoveNotifyAudioInputState
+    EOS_RTCAudio_RemoveNotifyAudioInputState = dll.EOS_RTCAudio_RemoveNotifyAudioInputState
+    EOS_RTCAudio_RemoveNotifyAudioInputState.argtypes = [EOS_HRTCAudio, EOS_NotificationId]
+    EOS_RTCAudio_RemoveNotifyAudioInputState.restype = None
+
+    global EOS_RTCAudio_RemoveNotifyAudioOutputState
+    EOS_RTCAudio_RemoveNotifyAudioOutputState = dll.EOS_RTCAudio_RemoveNotifyAudioOutputState
+    EOS_RTCAudio_RemoveNotifyAudioOutputState.argtypes = [EOS_HRTCAudio, EOS_NotificationId]
+    EOS_RTCAudio_RemoveNotifyAudioOutputState.restype = None
+
+    global EOS_RTCAudio_RemoveNotifyAudioBeforeSend
+    EOS_RTCAudio_RemoveNotifyAudioBeforeSend = dll.EOS_RTCAudio_RemoveNotifyAudioBeforeSend
+    EOS_RTCAudio_RemoveNotifyAudioBeforeSend.argtypes = [EOS_HRTCAudio, EOS_NotificationId]
+    EOS_RTCAudio_RemoveNotifyAudioBeforeSend.restype = None
+
+    global EOS_RTCAudio_RemoveNotifyAudioBeforeRender
+    EOS_RTCAudio_RemoveNotifyAudioBeforeRender = dll.EOS_RTCAudio_RemoveNotifyAudioBeforeRender
+    EOS_RTCAudio_RemoveNotifyAudioBeforeRender.argtypes = [EOS_HRTCAudio, EOS_NotificationId]
+    EOS_RTCAudio_RemoveNotifyAudioBeforeRender.restype = None
+
+    global EOS_RTCAudio_GetInputDevicesCount
+    EOS_RTCAudio_GetInputDevicesCount = dll.EOS_RTCAudio_GetInputDevicesCount
+    EOS_RTCAudio_GetInputDevicesCount.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_GetInputDevicesCountOptions)]
+    EOS_RTCAudio_GetInputDevicesCount.restype = c_uint32
+
+    global EOS_RTCAudio_CopyInputDeviceInformationByIndex
+    EOS_RTCAudio_CopyInputDeviceInformationByIndex = dll.EOS_RTCAudio_CopyInputDeviceInformationByIndex
+    EOS_RTCAudio_CopyInputDeviceInformationByIndex.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_CopyInputDeviceInformationByIndexOptions), POINTER(POINTER(EOS_RTCAudio_InputDeviceInformation))]
+    EOS_RTCAudio_CopyInputDeviceInformationByIndex.restype = EOS_EResult
+
+    global EOS_RTCAudio_GetOutputDevicesCount
+    EOS_RTCAudio_GetOutputDevicesCount = dll.EOS_RTCAudio_GetOutputDevicesCount
+    EOS_RTCAudio_GetOutputDevicesCount.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_GetOutputDevicesCountOptions)]
+    EOS_RTCAudio_GetOutputDevicesCount.restype = c_uint32
+
+    global EOS_RTCAudio_CopyOutputDeviceInformationByIndex
+    EOS_RTCAudio_CopyOutputDeviceInformationByIndex = dll.EOS_RTCAudio_CopyOutputDeviceInformationByIndex
+    EOS_RTCAudio_CopyOutputDeviceInformationByIndex.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_CopyOutputDeviceInformationByIndexOptions), POINTER(POINTER(EOS_RTCAudio_OutputDeviceInformation))]
+    EOS_RTCAudio_CopyOutputDeviceInformationByIndex.restype = EOS_EResult
+
+    global EOS_RTCAudio_RegisterPlatformAudioUser
+    EOS_RTCAudio_RegisterPlatformAudioUser = dll.EOS_RTCAudio_RegisterPlatformAudioUser
+    EOS_RTCAudio_RegisterPlatformAudioUser.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_RegisterPlatformAudioUserOptions)]
+    EOS_RTCAudio_RegisterPlatformAudioUser.restype = EOS_EResult
+
+    global EOS_RTCAudio_UnregisterPlatformAudioUser
+    EOS_RTCAudio_UnregisterPlatformAudioUser = dll.EOS_RTCAudio_UnregisterPlatformAudioUser
+    EOS_RTCAudio_UnregisterPlatformAudioUser.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_UnregisterPlatformAudioUserOptions)]
+    EOS_RTCAudio_UnregisterPlatformAudioUser.restype = EOS_EResult
+
+    global EOS_RTCAudio_GetAudioInputDevicesCount
+    EOS_RTCAudio_GetAudioInputDevicesCount = dll.EOS_RTCAudio_GetAudioInputDevicesCount
+    EOS_RTCAudio_GetAudioInputDevicesCount.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_GetAudioInputDevicesCountOptions)]
+    EOS_RTCAudio_GetAudioInputDevicesCount.restype = c_uint32
+
+    global EOS_RTCAudio_GetAudioInputDeviceByIndex
+    EOS_RTCAudio_GetAudioInputDeviceByIndex = dll.EOS_RTCAudio_GetAudioInputDeviceByIndex
+    EOS_RTCAudio_GetAudioInputDeviceByIndex.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_GetAudioInputDeviceByIndexOptions)]
+    EOS_RTCAudio_GetAudioInputDeviceByIndex.restype = POINTER(EOS_RTCAudio_AudioInputDeviceInfo)
+
+    global EOS_RTCAudio_GetAudioOutputDevicesCount
+    EOS_RTCAudio_GetAudioOutputDevicesCount = dll.EOS_RTCAudio_GetAudioOutputDevicesCount
+    EOS_RTCAudio_GetAudioOutputDevicesCount.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_GetAudioOutputDevicesCountOptions)]
+    EOS_RTCAudio_GetAudioOutputDevicesCount.restype = c_uint32
+
+    global EOS_RTCAudio_GetAudioOutputDeviceByIndex
+    EOS_RTCAudio_GetAudioOutputDeviceByIndex = dll.EOS_RTCAudio_GetAudioOutputDeviceByIndex
+    EOS_RTCAudio_GetAudioOutputDeviceByIndex.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_GetAudioOutputDeviceByIndexOptions)]
+    EOS_RTCAudio_GetAudioOutputDeviceByIndex.restype = POINTER(EOS_RTCAudio_AudioOutputDeviceInfo)
+
+    global EOS_RTCAudio_SetAudioInputSettings
+    EOS_RTCAudio_SetAudioInputSettings = dll.EOS_RTCAudio_SetAudioInputSettings
+    EOS_RTCAudio_SetAudioInputSettings.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_SetAudioInputSettingsOptions)]
+    EOS_RTCAudio_SetAudioInputSettings.restype = EOS_EResult
+
+    global EOS_RTCAudio_SetAudioOutputSettings
+    EOS_RTCAudio_SetAudioOutputSettings = dll.EOS_RTCAudio_SetAudioOutputSettings
+    EOS_RTCAudio_SetAudioOutputSettings.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_SetAudioOutputSettingsOptions)]
+    EOS_RTCAudio_SetAudioOutputSettings.restype = EOS_EResult
 
     global EOS_Platform_Tick
     EOS_Platform_Tick = dll.EOS_Platform_Tick
@@ -3036,3 +14372,1329 @@ def load(dll):
     EOS_Platform_GetNetworkStatus = dll.EOS_Platform_GetNetworkStatus
     EOS_Platform_GetNetworkStatus.argtypes = [EOS_HPlatform]
     EOS_Platform_GetNetworkStatus.restype = EOS_ENetworkStatus
+
+    global EOS_Sessions_CreateSessionModification
+    EOS_Sessions_CreateSessionModification = dll.EOS_Sessions_CreateSessionModification
+    EOS_Sessions_CreateSessionModification.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_CreateSessionModificationOptions), POINTER(EOS_HSessionModification)]
+    EOS_Sessions_CreateSessionModification.restype = EOS_EResult
+
+    global EOS_Sessions_UpdateSessionModification
+    EOS_Sessions_UpdateSessionModification = dll.EOS_Sessions_UpdateSessionModification
+    EOS_Sessions_UpdateSessionModification.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_UpdateSessionModificationOptions), POINTER(EOS_HSessionModification)]
+    EOS_Sessions_UpdateSessionModification.restype = EOS_EResult
+
+    global EOS_Sessions_GetInviteCount
+    EOS_Sessions_GetInviteCount = dll.EOS_Sessions_GetInviteCount
+    EOS_Sessions_GetInviteCount.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_GetInviteCountOptions)]
+    EOS_Sessions_GetInviteCount.restype = c_uint32
+
+    global EOS_Sessions_GetInviteIdByIndex
+    EOS_Sessions_GetInviteIdByIndex = dll.EOS_Sessions_GetInviteIdByIndex
+    EOS_Sessions_GetInviteIdByIndex.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_GetInviteIdByIndexOptions), c_char_p, POINTER(c_int32)]
+    EOS_Sessions_GetInviteIdByIndex.restype = EOS_EResult
+
+    global EOS_Sessions_CreateSessionSearch
+    EOS_Sessions_CreateSessionSearch = dll.EOS_Sessions_CreateSessionSearch
+    EOS_Sessions_CreateSessionSearch.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_CreateSessionSearchOptions), POINTER(EOS_HSessionSearch)]
+    EOS_Sessions_CreateSessionSearch.restype = EOS_EResult
+
+    global EOS_Sessions_CopyActiveSessionHandle
+    EOS_Sessions_CopyActiveSessionHandle = dll.EOS_Sessions_CopyActiveSessionHandle
+    EOS_Sessions_CopyActiveSessionHandle.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_CopyActiveSessionHandleOptions), POINTER(EOS_HActiveSession)]
+    EOS_Sessions_CopyActiveSessionHandle.restype = EOS_EResult
+
+    global EOS_Sessions_RemoveNotifySessionInviteReceived
+    EOS_Sessions_RemoveNotifySessionInviteReceived = dll.EOS_Sessions_RemoveNotifySessionInviteReceived
+    EOS_Sessions_RemoveNotifySessionInviteReceived.argtypes = [EOS_HSessions, EOS_NotificationId]
+    EOS_Sessions_RemoveNotifySessionInviteReceived.restype = None
+
+    global EOS_Sessions_RemoveNotifySessionInviteAccepted
+    EOS_Sessions_RemoveNotifySessionInviteAccepted = dll.EOS_Sessions_RemoveNotifySessionInviteAccepted
+    EOS_Sessions_RemoveNotifySessionInviteAccepted.argtypes = [EOS_HSessions, EOS_NotificationId]
+    EOS_Sessions_RemoveNotifySessionInviteAccepted.restype = None
+
+    global EOS_Sessions_RemoveNotifySessionInviteRejected
+    EOS_Sessions_RemoveNotifySessionInviteRejected = dll.EOS_Sessions_RemoveNotifySessionInviteRejected
+    EOS_Sessions_RemoveNotifySessionInviteRejected.argtypes = [EOS_HSessions, EOS_NotificationId]
+    EOS_Sessions_RemoveNotifySessionInviteRejected.restype = None
+
+    global EOS_Sessions_RemoveNotifyJoinSessionAccepted
+    EOS_Sessions_RemoveNotifyJoinSessionAccepted = dll.EOS_Sessions_RemoveNotifyJoinSessionAccepted
+    EOS_Sessions_RemoveNotifyJoinSessionAccepted.argtypes = [EOS_HSessions, EOS_NotificationId]
+    EOS_Sessions_RemoveNotifyJoinSessionAccepted.restype = None
+
+    global EOS_Sessions_CopySessionHandleByInviteId
+    EOS_Sessions_CopySessionHandleByInviteId = dll.EOS_Sessions_CopySessionHandleByInviteId
+    EOS_Sessions_CopySessionHandleByInviteId.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_CopySessionHandleByInviteIdOptions), POINTER(EOS_HSessionDetails)]
+    EOS_Sessions_CopySessionHandleByInviteId.restype = EOS_EResult
+
+    global EOS_Sessions_CopySessionHandleByUiEventId
+    EOS_Sessions_CopySessionHandleByUiEventId = dll.EOS_Sessions_CopySessionHandleByUiEventId
+    EOS_Sessions_CopySessionHandleByUiEventId.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_CopySessionHandleByUiEventIdOptions), POINTER(EOS_HSessionDetails)]
+    EOS_Sessions_CopySessionHandleByUiEventId.restype = EOS_EResult
+
+    global EOS_Sessions_CopySessionHandleForPresence
+    EOS_Sessions_CopySessionHandleForPresence = dll.EOS_Sessions_CopySessionHandleForPresence
+    EOS_Sessions_CopySessionHandleForPresence.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_CopySessionHandleForPresenceOptions), POINTER(EOS_HSessionDetails)]
+    EOS_Sessions_CopySessionHandleForPresence.restype = EOS_EResult
+
+    global EOS_Sessions_IsUserInSession
+    EOS_Sessions_IsUserInSession = dll.EOS_Sessions_IsUserInSession
+    EOS_Sessions_IsUserInSession.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_IsUserInSessionOptions)]
+    EOS_Sessions_IsUserInSession.restype = EOS_EResult
+
+    global EOS_Sessions_DumpSessionState
+    EOS_Sessions_DumpSessionState = dll.EOS_Sessions_DumpSessionState
+    EOS_Sessions_DumpSessionState.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_DumpSessionStateOptions)]
+    EOS_Sessions_DumpSessionState.restype = EOS_EResult
+
+    global EOS_Sessions_RemoveNotifyLeaveSessionRequested
+    EOS_Sessions_RemoveNotifyLeaveSessionRequested = dll.EOS_Sessions_RemoveNotifyLeaveSessionRequested
+    EOS_Sessions_RemoveNotifyLeaveSessionRequested.argtypes = [EOS_HSessions, EOS_NotificationId]
+    EOS_Sessions_RemoveNotifyLeaveSessionRequested.restype = None
+
+    global EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested
+    EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested = dll.EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested
+    EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested.argtypes = [EOS_HSessions, EOS_NotificationId]
+    EOS_Sessions_RemoveNotifySendSessionNativeInviteRequested.restype = None
+
+    global EOS_SessionModification_SetBucketId
+    EOS_SessionModification_SetBucketId = dll.EOS_SessionModification_SetBucketId
+    EOS_SessionModification_SetBucketId.argtypes = [EOS_HSessionModification, POINTER(EOS_SessionModification_SetBucketIdOptions)]
+    EOS_SessionModification_SetBucketId.restype = EOS_EResult
+
+    global EOS_SessionModification_SetHostAddress
+    EOS_SessionModification_SetHostAddress = dll.EOS_SessionModification_SetHostAddress
+    EOS_SessionModification_SetHostAddress.argtypes = [EOS_HSessionModification, POINTER(EOS_SessionModification_SetHostAddressOptions)]
+    EOS_SessionModification_SetHostAddress.restype = EOS_EResult
+
+    global EOS_SessionModification_SetPermissionLevel
+    EOS_SessionModification_SetPermissionLevel = dll.EOS_SessionModification_SetPermissionLevel
+    EOS_SessionModification_SetPermissionLevel.argtypes = [EOS_HSessionModification, POINTER(EOS_SessionModification_SetPermissionLevelOptions)]
+    EOS_SessionModification_SetPermissionLevel.restype = EOS_EResult
+
+    global EOS_SessionModification_SetJoinInProgressAllowed
+    EOS_SessionModification_SetJoinInProgressAllowed = dll.EOS_SessionModification_SetJoinInProgressAllowed
+    EOS_SessionModification_SetJoinInProgressAllowed.argtypes = [EOS_HSessionModification, POINTER(EOS_SessionModification_SetJoinInProgressAllowedOptions)]
+    EOS_SessionModification_SetJoinInProgressAllowed.restype = EOS_EResult
+
+    global EOS_SessionModification_SetMaxPlayers
+    EOS_SessionModification_SetMaxPlayers = dll.EOS_SessionModification_SetMaxPlayers
+    EOS_SessionModification_SetMaxPlayers.argtypes = [EOS_HSessionModification, POINTER(EOS_SessionModification_SetMaxPlayersOptions)]
+    EOS_SessionModification_SetMaxPlayers.restype = EOS_EResult
+
+    global EOS_SessionModification_SetInvitesAllowed
+    EOS_SessionModification_SetInvitesAllowed = dll.EOS_SessionModification_SetInvitesAllowed
+    EOS_SessionModification_SetInvitesAllowed.argtypes = [EOS_HSessionModification, POINTER(EOS_SessionModification_SetInvitesAllowedOptions)]
+    EOS_SessionModification_SetInvitesAllowed.restype = EOS_EResult
+
+    global EOS_SessionModification_SetAllowedPlatformIds
+    EOS_SessionModification_SetAllowedPlatformIds = dll.EOS_SessionModification_SetAllowedPlatformIds
+    EOS_SessionModification_SetAllowedPlatformIds.argtypes = [EOS_HSessionModification, POINTER(EOS_SessionModification_SetAllowedPlatformIdsOptions)]
+    EOS_SessionModification_SetAllowedPlatformIds.restype = EOS_EResult
+
+    global EOS_SessionModification_AddAttribute
+    EOS_SessionModification_AddAttribute = dll.EOS_SessionModification_AddAttribute
+    EOS_SessionModification_AddAttribute.argtypes = [EOS_HSessionModification, POINTER(EOS_SessionModification_AddAttributeOptions)]
+    EOS_SessionModification_AddAttribute.restype = EOS_EResult
+
+    global EOS_SessionModification_RemoveAttribute
+    EOS_SessionModification_RemoveAttribute = dll.EOS_SessionModification_RemoveAttribute
+    EOS_SessionModification_RemoveAttribute.argtypes = [EOS_HSessionModification, POINTER(EOS_SessionModification_RemoveAttributeOptions)]
+    EOS_SessionModification_RemoveAttribute.restype = EOS_EResult
+
+    global EOS_ActiveSession_CopyInfo
+    EOS_ActiveSession_CopyInfo = dll.EOS_ActiveSession_CopyInfo
+    EOS_ActiveSession_CopyInfo.argtypes = [EOS_HActiveSession, POINTER(EOS_ActiveSession_CopyInfoOptions), POINTER(POINTER(EOS_ActiveSession_Info))]
+    EOS_ActiveSession_CopyInfo.restype = EOS_EResult
+
+    global EOS_ActiveSession_GetRegisteredPlayerCount
+    EOS_ActiveSession_GetRegisteredPlayerCount = dll.EOS_ActiveSession_GetRegisteredPlayerCount
+    EOS_ActiveSession_GetRegisteredPlayerCount.argtypes = [EOS_HActiveSession, POINTER(EOS_ActiveSession_GetRegisteredPlayerCountOptions)]
+    EOS_ActiveSession_GetRegisteredPlayerCount.restype = c_uint32
+
+    global EOS_ActiveSession_GetRegisteredPlayerByIndex
+    EOS_ActiveSession_GetRegisteredPlayerByIndex = dll.EOS_ActiveSession_GetRegisteredPlayerByIndex
+    EOS_ActiveSession_GetRegisteredPlayerByIndex.argtypes = [EOS_HActiveSession, POINTER(EOS_ActiveSession_GetRegisteredPlayerByIndexOptions)]
+    EOS_ActiveSession_GetRegisteredPlayerByIndex.restype = EOS_ProductUserId
+
+    global EOS_SessionDetails_CopyInfo
+    EOS_SessionDetails_CopyInfo = dll.EOS_SessionDetails_CopyInfo
+    EOS_SessionDetails_CopyInfo.argtypes = [EOS_HSessionDetails, POINTER(EOS_SessionDetails_CopyInfoOptions), POINTER(POINTER(EOS_SessionDetails_Info))]
+    EOS_SessionDetails_CopyInfo.restype = EOS_EResult
+
+    global EOS_SessionDetails_GetSessionAttributeCount
+    EOS_SessionDetails_GetSessionAttributeCount = dll.EOS_SessionDetails_GetSessionAttributeCount
+    EOS_SessionDetails_GetSessionAttributeCount.argtypes = [EOS_HSessionDetails, POINTER(EOS_SessionDetails_GetSessionAttributeCountOptions)]
+    EOS_SessionDetails_GetSessionAttributeCount.restype = c_uint32
+
+    global EOS_SessionDetails_CopySessionAttributeByIndex
+    EOS_SessionDetails_CopySessionAttributeByIndex = dll.EOS_SessionDetails_CopySessionAttributeByIndex
+    EOS_SessionDetails_CopySessionAttributeByIndex.argtypes = [EOS_HSessionDetails, POINTER(EOS_SessionDetails_CopySessionAttributeByIndexOptions), POINTER(POINTER(EOS_SessionDetails_Attribute))]
+    EOS_SessionDetails_CopySessionAttributeByIndex.restype = EOS_EResult
+
+    global EOS_SessionDetails_CopySessionAttributeByKey
+    EOS_SessionDetails_CopySessionAttributeByKey = dll.EOS_SessionDetails_CopySessionAttributeByKey
+    EOS_SessionDetails_CopySessionAttributeByKey.argtypes = [EOS_HSessionDetails, POINTER(EOS_SessionDetails_CopySessionAttributeByKeyOptions), POINTER(POINTER(EOS_SessionDetails_Attribute))]
+    EOS_SessionDetails_CopySessionAttributeByKey.restype = EOS_EResult
+
+    global EOS_SessionSearch_SetSessionId
+    EOS_SessionSearch_SetSessionId = dll.EOS_SessionSearch_SetSessionId
+    EOS_SessionSearch_SetSessionId.argtypes = [EOS_HSessionSearch, POINTER(EOS_SessionSearch_SetSessionIdOptions)]
+    EOS_SessionSearch_SetSessionId.restype = EOS_EResult
+
+    global EOS_SessionSearch_SetTargetUserId
+    EOS_SessionSearch_SetTargetUserId = dll.EOS_SessionSearch_SetTargetUserId
+    EOS_SessionSearch_SetTargetUserId.argtypes = [EOS_HSessionSearch, POINTER(EOS_SessionSearch_SetTargetUserIdOptions)]
+    EOS_SessionSearch_SetTargetUserId.restype = EOS_EResult
+
+    global EOS_SessionSearch_SetParameter
+    EOS_SessionSearch_SetParameter = dll.EOS_SessionSearch_SetParameter
+    EOS_SessionSearch_SetParameter.argtypes = [EOS_HSessionSearch, POINTER(EOS_SessionSearch_SetParameterOptions)]
+    EOS_SessionSearch_SetParameter.restype = EOS_EResult
+
+    global EOS_SessionSearch_RemoveParameter
+    EOS_SessionSearch_RemoveParameter = dll.EOS_SessionSearch_RemoveParameter
+    EOS_SessionSearch_RemoveParameter.argtypes = [EOS_HSessionSearch, POINTER(EOS_SessionSearch_RemoveParameterOptions)]
+    EOS_SessionSearch_RemoveParameter.restype = EOS_EResult
+
+    global EOS_SessionSearch_SetMaxResults
+    EOS_SessionSearch_SetMaxResults = dll.EOS_SessionSearch_SetMaxResults
+    EOS_SessionSearch_SetMaxResults.argtypes = [EOS_HSessionSearch, POINTER(EOS_SessionSearch_SetMaxResultsOptions)]
+    EOS_SessionSearch_SetMaxResults.restype = EOS_EResult
+
+    global EOS_SessionSearch_GetSearchResultCount
+    EOS_SessionSearch_GetSearchResultCount = dll.EOS_SessionSearch_GetSearchResultCount
+    EOS_SessionSearch_GetSearchResultCount.argtypes = [EOS_HSessionSearch, POINTER(EOS_SessionSearch_GetSearchResultCountOptions)]
+    EOS_SessionSearch_GetSearchResultCount.restype = c_uint32
+
+    global EOS_SessionSearch_CopySearchResultByIndex
+    EOS_SessionSearch_CopySearchResultByIndex = dll.EOS_SessionSearch_CopySearchResultByIndex
+    EOS_SessionSearch_CopySearchResultByIndex.argtypes = [EOS_HSessionSearch, POINTER(EOS_SessionSearch_CopySearchResultByIndexOptions), POINTER(EOS_HSessionDetails)]
+    EOS_SessionSearch_CopySearchResultByIndex.restype = EOS_EResult
+
+    global EOS_Achievements_GetAchievementDefinitionCount
+    EOS_Achievements_GetAchievementDefinitionCount = dll.EOS_Achievements_GetAchievementDefinitionCount
+    EOS_Achievements_GetAchievementDefinitionCount.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_GetAchievementDefinitionCountOptions)]
+    EOS_Achievements_GetAchievementDefinitionCount.restype = c_uint32
+
+    global EOS_Achievements_CopyAchievementDefinitionV2ByIndex
+    EOS_Achievements_CopyAchievementDefinitionV2ByIndex = dll.EOS_Achievements_CopyAchievementDefinitionV2ByIndex
+    EOS_Achievements_CopyAchievementDefinitionV2ByIndex.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_CopyAchievementDefinitionV2ByIndexOptions), POINTER(POINTER(EOS_Achievements_DefinitionV2))]
+    EOS_Achievements_CopyAchievementDefinitionV2ByIndex.restype = EOS_EResult
+
+    global EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId
+    EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId = dll.EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId
+    EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_CopyAchievementDefinitionV2ByAchievementIdOptions), POINTER(POINTER(EOS_Achievements_DefinitionV2))]
+    EOS_Achievements_CopyAchievementDefinitionV2ByAchievementId.restype = EOS_EResult
+
+    global EOS_Achievements_GetPlayerAchievementCount
+    EOS_Achievements_GetPlayerAchievementCount = dll.EOS_Achievements_GetPlayerAchievementCount
+    EOS_Achievements_GetPlayerAchievementCount.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_GetPlayerAchievementCountOptions)]
+    EOS_Achievements_GetPlayerAchievementCount.restype = c_uint32
+
+    global EOS_Achievements_CopyPlayerAchievementByIndex
+    EOS_Achievements_CopyPlayerAchievementByIndex = dll.EOS_Achievements_CopyPlayerAchievementByIndex
+    EOS_Achievements_CopyPlayerAchievementByIndex.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_CopyPlayerAchievementByIndexOptions), POINTER(POINTER(EOS_Achievements_PlayerAchievement))]
+    EOS_Achievements_CopyPlayerAchievementByIndex.restype = EOS_EResult
+
+    global EOS_Achievements_CopyPlayerAchievementByAchievementId
+    EOS_Achievements_CopyPlayerAchievementByAchievementId = dll.EOS_Achievements_CopyPlayerAchievementByAchievementId
+    EOS_Achievements_CopyPlayerAchievementByAchievementId.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_CopyPlayerAchievementByAchievementIdOptions), POINTER(POINTER(EOS_Achievements_PlayerAchievement))]
+    EOS_Achievements_CopyPlayerAchievementByAchievementId.restype = EOS_EResult
+
+    global EOS_Achievements_RemoveNotifyAchievementsUnlocked
+    EOS_Achievements_RemoveNotifyAchievementsUnlocked = dll.EOS_Achievements_RemoveNotifyAchievementsUnlocked
+    EOS_Achievements_RemoveNotifyAchievementsUnlocked.argtypes = [EOS_HAchievements, EOS_NotificationId]
+    EOS_Achievements_RemoveNotifyAchievementsUnlocked.restype = None
+
+    global EOS_Achievements_GetUnlockedAchievementCount
+    EOS_Achievements_GetUnlockedAchievementCount = dll.EOS_Achievements_GetUnlockedAchievementCount
+    EOS_Achievements_GetUnlockedAchievementCount.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_GetUnlockedAchievementCountOptions)]
+    EOS_Achievements_GetUnlockedAchievementCount.restype = c_uint32
+
+    global EOS_Achievements_CopyUnlockedAchievementByIndex
+    EOS_Achievements_CopyUnlockedAchievementByIndex = dll.EOS_Achievements_CopyUnlockedAchievementByIndex
+    EOS_Achievements_CopyUnlockedAchievementByIndex.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_CopyUnlockedAchievementByIndexOptions), POINTER(POINTER(EOS_Achievements_UnlockedAchievement))]
+    EOS_Achievements_CopyUnlockedAchievementByIndex.restype = EOS_EResult
+
+    global EOS_Achievements_CopyUnlockedAchievementByAchievementId
+    EOS_Achievements_CopyUnlockedAchievementByAchievementId = dll.EOS_Achievements_CopyUnlockedAchievementByAchievementId
+    EOS_Achievements_CopyUnlockedAchievementByAchievementId.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_CopyUnlockedAchievementByAchievementIdOptions), POINTER(POINTER(EOS_Achievements_UnlockedAchievement))]
+    EOS_Achievements_CopyUnlockedAchievementByAchievementId.restype = EOS_EResult
+
+    global EOS_AntiCheatClient_RemoveNotifyMessageToServer
+    EOS_AntiCheatClient_RemoveNotifyMessageToServer = dll.EOS_AntiCheatClient_RemoveNotifyMessageToServer
+    EOS_AntiCheatClient_RemoveNotifyMessageToServer.argtypes = [EOS_HAntiCheatClient, EOS_NotificationId]
+    EOS_AntiCheatClient_RemoveNotifyMessageToServer.restype = None
+
+    global EOS_AntiCheatClient_RemoveNotifyMessageToPeer
+    EOS_AntiCheatClient_RemoveNotifyMessageToPeer = dll.EOS_AntiCheatClient_RemoveNotifyMessageToPeer
+    EOS_AntiCheatClient_RemoveNotifyMessageToPeer.argtypes = [EOS_HAntiCheatClient, EOS_NotificationId]
+    EOS_AntiCheatClient_RemoveNotifyMessageToPeer.restype = None
+
+    global EOS_AntiCheatClient_RemoveNotifyPeerActionRequired
+    EOS_AntiCheatClient_RemoveNotifyPeerActionRequired = dll.EOS_AntiCheatClient_RemoveNotifyPeerActionRequired
+    EOS_AntiCheatClient_RemoveNotifyPeerActionRequired.argtypes = [EOS_HAntiCheatClient, EOS_NotificationId]
+    EOS_AntiCheatClient_RemoveNotifyPeerActionRequired.restype = None
+
+    global EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged
+    EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged = dll.EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged
+    EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged.argtypes = [EOS_HAntiCheatClient, EOS_NotificationId]
+    EOS_AntiCheatClient_RemoveNotifyPeerAuthStatusChanged.restype = None
+
+    global EOS_AntiCheatClient_RemoveNotifyClientIntegrityViolated
+    EOS_AntiCheatClient_RemoveNotifyClientIntegrityViolated = dll.EOS_AntiCheatClient_RemoveNotifyClientIntegrityViolated
+    EOS_AntiCheatClient_RemoveNotifyClientIntegrityViolated.argtypes = [EOS_HAntiCheatClient, EOS_NotificationId]
+    EOS_AntiCheatClient_RemoveNotifyClientIntegrityViolated.restype = None
+
+    global EOS_AntiCheatClient_BeginSession
+    EOS_AntiCheatClient_BeginSession = dll.EOS_AntiCheatClient_BeginSession
+    EOS_AntiCheatClient_BeginSession.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_BeginSessionOptions)]
+    EOS_AntiCheatClient_BeginSession.restype = EOS_EResult
+
+    global EOS_AntiCheatClient_EndSession
+    EOS_AntiCheatClient_EndSession = dll.EOS_AntiCheatClient_EndSession
+    EOS_AntiCheatClient_EndSession.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_EndSessionOptions)]
+    EOS_AntiCheatClient_EndSession.restype = EOS_EResult
+
+    global EOS_AntiCheatClient_PollStatus
+    EOS_AntiCheatClient_PollStatus = dll.EOS_AntiCheatClient_PollStatus
+    EOS_AntiCheatClient_PollStatus.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_PollStatusOptions), POINTER(EOS_EAntiCheatClientViolationType), c_char_p]
+    EOS_AntiCheatClient_PollStatus.restype = EOS_EResult
+
+    global EOS_AntiCheatClient_Reserved01
+    EOS_AntiCheatClient_Reserved01 = dll.EOS_AntiCheatClient_Reserved01
+    EOS_AntiCheatClient_Reserved01.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_Reserved01Options), POINTER(c_int32)]
+    EOS_AntiCheatClient_Reserved01.restype = EOS_EResult
+
+    global EOS_AntiCheatClient_AddExternalIntegrityCatalog
+    EOS_AntiCheatClient_AddExternalIntegrityCatalog = dll.EOS_AntiCheatClient_AddExternalIntegrityCatalog
+    EOS_AntiCheatClient_AddExternalIntegrityCatalog.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_AddExternalIntegrityCatalogOptions)]
+    EOS_AntiCheatClient_AddExternalIntegrityCatalog.restype = EOS_EResult
+
+    global EOS_AntiCheatClient_ReceiveMessageFromServer
+    EOS_AntiCheatClient_ReceiveMessageFromServer = dll.EOS_AntiCheatClient_ReceiveMessageFromServer
+    EOS_AntiCheatClient_ReceiveMessageFromServer.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_ReceiveMessageFromServerOptions)]
+    EOS_AntiCheatClient_ReceiveMessageFromServer.restype = EOS_EResult
+
+    global EOS_AntiCheatClient_GetProtectMessageOutputLength
+    EOS_AntiCheatClient_GetProtectMessageOutputLength = dll.EOS_AntiCheatClient_GetProtectMessageOutputLength
+    EOS_AntiCheatClient_GetProtectMessageOutputLength.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_GetProtectMessageOutputLengthOptions), POINTER(c_uint32)]
+    EOS_AntiCheatClient_GetProtectMessageOutputLength.restype = EOS_EResult
+
+    global EOS_AntiCheatClient_ProtectMessage
+    EOS_AntiCheatClient_ProtectMessage = dll.EOS_AntiCheatClient_ProtectMessage
+    EOS_AntiCheatClient_ProtectMessage.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_ProtectMessageOptions), c_void_p, POINTER(c_uint32)]
+    EOS_AntiCheatClient_ProtectMessage.restype = EOS_EResult
+
+    global EOS_AntiCheatClient_UnprotectMessage
+    EOS_AntiCheatClient_UnprotectMessage = dll.EOS_AntiCheatClient_UnprotectMessage
+    EOS_AntiCheatClient_UnprotectMessage.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_UnprotectMessageOptions), c_void_p, POINTER(c_uint32)]
+    EOS_AntiCheatClient_UnprotectMessage.restype = EOS_EResult
+
+    global EOS_AntiCheatClient_RegisterPeer
+    EOS_AntiCheatClient_RegisterPeer = dll.EOS_AntiCheatClient_RegisterPeer
+    EOS_AntiCheatClient_RegisterPeer.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_RegisterPeerOptions)]
+    EOS_AntiCheatClient_RegisterPeer.restype = EOS_EResult
+
+    global EOS_AntiCheatClient_UnregisterPeer
+    EOS_AntiCheatClient_UnregisterPeer = dll.EOS_AntiCheatClient_UnregisterPeer
+    EOS_AntiCheatClient_UnregisterPeer.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_UnregisterPeerOptions)]
+    EOS_AntiCheatClient_UnregisterPeer.restype = EOS_EResult
+
+    global EOS_AntiCheatClient_ReceiveMessageFromPeer
+    EOS_AntiCheatClient_ReceiveMessageFromPeer = dll.EOS_AntiCheatClient_ReceiveMessageFromPeer
+    EOS_AntiCheatClient_ReceiveMessageFromPeer.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_ReceiveMessageFromPeerOptions)]
+    EOS_AntiCheatClient_ReceiveMessageFromPeer.restype = EOS_EResult
+
+    global EOS_Auth_GetLoggedInAccountsCount
+    EOS_Auth_GetLoggedInAccountsCount = dll.EOS_Auth_GetLoggedInAccountsCount
+    EOS_Auth_GetLoggedInAccountsCount.argtypes = [EOS_HAuth]
+    EOS_Auth_GetLoggedInAccountsCount.restype = c_int32
+
+    global EOS_Auth_GetLoggedInAccountByIndex
+    EOS_Auth_GetLoggedInAccountByIndex = dll.EOS_Auth_GetLoggedInAccountByIndex
+    EOS_Auth_GetLoggedInAccountByIndex.argtypes = [EOS_HAuth, c_int32]
+    EOS_Auth_GetLoggedInAccountByIndex.restype = EOS_EpicAccountId
+
+    global EOS_Auth_GetLoginStatus
+    EOS_Auth_GetLoginStatus = dll.EOS_Auth_GetLoginStatus
+    EOS_Auth_GetLoginStatus.argtypes = [EOS_HAuth, EOS_EpicAccountId]
+    EOS_Auth_GetLoginStatus.restype = EOS_ELoginStatus
+
+    global EOS_Auth_CopyUserAuthToken
+    EOS_Auth_CopyUserAuthToken = dll.EOS_Auth_CopyUserAuthToken
+    EOS_Auth_CopyUserAuthToken.argtypes = [EOS_HAuth, POINTER(EOS_Auth_CopyUserAuthTokenOptions), EOS_EpicAccountId, POINTER(POINTER(EOS_Auth_Token))]
+    EOS_Auth_CopyUserAuthToken.restype = EOS_EResult
+
+    global EOS_Auth_CopyIdToken
+    EOS_Auth_CopyIdToken = dll.EOS_Auth_CopyIdToken
+    EOS_Auth_CopyIdToken.argtypes = [EOS_HAuth, POINTER(EOS_Auth_CopyIdTokenOptions), POINTER(POINTER(EOS_Auth_IdToken))]
+    EOS_Auth_CopyIdToken.restype = EOS_EResult
+
+    global EOS_Auth_GetSelectedAccountId
+    EOS_Auth_GetSelectedAccountId = dll.EOS_Auth_GetSelectedAccountId
+    EOS_Auth_GetSelectedAccountId.argtypes = [EOS_HAuth, EOS_EpicAccountId, POINTER(EOS_EpicAccountId)]
+    EOS_Auth_GetSelectedAccountId.restype = EOS_EResult
+
+    global EOS_Auth_GetMergedAccountsCount
+    EOS_Auth_GetMergedAccountsCount = dll.EOS_Auth_GetMergedAccountsCount
+    EOS_Auth_GetMergedAccountsCount.argtypes = [EOS_HAuth, EOS_EpicAccountId]
+    EOS_Auth_GetMergedAccountsCount.restype = c_uint32
+
+    global EOS_Auth_GetMergedAccountByIndex
+    EOS_Auth_GetMergedAccountByIndex = dll.EOS_Auth_GetMergedAccountByIndex
+    EOS_Auth_GetMergedAccountByIndex.argtypes = [EOS_HAuth, EOS_EpicAccountId, c_uint32]
+    EOS_Auth_GetMergedAccountByIndex.restype = EOS_EpicAccountId
+
+    global EOS_Auth_RemoveNotifyLoginStatusChanged
+    EOS_Auth_RemoveNotifyLoginStatusChanged = dll.EOS_Auth_RemoveNotifyLoginStatusChanged
+    EOS_Auth_RemoveNotifyLoginStatusChanged.argtypes = [EOS_HAuth, EOS_NotificationId]
+    EOS_Auth_RemoveNotifyLoginStatusChanged.restype = None
+
+    global EOS_Logging_SetCallback
+    EOS_Logging_SetCallback = dll.EOS_Logging_SetCallback
+    EOS_Logging_SetCallback.argtypes = [EOS_LogMessageFunc]
+    EOS_Logging_SetCallback.restype = EOS_EResult
+
+    global EOS_Achievements_Definition_Release
+    EOS_Achievements_Definition_Release = dll.EOS_Achievements_Definition_Release
+    EOS_Achievements_Definition_Release.argtypes = [POINTER(EOS_Achievements_Definition)]
+    EOS_Achievements_Definition_Release.restype = None
+
+    global EOS_Connect_Login
+    EOS_Connect_Login = dll.EOS_Connect_Login
+    EOS_Connect_Login.argtypes = [EOS_HConnect, POINTER(EOS_Connect_LoginOptions), c_void_p, EOS_Connect_OnLoginCallback]
+    EOS_Connect_Login.restype = None
+
+    global EOS_Connect_Logout
+    EOS_Connect_Logout = dll.EOS_Connect_Logout
+    EOS_Connect_Logout.argtypes = [EOS_HConnect, POINTER(EOS_Connect_LogoutOptions), c_void_p, EOS_Connect_OnLogoutCallback]
+    EOS_Connect_Logout.restype = None
+
+    global EOS_Connect_CreateUser
+    EOS_Connect_CreateUser = dll.EOS_Connect_CreateUser
+    EOS_Connect_CreateUser.argtypes = [EOS_HConnect, POINTER(EOS_Connect_CreateUserOptions), c_void_p, EOS_Connect_OnCreateUserCallback]
+    EOS_Connect_CreateUser.restype = None
+
+    global EOS_Connect_LinkAccount
+    EOS_Connect_LinkAccount = dll.EOS_Connect_LinkAccount
+    EOS_Connect_LinkAccount.argtypes = [EOS_HConnect, POINTER(EOS_Connect_LinkAccountOptions), c_void_p, EOS_Connect_OnLinkAccountCallback]
+    EOS_Connect_LinkAccount.restype = None
+
+    global EOS_Connect_UnlinkAccount
+    EOS_Connect_UnlinkAccount = dll.EOS_Connect_UnlinkAccount
+    EOS_Connect_UnlinkAccount.argtypes = [EOS_HConnect, POINTER(EOS_Connect_UnlinkAccountOptions), c_void_p, EOS_Connect_OnUnlinkAccountCallback]
+    EOS_Connect_UnlinkAccount.restype = None
+
+    global EOS_Connect_CreateDeviceId
+    EOS_Connect_CreateDeviceId = dll.EOS_Connect_CreateDeviceId
+    EOS_Connect_CreateDeviceId.argtypes = [EOS_HConnect, POINTER(EOS_Connect_CreateDeviceIdOptions), c_void_p, EOS_Connect_OnCreateDeviceIdCallback]
+    EOS_Connect_CreateDeviceId.restype = None
+
+    global EOS_Connect_DeleteDeviceId
+    EOS_Connect_DeleteDeviceId = dll.EOS_Connect_DeleteDeviceId
+    EOS_Connect_DeleteDeviceId.argtypes = [EOS_HConnect, POINTER(EOS_Connect_DeleteDeviceIdOptions), c_void_p, EOS_Connect_OnDeleteDeviceIdCallback]
+    EOS_Connect_DeleteDeviceId.restype = None
+
+    global EOS_Connect_TransferDeviceIdAccount
+    EOS_Connect_TransferDeviceIdAccount = dll.EOS_Connect_TransferDeviceIdAccount
+    EOS_Connect_TransferDeviceIdAccount.argtypes = [EOS_HConnect, POINTER(EOS_Connect_TransferDeviceIdAccountOptions), c_void_p, EOS_Connect_OnTransferDeviceIdAccountCallback]
+    EOS_Connect_TransferDeviceIdAccount.restype = None
+
+    global EOS_Connect_QueryExternalAccountMappings
+    EOS_Connect_QueryExternalAccountMappings = dll.EOS_Connect_QueryExternalAccountMappings
+    EOS_Connect_QueryExternalAccountMappings.argtypes = [EOS_HConnect, POINTER(EOS_Connect_QueryExternalAccountMappingsOptions), c_void_p, EOS_Connect_OnQueryExternalAccountMappingsCallback]
+    EOS_Connect_QueryExternalAccountMappings.restype = None
+
+    global EOS_Connect_QueryProductUserIdMappings
+    EOS_Connect_QueryProductUserIdMappings = dll.EOS_Connect_QueryProductUserIdMappings
+    EOS_Connect_QueryProductUserIdMappings.argtypes = [EOS_HConnect, POINTER(EOS_Connect_QueryProductUserIdMappingsOptions), c_void_p, EOS_Connect_OnQueryProductUserIdMappingsCallback]
+    EOS_Connect_QueryProductUserIdMappings.restype = None
+
+    global EOS_Connect_AddNotifyAuthExpiration
+    EOS_Connect_AddNotifyAuthExpiration = dll.EOS_Connect_AddNotifyAuthExpiration
+    EOS_Connect_AddNotifyAuthExpiration.argtypes = [EOS_HConnect, POINTER(EOS_Connect_AddNotifyAuthExpirationOptions), c_void_p, EOS_Connect_OnAuthExpirationCallback]
+    EOS_Connect_AddNotifyAuthExpiration.restype = EOS_NotificationId
+
+    global EOS_Connect_AddNotifyLoginStatusChanged
+    EOS_Connect_AddNotifyLoginStatusChanged = dll.EOS_Connect_AddNotifyLoginStatusChanged
+    EOS_Connect_AddNotifyLoginStatusChanged.argtypes = [EOS_HConnect, POINTER(EOS_Connect_AddNotifyLoginStatusChangedOptions), c_void_p, EOS_Connect_OnLoginStatusChangedCallback]
+    EOS_Connect_AddNotifyLoginStatusChanged.restype = EOS_NotificationId
+
+    global EOS_Connect_VerifyIdToken
+    EOS_Connect_VerifyIdToken = dll.EOS_Connect_VerifyIdToken
+    EOS_Connect_VerifyIdToken.argtypes = [EOS_HConnect, POINTER(EOS_Connect_VerifyIdTokenOptions), c_void_p, EOS_Connect_OnVerifyIdTokenCallback]
+    EOS_Connect_VerifyIdToken.restype = None
+
+    global EOS_Ecom_QueryOwnership
+    EOS_Ecom_QueryOwnership = dll.EOS_Ecom_QueryOwnership
+    EOS_Ecom_QueryOwnership.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_QueryOwnershipOptions), c_void_p, EOS_Ecom_OnQueryOwnershipCallback]
+    EOS_Ecom_QueryOwnership.restype = None
+
+    global EOS_Ecom_QueryOwnershipBySandboxIds
+    EOS_Ecom_QueryOwnershipBySandboxIds = dll.EOS_Ecom_QueryOwnershipBySandboxIds
+    EOS_Ecom_QueryOwnershipBySandboxIds.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_QueryOwnershipBySandboxIdsOptions), c_void_p, EOS_Ecom_OnQueryOwnershipBySandboxIdsCallback]
+    EOS_Ecom_QueryOwnershipBySandboxIds.restype = None
+
+    global EOS_Ecom_QueryOwnershipToken
+    EOS_Ecom_QueryOwnershipToken = dll.EOS_Ecom_QueryOwnershipToken
+    EOS_Ecom_QueryOwnershipToken.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_QueryOwnershipTokenOptions), c_void_p, EOS_Ecom_OnQueryOwnershipTokenCallback]
+    EOS_Ecom_QueryOwnershipToken.restype = None
+
+    global EOS_Ecom_QueryEntitlements
+    EOS_Ecom_QueryEntitlements = dll.EOS_Ecom_QueryEntitlements
+    EOS_Ecom_QueryEntitlements.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_QueryEntitlementsOptions), c_void_p, EOS_Ecom_OnQueryEntitlementsCallback]
+    EOS_Ecom_QueryEntitlements.restype = None
+
+    global EOS_Ecom_QueryEntitlementToken
+    EOS_Ecom_QueryEntitlementToken = dll.EOS_Ecom_QueryEntitlementToken
+    EOS_Ecom_QueryEntitlementToken.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_QueryEntitlementTokenOptions), c_void_p, EOS_Ecom_OnQueryEntitlementTokenCallback]
+    EOS_Ecom_QueryEntitlementToken.restype = None
+
+    global EOS_Ecom_QueryOffers
+    EOS_Ecom_QueryOffers = dll.EOS_Ecom_QueryOffers
+    EOS_Ecom_QueryOffers.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_QueryOffersOptions), c_void_p, EOS_Ecom_OnQueryOffersCallback]
+    EOS_Ecom_QueryOffers.restype = None
+
+    global EOS_Ecom_Checkout
+    EOS_Ecom_Checkout = dll.EOS_Ecom_Checkout
+    EOS_Ecom_Checkout.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_CheckoutOptions), c_void_p, EOS_Ecom_OnCheckoutCallback]
+    EOS_Ecom_Checkout.restype = None
+
+    global EOS_Ecom_RedeemEntitlements
+    EOS_Ecom_RedeemEntitlements = dll.EOS_Ecom_RedeemEntitlements
+    EOS_Ecom_RedeemEntitlements.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_RedeemEntitlementsOptions), c_void_p, EOS_Ecom_OnRedeemEntitlementsCallback]
+    EOS_Ecom_RedeemEntitlements.restype = None
+
+    global EOS_Friends_QueryFriends
+    EOS_Friends_QueryFriends = dll.EOS_Friends_QueryFriends
+    EOS_Friends_QueryFriends.argtypes = [EOS_HFriends, POINTER(EOS_Friends_QueryFriendsOptions), c_void_p, EOS_Friends_OnQueryFriendsCallback]
+    EOS_Friends_QueryFriends.restype = None
+
+    global EOS_Friends_SendInvite
+    EOS_Friends_SendInvite = dll.EOS_Friends_SendInvite
+    EOS_Friends_SendInvite.argtypes = [EOS_HFriends, POINTER(EOS_Friends_SendInviteOptions), c_void_p, EOS_Friends_OnSendInviteCallback]
+    EOS_Friends_SendInvite.restype = None
+
+    global EOS_Friends_AcceptInvite
+    EOS_Friends_AcceptInvite = dll.EOS_Friends_AcceptInvite
+    EOS_Friends_AcceptInvite.argtypes = [EOS_HFriends, POINTER(EOS_Friends_AcceptInviteOptions), c_void_p, EOS_Friends_OnAcceptInviteCallback]
+    EOS_Friends_AcceptInvite.restype = None
+
+    global EOS_Friends_RejectInvite
+    EOS_Friends_RejectInvite = dll.EOS_Friends_RejectInvite
+    EOS_Friends_RejectInvite.argtypes = [EOS_HFriends, POINTER(EOS_Friends_RejectInviteOptions), c_void_p, EOS_Friends_OnRejectInviteCallback]
+    EOS_Friends_RejectInvite.restype = None
+
+    global EOS_Friends_AddNotifyFriendsUpdate
+    EOS_Friends_AddNotifyFriendsUpdate = dll.EOS_Friends_AddNotifyFriendsUpdate
+    EOS_Friends_AddNotifyFriendsUpdate.argtypes = [EOS_HFriends, POINTER(EOS_Friends_AddNotifyFriendsUpdateOptions), c_void_p, EOS_Friends_OnFriendsUpdateCallback]
+    EOS_Friends_AddNotifyFriendsUpdate.restype = EOS_NotificationId
+
+    global EOS_Friends_AddNotifyBlockedUsersUpdate
+    EOS_Friends_AddNotifyBlockedUsersUpdate = dll.EOS_Friends_AddNotifyBlockedUsersUpdate
+    EOS_Friends_AddNotifyBlockedUsersUpdate.argtypes = [EOS_HFriends, POINTER(EOS_Friends_AddNotifyBlockedUsersUpdateOptions), c_void_p, EOS_Friends_OnBlockedUsersUpdateCallback]
+    EOS_Friends_AddNotifyBlockedUsersUpdate.restype = EOS_NotificationId
+
+    global EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged
+    EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged = dll.EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged
+    EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged.argtypes = [EOS_HIntegratedPlatform, POINTER(EOS_IntegratedPlatform_AddNotifyUserLoginStatusChangedOptions), c_void_p, EOS_IntegratedPlatform_OnUserLoginStatusChangedCallback]
+    EOS_IntegratedPlatform_AddNotifyUserLoginStatusChanged.restype = EOS_NotificationId
+
+    global EOS_IntegratedPlatform_SetUserPreLogoutCallback
+    EOS_IntegratedPlatform_SetUserPreLogoutCallback = dll.EOS_IntegratedPlatform_SetUserPreLogoutCallback
+    EOS_IntegratedPlatform_SetUserPreLogoutCallback.argtypes = [EOS_HIntegratedPlatform, POINTER(EOS_IntegratedPlatform_SetUserPreLogoutCallbackOptions), c_void_p, EOS_IntegratedPlatform_OnUserPreLogoutCallback]
+    EOS_IntegratedPlatform_SetUserPreLogoutCallback.restype = EOS_EResult
+
+    global EOS_KWS_QueryAgeGate
+    EOS_KWS_QueryAgeGate = dll.EOS_KWS_QueryAgeGate
+    EOS_KWS_QueryAgeGate.argtypes = [EOS_HKWS, POINTER(EOS_KWS_QueryAgeGateOptions), c_void_p, EOS_KWS_OnQueryAgeGateCallback]
+    EOS_KWS_QueryAgeGate.restype = None
+
+    global EOS_KWS_CreateUser
+    EOS_KWS_CreateUser = dll.EOS_KWS_CreateUser
+    EOS_KWS_CreateUser.argtypes = [EOS_HKWS, POINTER(EOS_KWS_CreateUserOptions), c_void_p, EOS_KWS_OnCreateUserCallback]
+    EOS_KWS_CreateUser.restype = None
+
+    global EOS_KWS_QueryPermissions
+    EOS_KWS_QueryPermissions = dll.EOS_KWS_QueryPermissions
+    EOS_KWS_QueryPermissions.argtypes = [EOS_HKWS, POINTER(EOS_KWS_QueryPermissionsOptions), c_void_p, EOS_KWS_OnQueryPermissionsCallback]
+    EOS_KWS_QueryPermissions.restype = None
+
+    global EOS_KWS_UpdateParentEmail
+    EOS_KWS_UpdateParentEmail = dll.EOS_KWS_UpdateParentEmail
+    EOS_KWS_UpdateParentEmail.argtypes = [EOS_HKWS, POINTER(EOS_KWS_UpdateParentEmailOptions), c_void_p, EOS_KWS_OnUpdateParentEmailCallback]
+    EOS_KWS_UpdateParentEmail.restype = None
+
+    global EOS_KWS_RequestPermissions
+    EOS_KWS_RequestPermissions = dll.EOS_KWS_RequestPermissions
+    EOS_KWS_RequestPermissions.argtypes = [EOS_HKWS, POINTER(EOS_KWS_RequestPermissionsOptions), c_void_p, EOS_KWS_OnRequestPermissionsCallback]
+    EOS_KWS_RequestPermissions.restype = None
+
+    global EOS_KWS_AddNotifyPermissionsUpdateReceived
+    EOS_KWS_AddNotifyPermissionsUpdateReceived = dll.EOS_KWS_AddNotifyPermissionsUpdateReceived
+    EOS_KWS_AddNotifyPermissionsUpdateReceived.argtypes = [EOS_HKWS, POINTER(EOS_KWS_AddNotifyPermissionsUpdateReceivedOptions), c_void_p, EOS_KWS_OnPermissionsUpdateReceivedCallback]
+    EOS_KWS_AddNotifyPermissionsUpdateReceived.restype = EOS_NotificationId
+
+    global EOS_Mods_InstallMod
+    EOS_Mods_InstallMod = dll.EOS_Mods_InstallMod
+    EOS_Mods_InstallMod.argtypes = [EOS_HMods, POINTER(EOS_Mods_InstallModOptions), c_void_p, EOS_Mods_OnInstallModCallback]
+    EOS_Mods_InstallMod.restype = None
+
+    global EOS_Mods_UninstallMod
+    EOS_Mods_UninstallMod = dll.EOS_Mods_UninstallMod
+    EOS_Mods_UninstallMod.argtypes = [EOS_HMods, POINTER(EOS_Mods_UninstallModOptions), c_void_p, EOS_Mods_OnUninstallModCallback]
+    EOS_Mods_UninstallMod.restype = None
+
+    global EOS_Mods_EnumerateMods
+    EOS_Mods_EnumerateMods = dll.EOS_Mods_EnumerateMods
+    EOS_Mods_EnumerateMods.argtypes = [EOS_HMods, POINTER(EOS_Mods_EnumerateModsOptions), c_void_p, EOS_Mods_OnEnumerateModsCallback]
+    EOS_Mods_EnumerateMods.restype = None
+
+    global EOS_Mods_UpdateMod
+    EOS_Mods_UpdateMod = dll.EOS_Mods_UpdateMod
+    EOS_Mods_UpdateMod.argtypes = [EOS_HMods, POINTER(EOS_Mods_UpdateModOptions), c_void_p, EOS_Mods_OnUpdateModCallback]
+    EOS_Mods_UpdateMod.restype = None
+
+    global EOS_P2P_AddNotifyPeerConnectionRequest
+    EOS_P2P_AddNotifyPeerConnectionRequest = dll.EOS_P2P_AddNotifyPeerConnectionRequest
+    EOS_P2P_AddNotifyPeerConnectionRequest.argtypes = [EOS_HP2P, POINTER(EOS_P2P_AddNotifyPeerConnectionRequestOptions), c_void_p, EOS_P2P_OnIncomingConnectionRequestCallback]
+    EOS_P2P_AddNotifyPeerConnectionRequest.restype = EOS_NotificationId
+
+    global EOS_P2P_AddNotifyPeerConnectionEstablished
+    EOS_P2P_AddNotifyPeerConnectionEstablished = dll.EOS_P2P_AddNotifyPeerConnectionEstablished
+    EOS_P2P_AddNotifyPeerConnectionEstablished.argtypes = [EOS_HP2P, POINTER(EOS_P2P_AddNotifyPeerConnectionEstablishedOptions), c_void_p, EOS_P2P_OnPeerConnectionEstablishedCallback]
+    EOS_P2P_AddNotifyPeerConnectionEstablished.restype = EOS_NotificationId
+
+    global EOS_P2P_AddNotifyPeerConnectionInterrupted
+    EOS_P2P_AddNotifyPeerConnectionInterrupted = dll.EOS_P2P_AddNotifyPeerConnectionInterrupted
+    EOS_P2P_AddNotifyPeerConnectionInterrupted.argtypes = [EOS_HP2P, POINTER(EOS_P2P_AddNotifyPeerConnectionInterruptedOptions), c_void_p, EOS_P2P_OnPeerConnectionInterruptedCallback]
+    EOS_P2P_AddNotifyPeerConnectionInterrupted.restype = EOS_NotificationId
+
+    global EOS_P2P_AddNotifyPeerConnectionClosed
+    EOS_P2P_AddNotifyPeerConnectionClosed = dll.EOS_P2P_AddNotifyPeerConnectionClosed
+    EOS_P2P_AddNotifyPeerConnectionClosed.argtypes = [EOS_HP2P, POINTER(EOS_P2P_AddNotifyPeerConnectionClosedOptions), c_void_p, EOS_P2P_OnRemoteConnectionClosedCallback]
+    EOS_P2P_AddNotifyPeerConnectionClosed.restype = EOS_NotificationId
+
+    global EOS_P2P_QueryNATType
+    EOS_P2P_QueryNATType = dll.EOS_P2P_QueryNATType
+    EOS_P2P_QueryNATType.argtypes = [EOS_HP2P, POINTER(EOS_P2P_QueryNATTypeOptions), c_void_p, EOS_P2P_OnQueryNATTypeCompleteCallback]
+    EOS_P2P_QueryNATType.restype = None
+
+    global EOS_P2P_AddNotifyIncomingPacketQueueFull
+    EOS_P2P_AddNotifyIncomingPacketQueueFull = dll.EOS_P2P_AddNotifyIncomingPacketQueueFull
+    EOS_P2P_AddNotifyIncomingPacketQueueFull.argtypes = [EOS_HP2P, POINTER(EOS_P2P_AddNotifyIncomingPacketQueueFullOptions), c_void_p, EOS_P2P_OnIncomingPacketQueueFullCallback]
+    EOS_P2P_AddNotifyIncomingPacketQueueFull.restype = EOS_NotificationId
+
+    global EOS_PlayerDataStorage_QueryFile
+    EOS_PlayerDataStorage_QueryFile = dll.EOS_PlayerDataStorage_QueryFile
+    EOS_PlayerDataStorage_QueryFile.argtypes = [EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_QueryFileOptions), c_void_p, EOS_PlayerDataStorage_OnQueryFileCompleteCallback]
+    EOS_PlayerDataStorage_QueryFile.restype = None
+
+    global EOS_PlayerDataStorage_QueryFileList
+    EOS_PlayerDataStorage_QueryFileList = dll.EOS_PlayerDataStorage_QueryFileList
+    EOS_PlayerDataStorage_QueryFileList.argtypes = [EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_QueryFileListOptions), c_void_p, EOS_PlayerDataStorage_OnQueryFileListCompleteCallback]
+    EOS_PlayerDataStorage_QueryFileList.restype = None
+
+    global EOS_PlayerDataStorage_DuplicateFile
+    EOS_PlayerDataStorage_DuplicateFile = dll.EOS_PlayerDataStorage_DuplicateFile
+    EOS_PlayerDataStorage_DuplicateFile.argtypes = [EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_DuplicateFileOptions), c_void_p, EOS_PlayerDataStorage_OnDuplicateFileCompleteCallback]
+    EOS_PlayerDataStorage_DuplicateFile.restype = None
+
+    global EOS_PlayerDataStorage_DeleteFile
+    EOS_PlayerDataStorage_DeleteFile = dll.EOS_PlayerDataStorage_DeleteFile
+    EOS_PlayerDataStorage_DeleteFile.argtypes = [EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_DeleteFileOptions), c_void_p, EOS_PlayerDataStorage_OnDeleteFileCompleteCallback]
+    EOS_PlayerDataStorage_DeleteFile.restype = None
+
+    global EOS_PlayerDataStorage_ReadFile
+    EOS_PlayerDataStorage_ReadFile = dll.EOS_PlayerDataStorage_ReadFile
+    EOS_PlayerDataStorage_ReadFile.argtypes = [EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_ReadFileOptions), c_void_p, EOS_PlayerDataStorage_OnReadFileCompleteCallback]
+    EOS_PlayerDataStorage_ReadFile.restype = EOS_HPlayerDataStorageFileTransferRequest
+
+    global EOS_PlayerDataStorage_WriteFile
+    EOS_PlayerDataStorage_WriteFile = dll.EOS_PlayerDataStorage_WriteFile
+    EOS_PlayerDataStorage_WriteFile.argtypes = [EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_WriteFileOptions), c_void_p, EOS_PlayerDataStorage_OnWriteFileCompleteCallback]
+    EOS_PlayerDataStorage_WriteFile.restype = EOS_HPlayerDataStorageFileTransferRequest
+
+    global EOS_PlayerDataStorage_DeleteCache
+    EOS_PlayerDataStorage_DeleteCache = dll.EOS_PlayerDataStorage_DeleteCache
+    EOS_PlayerDataStorage_DeleteCache.argtypes = [EOS_HPlayerDataStorage, POINTER(EOS_PlayerDataStorage_DeleteCacheOptions), c_void_p, EOS_PlayerDataStorage_OnDeleteCacheCompleteCallback]
+    EOS_PlayerDataStorage_DeleteCache.restype = EOS_EResult
+
+    global EOS_ProgressionSnapshot_SubmitSnapshot
+    EOS_ProgressionSnapshot_SubmitSnapshot = dll.EOS_ProgressionSnapshot_SubmitSnapshot
+    EOS_ProgressionSnapshot_SubmitSnapshot.argtypes = [EOS_HProgressionSnapshot, POINTER(EOS_ProgressionSnapshot_SubmitSnapshotOptions), c_void_p, EOS_ProgressionSnapshot_OnSubmitSnapshotCallback]
+    EOS_ProgressionSnapshot_SubmitSnapshot.restype = None
+
+    global EOS_ProgressionSnapshot_DeleteSnapshot
+    EOS_ProgressionSnapshot_DeleteSnapshot = dll.EOS_ProgressionSnapshot_DeleteSnapshot
+    EOS_ProgressionSnapshot_DeleteSnapshot.argtypes = [EOS_HProgressionSnapshot, POINTER(EOS_ProgressionSnapshot_DeleteSnapshotOptions), c_void_p, EOS_ProgressionSnapshot_OnDeleteSnapshotCallback]
+    EOS_ProgressionSnapshot_DeleteSnapshot.restype = None
+
+    global EOS_Reports_SendPlayerBehaviorReport
+    EOS_Reports_SendPlayerBehaviorReport = dll.EOS_Reports_SendPlayerBehaviorReport
+    EOS_Reports_SendPlayerBehaviorReport.argtypes = [EOS_HReports, POINTER(EOS_Reports_SendPlayerBehaviorReportOptions), c_void_p, EOS_Reports_OnSendPlayerBehaviorReportCompleteCallback]
+    EOS_Reports_SendPlayerBehaviorReport.restype = None
+
+    global EOS_RTCAdmin_QueryJoinRoomToken
+    EOS_RTCAdmin_QueryJoinRoomToken = dll.EOS_RTCAdmin_QueryJoinRoomToken
+    EOS_RTCAdmin_QueryJoinRoomToken.argtypes = [EOS_HRTCAdmin, POINTER(EOS_RTCAdmin_QueryJoinRoomTokenOptions), c_void_p, EOS_RTCAdmin_OnQueryJoinRoomTokenCompleteCallback]
+    EOS_RTCAdmin_QueryJoinRoomToken.restype = None
+
+    global EOS_RTCAdmin_Kick
+    EOS_RTCAdmin_Kick = dll.EOS_RTCAdmin_Kick
+    EOS_RTCAdmin_Kick.argtypes = [EOS_HRTCAdmin, POINTER(EOS_RTCAdmin_KickOptions), c_void_p, EOS_RTCAdmin_OnKickCompleteCallback]
+    EOS_RTCAdmin_Kick.restype = None
+
+    global EOS_RTCAdmin_SetParticipantHardMute
+    EOS_RTCAdmin_SetParticipantHardMute = dll.EOS_RTCAdmin_SetParticipantHardMute
+    EOS_RTCAdmin_SetParticipantHardMute.argtypes = [EOS_HRTCAdmin, POINTER(EOS_RTCAdmin_SetParticipantHardMuteOptions), c_void_p, EOS_RTCAdmin_OnSetParticipantHardMuteCompleteCallback]
+    EOS_RTCAdmin_SetParticipantHardMute.restype = None
+
+    global EOS_RTCData_AddNotifyDataReceived
+    EOS_RTCData_AddNotifyDataReceived = dll.EOS_RTCData_AddNotifyDataReceived
+    EOS_RTCData_AddNotifyDataReceived.argtypes = [EOS_HRTCData, POINTER(EOS_RTCData_AddNotifyDataReceivedOptions), c_void_p, EOS_RTCData_OnDataReceivedCallback]
+    EOS_RTCData_AddNotifyDataReceived.restype = EOS_NotificationId
+
+    global EOS_RTCData_UpdateSending
+    EOS_RTCData_UpdateSending = dll.EOS_RTCData_UpdateSending
+    EOS_RTCData_UpdateSending.argtypes = [EOS_HRTCData, POINTER(EOS_RTCData_UpdateSendingOptions), c_void_p, EOS_RTCData_OnUpdateSendingCallback]
+    EOS_RTCData_UpdateSending.restype = None
+
+    global EOS_RTCData_UpdateReceiving
+    EOS_RTCData_UpdateReceiving = dll.EOS_RTCData_UpdateReceiving
+    EOS_RTCData_UpdateReceiving.argtypes = [EOS_HRTCData, POINTER(EOS_RTCData_UpdateReceivingOptions), c_void_p, EOS_RTCData_OnUpdateReceivingCallback]
+    EOS_RTCData_UpdateReceiving.restype = None
+
+    global EOS_RTCData_AddNotifyParticipantUpdated
+    EOS_RTCData_AddNotifyParticipantUpdated = dll.EOS_RTCData_AddNotifyParticipantUpdated
+    EOS_RTCData_AddNotifyParticipantUpdated.argtypes = [EOS_HRTCData, POINTER(EOS_RTCData_AddNotifyParticipantUpdatedOptions), c_void_p, EOS_RTCData_OnParticipantUpdatedCallback]
+    EOS_RTCData_AddNotifyParticipantUpdated.restype = EOS_NotificationId
+
+    global EOS_Sanctions_QueryActivePlayerSanctions
+    EOS_Sanctions_QueryActivePlayerSanctions = dll.EOS_Sanctions_QueryActivePlayerSanctions
+    EOS_Sanctions_QueryActivePlayerSanctions.argtypes = [EOS_HSanctions, POINTER(EOS_Sanctions_QueryActivePlayerSanctionsOptions), c_void_p, EOS_Sanctions_OnQueryActivePlayerSanctionsCallback]
+    EOS_Sanctions_QueryActivePlayerSanctions.restype = None
+
+    global EOS_Sanctions_CreatePlayerSanctionAppeal
+    EOS_Sanctions_CreatePlayerSanctionAppeal = dll.EOS_Sanctions_CreatePlayerSanctionAppeal
+    EOS_Sanctions_CreatePlayerSanctionAppeal.argtypes = [EOS_HSanctions, POINTER(EOS_Sanctions_CreatePlayerSanctionAppealOptions), c_void_p, EOS_Sanctions_CreatePlayerSanctionAppealCallback]
+    EOS_Sanctions_CreatePlayerSanctionAppeal.restype = None
+
+    global EOS_Stats_IngestStat
+    EOS_Stats_IngestStat = dll.EOS_Stats_IngestStat
+    EOS_Stats_IngestStat.argtypes = [EOS_HStats, POINTER(EOS_Stats_IngestStatOptions), c_void_p, EOS_Stats_OnIngestStatCompleteCallback]
+    EOS_Stats_IngestStat.restype = None
+
+    global EOS_Stats_QueryStats
+    EOS_Stats_QueryStats = dll.EOS_Stats_QueryStats
+    EOS_Stats_QueryStats.argtypes = [EOS_HStats, POINTER(EOS_Stats_QueryStatsOptions), c_void_p, EOS_Stats_OnQueryStatsCompleteCallback]
+    EOS_Stats_QueryStats.restype = None
+
+    global EOS_TitleStorage_QueryFile
+    EOS_TitleStorage_QueryFile = dll.EOS_TitleStorage_QueryFile
+    EOS_TitleStorage_QueryFile.argtypes = [EOS_HTitleStorage, POINTER(EOS_TitleStorage_QueryFileOptions), c_void_p, EOS_TitleStorage_OnQueryFileCompleteCallback]
+    EOS_TitleStorage_QueryFile.restype = None
+
+    global EOS_TitleStorage_QueryFileList
+    EOS_TitleStorage_QueryFileList = dll.EOS_TitleStorage_QueryFileList
+    EOS_TitleStorage_QueryFileList.argtypes = [EOS_HTitleStorage, POINTER(EOS_TitleStorage_QueryFileListOptions), c_void_p, EOS_TitleStorage_OnQueryFileListCompleteCallback]
+    EOS_TitleStorage_QueryFileList.restype = None
+
+    global EOS_TitleStorage_ReadFile
+    EOS_TitleStorage_ReadFile = dll.EOS_TitleStorage_ReadFile
+    EOS_TitleStorage_ReadFile.argtypes = [EOS_HTitleStorage, POINTER(EOS_TitleStorage_ReadFileOptions), c_void_p, EOS_TitleStorage_OnReadFileCompleteCallback]
+    EOS_TitleStorage_ReadFile.restype = EOS_HTitleStorageFileTransferRequest
+
+    global EOS_TitleStorage_DeleteCache
+    EOS_TitleStorage_DeleteCache = dll.EOS_TitleStorage_DeleteCache
+    EOS_TitleStorage_DeleteCache.argtypes = [EOS_HTitleStorage, POINTER(EOS_TitleStorage_DeleteCacheOptions), c_void_p, EOS_TitleStorage_OnDeleteCacheCompleteCallback]
+    EOS_TitleStorage_DeleteCache.restype = EOS_EResult
+
+    global EOS_UI_ShowFriends
+    EOS_UI_ShowFriends = dll.EOS_UI_ShowFriends
+    EOS_UI_ShowFriends.argtypes = [EOS_HUI, POINTER(EOS_UI_ShowFriendsOptions), c_void_p, EOS_UI_OnShowFriendsCallback]
+    EOS_UI_ShowFriends.restype = None
+
+    global EOS_UI_HideFriends
+    EOS_UI_HideFriends = dll.EOS_UI_HideFriends
+    EOS_UI_HideFriends.argtypes = [EOS_HUI, POINTER(EOS_UI_HideFriendsOptions), c_void_p, EOS_UI_OnHideFriendsCallback]
+    EOS_UI_HideFriends.restype = None
+
+    global EOS_UI_AddNotifyDisplaySettingsUpdated
+    EOS_UI_AddNotifyDisplaySettingsUpdated = dll.EOS_UI_AddNotifyDisplaySettingsUpdated
+    EOS_UI_AddNotifyDisplaySettingsUpdated.argtypes = [EOS_HUI, POINTER(EOS_UI_AddNotifyDisplaySettingsUpdatedOptions), c_void_p, EOS_UI_OnDisplaySettingsUpdatedCallback]
+    EOS_UI_AddNotifyDisplaySettingsUpdated.restype = EOS_NotificationId
+
+    global EOS_UI_ShowBlockPlayer
+    EOS_UI_ShowBlockPlayer = dll.EOS_UI_ShowBlockPlayer
+    EOS_UI_ShowBlockPlayer.argtypes = [EOS_HUI, POINTER(EOS_UI_ShowBlockPlayerOptions), c_void_p, EOS_UI_OnShowBlockPlayerCallback]
+    EOS_UI_ShowBlockPlayer.restype = None
+
+    global EOS_UI_ShowReportPlayer
+    EOS_UI_ShowReportPlayer = dll.EOS_UI_ShowReportPlayer
+    EOS_UI_ShowReportPlayer.argtypes = [EOS_HUI, POINTER(EOS_UI_ShowReportPlayerOptions), c_void_p, EOS_UI_OnShowReportPlayerCallback]
+    EOS_UI_ShowReportPlayer.restype = None
+
+    global EOS_UI_AddNotifyMemoryMonitor
+    EOS_UI_AddNotifyMemoryMonitor = dll.EOS_UI_AddNotifyMemoryMonitor
+    EOS_UI_AddNotifyMemoryMonitor.argtypes = [EOS_HUI, POINTER(EOS_UI_AddNotifyMemoryMonitorOptions), c_void_p, EOS_UI_OnMemoryMonitorCallback]
+    EOS_UI_AddNotifyMemoryMonitor.restype = EOS_NotificationId
+
+    global EOS_UI_ShowNativeProfile
+    EOS_UI_ShowNativeProfile = dll.EOS_UI_ShowNativeProfile
+    EOS_UI_ShowNativeProfile.argtypes = [EOS_HUI, POINTER(EOS_UI_ShowNativeProfileOptions), c_void_p, EOS_UI_OnShowNativeProfileCallback]
+    EOS_UI_ShowNativeProfile.restype = None
+
+    global EOS_UserInfo_QueryUserInfo
+    EOS_UserInfo_QueryUserInfo = dll.EOS_UserInfo_QueryUserInfo
+    EOS_UserInfo_QueryUserInfo.argtypes = [EOS_HUserInfo, POINTER(EOS_UserInfo_QueryUserInfoOptions), c_void_p, EOS_UserInfo_OnQueryUserInfoCallback]
+    EOS_UserInfo_QueryUserInfo.restype = None
+
+    global EOS_UserInfo_QueryUserInfoByDisplayName
+    EOS_UserInfo_QueryUserInfoByDisplayName = dll.EOS_UserInfo_QueryUserInfoByDisplayName
+    EOS_UserInfo_QueryUserInfoByDisplayName.argtypes = [EOS_HUserInfo, POINTER(EOS_UserInfo_QueryUserInfoByDisplayNameOptions), c_void_p, EOS_UserInfo_OnQueryUserInfoByDisplayNameCallback]
+    EOS_UserInfo_QueryUserInfoByDisplayName.restype = None
+
+    global EOS_UserInfo_QueryUserInfoByExternalAccount
+    EOS_UserInfo_QueryUserInfoByExternalAccount = dll.EOS_UserInfo_QueryUserInfoByExternalAccount
+    EOS_UserInfo_QueryUserInfoByExternalAccount.argtypes = [EOS_HUserInfo, POINTER(EOS_UserInfo_QueryUserInfoByExternalAccountOptions), c_void_p, EOS_UserInfo_OnQueryUserInfoByExternalAccountCallback]
+    EOS_UserInfo_QueryUserInfoByExternalAccount.restype = None
+
+    global EOS_AntiCheatServer_AddNotifyMessageToClient
+    EOS_AntiCheatServer_AddNotifyMessageToClient = dll.EOS_AntiCheatServer_AddNotifyMessageToClient
+    EOS_AntiCheatServer_AddNotifyMessageToClient.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_AddNotifyMessageToClientOptions), c_void_p, EOS_AntiCheatServer_OnMessageToClientCallback]
+    EOS_AntiCheatServer_AddNotifyMessageToClient.restype = EOS_NotificationId
+
+    global EOS_AntiCheatServer_AddNotifyClientActionRequired
+    EOS_AntiCheatServer_AddNotifyClientActionRequired = dll.EOS_AntiCheatServer_AddNotifyClientActionRequired
+    EOS_AntiCheatServer_AddNotifyClientActionRequired.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_AddNotifyClientActionRequiredOptions), c_void_p, EOS_AntiCheatServer_OnClientActionRequiredCallback]
+    EOS_AntiCheatServer_AddNotifyClientActionRequired.restype = EOS_NotificationId
+
+    global EOS_AntiCheatServer_AddNotifyClientAuthStatusChanged
+    EOS_AntiCheatServer_AddNotifyClientAuthStatusChanged = dll.EOS_AntiCheatServer_AddNotifyClientAuthStatusChanged
+    EOS_AntiCheatServer_AddNotifyClientAuthStatusChanged.argtypes = [EOS_HAntiCheatServer, POINTER(EOS_AntiCheatServer_AddNotifyClientAuthStatusChangedOptions), c_void_p, EOS_AntiCheatServer_OnClientAuthStatusChangedCallback]
+    EOS_AntiCheatServer_AddNotifyClientAuthStatusChanged.restype = EOS_NotificationId
+
+    global EOS_CustomInvites_SendCustomInvite
+    EOS_CustomInvites_SendCustomInvite = dll.EOS_CustomInvites_SendCustomInvite
+    EOS_CustomInvites_SendCustomInvite.argtypes = [EOS_HCustomInvites, POINTER(EOS_CustomInvites_SendCustomInviteOptions), c_void_p, EOS_CustomInvites_OnSendCustomInviteCallback]
+    EOS_CustomInvites_SendCustomInvite.restype = None
+
+    global EOS_CustomInvites_AddNotifyCustomInviteReceived
+    EOS_CustomInvites_AddNotifyCustomInviteReceived = dll.EOS_CustomInvites_AddNotifyCustomInviteReceived
+    EOS_CustomInvites_AddNotifyCustomInviteReceived.argtypes = [EOS_HCustomInvites, POINTER(EOS_CustomInvites_AddNotifyCustomInviteReceivedOptions), c_void_p, EOS_CustomInvites_OnCustomInviteReceivedCallback]
+    EOS_CustomInvites_AddNotifyCustomInviteReceived.restype = EOS_NotificationId
+
+    global EOS_CustomInvites_AddNotifyCustomInviteAccepted
+    EOS_CustomInvites_AddNotifyCustomInviteAccepted = dll.EOS_CustomInvites_AddNotifyCustomInviteAccepted
+    EOS_CustomInvites_AddNotifyCustomInviteAccepted.argtypes = [EOS_HCustomInvites, POINTER(EOS_CustomInvites_AddNotifyCustomInviteAcceptedOptions), c_void_p, EOS_CustomInvites_OnCustomInviteAcceptedCallback]
+    EOS_CustomInvites_AddNotifyCustomInviteAccepted.restype = EOS_NotificationId
+
+    global EOS_CustomInvites_AddNotifyCustomInviteRejected
+    EOS_CustomInvites_AddNotifyCustomInviteRejected = dll.EOS_CustomInvites_AddNotifyCustomInviteRejected
+    EOS_CustomInvites_AddNotifyCustomInviteRejected.argtypes = [EOS_HCustomInvites, POINTER(EOS_CustomInvites_AddNotifyCustomInviteRejectedOptions), c_void_p, EOS_CustomInvites_OnCustomInviteRejectedCallback]
+    EOS_CustomInvites_AddNotifyCustomInviteRejected.restype = EOS_NotificationId
+
+    global EOS_CustomInvites_SendRequestToJoin
+    EOS_CustomInvites_SendRequestToJoin = dll.EOS_CustomInvites_SendRequestToJoin
+    EOS_CustomInvites_SendRequestToJoin.argtypes = [EOS_HCustomInvites, POINTER(EOS_CustomInvites_SendRequestToJoinOptions), c_void_p, EOS_CustomInvites_OnSendRequestToJoinCallback]
+    EOS_CustomInvites_SendRequestToJoin.restype = None
+
+    global EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived
+    EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived = dll.EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived
+    EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived.argtypes = [EOS_HCustomInvites, POINTER(EOS_CustomInvites_AddNotifyRequestToJoinResponseReceivedOptions), c_void_p, EOS_CustomInvites_OnRequestToJoinResponseReceivedCallback]
+    EOS_CustomInvites_AddNotifyRequestToJoinResponseReceived.restype = EOS_NotificationId
+
+    global EOS_CustomInvites_AddNotifyRequestToJoinReceived
+    EOS_CustomInvites_AddNotifyRequestToJoinReceived = dll.EOS_CustomInvites_AddNotifyRequestToJoinReceived
+    EOS_CustomInvites_AddNotifyRequestToJoinReceived.argtypes = [EOS_HCustomInvites, POINTER(EOS_CustomInvites_AddNotifyRequestToJoinReceivedOptions), c_void_p, EOS_CustomInvites_OnRequestToJoinReceivedCallback]
+    EOS_CustomInvites_AddNotifyRequestToJoinReceived.restype = EOS_NotificationId
+
+    global EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested
+    EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested = dll.EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested
+    EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested.argtypes = [EOS_HCustomInvites, POINTER(EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedOptions), c_void_p, EOS_CustomInvites_OnSendCustomNativeInviteRequestedCallback]
+    EOS_CustomInvites_AddNotifySendCustomNativeInviteRequested.restype = EOS_NotificationId
+
+    global EOS_CustomInvites_AddNotifyRequestToJoinAccepted
+    EOS_CustomInvites_AddNotifyRequestToJoinAccepted = dll.EOS_CustomInvites_AddNotifyRequestToJoinAccepted
+    EOS_CustomInvites_AddNotifyRequestToJoinAccepted.argtypes = [EOS_HCustomInvites, POINTER(EOS_CustomInvites_AddNotifyRequestToJoinAcceptedOptions), c_void_p, EOS_CustomInvites_OnRequestToJoinAcceptedCallback]
+    EOS_CustomInvites_AddNotifyRequestToJoinAccepted.restype = EOS_NotificationId
+
+    global EOS_CustomInvites_AddNotifyRequestToJoinRejected
+    EOS_CustomInvites_AddNotifyRequestToJoinRejected = dll.EOS_CustomInvites_AddNotifyRequestToJoinRejected
+    EOS_CustomInvites_AddNotifyRequestToJoinRejected.argtypes = [EOS_HCustomInvites, POINTER(EOS_CustomInvites_AddNotifyRequestToJoinRejectedOptions), c_void_p, EOS_CustomInvites_OnRequestToJoinRejectedCallback]
+    EOS_CustomInvites_AddNotifyRequestToJoinRejected.restype = EOS_NotificationId
+
+    global EOS_CustomInvites_AcceptRequestToJoin
+    EOS_CustomInvites_AcceptRequestToJoin = dll.EOS_CustomInvites_AcceptRequestToJoin
+    EOS_CustomInvites_AcceptRequestToJoin.argtypes = [EOS_HCustomInvites, POINTER(EOS_CustomInvites_AcceptRequestToJoinOptions), c_void_p, EOS_CustomInvites_OnAcceptRequestToJoinCallback]
+    EOS_CustomInvites_AcceptRequestToJoin.restype = None
+
+    global EOS_CustomInvites_RejectRequestToJoin
+    EOS_CustomInvites_RejectRequestToJoin = dll.EOS_CustomInvites_RejectRequestToJoin
+    EOS_CustomInvites_RejectRequestToJoin.argtypes = [EOS_HCustomInvites, POINTER(EOS_CustomInvites_RejectRequestToJoinOptions), c_void_p, EOS_CustomInvites_OnRejectRequestToJoinCallback]
+    EOS_CustomInvites_RejectRequestToJoin.restype = None
+
+    global EOS_Leaderboards_QueryLeaderboardDefinitions
+    EOS_Leaderboards_QueryLeaderboardDefinitions = dll.EOS_Leaderboards_QueryLeaderboardDefinitions
+    EOS_Leaderboards_QueryLeaderboardDefinitions.argtypes = [EOS_HLeaderboards, POINTER(EOS_Leaderboards_QueryLeaderboardDefinitionsOptions), c_void_p, EOS_Leaderboards_OnQueryLeaderboardDefinitionsCompleteCallback]
+    EOS_Leaderboards_QueryLeaderboardDefinitions.restype = None
+
+    global EOS_Leaderboards_QueryLeaderboardRanks
+    EOS_Leaderboards_QueryLeaderboardRanks = dll.EOS_Leaderboards_QueryLeaderboardRanks
+    EOS_Leaderboards_QueryLeaderboardRanks.argtypes = [EOS_HLeaderboards, POINTER(EOS_Leaderboards_QueryLeaderboardRanksOptions), c_void_p, EOS_Leaderboards_OnQueryLeaderboardRanksCompleteCallback]
+    EOS_Leaderboards_QueryLeaderboardRanks.restype = None
+
+    global EOS_Leaderboards_QueryLeaderboardUserScores
+    EOS_Leaderboards_QueryLeaderboardUserScores = dll.EOS_Leaderboards_QueryLeaderboardUserScores
+    EOS_Leaderboards_QueryLeaderboardUserScores.argtypes = [EOS_HLeaderboards, POINTER(EOS_Leaderboards_QueryLeaderboardUserScoresOptions), c_void_p, EOS_Leaderboards_OnQueryLeaderboardUserScoresCompleteCallback]
+    EOS_Leaderboards_QueryLeaderboardUserScores.restype = None
+
+    global EOS_Lobby_CreateLobby
+    EOS_Lobby_CreateLobby = dll.EOS_Lobby_CreateLobby
+    EOS_Lobby_CreateLobby.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_CreateLobbyOptions), c_void_p, EOS_Lobby_OnCreateLobbyCallback]
+    EOS_Lobby_CreateLobby.restype = None
+
+    global EOS_Lobby_DestroyLobby
+    EOS_Lobby_DestroyLobby = dll.EOS_Lobby_DestroyLobby
+    EOS_Lobby_DestroyLobby.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_DestroyLobbyOptions), c_void_p, EOS_Lobby_OnDestroyLobbyCallback]
+    EOS_Lobby_DestroyLobby.restype = None
+
+    global EOS_Lobby_JoinLobby
+    EOS_Lobby_JoinLobby = dll.EOS_Lobby_JoinLobby
+    EOS_Lobby_JoinLobby.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_JoinLobbyOptions), c_void_p, EOS_Lobby_OnJoinLobbyCallback]
+    EOS_Lobby_JoinLobby.restype = None
+
+    global EOS_Lobby_JoinLobbyById
+    EOS_Lobby_JoinLobbyById = dll.EOS_Lobby_JoinLobbyById
+    EOS_Lobby_JoinLobbyById.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_JoinLobbyByIdOptions), c_void_p, EOS_Lobby_OnJoinLobbyByIdCallback]
+    EOS_Lobby_JoinLobbyById.restype = None
+
+    global EOS_Lobby_LeaveLobby
+    EOS_Lobby_LeaveLobby = dll.EOS_Lobby_LeaveLobby
+    EOS_Lobby_LeaveLobby.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_LeaveLobbyOptions), c_void_p, EOS_Lobby_OnLeaveLobbyCallback]
+    EOS_Lobby_LeaveLobby.restype = None
+
+    global EOS_Lobby_UpdateLobby
+    EOS_Lobby_UpdateLobby = dll.EOS_Lobby_UpdateLobby
+    EOS_Lobby_UpdateLobby.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_UpdateLobbyOptions), c_void_p, EOS_Lobby_OnUpdateLobbyCallback]
+    EOS_Lobby_UpdateLobby.restype = None
+
+    global EOS_Lobby_PromoteMember
+    EOS_Lobby_PromoteMember = dll.EOS_Lobby_PromoteMember
+    EOS_Lobby_PromoteMember.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_PromoteMemberOptions), c_void_p, EOS_Lobby_OnPromoteMemberCallback]
+    EOS_Lobby_PromoteMember.restype = None
+
+    global EOS_Lobby_KickMember
+    EOS_Lobby_KickMember = dll.EOS_Lobby_KickMember
+    EOS_Lobby_KickMember.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_KickMemberOptions), c_void_p, EOS_Lobby_OnKickMemberCallback]
+    EOS_Lobby_KickMember.restype = None
+
+    global EOS_Lobby_HardMuteMember
+    EOS_Lobby_HardMuteMember = dll.EOS_Lobby_HardMuteMember
+    EOS_Lobby_HardMuteMember.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_HardMuteMemberOptions), c_void_p, EOS_Lobby_OnHardMuteMemberCallback]
+    EOS_Lobby_HardMuteMember.restype = None
+
+    global EOS_Lobby_AddNotifyLobbyUpdateReceived
+    EOS_Lobby_AddNotifyLobbyUpdateReceived = dll.EOS_Lobby_AddNotifyLobbyUpdateReceived
+    EOS_Lobby_AddNotifyLobbyUpdateReceived.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_AddNotifyLobbyUpdateReceivedOptions), c_void_p, EOS_Lobby_OnLobbyUpdateReceivedCallback]
+    EOS_Lobby_AddNotifyLobbyUpdateReceived.restype = EOS_NotificationId
+
+    global EOS_Lobby_AddNotifyLobbyMemberUpdateReceived
+    EOS_Lobby_AddNotifyLobbyMemberUpdateReceived = dll.EOS_Lobby_AddNotifyLobbyMemberUpdateReceived
+    EOS_Lobby_AddNotifyLobbyMemberUpdateReceived.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_AddNotifyLobbyMemberUpdateReceivedOptions), c_void_p, EOS_Lobby_OnLobbyMemberUpdateReceivedCallback]
+    EOS_Lobby_AddNotifyLobbyMemberUpdateReceived.restype = EOS_NotificationId
+
+    global EOS_Lobby_AddNotifyLobbyMemberStatusReceived
+    EOS_Lobby_AddNotifyLobbyMemberStatusReceived = dll.EOS_Lobby_AddNotifyLobbyMemberStatusReceived
+    EOS_Lobby_AddNotifyLobbyMemberStatusReceived.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_AddNotifyLobbyMemberStatusReceivedOptions), c_void_p, EOS_Lobby_OnLobbyMemberStatusReceivedCallback]
+    EOS_Lobby_AddNotifyLobbyMemberStatusReceived.restype = EOS_NotificationId
+
+    global EOS_Lobby_SendInvite
+    EOS_Lobby_SendInvite = dll.EOS_Lobby_SendInvite
+    EOS_Lobby_SendInvite.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_SendInviteOptions), c_void_p, EOS_Lobby_OnSendInviteCallback]
+    EOS_Lobby_SendInvite.restype = None
+
+    global EOS_Lobby_RejectInvite
+    EOS_Lobby_RejectInvite = dll.EOS_Lobby_RejectInvite
+    EOS_Lobby_RejectInvite.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_RejectInviteOptions), c_void_p, EOS_Lobby_OnRejectInviteCallback]
+    EOS_Lobby_RejectInvite.restype = None
+
+    global EOS_Lobby_QueryInvites
+    EOS_Lobby_QueryInvites = dll.EOS_Lobby_QueryInvites
+    EOS_Lobby_QueryInvites.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_QueryInvitesOptions), c_void_p, EOS_Lobby_OnQueryInvitesCallback]
+    EOS_Lobby_QueryInvites.restype = None
+
+    global EOS_Lobby_AddNotifyLobbyInviteReceived
+    EOS_Lobby_AddNotifyLobbyInviteReceived = dll.EOS_Lobby_AddNotifyLobbyInviteReceived
+    EOS_Lobby_AddNotifyLobbyInviteReceived.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_AddNotifyLobbyInviteReceivedOptions), c_void_p, EOS_Lobby_OnLobbyInviteReceivedCallback]
+    EOS_Lobby_AddNotifyLobbyInviteReceived.restype = EOS_NotificationId
+
+    global EOS_Lobby_AddNotifyLobbyInviteAccepted
+    EOS_Lobby_AddNotifyLobbyInviteAccepted = dll.EOS_Lobby_AddNotifyLobbyInviteAccepted
+    EOS_Lobby_AddNotifyLobbyInviteAccepted.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_AddNotifyLobbyInviteAcceptedOptions), c_void_p, EOS_Lobby_OnLobbyInviteAcceptedCallback]
+    EOS_Lobby_AddNotifyLobbyInviteAccepted.restype = EOS_NotificationId
+
+    global EOS_Lobby_AddNotifyLobbyInviteRejected
+    EOS_Lobby_AddNotifyLobbyInviteRejected = dll.EOS_Lobby_AddNotifyLobbyInviteRejected
+    EOS_Lobby_AddNotifyLobbyInviteRejected.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_AddNotifyLobbyInviteRejectedOptions), c_void_p, EOS_Lobby_OnLobbyInviteRejectedCallback]
+    EOS_Lobby_AddNotifyLobbyInviteRejected.restype = EOS_NotificationId
+
+    global EOS_Lobby_AddNotifyJoinLobbyAccepted
+    EOS_Lobby_AddNotifyJoinLobbyAccepted = dll.EOS_Lobby_AddNotifyJoinLobbyAccepted
+    EOS_Lobby_AddNotifyJoinLobbyAccepted.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_AddNotifyJoinLobbyAcceptedOptions), c_void_p, EOS_Lobby_OnJoinLobbyAcceptedCallback]
+    EOS_Lobby_AddNotifyJoinLobbyAccepted.restype = EOS_NotificationId
+
+    global EOS_Lobby_AddNotifySendLobbyNativeInviteRequested
+    EOS_Lobby_AddNotifySendLobbyNativeInviteRequested = dll.EOS_Lobby_AddNotifySendLobbyNativeInviteRequested
+    EOS_Lobby_AddNotifySendLobbyNativeInviteRequested.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_AddNotifySendLobbyNativeInviteRequestedOptions), c_void_p, EOS_Lobby_OnSendLobbyNativeInviteRequestedCallback]
+    EOS_Lobby_AddNotifySendLobbyNativeInviteRequested.restype = EOS_NotificationId
+
+    global EOS_Lobby_JoinRTCRoom
+    EOS_Lobby_JoinRTCRoom = dll.EOS_Lobby_JoinRTCRoom
+    EOS_Lobby_JoinRTCRoom.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_JoinRTCRoomOptions), c_void_p, EOS_Lobby_OnJoinRTCRoomCallback]
+    EOS_Lobby_JoinRTCRoom.restype = None
+
+    global EOS_Lobby_LeaveRTCRoom
+    EOS_Lobby_LeaveRTCRoom = dll.EOS_Lobby_LeaveRTCRoom
+    EOS_Lobby_LeaveRTCRoom.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_LeaveRTCRoomOptions), c_void_p, EOS_Lobby_OnLeaveRTCRoomCallback]
+    EOS_Lobby_LeaveRTCRoom.restype = None
+
+    global EOS_Lobby_AddNotifyRTCRoomConnectionChanged
+    EOS_Lobby_AddNotifyRTCRoomConnectionChanged = dll.EOS_Lobby_AddNotifyRTCRoomConnectionChanged
+    EOS_Lobby_AddNotifyRTCRoomConnectionChanged.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_AddNotifyRTCRoomConnectionChangedOptions), c_void_p, EOS_Lobby_OnRTCRoomConnectionChangedCallback]
+    EOS_Lobby_AddNotifyRTCRoomConnectionChanged.restype = EOS_NotificationId
+
+    global EOS_Lobby_AddNotifyLeaveLobbyRequested
+    EOS_Lobby_AddNotifyLeaveLobbyRequested = dll.EOS_Lobby_AddNotifyLeaveLobbyRequested
+    EOS_Lobby_AddNotifyLeaveLobbyRequested.argtypes = [EOS_HLobby, POINTER(EOS_Lobby_AddNotifyLeaveLobbyRequestedOptions), c_void_p, EOS_Lobby_OnLeaveLobbyRequestedCallback]
+    EOS_Lobby_AddNotifyLeaveLobbyRequested.restype = EOS_NotificationId
+
+    global EOS_LobbySearch_Find
+    EOS_LobbySearch_Find = dll.EOS_LobbySearch_Find
+    EOS_LobbySearch_Find.argtypes = [EOS_HLobbySearch, POINTER(EOS_LobbySearch_FindOptions), c_void_p, EOS_LobbySearch_OnFindCallback]
+    EOS_LobbySearch_Find.restype = None
+
+    global EOS_Presence_QueryPresence
+    EOS_Presence_QueryPresence = dll.EOS_Presence_QueryPresence
+    EOS_Presence_QueryPresence.argtypes = [EOS_HPresence, POINTER(EOS_Presence_QueryPresenceOptions), c_void_p, EOS_Presence_OnQueryPresenceCompleteCallback]
+    EOS_Presence_QueryPresence.restype = None
+
+    global EOS_Presence_SetPresence
+    EOS_Presence_SetPresence = dll.EOS_Presence_SetPresence
+    EOS_Presence_SetPresence.argtypes = [EOS_HPresence, POINTER(EOS_Presence_SetPresenceOptions), c_void_p, EOS_Presence_SetPresenceCompleteCallback]
+    EOS_Presence_SetPresence.restype = None
+
+    global EOS_Presence_AddNotifyOnPresenceChanged
+    EOS_Presence_AddNotifyOnPresenceChanged = dll.EOS_Presence_AddNotifyOnPresenceChanged
+    EOS_Presence_AddNotifyOnPresenceChanged.argtypes = [EOS_HPresence, POINTER(EOS_Presence_AddNotifyOnPresenceChangedOptions), c_void_p, EOS_Presence_OnPresenceChangedCallback]
+    EOS_Presence_AddNotifyOnPresenceChanged.restype = EOS_NotificationId
+
+    global EOS_Presence_AddNotifyJoinGameAccepted
+    EOS_Presence_AddNotifyJoinGameAccepted = dll.EOS_Presence_AddNotifyJoinGameAccepted
+    EOS_Presence_AddNotifyJoinGameAccepted.argtypes = [EOS_HPresence, POINTER(EOS_Presence_AddNotifyJoinGameAcceptedOptions), c_void_p, EOS_Presence_OnJoinGameAcceptedCallback]
+    EOS_Presence_AddNotifyJoinGameAccepted.restype = EOS_NotificationId
+
+    global EOS_RTC_JoinRoom
+    EOS_RTC_JoinRoom = dll.EOS_RTC_JoinRoom
+    EOS_RTC_JoinRoom.argtypes = [EOS_HRTC, POINTER(EOS_RTC_JoinRoomOptions), c_void_p, EOS_RTC_OnJoinRoomCallback]
+    EOS_RTC_JoinRoom.restype = None
+
+    global EOS_RTC_LeaveRoom
+    EOS_RTC_LeaveRoom = dll.EOS_RTC_LeaveRoom
+    EOS_RTC_LeaveRoom.argtypes = [EOS_HRTC, POINTER(EOS_RTC_LeaveRoomOptions), c_void_p, EOS_RTC_OnLeaveRoomCallback]
+    EOS_RTC_LeaveRoom.restype = None
+
+    global EOS_RTC_BlockParticipant
+    EOS_RTC_BlockParticipant = dll.EOS_RTC_BlockParticipant
+    EOS_RTC_BlockParticipant.argtypes = [EOS_HRTC, POINTER(EOS_RTC_BlockParticipantOptions), c_void_p, EOS_RTC_OnBlockParticipantCallback]
+    EOS_RTC_BlockParticipant.restype = None
+
+    global EOS_RTC_AddNotifyDisconnected
+    EOS_RTC_AddNotifyDisconnected = dll.EOS_RTC_AddNotifyDisconnected
+    EOS_RTC_AddNotifyDisconnected.argtypes = [EOS_HRTC, POINTER(EOS_RTC_AddNotifyDisconnectedOptions), c_void_p, EOS_RTC_OnDisconnectedCallback]
+    EOS_RTC_AddNotifyDisconnected.restype = EOS_NotificationId
+
+    global EOS_RTC_AddNotifyParticipantStatusChanged
+    EOS_RTC_AddNotifyParticipantStatusChanged = dll.EOS_RTC_AddNotifyParticipantStatusChanged
+    EOS_RTC_AddNotifyParticipantStatusChanged.argtypes = [EOS_HRTC, POINTER(EOS_RTC_AddNotifyParticipantStatusChangedOptions), c_void_p, EOS_RTC_OnParticipantStatusChangedCallback]
+    EOS_RTC_AddNotifyParticipantStatusChanged.restype = EOS_NotificationId
+
+    global EOS_RTC_AddNotifyRoomStatisticsUpdated
+    EOS_RTC_AddNotifyRoomStatisticsUpdated = dll.EOS_RTC_AddNotifyRoomStatisticsUpdated
+    EOS_RTC_AddNotifyRoomStatisticsUpdated.argtypes = [EOS_HRTC, POINTER(EOS_RTC_AddNotifyRoomStatisticsUpdatedOptions), c_void_p, EOS_RTC_OnRoomStatisticsUpdatedCallback]
+    EOS_RTC_AddNotifyRoomStatisticsUpdated.restype = EOS_NotificationId
+
+    global EOS_RTCAudio_UpdateSending
+    EOS_RTCAudio_UpdateSending = dll.EOS_RTCAudio_UpdateSending
+    EOS_RTCAudio_UpdateSending.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_UpdateSendingOptions), c_void_p, EOS_RTCAudio_OnUpdateSendingCallback]
+    EOS_RTCAudio_UpdateSending.restype = None
+
+    global EOS_RTCAudio_UpdateReceiving
+    EOS_RTCAudio_UpdateReceiving = dll.EOS_RTCAudio_UpdateReceiving
+    EOS_RTCAudio_UpdateReceiving.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_UpdateReceivingOptions), c_void_p, EOS_RTCAudio_OnUpdateReceivingCallback]
+    EOS_RTCAudio_UpdateReceiving.restype = None
+
+    global EOS_RTCAudio_UpdateSendingVolume
+    EOS_RTCAudio_UpdateSendingVolume = dll.EOS_RTCAudio_UpdateSendingVolume
+    EOS_RTCAudio_UpdateSendingVolume.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_UpdateSendingVolumeOptions), c_void_p, EOS_RTCAudio_OnUpdateSendingVolumeCallback]
+    EOS_RTCAudio_UpdateSendingVolume.restype = None
+
+    global EOS_RTCAudio_UpdateReceivingVolume
+    EOS_RTCAudio_UpdateReceivingVolume = dll.EOS_RTCAudio_UpdateReceivingVolume
+    EOS_RTCAudio_UpdateReceivingVolume.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_UpdateReceivingVolumeOptions), c_void_p, EOS_RTCAudio_OnUpdateReceivingVolumeCallback]
+    EOS_RTCAudio_UpdateReceivingVolume.restype = None
+
+    global EOS_RTCAudio_UpdateParticipantVolume
+    EOS_RTCAudio_UpdateParticipantVolume = dll.EOS_RTCAudio_UpdateParticipantVolume
+    EOS_RTCAudio_UpdateParticipantVolume.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_UpdateParticipantVolumeOptions), c_void_p, EOS_RTCAudio_OnUpdateParticipantVolumeCallback]
+    EOS_RTCAudio_UpdateParticipantVolume.restype = None
+
+    global EOS_RTCAudio_AddNotifyParticipantUpdated
+    EOS_RTCAudio_AddNotifyParticipantUpdated = dll.EOS_RTCAudio_AddNotifyParticipantUpdated
+    EOS_RTCAudio_AddNotifyParticipantUpdated.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_AddNotifyParticipantUpdatedOptions), c_void_p, EOS_RTCAudio_OnParticipantUpdatedCallback]
+    EOS_RTCAudio_AddNotifyParticipantUpdated.restype = EOS_NotificationId
+
+    global EOS_RTCAudio_AddNotifyAudioDevicesChanged
+    EOS_RTCAudio_AddNotifyAudioDevicesChanged = dll.EOS_RTCAudio_AddNotifyAudioDevicesChanged
+    EOS_RTCAudio_AddNotifyAudioDevicesChanged.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_AddNotifyAudioDevicesChangedOptions), c_void_p, EOS_RTCAudio_OnAudioDevicesChangedCallback]
+    EOS_RTCAudio_AddNotifyAudioDevicesChanged.restype = EOS_NotificationId
+
+    global EOS_RTCAudio_AddNotifyAudioInputState
+    EOS_RTCAudio_AddNotifyAudioInputState = dll.EOS_RTCAudio_AddNotifyAudioInputState
+    EOS_RTCAudio_AddNotifyAudioInputState.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_AddNotifyAudioInputStateOptions), c_void_p, EOS_RTCAudio_OnAudioInputStateCallback]
+    EOS_RTCAudio_AddNotifyAudioInputState.restype = EOS_NotificationId
+
+    global EOS_RTCAudio_AddNotifyAudioOutputState
+    EOS_RTCAudio_AddNotifyAudioOutputState = dll.EOS_RTCAudio_AddNotifyAudioOutputState
+    EOS_RTCAudio_AddNotifyAudioOutputState.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_AddNotifyAudioOutputStateOptions), c_void_p, EOS_RTCAudio_OnAudioOutputStateCallback]
+    EOS_RTCAudio_AddNotifyAudioOutputState.restype = EOS_NotificationId
+
+    global EOS_RTCAudio_AddNotifyAudioBeforeSend
+    EOS_RTCAudio_AddNotifyAudioBeforeSend = dll.EOS_RTCAudio_AddNotifyAudioBeforeSend
+    EOS_RTCAudio_AddNotifyAudioBeforeSend.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_AddNotifyAudioBeforeSendOptions), c_void_p, EOS_RTCAudio_OnAudioBeforeSendCallback]
+    EOS_RTCAudio_AddNotifyAudioBeforeSend.restype = EOS_NotificationId
+
+    global EOS_RTCAudio_AddNotifyAudioBeforeRender
+    EOS_RTCAudio_AddNotifyAudioBeforeRender = dll.EOS_RTCAudio_AddNotifyAudioBeforeRender
+    EOS_RTCAudio_AddNotifyAudioBeforeRender.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_AddNotifyAudioBeforeRenderOptions), c_void_p, EOS_RTCAudio_OnAudioBeforeRenderCallback]
+    EOS_RTCAudio_AddNotifyAudioBeforeRender.restype = EOS_NotificationId
+
+    global EOS_RTCAudio_RegisterPlatformUser
+    EOS_RTCAudio_RegisterPlatformUser = dll.EOS_RTCAudio_RegisterPlatformUser
+    EOS_RTCAudio_RegisterPlatformUser.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_RegisterPlatformUserOptions), c_void_p, EOS_RTCAudio_OnRegisterPlatformUserCallback]
+    EOS_RTCAudio_RegisterPlatformUser.restype = None
+
+    global EOS_RTCAudio_UnregisterPlatformUser
+    EOS_RTCAudio_UnregisterPlatformUser = dll.EOS_RTCAudio_UnregisterPlatformUser
+    EOS_RTCAudio_UnregisterPlatformUser.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_UnregisterPlatformUserOptions), c_void_p, EOS_RTCAudio_OnUnregisterPlatformUserCallback]
+    EOS_RTCAudio_UnregisterPlatformUser.restype = None
+
+    global EOS_RTCAudio_QueryInputDevicesInformation
+    EOS_RTCAudio_QueryInputDevicesInformation = dll.EOS_RTCAudio_QueryInputDevicesInformation
+    EOS_RTCAudio_QueryInputDevicesInformation.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_QueryInputDevicesInformationOptions), c_void_p, EOS_RTCAudio_OnQueryInputDevicesInformationCallback]
+    EOS_RTCAudio_QueryInputDevicesInformation.restype = None
+
+    global EOS_RTCAudio_QueryOutputDevicesInformation
+    EOS_RTCAudio_QueryOutputDevicesInformation = dll.EOS_RTCAudio_QueryOutputDevicesInformation
+    EOS_RTCAudio_QueryOutputDevicesInformation.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_QueryOutputDevicesInformationOptions), c_void_p, EOS_RTCAudio_OnQueryOutputDevicesInformationCallback]
+    EOS_RTCAudio_QueryOutputDevicesInformation.restype = None
+
+    global EOS_RTCAudio_SetInputDeviceSettings
+    EOS_RTCAudio_SetInputDeviceSettings = dll.EOS_RTCAudio_SetInputDeviceSettings
+    EOS_RTCAudio_SetInputDeviceSettings.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_SetInputDeviceSettingsOptions), c_void_p, EOS_RTCAudio_OnSetInputDeviceSettingsCallback]
+    EOS_RTCAudio_SetInputDeviceSettings.restype = None
+
+    global EOS_RTCAudio_SetOutputDeviceSettings
+    EOS_RTCAudio_SetOutputDeviceSettings = dll.EOS_RTCAudio_SetOutputDeviceSettings
+    EOS_RTCAudio_SetOutputDeviceSettings.argtypes = [EOS_HRTCAudio, POINTER(EOS_RTCAudio_SetOutputDeviceSettingsOptions), c_void_p, EOS_RTCAudio_OnSetOutputDeviceSettingsCallback]
+    EOS_RTCAudio_SetOutputDeviceSettings.restype = None
+
+    global EOS_Sessions_UpdateSession
+    EOS_Sessions_UpdateSession = dll.EOS_Sessions_UpdateSession
+    EOS_Sessions_UpdateSession.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_UpdateSessionOptions), c_void_p, EOS_Sessions_OnUpdateSessionCallback]
+    EOS_Sessions_UpdateSession.restype = None
+
+    global EOS_Sessions_DestroySession
+    EOS_Sessions_DestroySession = dll.EOS_Sessions_DestroySession
+    EOS_Sessions_DestroySession.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_DestroySessionOptions), c_void_p, EOS_Sessions_OnDestroySessionCallback]
+    EOS_Sessions_DestroySession.restype = None
+
+    global EOS_Sessions_JoinSession
+    EOS_Sessions_JoinSession = dll.EOS_Sessions_JoinSession
+    EOS_Sessions_JoinSession.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_JoinSessionOptions), c_void_p, EOS_Sessions_OnJoinSessionCallback]
+    EOS_Sessions_JoinSession.restype = None
+
+    global EOS_Sessions_StartSession
+    EOS_Sessions_StartSession = dll.EOS_Sessions_StartSession
+    EOS_Sessions_StartSession.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_StartSessionOptions), c_void_p, EOS_Sessions_OnStartSessionCallback]
+    EOS_Sessions_StartSession.restype = None
+
+    global EOS_Sessions_EndSession
+    EOS_Sessions_EndSession = dll.EOS_Sessions_EndSession
+    EOS_Sessions_EndSession.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_EndSessionOptions), c_void_p, EOS_Sessions_OnEndSessionCallback]
+    EOS_Sessions_EndSession.restype = None
+
+    global EOS_Sessions_RegisterPlayers
+    EOS_Sessions_RegisterPlayers = dll.EOS_Sessions_RegisterPlayers
+    EOS_Sessions_RegisterPlayers.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_RegisterPlayersOptions), c_void_p, EOS_Sessions_OnRegisterPlayersCallback]
+    EOS_Sessions_RegisterPlayers.restype = None
+
+    global EOS_Sessions_UnregisterPlayers
+    EOS_Sessions_UnregisterPlayers = dll.EOS_Sessions_UnregisterPlayers
+    EOS_Sessions_UnregisterPlayers.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_UnregisterPlayersOptions), c_void_p, EOS_Sessions_OnUnregisterPlayersCallback]
+    EOS_Sessions_UnregisterPlayers.restype = None
+
+    global EOS_Sessions_SendInvite
+    EOS_Sessions_SendInvite = dll.EOS_Sessions_SendInvite
+    EOS_Sessions_SendInvite.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_SendInviteOptions), c_void_p, EOS_Sessions_OnSendInviteCallback]
+    EOS_Sessions_SendInvite.restype = None
+
+    global EOS_Sessions_RejectInvite
+    EOS_Sessions_RejectInvite = dll.EOS_Sessions_RejectInvite
+    EOS_Sessions_RejectInvite.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_RejectInviteOptions), c_void_p, EOS_Sessions_OnRejectInviteCallback]
+    EOS_Sessions_RejectInvite.restype = None
+
+    global EOS_Sessions_QueryInvites
+    EOS_Sessions_QueryInvites = dll.EOS_Sessions_QueryInvites
+    EOS_Sessions_QueryInvites.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_QueryInvitesOptions), c_void_p, EOS_Sessions_OnQueryInvitesCallback]
+    EOS_Sessions_QueryInvites.restype = None
+
+    global EOS_Sessions_AddNotifySessionInviteReceived
+    EOS_Sessions_AddNotifySessionInviteReceived = dll.EOS_Sessions_AddNotifySessionInviteReceived
+    EOS_Sessions_AddNotifySessionInviteReceived.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_AddNotifySessionInviteReceivedOptions), c_void_p, EOS_Sessions_OnSessionInviteReceivedCallback]
+    EOS_Sessions_AddNotifySessionInviteReceived.restype = EOS_NotificationId
+
+    global EOS_Sessions_AddNotifySessionInviteAccepted
+    EOS_Sessions_AddNotifySessionInviteAccepted = dll.EOS_Sessions_AddNotifySessionInviteAccepted
+    EOS_Sessions_AddNotifySessionInviteAccepted.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_AddNotifySessionInviteAcceptedOptions), c_void_p, EOS_Sessions_OnSessionInviteAcceptedCallback]
+    EOS_Sessions_AddNotifySessionInviteAccepted.restype = EOS_NotificationId
+
+    global EOS_Sessions_AddNotifySessionInviteRejected
+    EOS_Sessions_AddNotifySessionInviteRejected = dll.EOS_Sessions_AddNotifySessionInviteRejected
+    EOS_Sessions_AddNotifySessionInviteRejected.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_AddNotifySessionInviteRejectedOptions), c_void_p, EOS_Sessions_OnSessionInviteRejectedCallback]
+    EOS_Sessions_AddNotifySessionInviteRejected.restype = EOS_NotificationId
+
+    global EOS_Sessions_AddNotifyJoinSessionAccepted
+    EOS_Sessions_AddNotifyJoinSessionAccepted = dll.EOS_Sessions_AddNotifyJoinSessionAccepted
+    EOS_Sessions_AddNotifyJoinSessionAccepted.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_AddNotifyJoinSessionAcceptedOptions), c_void_p, EOS_Sessions_OnJoinSessionAcceptedCallback]
+    EOS_Sessions_AddNotifyJoinSessionAccepted.restype = EOS_NotificationId
+
+    global EOS_Sessions_AddNotifyLeaveSessionRequested
+    EOS_Sessions_AddNotifyLeaveSessionRequested = dll.EOS_Sessions_AddNotifyLeaveSessionRequested
+    EOS_Sessions_AddNotifyLeaveSessionRequested.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_AddNotifyLeaveSessionRequestedOptions), c_void_p, EOS_Sessions_OnLeaveSessionRequestedCallback]
+    EOS_Sessions_AddNotifyLeaveSessionRequested.restype = EOS_NotificationId
+
+    global EOS_Sessions_AddNotifySendSessionNativeInviteRequested
+    EOS_Sessions_AddNotifySendSessionNativeInviteRequested = dll.EOS_Sessions_AddNotifySendSessionNativeInviteRequested
+    EOS_Sessions_AddNotifySendSessionNativeInviteRequested.argtypes = [EOS_HSessions, POINTER(EOS_Sessions_AddNotifySendSessionNativeInviteRequestedOptions), c_void_p, EOS_Sessions_OnSendSessionNativeInviteRequestedCallback]
+    EOS_Sessions_AddNotifySendSessionNativeInviteRequested.restype = EOS_NotificationId
+
+    global EOS_SessionSearch_Find
+    EOS_SessionSearch_Find = dll.EOS_SessionSearch_Find
+    EOS_SessionSearch_Find.argtypes = [EOS_HSessionSearch, POINTER(EOS_SessionSearch_FindOptions), c_void_p, EOS_SessionSearch_OnFindCallback]
+    EOS_SessionSearch_Find.restype = None
+
+    global EOS_Achievements_QueryDefinitions
+    EOS_Achievements_QueryDefinitions = dll.EOS_Achievements_QueryDefinitions
+    EOS_Achievements_QueryDefinitions.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_QueryDefinitionsOptions), c_void_p, EOS_Achievements_OnQueryDefinitionsCompleteCallback]
+    EOS_Achievements_QueryDefinitions.restype = None
+
+    global EOS_Achievements_QueryPlayerAchievements
+    EOS_Achievements_QueryPlayerAchievements = dll.EOS_Achievements_QueryPlayerAchievements
+    EOS_Achievements_QueryPlayerAchievements.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_QueryPlayerAchievementsOptions), c_void_p, EOS_Achievements_OnQueryPlayerAchievementsCompleteCallback]
+    EOS_Achievements_QueryPlayerAchievements.restype = None
+
+    global EOS_Achievements_UnlockAchievements
+    EOS_Achievements_UnlockAchievements = dll.EOS_Achievements_UnlockAchievements
+    EOS_Achievements_UnlockAchievements.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_UnlockAchievementsOptions), c_void_p, EOS_Achievements_OnUnlockAchievementsCompleteCallback]
+    EOS_Achievements_UnlockAchievements.restype = None
+
+    global EOS_Achievements_AddNotifyAchievementsUnlockedV2
+    EOS_Achievements_AddNotifyAchievementsUnlockedV2 = dll.EOS_Achievements_AddNotifyAchievementsUnlockedV2
+    EOS_Achievements_AddNotifyAchievementsUnlockedV2.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_AddNotifyAchievementsUnlockedV2Options), c_void_p, EOS_Achievements_OnAchievementsUnlockedCallbackV2]
+    EOS_Achievements_AddNotifyAchievementsUnlockedV2.restype = EOS_NotificationId
+
+    global EOS_Achievements_CopyAchievementDefinitionByIndex
+    EOS_Achievements_CopyAchievementDefinitionByIndex = dll.EOS_Achievements_CopyAchievementDefinitionByIndex
+    EOS_Achievements_CopyAchievementDefinitionByIndex.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_CopyAchievementDefinitionByIndexOptions), POINTER(POINTER(EOS_Achievements_Definition))]
+    EOS_Achievements_CopyAchievementDefinitionByIndex.restype = EOS_EResult
+
+    global EOS_Achievements_CopyAchievementDefinitionByAchievementId
+    EOS_Achievements_CopyAchievementDefinitionByAchievementId = dll.EOS_Achievements_CopyAchievementDefinitionByAchievementId
+    EOS_Achievements_CopyAchievementDefinitionByAchievementId.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_CopyAchievementDefinitionByAchievementIdOptions), POINTER(POINTER(EOS_Achievements_Definition))]
+    EOS_Achievements_CopyAchievementDefinitionByAchievementId.restype = EOS_EResult
+
+    global EOS_Achievements_AddNotifyAchievementsUnlocked
+    EOS_Achievements_AddNotifyAchievementsUnlocked = dll.EOS_Achievements_AddNotifyAchievementsUnlocked
+    EOS_Achievements_AddNotifyAchievementsUnlocked.argtypes = [EOS_HAchievements, POINTER(EOS_Achievements_AddNotifyAchievementsUnlockedOptions), c_void_p, EOS_Achievements_OnAchievementsUnlockedCallback]
+    EOS_Achievements_AddNotifyAchievementsUnlocked.restype = EOS_NotificationId
+
+    global EOS_AntiCheatClient_AddNotifyMessageToServer
+    EOS_AntiCheatClient_AddNotifyMessageToServer = dll.EOS_AntiCheatClient_AddNotifyMessageToServer
+    EOS_AntiCheatClient_AddNotifyMessageToServer.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_AddNotifyMessageToServerOptions), c_void_p, EOS_AntiCheatClient_OnMessageToServerCallback]
+    EOS_AntiCheatClient_AddNotifyMessageToServer.restype = EOS_NotificationId
+
+    global EOS_AntiCheatClient_AddNotifyMessageToPeer
+    EOS_AntiCheatClient_AddNotifyMessageToPeer = dll.EOS_AntiCheatClient_AddNotifyMessageToPeer
+    EOS_AntiCheatClient_AddNotifyMessageToPeer.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_AddNotifyMessageToPeerOptions), c_void_p, EOS_AntiCheatClient_OnMessageToPeerCallback]
+    EOS_AntiCheatClient_AddNotifyMessageToPeer.restype = EOS_NotificationId
+
+    global EOS_AntiCheatClient_AddNotifyPeerActionRequired
+    EOS_AntiCheatClient_AddNotifyPeerActionRequired = dll.EOS_AntiCheatClient_AddNotifyPeerActionRequired
+    EOS_AntiCheatClient_AddNotifyPeerActionRequired.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_AddNotifyPeerActionRequiredOptions), c_void_p, EOS_AntiCheatClient_OnPeerActionRequiredCallback]
+    EOS_AntiCheatClient_AddNotifyPeerActionRequired.restype = EOS_NotificationId
+
+    global EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged
+    EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged = dll.EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged
+    EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_AddNotifyPeerAuthStatusChangedOptions), c_void_p, EOS_AntiCheatClient_OnPeerAuthStatusChangedCallback]
+    EOS_AntiCheatClient_AddNotifyPeerAuthStatusChanged.restype = EOS_NotificationId
+
+    global EOS_AntiCheatClient_AddNotifyClientIntegrityViolated
+    EOS_AntiCheatClient_AddNotifyClientIntegrityViolated = dll.EOS_AntiCheatClient_AddNotifyClientIntegrityViolated
+    EOS_AntiCheatClient_AddNotifyClientIntegrityViolated.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_AddNotifyClientIntegrityViolatedOptions), c_void_p, EOS_AntiCheatClient_OnClientIntegrityViolatedCallback]
+    EOS_AntiCheatClient_AddNotifyClientIntegrityViolated.restype = EOS_NotificationId
+
+    global EOS_Auth_Login
+    EOS_Auth_Login = dll.EOS_Auth_Login
+    EOS_Auth_Login.argtypes = [EOS_HAuth, POINTER(EOS_Auth_LoginOptions), c_void_p, EOS_Auth_OnLoginCallback]
+    EOS_Auth_Login.restype = None
+
+    global EOS_Auth_Logout
+    EOS_Auth_Logout = dll.EOS_Auth_Logout
+    EOS_Auth_Logout.argtypes = [EOS_HAuth, POINTER(EOS_Auth_LogoutOptions), c_void_p, EOS_Auth_OnLogoutCallback]
+    EOS_Auth_Logout.restype = None
+
+    global EOS_Auth_LinkAccount
+    EOS_Auth_LinkAccount = dll.EOS_Auth_LinkAccount
+    EOS_Auth_LinkAccount.argtypes = [EOS_HAuth, POINTER(EOS_Auth_LinkAccountOptions), c_void_p, EOS_Auth_OnLinkAccountCallback]
+    EOS_Auth_LinkAccount.restype = None
+
+    global EOS_Auth_DeletePersistentAuth
+    EOS_Auth_DeletePersistentAuth = dll.EOS_Auth_DeletePersistentAuth
+    EOS_Auth_DeletePersistentAuth.argtypes = [EOS_HAuth, POINTER(EOS_Auth_DeletePersistentAuthOptions), c_void_p, EOS_Auth_OnDeletePersistentAuthCallback]
+    EOS_Auth_DeletePersistentAuth.restype = None
+
+    global EOS_Auth_VerifyUserAuth
+    EOS_Auth_VerifyUserAuth = dll.EOS_Auth_VerifyUserAuth
+    EOS_Auth_VerifyUserAuth.argtypes = [EOS_HAuth, POINTER(EOS_Auth_VerifyUserAuthOptions), c_void_p, EOS_Auth_OnVerifyUserAuthCallback]
+    EOS_Auth_VerifyUserAuth.restype = None
+
+    global EOS_Auth_QueryIdToken
+    EOS_Auth_QueryIdToken = dll.EOS_Auth_QueryIdToken
+    EOS_Auth_QueryIdToken.argtypes = [EOS_HAuth, POINTER(EOS_Auth_QueryIdTokenOptions), c_void_p, EOS_Auth_OnQueryIdTokenCallback]
+    EOS_Auth_QueryIdToken.restype = None
+
+    global EOS_Auth_VerifyIdToken
+    EOS_Auth_VerifyIdToken = dll.EOS_Auth_VerifyIdToken
+    EOS_Auth_VerifyIdToken.argtypes = [EOS_HAuth, POINTER(EOS_Auth_VerifyIdTokenOptions), c_void_p, EOS_Auth_OnVerifyIdTokenCallback]
+    EOS_Auth_VerifyIdToken.restype = None
+
+    global EOS_Auth_AddNotifyLoginStatusChanged
+    EOS_Auth_AddNotifyLoginStatusChanged = dll.EOS_Auth_AddNotifyLoginStatusChanged
+    EOS_Auth_AddNotifyLoginStatusChanged.argtypes = [EOS_HAuth, POINTER(EOS_Auth_AddNotifyLoginStatusChangedOptions), c_void_p, EOS_Auth_OnLoginStatusChangedCallback]
+    EOS_Auth_AddNotifyLoginStatusChanged.restype = EOS_NotificationId
+
