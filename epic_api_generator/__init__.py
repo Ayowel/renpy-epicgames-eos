@@ -86,6 +86,8 @@ class SpecManager():
         def record(entry):
             if all(self.mapper.is_indexed(r) for r in entry.requires()):
                 self.mapper.update(entry.provides())
+                for k, v in entry.provides_defaults(self.mapper).items():
+                    self.mapper.add_ctype_default(k, v)
                 self.file_entries.append(entry)
                 return False
             return True
@@ -122,7 +124,7 @@ class SpecManager():
                 if found:
                     break
             else:
-                logger.debug('No context object found for function %s', funcname)
+                logger.info('No context object found for function %s.', funcname)
 
     def render(self, out):
         """Write spec to the provided file handle"""

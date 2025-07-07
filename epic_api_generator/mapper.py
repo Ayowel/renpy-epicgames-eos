@@ -9,11 +9,19 @@ class Mapper():
     def __init__(self, mapper):
         self.indexed_values = set(mapper.keys())
         self.mappings = mapper
+        self.defaults_map = {}
 
     def update(self, iterable):
         # type: (Mapping, str[]) -> None
         """Add a list of valid types in both c and python."""
         self.indexed_values.update(iterable)
+
+    def add_ctype_default(self, ctype, default):
+        # type: (str, str) -> None
+        """Add defaults definitions for later use"""
+        logger.debug('Registering default "%s" for "%s"', default, ctype)
+        assert ctype not in self.defaults_map
+        self.defaults_map[ctype] = default
 
     def is_indexed(self, key):
         # type: (Mapping, str) -> bool
@@ -61,3 +69,17 @@ class Mapper():
             return f'{self.resolve(key[:-len(array_length)-2])} * {array_length}'
 
         raise Exception(f'Failed to resolve key "{key}".')
+
+    def get_ctype_default(self, ctype):
+        """Return a default value for the provided ctype"""
+        if ctype in self.defaults_map:
+            return self.defaults_map[ctype]
+        if re.match(r'^c_u?int(8|16|32|64)$', ctype):
+            return '0'
+        if ctype in ('c_float', 'c_double'):
+            return '0'
+        if ctype.startswith('POINTER(') or ctype.endswith('_p'):
+            return 'None'
+        if re.match(r'^c_char \* [A-Z0-9_]+$', ctype):
+            return "''"
+        raise Exception(f"Can't map {ctype}.")

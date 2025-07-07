@@ -1,5 +1,9 @@
 """Representation of EOS JSON spec file entries."""
+import logging
 import re
+from .mapper import Mapper
+
+logger = logging.getLogger(__name__)
 
 def write_function(out, mapper, function, localname, is_static = False, base_indent = ''):
     # type: (any, generator.Mapper, FunctionEntry, str, str) -> None
@@ -56,6 +60,10 @@ class Entry():
     def write(self, out, mapper):
         """Write out an entry to the provided file handle."""
         raise NotImplementedError()
+    def provides_defaults(self, mapper):
+        # type: (Mapper) -> Dict[str, str]
+        """Returns a dict of default values for the entry"""
+        return {}
 
 class CallbackEntry(Entry):
     """Representation of a callback function's entry."""
@@ -63,6 +71,11 @@ class CallbackEntry(Entry):
         self.name = entry_dict['callbackname']
         self.returntype = entry_dict['returntype']
         self.params = entry_dict['params']
+
+    def provides_defaults(self, mapper):
+        return {
+            self.name: 'None'
+        }
 
     def provides(self):
         return (self.name,)
@@ -155,6 +168,21 @@ class EnumEntry(Entry):
         self.functions = []
         self.resolved_requires = None
 
+    def provides_defaults(self, mapper):
+        def eval_value(v):
+            if re.match('^([0-9]+|0o[0-8]+|0x[0-9a-fA-F]+)$', v):
+                if 'x' in v:
+                    return int(v, 16)
+                if 'o' in v:
+                    return int(v, 8)
+                return int(v)
+            # Assume that all other values are derivatives that would not be the smallest value
+            return -1
+        min_positive_value = min(eval_value(v['value']) for v in self.values if eval_value(v['value']) >= 0)
+        return {
+            self.name: str(min_positive_value)
+        }
+
     def add_function(self, function, local_name, static = False):
         """Add a function to be used by the entry."""
         self.functions.append((function, local_name, static))
@@ -232,6 +260,11 @@ class StructEntry(Entry):
         """Add a function to be used by the entry."""
         self.functions.append((function, local_name, static))
 
+    def provides_defaults(self, mapper):
+        return {
+            self.name: f'{self.name}()'
+        }
+
     def requires(self):
         if self.resolved_requires is None:
             requires = set()
@@ -264,10 +297,25 @@ class StructEntry(Entry):
                 self.write_fields(out, f['unionitems'], mapper, unionname)
         out.write(f'class {self.name}(Structure):\n')
         out.write('    _pack_ = PACK\n')
+        # Fields spec
         self.write_fields(out, self.fields, mapper, self.name)
+        # init function
+        out.write('    def __init__(self')
+        for f in self.fields:
+            out.write(f', {f["name"]} = ')
+            reftype = mapper.resolve(f['unionitems'][0]['type'] if f.get('unionitems', None) else f['type'])
+            if 'recommended_value' in f:
+                out.write(f['recommended_value'])
+            else:
+                out.write(f"{mapper.get_ctype_default(reftype)}")
+        out.write('):\n')
+        out.write('        Structure.__init__(self')
+        for f in self.fields:
+            out.write(f', {f["name"]} = {f["name"]}')
+        out.write(')\n')
+        # Struct functions
         for (f, name, is_static) in self.functions:
             write_function(out, mapper, f, name, is_static, base_indent = '    ')
-
 class TypedefEntry(Entry):
     """Representation of a typedef's entry."""
     def __init__(self, entry_dict):
@@ -282,6 +330,15 @@ class TypedefEntry(Entry):
         else:
             self.type = self.source_type
         self.resolved_requires = None
+
+    def provides_defaults(self, mapper):
+        if self.functype:
+            return {self.name: f'{self.name}(0)'}
+        if re.match(r'^struct [a-zA-Z][a-zA-Z0-9_]+\*$', self.source_type):
+            return {self.name: 'None'}
+        ctype_string = mapper.resolve(self.type)
+        logger.debug("Resolving default for %s", ctype_string)
+        return {self.name: mapper.get_ctype_default(ctype_string)}
 
     def add_function(self, function, local_name, static = False):
         """Add a function to be used by the entry."""
@@ -303,9 +360,19 @@ class TypedefEntry(Entry):
         return self.resolved_requires
 
     def write(self, out, mapper):
-        out.write(f'class {self.name}({mapper.resolve(self.type)}):\n')
-        if not self.functions:
-            out.write('    pass\n')
+        if self.functype is not None:
+            out.write(f'{self.name} = CFUNCTYPE(')
+            if self.functype['returntype'] != 'void':
+                out.write(f'{mapper.resolve(self.functype["returntype"])}')
+            else:
+                out.write('None')
+            for param in self.functype['params']:
+                out.write(f', {mapper.resolve(param["type"])}')
+            out.write(')\n')
         else:
-            for (f, name, is_static) in self.functions:
-                write_function(out, mapper, f, name, is_static, base_indent = '    ')
+            out.write(f'class {self.name}({mapper.resolve(self.type)}):\n')
+            if not self.functions:
+                out.write('    pass\n')
+            else:
+                for (f, name, is_static) in self.functions:
+                    write_function(out, mapper, f, name, is_static, base_indent = '    ')
