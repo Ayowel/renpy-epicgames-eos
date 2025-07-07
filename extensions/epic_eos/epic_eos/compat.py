@@ -331,11 +331,7 @@ def auth_login_callback(login_info):
         return
     info = login_info[0]
     if info.ResultCode.value != epic_eos.cdefs.EOS_Success.value:
-        if info.AccountFeatureRestrictedInfo:
-            target_uri = bytes_to_str(info.AccountFeatureRestrictedInfo[0].VerificationURI)
-            epic_eos.ren.log(400, epic_eos.renpy_category, "Auth login callback failed because a manual action is required. Open {}".format(target_uri))
-        else:
-            epic_eos.ren.log(400, epic_eos.renpy_category, "Auth login callback failed with error: {} - {}".format(info.ResultCode.value, bytes_to_str(info.ResultCode.ToString())))
+        epic_eos.ren.log(400, epic_eos.renpy_category, "Auth login callback failed with error: {} - {}".format(info.ResultCode.value, bytes_to_str(info.ResultCode.ToString())))
         return
 
     # EOS_Auth_CopyIdToken EOS_Auth_CopyUserAuthToken
@@ -523,6 +519,5 @@ def epic_logger(message):
     import renpy
     try:
         renpy.store.config.epic_logger(m.Level.value, bytes_to_str(m.Category), bytes_to_str(m.Message))
-    except:
-        print("[500] LogEOSRenpy - An error occured while logging a message")
-        pass
+    except: # pylint: disable=bare-except
+        print(f"500 {epic_eos.renpy_category} An error occured while logging a message.")
