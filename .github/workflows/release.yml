@@ -20,18 +20,18 @@ on:
       - v*
 
 env:
-  RENPY_VERSION: '8.1.3'
+  RENPY_VERSION: '8.3.7'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         path: project
         lfs: true
     - name: Ren'Py directory cache management
-      uses: actions/cache@v3.0.11
+      uses: actions/cache@v4
       id: cache-renpy
       with:
         path: renpy
@@ -43,6 +43,8 @@ jobs:
         action: install
         version: ${{ env.RENPY_VERSION }}
         install_dir: renpy
+    - name: Download SDK
+      run: python3 project/scripts/get_sdk.py
     - name: "Build extensions' archives"
       working-directory: project/extensions
       run: |
@@ -51,11 +53,11 @@ jobs:
     - name: "Validate project"
       run: |
         ./renpy/renpy.sh project lint --error-code
+    - name: Install release packager
+      run: pip install repzip
     - name: "Generate release file"
-      working-directory: project
       run: |
-        find * -print0 | xargs -r0 touch -t 199612050000
-        find game/epic_eos.rpe libs | sort | xargs -r zip ../epic_eos.zip
+        repzip epic_eos.zip --recurse --root project game/epic_eos.rpe libs
     - name: "Install documentation dependencies"
       run: |
         sudo apt-get install -y asciidoctor ruby-rouge
@@ -68,7 +70,7 @@ jobs:
       run: |
         echo -n "VERSION=" >>$GITHUB_OUTPUT
         git describe --always --tags >>$GITHUB_OUTPUT
-    - uses: softprops/action-gh-release@v0.1.14
+    - uses: softprops/action-gh-release@v2.3.2
       if: ${{ github.event_name == 'push' || github.event.inputs.push_github == 'true' }}
       with:
         files: |

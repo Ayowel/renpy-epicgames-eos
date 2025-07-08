@@ -1,12 +1,14 @@
+"""Ren'Py-facing functions"""
 from __future__ import print_function
-import epic_eos
 import os
+import sys
+import epic_eos
 import renpy as r
 from renpy.store import (renpy, config)
-import sys
 
 def log(level, category, message, *args):
     # type: (int, str, str, ...) -> None
+    """Default high-level logging callback."""
     if renpy.store.config.epic_log_console:
         print("[{}] {} - {}".format(level, category, message), *args)
     else:
@@ -14,27 +16,30 @@ def log(level, category, message, *args):
 
 def periodic():
     # type: () -> None
+    """Function called by Ren'Py to allow periodic data processing."""
     if is_epic_available():
         epic_eos.eos_platform.Tick()
 
 def get_epic_args():
-    class attr_container(object):
-        pass
-    argset = attr_container
-    argset.client = renpy.config.epic_client
-    argset.clientsecret = renpy.config.epic_clientsecret
-    argset.product = renpy.config.epic_product
-    argset.sandbox = renpy.config.epic_sandbox
-    argset.deployment = renpy.config.epic_deployment
-    argset.user = renpy.config.epic_userlogin
-    argset.password = renpy.config.epic_userpassword
-    argset.authtype = renpy.config.epic_authtype
-    argset.userid = None
-    argset.username = ''
-    argset.env = 'Dev'
-    argset.appid = ''
-    argset.locale = None
-    argset.is_portal = False
+    """Get arguments received via cmdline."""
+    class AttrContainer(object):
+        """Pseudo-class used to store parsed parameters"""
+        client = renpy.config.epic_client
+        clientsecret = renpy.config.epic_clientsecret
+        product = renpy.config.epic_product
+        sandbox = renpy.config.epic_sandbox
+        deployment = renpy.config.epic_deployment
+        user = renpy.config.epic_userlogin
+        password = renpy.config.epic_userpassword
+        authtype = renpy.config.epic_authtype
+        userid = None
+        username = ''
+        env = 'Dev'
+        appid = ''
+        locale = None
+        is_portal = False
+
+    argset = AttrContainer()
 
     epic_args = getattr(r.arguments, 'epic_arguments', None)
     if epic_args:
@@ -65,10 +70,12 @@ def get_epic_args():
 
 def is_epic_available():
     # type: () -> bool
+    """Check whether the epic SDK is loaded."""
     return epic_eos.eos_platform is not None
 
 def get_dlls_for(win_64 = False, win32 = False, linux = False, mac = False):
     # type: (bool, bool, bool, bool) -> list
+    """Get DLL path for the current system."""
     target_dlls = []
     if win_64:
         target_dlls.append("EOSSDK-Win64-Shipping.dll")
@@ -80,10 +87,11 @@ def get_dlls_for(win_64 = False, win32 = False, linux = False, mac = False):
         target_dlls.append("libEOSSDK-Mac-Shipping.dylib")
     return target_dlls
 
-def resolve_dlls(list):
-    # type: (list) -> list
+def resolve_dlls(dll_list):
+    # type: (List[str]) -> list
+    """From a list of dlls, return the valid dll paths that are found."""
     dll_paths = []
-    for dll_name in list:
+    for dll_name in dll_list:
         is_found = False
         for p in [config.basedir, os.path.dirname(sys.executable)] + config.searchpath:
             for subpath in ['libs', '.']:
@@ -91,7 +99,7 @@ def resolve_dlls(list):
                     dll_paths.append(os.path.join(p, subpath, dll_name))
                     is_found = True
                     break
-            if is_found == True:
+            if is_found is True:
                 break
     return dll_paths
 

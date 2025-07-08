@@ -26,9 +26,13 @@ errors.txt
 traceback.txt
 files.txt
 
+# Ignore python-generated files
+__pycache__
+
 # Specific assets #
 ###################
 /game/epic.rpy
 /game/01epic_dev.rpy
-!/libs/EOSSDK-Win*-Shipping.dll
-!/libs/x*/xaudio2_9redist.dll
+/libs/*
+/.tmpdir
+/spec
