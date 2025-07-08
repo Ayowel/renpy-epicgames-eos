@@ -26,12 +26,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         path: project
         lfs: true
     - name: Ren'Py directory cache management
-      uses: actions/cache@v3.0.11
+      uses: actions/cache@v4
       id: cache-renpy
       with:
         path: renpy
@@ -70,7 +70,7 @@ jobs:
       run: |
         echo -n "VERSION=" >>$GITHUB_OUTPUT
         git describe --always --tags >>$GITHUB_OUTPUT
-    - uses: softprops/action-gh-release@v0.1.14
+    - uses: softprops/action-gh-release@v2.3.2
       if: ${{ github.event_name == 'push' || github.event.inputs.push_github == 'true' }}
       with:
         files: |
