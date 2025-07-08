@@ -43,6 +43,8 @@ jobs:
         action: install
         version: ${{ env.RENPY_VERSION }}
         install_dir: renpy
+    - name: Download SDK
+      run: python3 project/scripts/get_sdk.py
     - name: "Build extensions' archives"
       working-directory: project/extensions
       run: |
