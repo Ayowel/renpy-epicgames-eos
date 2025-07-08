@@ -63,6 +63,7 @@ class Entry():
     def provides_defaults(self, mapper):
         # type: (Mapper) -> Dict[str, str]
         """Returns a dict of default values for the entry"""
+        _ = mapper
         return {}
 
 class CallbackEntry(Entry):
