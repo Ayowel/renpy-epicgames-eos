@@ -51,3 +51,12 @@ renpy.store.epicapi.__dict__.setdefault('retrieve_stats', epic_eos.compat.retrie
 renpy.store.epicapi.__dict__.setdefault('list_achievements', epic_eos.compat.list_achievements)
 renpy.store.epicapi.__dict__.setdefault('get_achievement', epic_eos.compat.get_achievement)
 renpy.store.epicapi.__dict__.setdefault('grant_achievement', epic_eos.compat.grant_achievement)
+
+# Run epic at game start
+version = renpy.store.renpy.version(tuple=True)
+if version[0] < 8:
+    epic_eos.ren.log(500, epic_eos.renpy_category, "Only Ren'Py 8 and later are supported, the extension is likely to fail upon loading.")
+elif version[:2] == (8, 0):
+    epic_eos.ren.log(100, epic_eos.renpy_category, "Load 'epicapi.init()' in your spashscreen or update to Ren'Py 8.1.0 or later.")
+else:
+    renpy.store.config.display_start_callbacks.append(epic_eos.epic_init)

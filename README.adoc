@@ -46,7 +46,7 @@ init -1499 python:
 --
 
 [start=4]
-. Start epic at the start of your `splashscreen` label (or create one if you don't have any):
+. If using **Ren'py 8.0.X**, start epic at the start of your `splashscreen` label:
 
 [source, py]
 --
