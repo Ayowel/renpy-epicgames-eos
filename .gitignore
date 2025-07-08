@@ -33,5 +33,6 @@ __pycache__
 ###################
 /game/epic.rpy
 /game/01epic_dev.rpy
-!/libs/EOSSDK-Win*-Shipping.dll
-!/libs/x*/xaudio2_9redist.dll
+/libs/*
+/.tmpdir
+/spec
