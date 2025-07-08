@@ -53,11 +53,11 @@ jobs:
     - name: "Validate project"
       run: |
         ./renpy/renpy.sh project lint --error-code
+    - name: Install release packager
+      run: pip install repzip
     - name: "Generate release file"
-      working-directory: project
       run: |
-        find * -print0 | xargs -r0 touch -t 199612050000
-        find game/epic_eos.rpe libs | sort | xargs -r zip ../epic_eos.zip
+        repzip epic_eos.zip --recurse --root project game/epic_eos.rpe libs
     - name: "Install documentation dependencies"
       run: |
         sudo apt-get install -y asciidoctor ruby-rouge
