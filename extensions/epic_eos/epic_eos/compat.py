@@ -56,11 +56,11 @@ def epic_shutdown():
         epic_eos.eos_platform.Release()
         epic_eos.eos_platform = None
 
-def load():
+def load(force = False):
     """Load the SDK's DLL."""
     # Search for the dll in preset locations
     # Only try to load if the dll is not already loaded
-    if cdefs.EOS_Initialize is cdefs.not_ready:
+    if cdefs.EOS_Initialize is cdefs.not_ready or force:
         dll_paths = epic_eos.ren.resolve_dlls(epic_eos.ren.get_dlls_for(
             # TODO: do only one function call, this is ridiculous
             renpy.windows and (sys.maxsize > (1 << 32)),
@@ -81,11 +81,14 @@ def load():
             return False
 
         cdefs.load(dll)
+    return True
 
 def epic_init():
     # type: () -> None
     """Initialize the SDK."""
-    load()
+    if not load():
+        epic_eos.ren.log(500, epic_eos.renpy_category, "Failed to load the epic DLL - aborting initialisation")
+        return False
 
     # Initialize EOS context
     init_opts = cdefs.EOS_InitializeOptions(
