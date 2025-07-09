@@ -1,6 +1,5 @@
 
-__version__ = '0.3.1'
-__eos_version__ = '1.16.1'
+__version__ = (0, 4, 0)
 
 eos_platform = None # type: epic_eos.cdefs.EOS_HPlatform
 renpy_category = 'LogEOSRenpy'
@@ -11,3 +10,5 @@ import epic_eos.ren
 
 from .compat import (epic_init, epic_shutdown)
 from .ren import (is_epic_available)
+
+__eos_version__ = (epic_eos.cdefs.EOS_MAJOR_VERSION, epic_eos.cdefs.EOS_MINOR_VERSION, epic_eos.cdefs.EOS_PATCH_VERSION)
