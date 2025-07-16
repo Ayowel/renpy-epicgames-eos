@@ -10,7 +10,9 @@ https://dev.epicgames.com/en-US/sdk[image:https://img.shields.io/badge/EOS SDK-1
 
 This extension adds Epic Games achievements support to Ren'Py. Ensure that you have accepted the usage conditions for the https://dev.epicgames.com/portal/en-US/home/sdk-download[Epic Games SDK] on the Epic Games Dev Portal before using this extension.
 
-This extension is only supported for Ren'Py 8 and later.
+This extension only supports Ren'Py 8 and later.
+
+Need to access the Epic Games API to do more ? The full API is mapped and available in Ren'Py under `epicapi.native`.
 
 == Installation
 
