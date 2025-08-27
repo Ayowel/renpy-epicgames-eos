@@ -647,7 +647,8 @@ EOS_Auth_VerifyIdToken = not_ready
 EOS_Auth_AddNotifyLoginStatusChanged = not_ready
 EOS_MAJOR_VERSION = 1
 EOS_MINOR_VERSION = 17
-EOS_PATCH_VERSION = 0
+EOS_PATCH_VERSION = 1
+EOS_HOTFIX_VERSION = 3
 EOS_COMPANY_NAME = "Epic Games, Inc."
 EOS_COPYRIGHT_STRING = "Copyright Epic Games, Inc. All Rights Reserved."
 EOS_PRODUCT_NAME = "Epic Online Services SDK"
@@ -875,6 +876,7 @@ EOS_RTCDATA_UPDATERECEIVING_API_LATEST = 1
 EOS_RTC_JOINROOM_API_LATEST = 1
 EOS_RTC_JOINROOMFLAGS_ENABLE_ECHO = 0x01
 EOS_RTC_JOINROOMFLAGS_ENABLE_DATACHANNEL = 0x04
+EOS_RTC_JOINROOMFLAGS_RESERVED_VOICE_FEATURE = 0x08
 EOS_RTC_OPTION_KEY_MAXCHARCOUNT = 256
 EOS_RTC_OPTION_VALUE_MAXCHARCOUNT = 256
 EOS_RTC_OPTION_API_LATEST = 1
@@ -1005,7 +1007,7 @@ EOS_ANTICHEATCOMMON_LOGPLAYERDESPAWN_API_LATEST = 1
 EOS_ANTICHEATCOMMON_LOGPLAYERREVIVE_API_LATEST = 1
 EOS_ANTICHEATCOMMON_LOGPLAYERTICK_API_LATEST = 3
 EOS_ANTICHEATCOMMON_LOGPLAYERUSEWEAPON_API_LATEST = 2
-EOS_ANTICHEATCOMMON_LOGPLAYERUSEWEAPON_WEAPONNAME_MAX_LENGTH = 16
+EOS_ANTICHEATCOMMON_LOGPLAYERUSEWEAPON_WEAPONNAME_MAX_LENGTH = 32
 EOS_ANTICHEATCOMMON_LOGPLAYERUSEABILITY_API_LATEST = 1
 EOS_ANTICHEATCOMMON_LOGPLAYERTAKEDAMAGE_API_LATEST = 4
 EOS_ANTICHEATSERVER_ONMESSAGETOCLIENTCALLBACK_MAX_MESSAGE_SIZE = 512
@@ -1068,7 +1070,7 @@ EOS_LOBBY_MAX_LOBBYIDOVERRIDE_LENGTH = 60
 EOS_LOBBYMODIFICATION_MAX_ATTRIBUTES = 64
 EOS_LOBBYMODIFICATION_MAX_ATTRIBUTE_LENGTH = 64
 EOS_LOBBYDETAILS_INFO_API_LATEST = 3
-EOS_LOBBY_LOCALRTCOPTIONS_API_LATEST = 1
+EOS_LOBBY_LOCALRTCOPTIONS_API_LATEST = 2
 EOS_LOBBY_CREATELOBBY_API_LATEST = 10
 EOS_LOBBY_DESTROYLOBBY_API_LATEST = 1
 EOS_LOBBY_JOINLOBBY_API_LATEST = 5
@@ -1551,6 +1553,8 @@ EOS_RTC_RoomWasLeft = EOS_EResult(13004)
 EOS_RTC_ReconnectionTimegateExpired = EOS_EResult(13005)
 EOS_RTC_ShutdownInvoked = EOS_EResult(13006)
 EOS_RTC_UserIsInBlocklist = EOS_EResult(13007)
+EOS_RTC_AllocationFailed = EOS_EResult(13009)
+EOS_RTC_VoiceModerationModeMismatch = EOS_EResult(13010)
 EOS_ProgressionSnapshot_SnapshotIdUnavailable = EOS_EResult(14000)
 EOS_KWS_ParentEmailMissing = EOS_EResult(15000)
 EOS_KWS_UserGraduated = EOS_EResult(15001)
@@ -1576,182 +1580,6 @@ EOS_ConsoleInit_CacheStorage_SizeKBBelowMinimumSize = EOS_EResult(23002)
 EOS_ConsoleInit_CacheStorage_SizeKBExceedsMaximumSize = EOS_EResult(23003)
 EOS_ConsoleInit_CacheStorage_IndexOutOfRangeRange = EOS_EResult(23004)
 EOS_UnexpectedError = EOS_EResult(0x7FFFFFFF)
-
-
-class EOS_UI_EKeyCombination(c_int32):
-    def __init__(self, value):
-        if isinstance(value, c_int32):
-            value = value.value
-        self.value = value
-    def __rrshift__(self, other):
-        return other >> self.value
-    def __rshift__(self, other):
-        return self.value >> other
-    def __rlshift__(self, other):
-        return other << self.value
-    def __lshift__(self, other):
-        return self.value << other
-    def __invert__(self):
-        return EOS_UI_EKeyCombination(~self.value)
-    def __or__(self, other):
-        return EOS_UI_EKeyCombination(self.value | other)
-    def __ror__(self, other):
-        return EOS_UI_EKeyCombination(other | self.value)
-    def __int__(self):
-        return self.value
-
-EOS_UIK_ModifierShift = EOS_UI_EKeyCombination(16)
-EOS_UIK_KeyTypeMask = EOS_UI_EKeyCombination((1 << EOS_UIK_ModifierShift) - 1)
-EOS_UIK_ModifierMask = EOS_UI_EKeyCombination(~EOS_UIK_KeyTypeMask)
-EOS_UIK_Shift = EOS_UI_EKeyCombination((1 << EOS_UIK_ModifierShift))
-EOS_UIK_Control = EOS_UI_EKeyCombination((2 << EOS_UIK_ModifierShift))
-EOS_UIK_Alt = EOS_UI_EKeyCombination((4 << EOS_UIK_ModifierShift))
-EOS_UIK_Meta = EOS_UI_EKeyCombination((8 << EOS_UIK_ModifierShift))
-EOS_UIK_ValidModifierMask = EOS_UI_EKeyCombination((EOS_UIK_Shift | EOS_UIK_Control | EOS_UIK_Alt | EOS_UIK_Meta))
-EOS_UIK_None = EOS_UI_EKeyCombination(0)
-EOS_UIK_Space = EOS_UI_EKeyCombination(1)
-EOS_UIK_Backspace = EOS_UI_EKeyCombination(2)
-EOS_UIK_Tab = EOS_UI_EKeyCombination(3)
-EOS_UIK_Escape = EOS_UI_EKeyCombination(4)
-EOS_UIK_PageUp = EOS_UI_EKeyCombination(5)
-EOS_UIK_PageDown = EOS_UI_EKeyCombination(6)
-EOS_UIK_End = EOS_UI_EKeyCombination(7)
-EOS_UIK_Home = EOS_UI_EKeyCombination(8)
-EOS_UIK_Insert = EOS_UI_EKeyCombination(9)
-EOS_UIK_Delete = EOS_UI_EKeyCombination(10)
-EOS_UIK_Left = EOS_UI_EKeyCombination(11)
-EOS_UIK_Up = EOS_UI_EKeyCombination(12)
-EOS_UIK_Right = EOS_UI_EKeyCombination(13)
-EOS_UIK_Down = EOS_UI_EKeyCombination(14)
-EOS_UIK_Key0 = EOS_UI_EKeyCombination(15)
-EOS_UIK_Key1 = EOS_UI_EKeyCombination(16)
-EOS_UIK_Key2 = EOS_UI_EKeyCombination(17)
-EOS_UIK_Key3 = EOS_UI_EKeyCombination(18)
-EOS_UIK_Key4 = EOS_UI_EKeyCombination(19)
-EOS_UIK_Key5 = EOS_UI_EKeyCombination(20)
-EOS_UIK_Key6 = EOS_UI_EKeyCombination(21)
-EOS_UIK_Key7 = EOS_UI_EKeyCombination(22)
-EOS_UIK_Key8 = EOS_UI_EKeyCombination(23)
-EOS_UIK_Key9 = EOS_UI_EKeyCombination(24)
-EOS_UIK_KeyA = EOS_UI_EKeyCombination(25)
-EOS_UIK_KeyB = EOS_UI_EKeyCombination(26)
-EOS_UIK_KeyC = EOS_UI_EKeyCombination(27)
-EOS_UIK_KeyD = EOS_UI_EKeyCombination(28)
-EOS_UIK_KeyE = EOS_UI_EKeyCombination(29)
-EOS_UIK_KeyF = EOS_UI_EKeyCombination(30)
-EOS_UIK_KeyG = EOS_UI_EKeyCombination(31)
-EOS_UIK_KeyH = EOS_UI_EKeyCombination(32)
-EOS_UIK_KeyI = EOS_UI_EKeyCombination(33)
-EOS_UIK_KeyJ = EOS_UI_EKeyCombination(34)
-EOS_UIK_KeyK = EOS_UI_EKeyCombination(35)
-EOS_UIK_KeyL = EOS_UI_EKeyCombination(36)
-EOS_UIK_KeyM = EOS_UI_EKeyCombination(37)
-EOS_UIK_KeyN = EOS_UI_EKeyCombination(38)
-EOS_UIK_KeyO = EOS_UI_EKeyCombination(39)
-EOS_UIK_KeyP = EOS_UI_EKeyCombination(40)
-EOS_UIK_KeyQ = EOS_UI_EKeyCombination(41)
-EOS_UIK_KeyR = EOS_UI_EKeyCombination(42)
-EOS_UIK_KeyS = EOS_UI_EKeyCombination(43)
-EOS_UIK_KeyT = EOS_UI_EKeyCombination(44)
-EOS_UIK_KeyU = EOS_UI_EKeyCombination(45)
-EOS_UIK_KeyV = EOS_UI_EKeyCombination(46)
-EOS_UIK_KeyW = EOS_UI_EKeyCombination(47)
-EOS_UIK_KeyX = EOS_UI_EKeyCombination(48)
-EOS_UIK_KeyY = EOS_UI_EKeyCombination(49)
-EOS_UIK_KeyZ = EOS_UI_EKeyCombination(50)
-EOS_UIK_Numpad0 = EOS_UI_EKeyCombination(51)
-EOS_UIK_Numpad1 = EOS_UI_EKeyCombination(52)
-EOS_UIK_Numpad2 = EOS_UI_EKeyCombination(53)
-EOS_UIK_Numpad3 = EOS_UI_EKeyCombination(54)
-EOS_UIK_Numpad4 = EOS_UI_EKeyCombination(55)
-EOS_UIK_Numpad5 = EOS_UI_EKeyCombination(56)
-EOS_UIK_Numpad6 = EOS_UI_EKeyCombination(57)
-EOS_UIK_Numpad7 = EOS_UI_EKeyCombination(58)
-EOS_UIK_Numpad8 = EOS_UI_EKeyCombination(59)
-EOS_UIK_Numpad9 = EOS_UI_EKeyCombination(60)
-EOS_UIK_NumpadAsterisk = EOS_UI_EKeyCombination(61)
-EOS_UIK_NumpadPlus = EOS_UI_EKeyCombination(62)
-EOS_UIK_NumpadMinus = EOS_UI_EKeyCombination(63)
-EOS_UIK_NumpadPeriod = EOS_UI_EKeyCombination(64)
-EOS_UIK_NumpadDivide = EOS_UI_EKeyCombination(65)
-EOS_UIK_F1 = EOS_UI_EKeyCombination(66)
-EOS_UIK_F2 = EOS_UI_EKeyCombination(67)
-EOS_UIK_F3 = EOS_UI_EKeyCombination(68)
-EOS_UIK_F4 = EOS_UI_EKeyCombination(69)
-EOS_UIK_F5 = EOS_UI_EKeyCombination(70)
-EOS_UIK_F6 = EOS_UI_EKeyCombination(71)
-EOS_UIK_F7 = EOS_UI_EKeyCombination(72)
-EOS_UIK_F8 = EOS_UI_EKeyCombination(73)
-EOS_UIK_F9 = EOS_UI_EKeyCombination(74)
-EOS_UIK_F10 = EOS_UI_EKeyCombination(75)
-EOS_UIK_F11 = EOS_UI_EKeyCombination(76)
-EOS_UIK_F12 = EOS_UI_EKeyCombination(77)
-EOS_UIK_F13 = EOS_UI_EKeyCombination(78)
-EOS_UIK_F14 = EOS_UI_EKeyCombination(79)
-EOS_UIK_F15 = EOS_UI_EKeyCombination(80)
-EOS_UIK_F16 = EOS_UI_EKeyCombination(81)
-EOS_UIK_F17 = EOS_UI_EKeyCombination(82)
-EOS_UIK_F18 = EOS_UI_EKeyCombination(83)
-EOS_UIK_F19 = EOS_UI_EKeyCombination(84)
-EOS_UIK_F20 = EOS_UI_EKeyCombination(85)
-EOS_UIK_F21 = EOS_UI_EKeyCombination(86)
-EOS_UIK_F22 = EOS_UI_EKeyCombination(87)
-EOS_UIK_F23 = EOS_UI_EKeyCombination(88)
-EOS_UIK_F24 = EOS_UI_EKeyCombination(89)
-EOS_UIK_OemPlus = EOS_UI_EKeyCombination(90)
-EOS_UIK_OemComma = EOS_UI_EKeyCombination(91)
-EOS_UIK_OemMinus = EOS_UI_EKeyCombination(92)
-EOS_UIK_OemPeriod = EOS_UI_EKeyCombination(93)
-EOS_UIK_Oem1 = EOS_UI_EKeyCombination(94)
-EOS_UIK_Oem2 = EOS_UI_EKeyCombination(95)
-EOS_UIK_Oem3 = EOS_UI_EKeyCombination(96)
-EOS_UIK_Oem4 = EOS_UI_EKeyCombination(97)
-EOS_UIK_Oem5 = EOS_UI_EKeyCombination(98)
-EOS_UIK_Oem6 = EOS_UI_EKeyCombination(99)
-EOS_UIK_Oem7 = EOS_UI_EKeyCombination(100)
-EOS_UIK_Oem8 = EOS_UI_EKeyCombination(101)
-EOS_UIK_MaxKeyType = EOS_UI_EKeyCombination(102)
-
-
-class EOS_UI_EInputStateButtonFlags(c_int32):
-    def __init__(self, value):
-        if isinstance(value, c_int32):
-            value = value.value
-        self.value = value
-    def __rrshift__(self, other):
-        return other >> self.value
-    def __rshift__(self, other):
-        return self.value >> other
-    def __rlshift__(self, other):
-        return other << self.value
-    def __lshift__(self, other):
-        return self.value << other
-    def __invert__(self):
-        return EOS_UI_EInputStateButtonFlags(~self.value)
-    def __or__(self, other):
-        return EOS_UI_EInputStateButtonFlags(self.value | other)
-    def __ror__(self, other):
-        return EOS_UI_EInputStateButtonFlags(other | self.value)
-    def __int__(self):
-        return self.value
-
-EOS_UISBF_None = EOS_UI_EInputStateButtonFlags(0)
-EOS_UISBF_DPad_Left = EOS_UI_EInputStateButtonFlags((1 << 0))
-EOS_UISBF_DPad_Right = EOS_UI_EInputStateButtonFlags((1 << 1))
-EOS_UISBF_DPad_Down = EOS_UI_EInputStateButtonFlags((1 << 2))
-EOS_UISBF_DPad_Up = EOS_UI_EInputStateButtonFlags((1 << 3))
-EOS_UISBF_FaceButton_Left = EOS_UI_EInputStateButtonFlags((1 << 4))
-EOS_UISBF_FaceButton_Right = EOS_UI_EInputStateButtonFlags((1 << 5))
-EOS_UISBF_FaceButton_Bottom = EOS_UI_EInputStateButtonFlags((1 << 6))
-EOS_UISBF_FaceButton_Top = EOS_UI_EInputStateButtonFlags((1 << 7))
-EOS_UISBF_LeftShoulder = EOS_UI_EInputStateButtonFlags((1 << 8))
-EOS_UISBF_RightShoulder = EOS_UI_EInputStateButtonFlags((1 << 9))
-EOS_UISBF_LeftTrigger = EOS_UI_EInputStateButtonFlags((1 << 10))
-EOS_UISBF_RightTrigger = EOS_UI_EInputStateButtonFlags((1 << 11))
-EOS_UISBF_Special_Left = EOS_UI_EInputStateButtonFlags((1 << 12))
-EOS_UISBF_Special_Right = EOS_UI_EInputStateButtonFlags((1 << 13))
-EOS_UISBF_LeftThumbstick = EOS_UI_EInputStateButtonFlags((1 << 14))
-EOS_UISBF_RightThumbstick = EOS_UI_EInputStateButtonFlags((1 << 15))
 
 
 class EOS_ELoginStatus(c_int32):
@@ -1843,6 +1671,34 @@ EOS_CO_NOTANYOF = EOS_EComparisonOp(8)
 EOS_CO_ONEOF = EOS_EComparisonOp(9)
 EOS_CO_NOTONEOF = EOS_EComparisonOp(10)
 EOS_CO_CONTAINS = EOS_EComparisonOp(11)
+EOS_CO_REGEXMATCH = EOS_EComparisonOp(12)
+EOS_CO_SIZE = EOS_EComparisonOp(13)
+
+
+class EOS_ELogicalCombineOp(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ELogicalCombineOp(~self.value)
+    def __or__(self, other):
+        return EOS_ELogicalCombineOp(self.value | other)
+    def __ror__(self, other):
+        return EOS_ELogicalCombineOp(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_LCO_AND = EOS_ELogicalCombineOp(0)
+EOS_LCO_OR = EOS_ELogicalCombineOp(1)
 
 
 class EOS_EExternalAccountType(c_int32):
@@ -2206,6 +2062,7 @@ EOS_LC_KWS = EOS_ELogCategory(28)
 EOS_LC_RTC = EOS_ELogCategory(29)
 EOS_LC_RTCAdmin = EOS_ELogCategory(30)
 EOS_LC_CustomInvites = EOS_ELogCategory(31)
+EOS_LC_HTTP = EOS_ELogCategory(41)
 EOS_LC_ALL_CATEGORIES = EOS_ELogCategory(0x7fffffff)
 
 
@@ -2774,6 +2631,182 @@ EOS_DCS_OverlayDisabled = EOS_EDesktopCrossplayStatus(5)
 EOS_DCS_OverlayNotInstalled = EOS_EDesktopCrossplayStatus(6)
 EOS_DCS_OverlayTrustCheckFailed = EOS_EDesktopCrossplayStatus(7)
 EOS_DCS_OverlayLoadFailed = EOS_EDesktopCrossplayStatus(8)
+
+
+class EOS_UI_EKeyCombination(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_UI_EKeyCombination(~self.value)
+    def __or__(self, other):
+        return EOS_UI_EKeyCombination(self.value | other)
+    def __ror__(self, other):
+        return EOS_UI_EKeyCombination(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_UIK_ModifierShift = EOS_UI_EKeyCombination(16)
+EOS_UIK_KeyTypeMask = EOS_UI_EKeyCombination((1 << EOS_UIK_ModifierShift) - 1)
+EOS_UIK_ModifierMask = EOS_UI_EKeyCombination(~EOS_UIK_KeyTypeMask)
+EOS_UIK_Shift = EOS_UI_EKeyCombination((1 << EOS_UIK_ModifierShift))
+EOS_UIK_Control = EOS_UI_EKeyCombination((2 << EOS_UIK_ModifierShift))
+EOS_UIK_Alt = EOS_UI_EKeyCombination((4 << EOS_UIK_ModifierShift))
+EOS_UIK_Meta = EOS_UI_EKeyCombination((8 << EOS_UIK_ModifierShift))
+EOS_UIK_ValidModifierMask = EOS_UI_EKeyCombination((EOS_UIK_Shift | EOS_UIK_Control | EOS_UIK_Alt | EOS_UIK_Meta))
+EOS_UIK_None = EOS_UI_EKeyCombination(0)
+EOS_UIK_Space = EOS_UI_EKeyCombination(1)
+EOS_UIK_Backspace = EOS_UI_EKeyCombination(2)
+EOS_UIK_Tab = EOS_UI_EKeyCombination(3)
+EOS_UIK_Escape = EOS_UI_EKeyCombination(4)
+EOS_UIK_PageUp = EOS_UI_EKeyCombination(5)
+EOS_UIK_PageDown = EOS_UI_EKeyCombination(6)
+EOS_UIK_End = EOS_UI_EKeyCombination(7)
+EOS_UIK_Home = EOS_UI_EKeyCombination(8)
+EOS_UIK_Insert = EOS_UI_EKeyCombination(9)
+EOS_UIK_Delete = EOS_UI_EKeyCombination(10)
+EOS_UIK_Left = EOS_UI_EKeyCombination(11)
+EOS_UIK_Up = EOS_UI_EKeyCombination(12)
+EOS_UIK_Right = EOS_UI_EKeyCombination(13)
+EOS_UIK_Down = EOS_UI_EKeyCombination(14)
+EOS_UIK_Key0 = EOS_UI_EKeyCombination(15)
+EOS_UIK_Key1 = EOS_UI_EKeyCombination(16)
+EOS_UIK_Key2 = EOS_UI_EKeyCombination(17)
+EOS_UIK_Key3 = EOS_UI_EKeyCombination(18)
+EOS_UIK_Key4 = EOS_UI_EKeyCombination(19)
+EOS_UIK_Key5 = EOS_UI_EKeyCombination(20)
+EOS_UIK_Key6 = EOS_UI_EKeyCombination(21)
+EOS_UIK_Key7 = EOS_UI_EKeyCombination(22)
+EOS_UIK_Key8 = EOS_UI_EKeyCombination(23)
+EOS_UIK_Key9 = EOS_UI_EKeyCombination(24)
+EOS_UIK_KeyA = EOS_UI_EKeyCombination(25)
+EOS_UIK_KeyB = EOS_UI_EKeyCombination(26)
+EOS_UIK_KeyC = EOS_UI_EKeyCombination(27)
+EOS_UIK_KeyD = EOS_UI_EKeyCombination(28)
+EOS_UIK_KeyE = EOS_UI_EKeyCombination(29)
+EOS_UIK_KeyF = EOS_UI_EKeyCombination(30)
+EOS_UIK_KeyG = EOS_UI_EKeyCombination(31)
+EOS_UIK_KeyH = EOS_UI_EKeyCombination(32)
+EOS_UIK_KeyI = EOS_UI_EKeyCombination(33)
+EOS_UIK_KeyJ = EOS_UI_EKeyCombination(34)
+EOS_UIK_KeyK = EOS_UI_EKeyCombination(35)
+EOS_UIK_KeyL = EOS_UI_EKeyCombination(36)
+EOS_UIK_KeyM = EOS_UI_EKeyCombination(37)
+EOS_UIK_KeyN = EOS_UI_EKeyCombination(38)
+EOS_UIK_KeyO = EOS_UI_EKeyCombination(39)
+EOS_UIK_KeyP = EOS_UI_EKeyCombination(40)
+EOS_UIK_KeyQ = EOS_UI_EKeyCombination(41)
+EOS_UIK_KeyR = EOS_UI_EKeyCombination(42)
+EOS_UIK_KeyS = EOS_UI_EKeyCombination(43)
+EOS_UIK_KeyT = EOS_UI_EKeyCombination(44)
+EOS_UIK_KeyU = EOS_UI_EKeyCombination(45)
+EOS_UIK_KeyV = EOS_UI_EKeyCombination(46)
+EOS_UIK_KeyW = EOS_UI_EKeyCombination(47)
+EOS_UIK_KeyX = EOS_UI_EKeyCombination(48)
+EOS_UIK_KeyY = EOS_UI_EKeyCombination(49)
+EOS_UIK_KeyZ = EOS_UI_EKeyCombination(50)
+EOS_UIK_Numpad0 = EOS_UI_EKeyCombination(51)
+EOS_UIK_Numpad1 = EOS_UI_EKeyCombination(52)
+EOS_UIK_Numpad2 = EOS_UI_EKeyCombination(53)
+EOS_UIK_Numpad3 = EOS_UI_EKeyCombination(54)
+EOS_UIK_Numpad4 = EOS_UI_EKeyCombination(55)
+EOS_UIK_Numpad5 = EOS_UI_EKeyCombination(56)
+EOS_UIK_Numpad6 = EOS_UI_EKeyCombination(57)
+EOS_UIK_Numpad7 = EOS_UI_EKeyCombination(58)
+EOS_UIK_Numpad8 = EOS_UI_EKeyCombination(59)
+EOS_UIK_Numpad9 = EOS_UI_EKeyCombination(60)
+EOS_UIK_NumpadAsterisk = EOS_UI_EKeyCombination(61)
+EOS_UIK_NumpadPlus = EOS_UI_EKeyCombination(62)
+EOS_UIK_NumpadMinus = EOS_UI_EKeyCombination(63)
+EOS_UIK_NumpadPeriod = EOS_UI_EKeyCombination(64)
+EOS_UIK_NumpadDivide = EOS_UI_EKeyCombination(65)
+EOS_UIK_F1 = EOS_UI_EKeyCombination(66)
+EOS_UIK_F2 = EOS_UI_EKeyCombination(67)
+EOS_UIK_F3 = EOS_UI_EKeyCombination(68)
+EOS_UIK_F4 = EOS_UI_EKeyCombination(69)
+EOS_UIK_F5 = EOS_UI_EKeyCombination(70)
+EOS_UIK_F6 = EOS_UI_EKeyCombination(71)
+EOS_UIK_F7 = EOS_UI_EKeyCombination(72)
+EOS_UIK_F8 = EOS_UI_EKeyCombination(73)
+EOS_UIK_F9 = EOS_UI_EKeyCombination(74)
+EOS_UIK_F10 = EOS_UI_EKeyCombination(75)
+EOS_UIK_F11 = EOS_UI_EKeyCombination(76)
+EOS_UIK_F12 = EOS_UI_EKeyCombination(77)
+EOS_UIK_F13 = EOS_UI_EKeyCombination(78)
+EOS_UIK_F14 = EOS_UI_EKeyCombination(79)
+EOS_UIK_F15 = EOS_UI_EKeyCombination(80)
+EOS_UIK_F16 = EOS_UI_EKeyCombination(81)
+EOS_UIK_F17 = EOS_UI_EKeyCombination(82)
+EOS_UIK_F18 = EOS_UI_EKeyCombination(83)
+EOS_UIK_F19 = EOS_UI_EKeyCombination(84)
+EOS_UIK_F20 = EOS_UI_EKeyCombination(85)
+EOS_UIK_F21 = EOS_UI_EKeyCombination(86)
+EOS_UIK_F22 = EOS_UI_EKeyCombination(87)
+EOS_UIK_F23 = EOS_UI_EKeyCombination(88)
+EOS_UIK_F24 = EOS_UI_EKeyCombination(89)
+EOS_UIK_OemPlus = EOS_UI_EKeyCombination(90)
+EOS_UIK_OemComma = EOS_UI_EKeyCombination(91)
+EOS_UIK_OemMinus = EOS_UI_EKeyCombination(92)
+EOS_UIK_OemPeriod = EOS_UI_EKeyCombination(93)
+EOS_UIK_Oem1 = EOS_UI_EKeyCombination(94)
+EOS_UIK_Oem2 = EOS_UI_EKeyCombination(95)
+EOS_UIK_Oem3 = EOS_UI_EKeyCombination(96)
+EOS_UIK_Oem4 = EOS_UI_EKeyCombination(97)
+EOS_UIK_Oem5 = EOS_UI_EKeyCombination(98)
+EOS_UIK_Oem6 = EOS_UI_EKeyCombination(99)
+EOS_UIK_Oem7 = EOS_UI_EKeyCombination(100)
+EOS_UIK_Oem8 = EOS_UI_EKeyCombination(101)
+EOS_UIK_MaxKeyType = EOS_UI_EKeyCombination(102)
+
+
+class EOS_UI_EInputStateButtonFlags(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_UI_EInputStateButtonFlags(~self.value)
+    def __or__(self, other):
+        return EOS_UI_EInputStateButtonFlags(self.value | other)
+    def __ror__(self, other):
+        return EOS_UI_EInputStateButtonFlags(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_UISBF_None = EOS_UI_EInputStateButtonFlags(0)
+EOS_UISBF_DPad_Left = EOS_UI_EInputStateButtonFlags((1 << 0))
+EOS_UISBF_DPad_Right = EOS_UI_EInputStateButtonFlags((1 << 1))
+EOS_UISBF_DPad_Down = EOS_UI_EInputStateButtonFlags((1 << 2))
+EOS_UISBF_DPad_Up = EOS_UI_EInputStateButtonFlags((1 << 3))
+EOS_UISBF_FaceButton_Left = EOS_UI_EInputStateButtonFlags((1 << 4))
+EOS_UISBF_FaceButton_Right = EOS_UI_EInputStateButtonFlags((1 << 5))
+EOS_UISBF_FaceButton_Bottom = EOS_UI_EInputStateButtonFlags((1 << 6))
+EOS_UISBF_FaceButton_Top = EOS_UI_EInputStateButtonFlags((1 << 7))
+EOS_UISBF_LeftShoulder = EOS_UI_EInputStateButtonFlags((1 << 8))
+EOS_UISBF_RightShoulder = EOS_UI_EInputStateButtonFlags((1 << 9))
+EOS_UISBF_LeftTrigger = EOS_UI_EInputStateButtonFlags((1 << 10))
+EOS_UISBF_RightTrigger = EOS_UI_EInputStateButtonFlags((1 << 11))
+EOS_UISBF_Special_Left = EOS_UI_EInputStateButtonFlags((1 << 12))
+EOS_UISBF_Special_Right = EOS_UI_EInputStateButtonFlags((1 << 13))
+EOS_UISBF_LeftThumbstick = EOS_UI_EInputStateButtonFlags((1 << 14))
+EOS_UISBF_RightThumbstick = EOS_UI_EInputStateButtonFlags((1 << 15))
 
 
 class EOS_UI_ENotificationLocation(c_int32):
@@ -9670,9 +9703,10 @@ class EOS_Lobby_LocalRTCOptions(Structure):
         ('bUseManualAudioInput', EOS_Bool),
         ('bUseManualAudioOutput', EOS_Bool),
         ('bLocalAudioDeviceInputStartsMuted', EOS_Bool),
+        ('Reserved', c_void_p),
     ]
-    def __init__(self, ApiVersion = EOS_LOBBY_LOCALRTCOPTIONS_API_LATEST, Flags = 0, bUseManualAudioInput = 0, bUseManualAudioOutput = 0, bLocalAudioDeviceInputStartsMuted = 0):
-        Structure.__init__(self, ApiVersion = ApiVersion, Flags = Flags, bUseManualAudioInput = bUseManualAudioInput, bUseManualAudioOutput = bUseManualAudioOutput, bLocalAudioDeviceInputStartsMuted = bLocalAudioDeviceInputStartsMuted)
+    def __init__(self, ApiVersion = EOS_LOBBY_LOCALRTCOPTIONS_API_LATEST, Flags = 0, bUseManualAudioInput = 0, bUseManualAudioOutput = 0, bLocalAudioDeviceInputStartsMuted = 0, Reserved = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, Flags = Flags, bUseManualAudioInput = bUseManualAudioInput, bUseManualAudioOutput = bUseManualAudioOutput, bLocalAudioDeviceInputStartsMuted = bLocalAudioDeviceInputStartsMuted, Reserved = Reserved)
 class EOS_Lobby_CreateLobbyOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -10584,9 +10618,10 @@ class EOS_Presence_SetPresenceCallbackInfo(Structure):
         ('ResultCode', EOS_EResult),
         ('ClientData', c_void_p),
         ('LocalUserId', EOS_EpicAccountId),
+        ('RichPresenceResultCode', EOS_EResult),
     ]
-    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None):
-        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId)
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, RichPresenceResultCode = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, RichPresenceResultCode = RichPresenceResultCode)
 class EOS_Presence_AddNotifyOnPresenceChangedOptions(Structure):
     _pack_ = PACK
     _fields_ = [
