@@ -303,17 +303,6 @@ EOS_LobbySearch_RemoveParameter = not_ready
 EOS_LobbySearch_SetMaxResults = not_ready
 EOS_LobbySearch_GetSearchResultCount = not_ready
 EOS_LobbySearch_CopySearchResultByIndex = not_ready
-EOS_Presence_HasPresence = not_ready
-EOS_Presence_CopyPresence = not_ready
-EOS_Presence_CreatePresenceModification = not_ready
-EOS_Presence_RemoveNotifyOnPresenceChanged = not_ready
-EOS_Presence_RemoveNotifyJoinGameAccepted = not_ready
-EOS_Presence_GetJoinInfo = not_ready
-EOS_PresenceModification_SetStatus = not_ready
-EOS_PresenceModification_SetRawRichText = not_ready
-EOS_PresenceModification_SetData = not_ready
-EOS_PresenceModification_DeleteData = not_ready
-EOS_PresenceModification_SetJoinInfo = not_ready
 EOS_RTC_GetAudioInterface = not_ready
 EOS_RTC_GetDataInterface = not_ready
 EOS_RTC_RemoveNotifyDisconnected = not_ready
@@ -456,6 +445,19 @@ EOS_Auth_GetSelectedAccountId = not_ready
 EOS_Auth_GetMergedAccountsCount = not_ready
 EOS_Auth_GetMergedAccountByIndex = not_ready
 EOS_Auth_RemoveNotifyLoginStatusChanged = not_ready
+EOS_Presence_HasPresence = not_ready
+EOS_Presence_CopyPresence = not_ready
+EOS_Presence_CreatePresenceModification = not_ready
+EOS_Presence_RemoveNotifyOnPresenceChanged = not_ready
+EOS_Presence_RemoveNotifyJoinGameAccepted = not_ready
+EOS_Presence_GetJoinInfo = not_ready
+EOS_PresenceModification_SetStatus = not_ready
+EOS_PresenceModification_SetTemplateId = not_ready
+EOS_PresenceModification_SetTemplateData = not_ready
+EOS_PresenceModification_SetRawRichText = not_ready
+EOS_PresenceModification_SetData = not_ready
+EOS_PresenceModification_DeleteData = not_ready
+EOS_PresenceModification_SetJoinInfo = not_ready
 EOS_Logging_SetCallback = not_ready
 EOS_Achievements_Definition_Release = not_ready
 EOS_Connect_Login = not_ready
@@ -581,10 +583,6 @@ EOS_Lobby_LeaveRTCRoom = not_ready
 EOS_Lobby_AddNotifyRTCRoomConnectionChanged = not_ready
 EOS_Lobby_AddNotifyLeaveLobbyRequested = not_ready
 EOS_LobbySearch_Find = not_ready
-EOS_Presence_QueryPresence = not_ready
-EOS_Presence_SetPresence = not_ready
-EOS_Presence_AddNotifyOnPresenceChanged = not_ready
-EOS_Presence_AddNotifyJoinGameAccepted = not_ready
 EOS_RTC_JoinRoom = not_ready
 EOS_RTC_LeaveRoom = not_ready
 EOS_RTC_BlockParticipant = not_ready
@@ -645,20 +643,20 @@ EOS_Auth_VerifyUserAuth = not_ready
 EOS_Auth_QueryIdToken = not_ready
 EOS_Auth_VerifyIdToken = not_ready
 EOS_Auth_AddNotifyLoginStatusChanged = not_ready
+EOS_Presence_QueryPresence = not_ready
+EOS_Presence_SetPresence = not_ready
+EOS_Presence_AddNotifyOnPresenceChanged = not_ready
+EOS_Presence_AddNotifyJoinGameAccepted = not_ready
 EOS_MAJOR_VERSION = 1
-EOS_MINOR_VERSION = 17
-EOS_PATCH_VERSION = 1
-EOS_HOTFIX_VERSION = 3
+EOS_MINOR_VERSION = 18
+EOS_PATCH_VERSION = 0
+EOS_HOTFIX_VERSION = 4
 EOS_COMPANY_NAME = "Epic Games, Inc."
 EOS_COPYRIGHT_STRING = "Copyright Epic Games, Inc. All Rights Reserved."
 EOS_PRODUCT_NAME = "Epic Online Services SDK"
 EOS_PRODUCT_IDENTIFIER = "Epic Online Services SDK"
 EOS_EPICACCOUNTID_MAX_LENGTH = 32
 EOS_PRODUCTUSERID_MAX_LENGTH = 32
-EOS_PAGEQUERY_API_LATEST = 1
-EOS_PAGINATION_API_LATEST = EOS_PAGEQUERY_API_LATEST
-EOS_PAGEQUERY_MAXCOUNT_DEFAULT = 10
-EOS_PAGEQUERY_MAXCOUNT_MAXIMUM = 100
 EOS_IPT_Unknown = None
 EOS_OPT_Unknown = 0
 EOS_OPT_Epic = 100
@@ -693,7 +691,6 @@ EOS_CONNECT_COPYPRODUCTUSERINFO_API_LATEST = 1
 EOS_CONNECT_TIME_UNDEFINED = -1
 EOS_CONNECT_EXTERNALACCOUNTINFO_API_LATEST = 1
 EOS_CONNECT_ADDNOTIFYAUTHEXPIRATION_API_LATEST = 1
-EOS_CONNECT_ONAUTHEXPIRATIONCALLBACK_API_LATEST = 1
 EOS_CONNECT_ADDNOTIFYLOGINSTATUSCHANGED_API_LATEST = 1
 EOS_CONNECT_IDTOKEN_API_LATEST = 1
 EOS_CONNECT_COPYIDTOKEN_API_LATEST = 1
@@ -924,7 +921,7 @@ EOS_TITLESTORAGE_DELETECACHE_API_LATEST = 1
 EOS_TITLESTORAGE_DELETECACHEOPTIONS_API_LATEST = EOS_TITLESTORAGE_DELETECACHE_API_LATEST
 EOS_PLATFORM_CLIENTCREDENTIALS_CLIENTID_MAX_LENGTH = 64
 EOS_PLATFORM_CLIENTCREDENTIALS_CLIENTSECRET_MAX_LENGTH = 64
-EOS_PLATFORM_RTCOPTIONS_API_LATEST = 2
+EOS_PLATFORM_RTCOPTIONS_API_LATEST = 3
 EOS_COUNTRYCODE_MAX_LENGTH = 4
 EOS_COUNTRYCODE_MAX_BUFFER_LEN = (EOS_COUNTRYCODE_MAX_LENGTH + 1)
 EOS_LOCALECODE_MAX_LENGTH = 9
@@ -965,7 +962,6 @@ EOS_UI_SHOWNATIVEPROFILE_API_LATEST = 1
 EOS_UI_PAUSESOCIALOVERLAY_API_LATEST = 1
 EOS_UI_ISSOCIALOVERLAYPAUSED_API_LATEST = 1
 EOS_UI_RECT_API_LATEST = 1
-EOS_UI_MEMORYMONITORCALLBACKINFO_API_LATEST = 1
 EOS_UI_ADDNOTIFYMEMORYMONITOR_API_LATEST = 1
 EOS_UI_ADDNOTIFYMEMORYMONITOROPTIONS_API_LATEST = EOS_UI_ADDNOTIFYMEMORYMONITOR_API_LATEST
 EOS_USERINFO_QUERYUSERINFO_API_LATEST = 1
@@ -995,19 +991,19 @@ EOS_ACHIEVEMENTS_ADDNOTIFYACHIEVEMENTSUNLOCKED_API_LATEST = 1
 EOS_ANTICHEATCLIENT_POLLSTATUS_API_LATEST = 1
 EOS_ANTICHEATCOMMON_SETCLIENTDETAILS_API_LATEST = 1
 EOS_ANTICHEATCOMMON_SETGAMESESSIONID_API_LATEST = 1
-EOS_ANTICHEATCOMMON_REGISTEREVENT_API_LATEST = 1
 EOS_ANTICHEATCOMMON_REGISTEREVENT_CUSTOMEVENTBASE = 0x10000000
 EOS_ANTICHEATCOMMON_REGISTEREVENT_MAX_PARAMDEFSCOUNT = 12
-EOS_ANTICHEATCOMMON_LOGEVENT_API_LATEST = 1
+EOS_ANTICHEATCOMMON_REGISTEREVENT_API_LATEST = 1
 EOS_ANTICHEATCOMMON_LOGEVENT_STRING_MAX_LENGTH = 39
+EOS_ANTICHEATCOMMON_LOGEVENT_API_LATEST = 1
 EOS_ANTICHEATCOMMON_LOGGAMEROUNDSTART_API_LATEST = 2
 EOS_ANTICHEATCOMMON_LOGGAMEROUNDEND_API_LATEST = 1
 EOS_ANTICHEATCOMMON_LOGPLAYERSPAWN_API_LATEST = 1
 EOS_ANTICHEATCOMMON_LOGPLAYERDESPAWN_API_LATEST = 1
 EOS_ANTICHEATCOMMON_LOGPLAYERREVIVE_API_LATEST = 1
 EOS_ANTICHEATCOMMON_LOGPLAYERTICK_API_LATEST = 3
-EOS_ANTICHEATCOMMON_LOGPLAYERUSEWEAPON_API_LATEST = 2
 EOS_ANTICHEATCOMMON_LOGPLAYERUSEWEAPON_WEAPONNAME_MAX_LENGTH = 32
+EOS_ANTICHEATCOMMON_LOGPLAYERUSEWEAPON_API_LATEST = 2
 EOS_ANTICHEATCOMMON_LOGPLAYERUSEABILITY_API_LATEST = 1
 EOS_ANTICHEATCOMMON_LOGPLAYERTAKEDAMAGE_API_LATEST = 4
 EOS_ANTICHEATSERVER_ONMESSAGETOCLIENTCALLBACK_MAX_MESSAGE_SIZE = 512
@@ -1315,6 +1311,8 @@ EOS_AUTH_QUERYIDTOKEN_API_LATEST = 1
 EOS_AUTH_VERIFYIDTOKEN_API_LATEST = 1
 EOS_AUTH_ADDNOTIFYLOGINSTATUSCHANGED_API_LATEST = 1
 EOS_AUTH_DELETEPERSISTENTAUTH_API_LATEST = 2
+EOS_PRESENCEMODIFICATION_SETTEMPLATEID_API_LATEST = 1
+EOS_PRESENCEMODIFICATION_SETTEMPLATEDATA_API_LATEST = 1
 
 class EOS_EResult(c_int32):
     def __init__(self, value):
@@ -1386,6 +1384,7 @@ EOS_InvalidState = EOS_EResult(38)
 EOS_RequestInProgress = EOS_EResult(39)
 EOS_ApplicationSuspended = EOS_EResult(40)
 EOS_NetworkDisconnected = EOS_EResult(41)
+EOS_InsufficientOutputBuffer = EOS_EResult(42)
 EOS_Auth_AccountLocked = EOS_EResult(1001)
 EOS_Auth_AccountLockedForUpdate = EOS_EResult(1002)
 EOS_Auth_InvalidRefreshToken = EOS_EResult(1003)
@@ -1439,6 +1438,16 @@ EOS_Presence_DataValueLengthInvalid = EOS_EResult(3005)
 EOS_Presence_RichTextInvalid = EOS_EResult(3006)
 EOS_Presence_RichTextLengthInvalid = EOS_EResult(3007)
 EOS_Presence_StatusInvalid = EOS_EResult(3008)
+EOS_Presence_RichTextNotSupported = EOS_EResult(3009)
+EOS_Presence_TemplateNotSupported = EOS_EResult(3010)
+EOS_Presence_TemplateIdInvalid = EOS_EResult(3011)
+EOS_Presence_TemplateTypeInvalid = EOS_EResult(3012)
+EOS_Presence_TemplateKeyInvalid = EOS_EResult(3013)
+EOS_Presence_TemplateValueInvalid = EOS_EResult(3014)
+EOS_Presence_TemplateNotFound = EOS_EResult(3015)
+EOS_Presence_TemplateInvalidVariableInput = EOS_EResult(3016)
+EOS_Presence_TemplateLocalizationServerError = EOS_EResult(3017)
+EOS_Presence_TemplateUnknownError = EOS_EResult(3018)
 EOS_Ecom_EntitlementStale = EOS_EResult(4000)
 EOS_Ecom_CatalogOfferStale = EOS_EResult(4001)
 EOS_Ecom_CatalogItemStale = EOS_EResult(4002)
@@ -1555,6 +1564,8 @@ EOS_RTC_ShutdownInvoked = EOS_EResult(13006)
 EOS_RTC_UserIsInBlocklist = EOS_EResult(13007)
 EOS_RTC_AllocationFailed = EOS_EResult(13009)
 EOS_RTC_VoiceModerationModeMismatch = EOS_EResult(13010)
+EOS_RTC_EmptyRecord = EOS_EResult(13011)
+EOS_RTC_RoomOptionsMismatch = EOS_EResult(13012)
 EOS_ProgressionSnapshot_SnapshotIdUnavailable = EOS_EResult(14000)
 EOS_KWS_ParentEmailMissing = EOS_EResult(15000)
 EOS_KWS_UserGraduated = EOS_EResult(15001)
@@ -3789,6 +3800,32 @@ class EOS_ELinkAccountFlags(c_int32):
 EOS_LA_NoFlags = EOS_ELinkAccountFlags(0x0)
 EOS_LA_NintendoNsaId = EOS_ELinkAccountFlags(0x1)
 
+
+class EOS_EPresenceModificationTemplateType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        self.value = value
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_EPresenceModificationTemplateType(~self.value)
+    def __or__(self, other):
+        return EOS_EPresenceModificationTemplateType(self.value | other)
+    def __ror__(self, other):
+        return EOS_EPresenceModificationTemplateType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_PMT_INT = EOS_EPresenceModificationTemplateType(1)
+EOS_PMT_STRING = EOS_EPresenceModificationTemplateType(2)
+
 class EOS_Bool(c_int32):
     pass
 class EOS_EpicAccountId(c_void_p):
@@ -5107,6 +5144,12 @@ class EOS_HPresenceModification(c_void_p):
     def SetStatus(self, Options):
         # type: (EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetStatusOptions)) -> EOS_EResult
         return EOS_PresenceModification_SetStatus(self, Options)
+    def SetTemplateId(self, Options):
+        # type: (EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetTemplateIdOptions)) -> EOS_EResult
+        return EOS_PresenceModification_SetTemplateId(self, Options)
+    def SetTemplateData(self, Options):
+        # type: (EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetTemplateDataOptions)) -> EOS_EResult
+        return EOS_PresenceModification_SetTemplateData(self, Options)
     def SetRawRichText(self, Options):
         # type: (EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetRawRichTextOptions)) -> EOS_EResult
         return EOS_PresenceModification_SetRawRichText(self, Options)
@@ -5587,24 +5630,6 @@ class EOS_HAuth(c_void_p):
     def RemoveNotifyLoginStatusChanged(self, InId):
         # type: (EOS_HAuth, EOS_NotificationId) -> None
         return EOS_Auth_RemoveNotifyLoginStatusChanged(self, InId)
-class EOS_PageQuery(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('ApiVersion', c_int32),
-        ('StartIndex', c_int32),
-        ('MaxCount', c_int32),
-    ]
-    def __init__(self, ApiVersion = EOS_PAGEQUERY_API_LATEST, StartIndex = 0, MaxCount = 0):
-        Structure.__init__(self, ApiVersion = ApiVersion, StartIndex = StartIndex, MaxCount = MaxCount)
-class EOS_PageResult(Structure):
-    _pack_ = PACK
-    _fields_ = [
-        ('StartIndex', c_int32),
-        ('Count', c_int32),
-        ('TotalCount', c_int32),
-    ]
-    def __init__(self, StartIndex = 0, Count = 0, TotalCount = 0):
-        Structure.__init__(self, StartIndex = StartIndex, Count = Count, TotalCount = TotalCount)
 class EOS_Connect_Credentials(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -8291,9 +8316,10 @@ class EOS_Platform_RTCOptions(Structure):
         ('ApiVersion', c_int32),
         ('PlatformSpecificOptions', c_void_p),
         ('BackgroundMode', EOS_ERTCBackgroundMode),
+        ('Reserved', c_void_p),
     ]
-    def __init__(self, ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST, PlatformSpecificOptions = None, BackgroundMode = 0):
-        Structure.__init__(self, ApiVersion = ApiVersion, PlatformSpecificOptions = PlatformSpecificOptions, BackgroundMode = BackgroundMode)
+    def __init__(self, ApiVersion = EOS_PLATFORM_RTCOPTIONS_API_LATEST, PlatformSpecificOptions = None, BackgroundMode = 0, Reserved = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, PlatformSpecificOptions = PlatformSpecificOptions, BackgroundMode = BackgroundMode, Reserved = Reserved)
 class EOS_Platform_Options(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -12334,6 +12360,30 @@ class EOS_Auth_LoginStatusChangedCallbackInfo(Structure):
     ]
     def __init__(self, ClientData = None, LocalUserId = None, PrevStatus = 0, CurrentStatus = 0):
         Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, PrevStatus = PrevStatus, CurrentStatus = CurrentStatus)
+class EOS_PresenceModification_SetTemplateIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('TemplateId', c_char_p),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCEMODIFICATION_SETTEMPLATEID_API_LATEST, TemplateId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, TemplateId = TemplateId)
+class EOS_PresenceModification_SetTemplateDataOptions_INTERNAL_UNION_Value(Union):
+    _pack_ = PACK
+    _fields_ = [
+        ('AsInt32', c_int32),
+        ('AsStringId', c_char_p),
+    ]
+class EOS_PresenceModification_SetTemplateDataOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Key', c_char_p),
+        ('Value', EOS_PresenceModification_SetTemplateDataOptions_INTERNAL_UNION_Value),
+        ('ValueType', EOS_EPresenceModificationTemplateType),
+    ]
+    def __init__(self, ApiVersion = EOS_PRESENCEMODIFICATION_SETTEMPLATEDATA_API_LATEST, Key = None, Value = 0, ValueType = 1):
+        Structure.__init__(self, ApiVersion = ApiVersion, Key = Key, Value = Value, ValueType = ValueType)
 EOS_TRUE = EOS_Bool(1)
 EOS_FALSE = EOS_Bool(0)
 EOS_INVALID_NOTIFICATIONID = EOS_NotificationId(0)
@@ -14023,61 +14073,6 @@ def load(dll):
     EOS_LobbySearch_CopySearchResultByIndex.argtypes = [EOS_HLobbySearch, POINTER(EOS_LobbySearch_CopySearchResultByIndexOptions), POINTER(EOS_HLobbyDetails)]
     EOS_LobbySearch_CopySearchResultByIndex.restype = EOS_EResult
 
-    global EOS_Presence_HasPresence
-    EOS_Presence_HasPresence = dll.EOS_Presence_HasPresence
-    EOS_Presence_HasPresence.argtypes = [EOS_HPresence, POINTER(EOS_Presence_HasPresenceOptions)]
-    EOS_Presence_HasPresence.restype = EOS_Bool
-
-    global EOS_Presence_CopyPresence
-    EOS_Presence_CopyPresence = dll.EOS_Presence_CopyPresence
-    EOS_Presence_CopyPresence.argtypes = [EOS_HPresence, POINTER(EOS_Presence_CopyPresenceOptions), POINTER(POINTER(EOS_Presence_Info))]
-    EOS_Presence_CopyPresence.restype = EOS_EResult
-
-    global EOS_Presence_CreatePresenceModification
-    EOS_Presence_CreatePresenceModification = dll.EOS_Presence_CreatePresenceModification
-    EOS_Presence_CreatePresenceModification.argtypes = [EOS_HPresence, POINTER(EOS_Presence_CreatePresenceModificationOptions), POINTER(EOS_HPresenceModification)]
-    EOS_Presence_CreatePresenceModification.restype = EOS_EResult
-
-    global EOS_Presence_RemoveNotifyOnPresenceChanged
-    EOS_Presence_RemoveNotifyOnPresenceChanged = dll.EOS_Presence_RemoveNotifyOnPresenceChanged
-    EOS_Presence_RemoveNotifyOnPresenceChanged.argtypes = [EOS_HPresence, EOS_NotificationId]
-    EOS_Presence_RemoveNotifyOnPresenceChanged.restype = None
-
-    global EOS_Presence_RemoveNotifyJoinGameAccepted
-    EOS_Presence_RemoveNotifyJoinGameAccepted = dll.EOS_Presence_RemoveNotifyJoinGameAccepted
-    EOS_Presence_RemoveNotifyJoinGameAccepted.argtypes = [EOS_HPresence, EOS_NotificationId]
-    EOS_Presence_RemoveNotifyJoinGameAccepted.restype = None
-
-    global EOS_Presence_GetJoinInfo
-    EOS_Presence_GetJoinInfo = dll.EOS_Presence_GetJoinInfo
-    EOS_Presence_GetJoinInfo.argtypes = [EOS_HPresence, POINTER(EOS_Presence_GetJoinInfoOptions), c_char_p, POINTER(c_int32)]
-    EOS_Presence_GetJoinInfo.restype = EOS_EResult
-
-    global EOS_PresenceModification_SetStatus
-    EOS_PresenceModification_SetStatus = dll.EOS_PresenceModification_SetStatus
-    EOS_PresenceModification_SetStatus.argtypes = [EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetStatusOptions)]
-    EOS_PresenceModification_SetStatus.restype = EOS_EResult
-
-    global EOS_PresenceModification_SetRawRichText
-    EOS_PresenceModification_SetRawRichText = dll.EOS_PresenceModification_SetRawRichText
-    EOS_PresenceModification_SetRawRichText.argtypes = [EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetRawRichTextOptions)]
-    EOS_PresenceModification_SetRawRichText.restype = EOS_EResult
-
-    global EOS_PresenceModification_SetData
-    EOS_PresenceModification_SetData = dll.EOS_PresenceModification_SetData
-    EOS_PresenceModification_SetData.argtypes = [EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetDataOptions)]
-    EOS_PresenceModification_SetData.restype = EOS_EResult
-
-    global EOS_PresenceModification_DeleteData
-    EOS_PresenceModification_DeleteData = dll.EOS_PresenceModification_DeleteData
-    EOS_PresenceModification_DeleteData.argtypes = [EOS_HPresenceModification, POINTER(EOS_PresenceModification_DeleteDataOptions)]
-    EOS_PresenceModification_DeleteData.restype = EOS_EResult
-
-    global EOS_PresenceModification_SetJoinInfo
-    EOS_PresenceModification_SetJoinInfo = dll.EOS_PresenceModification_SetJoinInfo
-    EOS_PresenceModification_SetJoinInfo.argtypes = [EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetJoinInfoOptions)]
-    EOS_PresenceModification_SetJoinInfo.restype = EOS_EResult
-
     global EOS_RTC_GetAudioInterface
     EOS_RTC_GetAudioInterface = dll.EOS_RTC_GetAudioInterface
     EOS_RTC_GetAudioInterface.argtypes = [EOS_HRTC]
@@ -14788,6 +14783,71 @@ def load(dll):
     EOS_Auth_RemoveNotifyLoginStatusChanged.argtypes = [EOS_HAuth, EOS_NotificationId]
     EOS_Auth_RemoveNotifyLoginStatusChanged.restype = None
 
+    global EOS_Presence_HasPresence
+    EOS_Presence_HasPresence = dll.EOS_Presence_HasPresence
+    EOS_Presence_HasPresence.argtypes = [EOS_HPresence, POINTER(EOS_Presence_HasPresenceOptions)]
+    EOS_Presence_HasPresence.restype = EOS_Bool
+
+    global EOS_Presence_CopyPresence
+    EOS_Presence_CopyPresence = dll.EOS_Presence_CopyPresence
+    EOS_Presence_CopyPresence.argtypes = [EOS_HPresence, POINTER(EOS_Presence_CopyPresenceOptions), POINTER(POINTER(EOS_Presence_Info))]
+    EOS_Presence_CopyPresence.restype = EOS_EResult
+
+    global EOS_Presence_CreatePresenceModification
+    EOS_Presence_CreatePresenceModification = dll.EOS_Presence_CreatePresenceModification
+    EOS_Presence_CreatePresenceModification.argtypes = [EOS_HPresence, POINTER(EOS_Presence_CreatePresenceModificationOptions), POINTER(EOS_HPresenceModification)]
+    EOS_Presence_CreatePresenceModification.restype = EOS_EResult
+
+    global EOS_Presence_RemoveNotifyOnPresenceChanged
+    EOS_Presence_RemoveNotifyOnPresenceChanged = dll.EOS_Presence_RemoveNotifyOnPresenceChanged
+    EOS_Presence_RemoveNotifyOnPresenceChanged.argtypes = [EOS_HPresence, EOS_NotificationId]
+    EOS_Presence_RemoveNotifyOnPresenceChanged.restype = None
+
+    global EOS_Presence_RemoveNotifyJoinGameAccepted
+    EOS_Presence_RemoveNotifyJoinGameAccepted = dll.EOS_Presence_RemoveNotifyJoinGameAccepted
+    EOS_Presence_RemoveNotifyJoinGameAccepted.argtypes = [EOS_HPresence, EOS_NotificationId]
+    EOS_Presence_RemoveNotifyJoinGameAccepted.restype = None
+
+    global EOS_Presence_GetJoinInfo
+    EOS_Presence_GetJoinInfo = dll.EOS_Presence_GetJoinInfo
+    EOS_Presence_GetJoinInfo.argtypes = [EOS_HPresence, POINTER(EOS_Presence_GetJoinInfoOptions), c_char_p, POINTER(c_int32)]
+    EOS_Presence_GetJoinInfo.restype = EOS_EResult
+
+    global EOS_PresenceModification_SetStatus
+    EOS_PresenceModification_SetStatus = dll.EOS_PresenceModification_SetStatus
+    EOS_PresenceModification_SetStatus.argtypes = [EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetStatusOptions)]
+    EOS_PresenceModification_SetStatus.restype = EOS_EResult
+
+    global EOS_PresenceModification_SetTemplateId
+    EOS_PresenceModification_SetTemplateId = dll.EOS_PresenceModification_SetTemplateId
+    EOS_PresenceModification_SetTemplateId.argtypes = [EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetTemplateIdOptions)]
+    EOS_PresenceModification_SetTemplateId.restype = EOS_EResult
+
+    global EOS_PresenceModification_SetTemplateData
+    EOS_PresenceModification_SetTemplateData = dll.EOS_PresenceModification_SetTemplateData
+    EOS_PresenceModification_SetTemplateData.argtypes = [EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetTemplateDataOptions)]
+    EOS_PresenceModification_SetTemplateData.restype = EOS_EResult
+
+    global EOS_PresenceModification_SetRawRichText
+    EOS_PresenceModification_SetRawRichText = dll.EOS_PresenceModification_SetRawRichText
+    EOS_PresenceModification_SetRawRichText.argtypes = [EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetRawRichTextOptions)]
+    EOS_PresenceModification_SetRawRichText.restype = EOS_EResult
+
+    global EOS_PresenceModification_SetData
+    EOS_PresenceModification_SetData = dll.EOS_PresenceModification_SetData
+    EOS_PresenceModification_SetData.argtypes = [EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetDataOptions)]
+    EOS_PresenceModification_SetData.restype = EOS_EResult
+
+    global EOS_PresenceModification_DeleteData
+    EOS_PresenceModification_DeleteData = dll.EOS_PresenceModification_DeleteData
+    EOS_PresenceModification_DeleteData.argtypes = [EOS_HPresenceModification, POINTER(EOS_PresenceModification_DeleteDataOptions)]
+    EOS_PresenceModification_DeleteData.restype = EOS_EResult
+
+    global EOS_PresenceModification_SetJoinInfo
+    EOS_PresenceModification_SetJoinInfo = dll.EOS_PresenceModification_SetJoinInfo
+    EOS_PresenceModification_SetJoinInfo.argtypes = [EOS_HPresenceModification, POINTER(EOS_PresenceModification_SetJoinInfoOptions)]
+    EOS_PresenceModification_SetJoinInfo.restype = EOS_EResult
+
     global EOS_Logging_SetCallback
     EOS_Logging_SetCallback = dll.EOS_Logging_SetCallback
     EOS_Logging_SetCallback.argtypes = [EOS_LogMessageFunc]
@@ -15413,26 +15473,6 @@ def load(dll):
     EOS_LobbySearch_Find.argtypes = [EOS_HLobbySearch, POINTER(EOS_LobbySearch_FindOptions), c_void_p, EOS_LobbySearch_OnFindCallback]
     EOS_LobbySearch_Find.restype = None
 
-    global EOS_Presence_QueryPresence
-    EOS_Presence_QueryPresence = dll.EOS_Presence_QueryPresence
-    EOS_Presence_QueryPresence.argtypes = [EOS_HPresence, POINTER(EOS_Presence_QueryPresenceOptions), c_void_p, EOS_Presence_OnQueryPresenceCompleteCallback]
-    EOS_Presence_QueryPresence.restype = None
-
-    global EOS_Presence_SetPresence
-    EOS_Presence_SetPresence = dll.EOS_Presence_SetPresence
-    EOS_Presence_SetPresence.argtypes = [EOS_HPresence, POINTER(EOS_Presence_SetPresenceOptions), c_void_p, EOS_Presence_SetPresenceCompleteCallback]
-    EOS_Presence_SetPresence.restype = None
-
-    global EOS_Presence_AddNotifyOnPresenceChanged
-    EOS_Presence_AddNotifyOnPresenceChanged = dll.EOS_Presence_AddNotifyOnPresenceChanged
-    EOS_Presence_AddNotifyOnPresenceChanged.argtypes = [EOS_HPresence, POINTER(EOS_Presence_AddNotifyOnPresenceChangedOptions), c_void_p, EOS_Presence_OnPresenceChangedCallback]
-    EOS_Presence_AddNotifyOnPresenceChanged.restype = EOS_NotificationId
-
-    global EOS_Presence_AddNotifyJoinGameAccepted
-    EOS_Presence_AddNotifyJoinGameAccepted = dll.EOS_Presence_AddNotifyJoinGameAccepted
-    EOS_Presence_AddNotifyJoinGameAccepted.argtypes = [EOS_HPresence, POINTER(EOS_Presence_AddNotifyJoinGameAcceptedOptions), c_void_p, EOS_Presence_OnJoinGameAcceptedCallback]
-    EOS_Presence_AddNotifyJoinGameAccepted.restype = EOS_NotificationId
-
     global EOS_RTC_JoinRoom
     EOS_RTC_JoinRoom = dll.EOS_RTC_JoinRoom
     EOS_RTC_JoinRoom.argtypes = [EOS_HRTC, POINTER(EOS_RTC_JoinRoomOptions), c_void_p, EOS_RTC_OnJoinRoomCallback]
@@ -15732,4 +15772,24 @@ def load(dll):
     EOS_Auth_AddNotifyLoginStatusChanged = dll.EOS_Auth_AddNotifyLoginStatusChanged
     EOS_Auth_AddNotifyLoginStatusChanged.argtypes = [EOS_HAuth, POINTER(EOS_Auth_AddNotifyLoginStatusChangedOptions), c_void_p, EOS_Auth_OnLoginStatusChangedCallback]
     EOS_Auth_AddNotifyLoginStatusChanged.restype = EOS_NotificationId
+
+    global EOS_Presence_QueryPresence
+    EOS_Presence_QueryPresence = dll.EOS_Presence_QueryPresence
+    EOS_Presence_QueryPresence.argtypes = [EOS_HPresence, POINTER(EOS_Presence_QueryPresenceOptions), c_void_p, EOS_Presence_OnQueryPresenceCompleteCallback]
+    EOS_Presence_QueryPresence.restype = None
+
+    global EOS_Presence_SetPresence
+    EOS_Presence_SetPresence = dll.EOS_Presence_SetPresence
+    EOS_Presence_SetPresence.argtypes = [EOS_HPresence, POINTER(EOS_Presence_SetPresenceOptions), c_void_p, EOS_Presence_SetPresenceCompleteCallback]
+    EOS_Presence_SetPresence.restype = None
+
+    global EOS_Presence_AddNotifyOnPresenceChanged
+    EOS_Presence_AddNotifyOnPresenceChanged = dll.EOS_Presence_AddNotifyOnPresenceChanged
+    EOS_Presence_AddNotifyOnPresenceChanged.argtypes = [EOS_HPresence, POINTER(EOS_Presence_AddNotifyOnPresenceChangedOptions), c_void_p, EOS_Presence_OnPresenceChangedCallback]
+    EOS_Presence_AddNotifyOnPresenceChanged.restype = EOS_NotificationId
+
+    global EOS_Presence_AddNotifyJoinGameAccepted
+    EOS_Presence_AddNotifyJoinGameAccepted = dll.EOS_Presence_AddNotifyJoinGameAccepted
+    EOS_Presence_AddNotifyJoinGameAccepted.argtypes = [EOS_HPresence, POINTER(EOS_Presence_AddNotifyJoinGameAcceptedOptions), c_void_p, EOS_Presence_OnJoinGameAcceptedCallback]
+    EOS_Presence_AddNotifyJoinGameAccepted.restype = EOS_NotificationId
 
