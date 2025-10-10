@@ -246,15 +246,9 @@ def grant_achievement(name): # type: (str) -> None
                 AchievementIds = ctypes.pointer(name_bytes),
                 AchievementsCount = 1,
             )
-            status = interface.UnlockAchievements(
+            interface.UnlockAchievements(
                 opts, None, achievements_unlocked_callback
             )
-            if status.value != cdefs.EOS_Success.value:
-                epic_eos.ren.log(
-                    400, epic_eos.renpy_category,
-                    "An error occured while granting the achievement '{}': {} - {}".format(
-                        name, status.value, bytes_to_str(status.ToString()))
-                )
 
 def add_int_stat(name, value):
     """Increment the value of a game stat."""
