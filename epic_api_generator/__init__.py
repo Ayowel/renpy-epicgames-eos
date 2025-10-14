@@ -28,10 +28,10 @@ INITIAL_MAPPINGS = {
 }
 
 FILE_START = '''
-# pylint: disable
+# pylint: skip-file
 
 from ctypes import (
-    Array, Structure, Union, CFUNCTYPE, POINTER,
+    Structure, Union, CFUNCTYPE, POINTER,
     c_int16, c_int32, c_int64, c_uint8, c_uint16, c_uint32, c_uint64,
     c_char, c_char_p, c_void_p, c_float, c_double, c_size_t,
     )
@@ -142,7 +142,7 @@ class SpecManager():
         for e in self.file_entries:
             if not isinstance(e, FunctionEntry):
                 e.write(out, self.mapper)
-        # Load fuction pointers from dll
+        # Load function pointers from dll
         out.write('def load(dll):\n')
         for e in self.file_entries:
             if isinstance(e, FunctionEntry):
