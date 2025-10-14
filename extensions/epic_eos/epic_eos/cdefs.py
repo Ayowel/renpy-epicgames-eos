@@ -1318,7 +1318,7 @@ class EOS_EResult(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -1597,7 +1597,7 @@ class EOS_ELoginStatus(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -1624,7 +1624,7 @@ class EOS_EAttributeType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -1652,7 +1652,7 @@ class EOS_EComparisonOp(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -1690,7 +1690,7 @@ class EOS_ELogicalCombineOp(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -1716,7 +1716,7 @@ class EOS_EExternalAccountType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -1755,7 +1755,7 @@ class EOS_EExternalCredentialType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -1799,7 +1799,7 @@ class EOS_EOwnershipStatus(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -1825,7 +1825,7 @@ class EOS_EEcomItemType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -1852,7 +1852,7 @@ class EOS_ECheckoutOrientation(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -1879,7 +1879,7 @@ class EOS_EFriendsStatus(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -1907,7 +1907,7 @@ class EOS_EIntegratedPlatformManagementFlags(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -1939,7 +1939,7 @@ class EOS_EIntegratedPlatformPreLogoutAction(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -1965,7 +1965,7 @@ class EOS_EKWSPermissionStatus(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -1992,7 +1992,7 @@ class EOS_ELogLevel(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2023,7 +2023,7 @@ class EOS_ELogCategory(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2081,7 +2081,7 @@ class EOS_EUserControllerType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2109,7 +2109,7 @@ class EOS_EMetricsAccountIdType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2135,7 +2135,7 @@ class EOS_EModEnumerationType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2161,7 +2161,7 @@ class EOS_ENATType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2189,7 +2189,7 @@ class EOS_EPacketReliability(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2216,7 +2216,7 @@ class EOS_EConnectionEstablishedType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2242,7 +2242,7 @@ class EOS_ENetworkConnectionType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2269,7 +2269,7 @@ class EOS_EConnectionClosedReason(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2305,7 +2305,7 @@ class EOS_ERelayControl(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2332,7 +2332,7 @@ class EOS_PlayerDataStorage_EReadResult(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2359,7 +2359,7 @@ class EOS_PlayerDataStorage_EWriteResult(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2387,7 +2387,7 @@ class EOS_EPlayerReportsCategory(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2419,7 +2419,7 @@ class EOS_ERTCDataStatus(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2446,7 +2446,7 @@ class EOS_ERTCParticipantStatus(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2472,7 +2472,7 @@ class EOS_ESanctionAppealReason(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2501,7 +2501,7 @@ class EOS_TitleStorage_EReadResult(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2528,7 +2528,7 @@ class EOS_ERTCBackgroundMode(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2554,7 +2554,7 @@ class EOS_EApplicationStatus(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2585,7 +2585,7 @@ class EOS_ENetworkStatus(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2615,7 +2615,7 @@ class EOS_EDesktopCrossplayStatus(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2648,7 +2648,7 @@ class EOS_UI_EKeyCombination(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2783,7 +2783,7 @@ class EOS_UI_EInputStateButtonFlags(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2824,7 +2824,7 @@ class EOS_UI_ENotificationLocation(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2852,7 +2852,7 @@ class EOS_EAntiCheatCommonClientType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2879,7 +2879,7 @@ class EOS_EAntiCheatCommonClientPlatform(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2912,7 +2912,7 @@ class EOS_EAntiCheatCommonClientAction(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2938,7 +2938,7 @@ class EOS_EAntiCheatCommonClientActionReason(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -2973,7 +2973,7 @@ class EOS_EAntiCheatCommonClientAuthStatus(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3000,7 +3000,7 @@ class EOS_EAntiCheatCommonClientFlags(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3026,7 +3026,7 @@ class EOS_EAntiCheatCommonClientInput(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3054,7 +3054,7 @@ class EOS_EAntiCheatCommonEventType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3081,7 +3081,7 @@ class EOS_EAntiCheatCommonEventParamType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3115,7 +3115,7 @@ class EOS_EAntiCheatCommonGameRoundCompetitionType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3143,7 +3143,7 @@ class EOS_EAntiCheatCommonPlayerMovementState(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3175,7 +3175,7 @@ class EOS_EAntiCheatCommonPlayerTakeDamageSource(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3203,7 +3203,7 @@ class EOS_EAntiCheatCommonPlayerTakeDamageType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3231,7 +3231,7 @@ class EOS_EAntiCheatCommonPlayerTakeDamageResult(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3261,7 +3261,7 @@ class EOS_ERequestToJoinResponse(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3287,7 +3287,7 @@ class EOS_ELeaderboardAggregation(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3315,7 +3315,7 @@ class EOS_ELobbyPermissionLevel(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3342,7 +3342,7 @@ class EOS_ELobbyAttributeVisibility(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3368,7 +3368,7 @@ class EOS_ELobbyMemberStatus(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3398,7 +3398,7 @@ class EOS_ELobbyRTCRoomJoinActionType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3424,7 +3424,7 @@ class EOS_Presence_EStatus(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3453,7 +3453,7 @@ class EOS_ERTCAudioStatus(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3482,7 +3482,7 @@ class EOS_ERTCAudioInputStatus(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3511,7 +3511,7 @@ class EOS_ERTCAudioOutputStatus(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3538,7 +3538,7 @@ class EOS_EOnlineSessionState(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3570,7 +3570,7 @@ class EOS_ESessionAttributeAdvertisementType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3596,7 +3596,7 @@ class EOS_EOnlineSessionPermissionLevel(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3623,7 +3623,7 @@ class EOS_EAntiCheatClientMode(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3650,7 +3650,7 @@ class EOS_EAntiCheatClientViolationType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3690,7 +3690,7 @@ class EOS_ELoginCredentialType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3722,7 +3722,7 @@ class EOS_EAuthTokenType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3748,7 +3748,7 @@ class EOS_EAuthScopeFlags(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3779,7 +3779,7 @@ class EOS_ELinkAccountFlags(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):
@@ -3805,7 +3805,7 @@ class EOS_EPresenceModificationTemplateType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
             value = value.value
-        super().__init__(value)
+        c_int32.__init__(self, value)
     def __rrshift__(self, other):
         return other >> self.value
     def __rshift__(self, other):

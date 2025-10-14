@@ -142,7 +142,7 @@ ENUM_ENTRY_BASE_FUNCTIONS = '''
 def __init__(self, value):
     if isinstance(value, c_int32):
         value = value.value
-    super().__init__(value)
+    c_int32.__init__(self, value)
 def __rrshift__(self, other):
     return other >> self.value
 def __rshift__(self, other):
