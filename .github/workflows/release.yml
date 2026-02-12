@@ -26,16 +26,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         path: project
         lfs: true
+
     - name: Ren'Py directory cache management
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       id: cache-renpy
       with:
         path: renpy
         key: ${{ runner.os }}-${{ env.RENPY_VERSION }}-primes
+
     - name: "Download Ren'Py"
       uses: Ayowel/renpy-setup-action@v2
       if: steps.cache-renpy.outputs.cache-hit != 'true'
@@ -43,40 +45,50 @@ jobs:
         action: install
         version: ${{ env.RENPY_VERSION }}
         install_dir: renpy
+
     - name: Download SDK
       run: python3 project/scripts/get_sdk.py
+
     - name: "Build extensions' archives"
       working-directory: project/extensions
       run: |
         pip3 install -r build-requirements.txt
         python3 build.py
+
     - name: "Validate project"
       run: |
         ./renpy/renpy.sh project lint --error-code
+
     - name: Install release packager
       run: pip install repzip
+
     - name: "Generate release file"
       run: |
         repzip epic_eos.zip --recurse --root project game/epic_eos.rpe libs
+
     - name: "Install documentation dependencies"
       run: |
         sudo apt-get install -y asciidoctor ruby-rouge
+
     - name: "Generate documentation files"
       run: |
         asciidoctor project/README.adoc -o README.html
+
     - name: "Get release info"
       id: release-info
       working-directory: project
       run: |
         echo -n "VERSION=" >>$GITHUB_OUTPUT
         git describe --always --tags >>$GITHUB_OUTPUT
-    - uses: softprops/action-gh-release@v2.3.2
+
+    - uses: softprops/action-gh-release@v2.5.0
       if: ${{ github.event_name == 'push' || github.event.inputs.push_github == 'true' }}
       with:
         files: |
           epic_eos.zip
           README.html
-    - uses: Ayowel/butler-publish-itchio-action@v2.0.0
+
+    - uses: Ayowel/butler-publish-itchio-action@v2
       if: ${{ github.event_name == 'push' || github.event.inputs.push_itch == 'true' }}
       env:
         BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
@@ -85,7 +97,8 @@ jobs:
         ITCH_USER: ayowel
         PACKAGE: epic_eos.zip
         VERSION: ${{ steps.release-info.outputs.VERSION }}
-    - uses: Ayowel/butler-publish-itchio-action@v2.0.0
+
+    - uses: Ayowel/butler-publish-itchio-action@v2
       if: ${{ github.event_name == 'push' || github.event.inputs.push_itch_doc == 'true' }}
       env:
         BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}

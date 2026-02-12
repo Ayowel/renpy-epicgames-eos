@@ -11,15 +11,17 @@ jobs:
       matrix:
         renpy_version: ['8.0.3', '8.1.3', '8.3.7', '8.4.1', '8.5.2']
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         path: project
+
     - name: Ren'Py directory cache management
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       id: cache-renpy
       with:
         path: renpy
         key: ${{ runner.os }}-${{ matrix.renpy_version }}-primes
+
     - name: "Download Ren'Py"
       uses: Ayowel/renpy-setup-action@v2
       if: steps.cache-renpy.outputs.cache-hit != 'true'
@@ -27,12 +29,15 @@ jobs:
         action: install
         version: ${{ matrix.renpy_version }}
         install_dir: renpy
+
     - name: Download SDK
       run: python3 project/scripts/get_sdk.py
+
     - name: "Build extensions' archives"
       run: |
         pip install -r project/extensions/build-requirements.txt
         python project/extensions/build.py
+
     - name: "Lint Ren'Py code"
       run: |
         renpy/renpy.sh project lint --compile --error-code
