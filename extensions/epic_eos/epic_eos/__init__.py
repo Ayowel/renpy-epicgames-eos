@@ -1,5 +1,5 @@
 
-__version__ = (0, 4, 2)
+__version__ = (0, 4, 3)
 
 eos_platform = None # type: epic_eos.cdefs.EOS_HPlatform
 renpy_category = 'LogEOSRenpy'

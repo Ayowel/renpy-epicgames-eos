@@ -13,7 +13,7 @@ def hide_py_file(file_content):
             pyparsing.QuotedString('"""', multiline=True).suppress()
             ]
         for f in filters:
-            file_content = f.transformString(file_content)
+            file_content = f.transform_string(file_content)
 
     return file_content
 

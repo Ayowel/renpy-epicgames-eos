@@ -72,6 +72,8 @@ EOS_Connect_RemoveNotifyLoginStatusChanged = not_ready
 EOS_Connect_CopyIdToken = not_ready
 EOS_Ecom_GetLastRedeemedEntitlementsCount = not_ready
 EOS_Ecom_CopyLastRedeemedEntitlementByIndex = not_ready
+EOS_Ecom_GetLastRedeemEntitlementsResultCount = not_ready
+EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex = not_ready
 EOS_Ecom_GetEntitlementsCount = not_ready
 EOS_Ecom_GetEntitlementsByNameCount = not_ready
 EOS_Ecom_CopyEntitlementByIndex = not_ready
@@ -199,6 +201,8 @@ EOS_UI_PrePresent = not_ready
 EOS_UI_PauseSocialOverlay = not_ready
 EOS_UI_IsSocialOverlayPaused = not_ready
 EOS_UI_RemoveNotifyMemoryMonitor = not_ready
+EOS_UI_ConfigureOnScreenKeyboard = not_ready
+EOS_UI_RemoveNotifyOnScreenKeyboardRequested = not_ready
 EOS_UserInfo_CopyUserInfo = not_ready
 EOS_UserInfo_GetExternalUserInfoCount = not_ready
 EOS_UserInfo_CopyExternalUserInfoByIndex = not_ready
@@ -307,6 +311,7 @@ EOS_RTC_GetAudioInterface = not_ready
 EOS_RTC_GetDataInterface = not_ready
 EOS_RTC_RemoveNotifyDisconnected = not_ready
 EOS_RTC_RemoveNotifyParticipantStatusChanged = not_ready
+EOS_RTC_RemoveNotifyRoomBeforeJoin = not_ready
 EOS_RTC_SetSetting = not_ready
 EOS_RTC_SetRoomSetting = not_ready
 EOS_RTC_RemoveNotifyRoomStatisticsUpdated = not_ready
@@ -428,6 +433,8 @@ EOS_AntiCheatClient_BeginSession = not_ready
 EOS_AntiCheatClient_EndSession = not_ready
 EOS_AntiCheatClient_PollStatus = not_ready
 EOS_AntiCheatClient_Reserved01 = not_ready
+EOS_AntiCheatClient_Reserved02 = not_ready
+EOS_AntiCheatClient_GetModuleBuildId = not_ready
 EOS_AntiCheatClient_AddExternalIntegrityCatalog = not_ready
 EOS_AntiCheatClient_ReceiveMessageFromServer = not_ready
 EOS_AntiCheatClient_GetProtectMessageOutputLength = not_ready
@@ -537,6 +544,7 @@ EOS_UI_ShowBlockPlayer = not_ready
 EOS_UI_ShowReportPlayer = not_ready
 EOS_UI_AddNotifyMemoryMonitor = not_ready
 EOS_UI_ShowNativeProfile = not_ready
+EOS_UI_AddNotifyOnScreenKeyboardRequested = not_ready
 EOS_UserInfo_QueryUserInfo = not_ready
 EOS_UserInfo_QueryUserInfoByDisplayName = not_ready
 EOS_UserInfo_QueryUserInfoByExternalAccount = not_ready
@@ -588,6 +596,7 @@ EOS_RTC_LeaveRoom = not_ready
 EOS_RTC_BlockParticipant = not_ready
 EOS_RTC_AddNotifyDisconnected = not_ready
 EOS_RTC_AddNotifyParticipantStatusChanged = not_ready
+EOS_RTC_AddNotifyRoomBeforeJoin = not_ready
 EOS_RTC_AddNotifyRoomStatisticsUpdated = not_ready
 EOS_RTCAudio_UpdateSending = not_ready
 EOS_RTCAudio_UpdateReceiving = not_ready
@@ -648,9 +657,9 @@ EOS_Presence_SetPresence = not_ready
 EOS_Presence_AddNotifyOnPresenceChanged = not_ready
 EOS_Presence_AddNotifyJoinGameAccepted = not_ready
 EOS_MAJOR_VERSION = 1
-EOS_MINOR_VERSION = 18
+EOS_MINOR_VERSION = 19
 EOS_PATCH_VERSION = 0
-EOS_HOTFIX_VERSION = 4
+EOS_HOTFIX_VERSION = 3
 EOS_COMPANY_NAME = "Epic Games, Inc."
 EOS_COPYRIGHT_STRING = "Copyright Epic Games, Inc. All Rights Reserved."
 EOS_PRODUCT_NAME = "Epic Online Services SDK"
@@ -700,10 +709,12 @@ EOS_ECOM_ENTITLEMENT_ENDTIMESTAMP_UNDEFINED = -1
 EOS_ECOM_ITEMOWNERSHIP_API_LATEST = 1
 EOS_ECOM_CATALOGITEM_API_LATEST = 1
 EOS_ECOM_CATALOGITEM_ENTITLEMENTENDTIMESTAMP_UNDEFINED = -1
+EOS_ECOM_CATALOGITEMID_MAX_LENGTH = 32
 EOS_ECOM_CATALOGOFFER_API_LATEST = 5
 EOS_ECOM_CATALOGOFFER_EXPIRATIONTIMESTAMP_UNDEFINED = -1
 EOS_ECOM_CATALOGOFFER_RELEASEDATETIMESTAMP_UNDEFINED = -1
 EOS_ECOM_CATALOGOFFER_EFFECTIVEDATETIMESTAMP_UNDEFINED = -1
+EOS_ECOM_CATALOGOFFERID_MAX_LENGTH = 32
 EOS_ECOM_KEYIMAGEINFO_API_LATEST = 1
 EOS_ECOM_CATALOGRELEASE_API_LATEST = 1
 EOS_ECOM_CHECKOUTENTRY_API_LATEST = 1
@@ -721,11 +732,14 @@ EOS_ECOM_QUERYOFFERS_API_LATEST = 1
 EOS_ECOM_CHECKOUT_API_LATEST = 2
 EOS_ECOM_CHECKOUT_MAX_ENTRIES = 10
 EOS_ECOM_TRANSACTIONID_MAXIMUM_LENGTH = 64
+EOS_ECOM_TRANSACTIONID_MAX_LENGTH = 64
 EOS_ECOM_REDEEMENTITLEMENTS_API_LATEST = 2
 EOS_ECOM_REDEEMENTITLEMENTS_MAX_IDS = 32
 EOS_ECOM_ENTITLEMENTID_MAX_LENGTH = 32
 EOS_ECOM_GETLASTREDEEMEDENTITLEMENTSCOUNT_API_LATEST = 1
 EOS_ECOM_COPYLASTREDEEMEDENTITLEMENTBYINDEX_API_LATEST = 1
+EOS_ECOM_GETLASTREDEEMENTITLEMENTSRESULTCOUNT_API_LATEST = 1
+EOS_ECOM_COPYLASTREDEEMENTITLEMENTSRESULTBYINDEX_API_LATEST = 1
 EOS_ECOM_GETENTITLEMENTSCOUNT_API_LATEST = 1
 EOS_ECOM_GETENTITLEMENTSBYNAMECOUNT_API_LATEST = 1
 EOS_ECOM_COPYENTITLEMENTBYINDEX_API_LATEST = 1
@@ -884,6 +898,7 @@ EOS_RTC_PARTICIPANTMETADATA_KEY_MAXCHARCOUNT = 256
 EOS_RTC_PARTICIPANTMETADATA_VALUE_MAXCHARCOUNT = 256
 EOS_RTC_PARTICIPANTMETADATA_API_LATEST = 1
 EOS_RTC_ADDNOTIFYPARTICIPANTSTATUSCHANGED_API_LATEST = 1
+EOS_RTC_ADDNOTIFYROOMBEFOREJOIN_API_LATEST = 1
 EOS_RTC_SETSETTING_API_LATEST = 1
 EOS_RTC_SETROOMSETTING_API_LATEST = 1
 EOS_RTC_ADDNOTIFYROOMSTATISTICSUPDATED_API_LATEST = 1
@@ -926,7 +941,7 @@ EOS_COUNTRYCODE_MAX_LENGTH = 4
 EOS_COUNTRYCODE_MAX_BUFFER_LEN = (EOS_COUNTRYCODE_MAX_LENGTH + 1)
 EOS_LOCALECODE_MAX_LENGTH = 9
 EOS_LOCALECODE_MAX_BUFFER_LEN = (EOS_LOCALECODE_MAX_LENGTH + 1)
-EOS_PLATFORM_OPTIONS_API_LATEST = 14
+EOS_PLATFORM_OPTIONS_API_LATEST = 15
 EOS_PF_LOADING_IN_EDITOR = 0x00001
 EOS_PF_DISABLE_OVERLAY = 0x00002
 EOS_PF_DISABLE_SOCIAL_OVERLAY = 0x00004
@@ -935,6 +950,7 @@ EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D9 = 0x00010
 EOS_PF_WINDOWS_ENABLE_OVERLAY_D3D10 = 0x00020
 EOS_PF_WINDOWS_ENABLE_OVERLAY_OPENGL = 0x00040
 EOS_PF_CONSOLE_ENABLE_OVERLAY_AUTOMATIC_UNLOADING = 0x00080
+EOS_PF_ENABLE_OVERLAY_DEBUG_LOGGING = 0x00100
 EOS_PLATFORM_OPTIONS_PRODUCTID_MAX_LENGTH = 64
 EOS_PLATFORM_OPTIONS_SANDBOXID_MAX_LENGTH = 64
 EOS_PLATFORM_OPTIONS_ENCRYPTIONKEY_LENGTH = 64
@@ -964,6 +980,8 @@ EOS_UI_ISSOCIALOVERLAYPAUSED_API_LATEST = 1
 EOS_UI_RECT_API_LATEST = 1
 EOS_UI_ADDNOTIFYMEMORYMONITOR_API_LATEST = 1
 EOS_UI_ADDNOTIFYMEMORYMONITOROPTIONS_API_LATEST = EOS_UI_ADDNOTIFYMEMORYMONITOR_API_LATEST
+EOS_UI_CONFIGUREONSCREENKEYBOARD_API_LATEST = 1
+EOS_UI_ADDNOTIFYONSCREENKEYBOARDREQUESTED_API_LATEST = 1
 EOS_USERINFO_QUERYUSERINFO_API_LATEST = 1
 EOS_USERINFO_QUERYUSERINFOBYDISPLAYNAME_API_LATEST = 1
 EOS_USERINFO_QUERYUSERINFOBYEXTERNALACCOUNT_API_LATEST = 1
@@ -1037,8 +1055,8 @@ EOS_CUSTOMINVITES_REJECTREQUESTTOJOIN_API_LATEST = 1
 EOS_CUSTOMINVITES_ADDNOTIFYSENDCUSTOMNATIVEINVITEREQUESTED_API_LATEST = 1
 EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINACCEPTED_API_LATEST = 1
 EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINREJECTED_API_LATEST = 1
-EOS_INITIALIZE_THREADAFFINITY_API_LATEST = 3
-EOS_INITIALIZE_API_LATEST = 4
+EOS_INITIALIZE_THREADAFFINITY_API_LATEST = 4
+EOS_INITIALIZE_API_LATEST = 5
 EOS_INITIALIZEOPTIONS_PRODUCTNAME_MAX_LENGTH = 64
 EOS_INITIALIZEOPTIONS_PRODUCTVERSION_MAX_LENGTH = 64
 EOS_LEADERBOARDS_TIME_UNDEFINED = -1
@@ -1286,6 +1304,8 @@ EOS_ANTICHEATCLIENT_ADDNOTIFYCLIENTINTEGRITYVIOLATED_API_LATEST = 1
 EOS_ANTICHEATCLIENT_BEGINSESSION_API_LATEST = 3
 EOS_ANTICHEATCLIENT_ENDSESSION_API_LATEST = 1
 EOS_ANTICHEATCLIENT_RESERVED01_API_LATEST = 1
+EOS_ANTICHEATCLIENT_RESERVED02_API_LATEST = 1
+EOS_ANTICHEATCLIENT_GETMODULEBUILDID_API_LATEST = 1
 EOS_ANTICHEATCLIENT_ADDEXTERNALINTEGRITYCATALOG_API_LATEST = 1
 EOS_ANTICHEATCLIENT_RECEIVEMESSAGEFROMSERVER_API_LATEST = 1
 EOS_ANTICHEATCLIENT_GETPROTECTMESSAGEOUTPUTLENGTH_API_LATEST = 1
@@ -1385,6 +1405,7 @@ EOS_RequestInProgress = EOS_EResult(39)
 EOS_ApplicationSuspended = EOS_EResult(40)
 EOS_NetworkDisconnected = EOS_EResult(41)
 EOS_InsufficientOutputBuffer = EOS_EResult(42)
+EOS_ClientPolicyMissingAction = EOS_EResult(43)
 EOS_Auth_AccountLocked = EOS_EResult(1001)
 EOS_Auth_AccountLockedForUpdate = EOS_EResult(1002)
 EOS_Auth_InvalidRefreshToken = EOS_EResult(1003)
@@ -1686,32 +1707,6 @@ EOS_CO_REGEXMATCH = EOS_EComparisonOp(12)
 EOS_CO_SIZE = EOS_EComparisonOp(13)
 
 
-class EOS_ELogicalCombineOp(c_int32):
-    def __init__(self, value):
-        if isinstance(value, c_int32):
-            value = value.value
-        c_int32.__init__(self, value)
-    def __rrshift__(self, other):
-        return other >> self.value
-    def __rshift__(self, other):
-        return self.value >> other
-    def __rlshift__(self, other):
-        return other << self.value
-    def __lshift__(self, other):
-        return self.value << other
-    def __invert__(self):
-        return EOS_ELogicalCombineOp(~self.value)
-    def __or__(self, other):
-        return EOS_ELogicalCombineOp(self.value | other)
-    def __ror__(self, other):
-        return EOS_ELogicalCombineOp(other | self.value)
-    def __int__(self):
-        return self.value
-
-EOS_LCO_AND = EOS_ELogicalCombineOp(0)
-EOS_LCO_OR = EOS_ELogicalCombineOp(1)
-
-
 class EOS_EExternalAccountType(c_int32):
     def __init__(self, value):
         if isinstance(value, c_int32):
@@ -1873,6 +1868,33 @@ class EOS_ECheckoutOrientation(c_int32):
 EOS_ECO_Default = EOS_ECheckoutOrientation(0)
 EOS_ECO_Portrait = EOS_ECheckoutOrientation(1)
 EOS_ECO_Landscape = EOS_ECheckoutOrientation(2)
+
+
+class EOS_ERedeemEntitlementsResultListType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        c_int32.__init__(self, value)
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_ERedeemEntitlementsResultListType(~self.value)
+    def __or__(self, other):
+        return EOS_ERedeemEntitlementsResultListType(self.value | other)
+    def __ror__(self, other):
+        return EOS_ERedeemEntitlementsResultListType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_ERERLT_Redeemed = EOS_ERedeemEntitlementsResultListType(0)
+EOS_ERERLT_PreviouslyRedeemed = EOS_ERedeemEntitlementsResultListType(1)
+EOS_ERERLT_Invalid = EOS_ERedeemEntitlementsResultListType(2)
 
 
 class EOS_EFriendsStatus(c_int32):
@@ -2846,6 +2868,66 @@ EOS_UNL_TopLeft = EOS_UI_ENotificationLocation(0)
 EOS_UNL_TopRight = EOS_UI_ENotificationLocation(1)
 EOS_UNL_BottomLeft = EOS_UI_ENotificationLocation(2)
 EOS_UNL_BottomRight = EOS_UI_ENotificationLocation(3)
+
+
+class EOS_UI_EOnScreenKeyboardBehavior(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        c_int32.__init__(self, value)
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_UI_EOnScreenKeyboardBehavior(~self.value)
+    def __or__(self, other):
+        return EOS_UI_EOnScreenKeyboardBehavior(self.value | other)
+    def __ror__(self, other):
+        return EOS_UI_EOnScreenKeyboardBehavior(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_UIOSKB_None = EOS_UI_EOnScreenKeyboardBehavior(0)
+EOS_UIOSKB_Notification = EOS_UI_EOnScreenKeyboardBehavior(1)
+EOS_UIOSKB_Native = EOS_UI_EOnScreenKeyboardBehavior(2)
+
+
+class EOS_UI_EOnScreenKeyboardType(c_int32):
+    def __init__(self, value):
+        if isinstance(value, c_int32):
+            value = value.value
+        c_int32.__init__(self, value)
+    def __rrshift__(self, other):
+        return other >> self.value
+    def __rshift__(self, other):
+        return self.value >> other
+    def __rlshift__(self, other):
+        return other << self.value
+    def __lshift__(self, other):
+        return self.value << other
+    def __invert__(self):
+        return EOS_UI_EOnScreenKeyboardType(~self.value)
+    def __or__(self, other):
+        return EOS_UI_EOnScreenKeyboardType(self.value | other)
+    def __ror__(self, other):
+        return EOS_UI_EOnScreenKeyboardType(other | self.value)
+    def __int__(self):
+        return self.value
+
+EOS_UIOSKT_None = EOS_UI_EOnScreenKeyboardType(0)
+EOS_UIOSKT_Default = EOS_UI_EOnScreenKeyboardType(1)
+EOS_UIOSKT_Text = EOS_UI_EOnScreenKeyboardType(2)
+EOS_UIOSKT_TelephoneNumber = EOS_UI_EOnScreenKeyboardType(3)
+EOS_UIOSKT_URL = EOS_UI_EOnScreenKeyboardType(4)
+EOS_UIOSKT_Email = EOS_UI_EOnScreenKeyboardType(5)
+EOS_UIOSKT_Numeric = EOS_UI_EOnScreenKeyboardType(6)
+EOS_UIOSKT_Decimal = EOS_UI_EOnScreenKeyboardType(7)
+EOS_UIOSKT_Search = EOS_UI_EOnScreenKeyboardType(8)
 
 
 class EOS_EAntiCheatCommonClientType(c_int32):
@@ -3979,6 +4061,12 @@ class EOS_HEcom(c_void_p):
     def CopyLastRedeemedEntitlementByIndex(self, Options, OutRedeemedEntitlementId, InOutRedeemedEntitlementIdLength):
         # type: (EOS_HEcom, POINTER(EOS_Ecom_CopyLastRedeemedEntitlementByIndexOptions), c_char_p, POINTER(c_int32)) -> EOS_EResult
         return EOS_Ecom_CopyLastRedeemedEntitlementByIndex(self, Options, OutRedeemedEntitlementId, InOutRedeemedEntitlementIdLength)
+    def GetLastRedeemEntitlementsResultCount(self, Options):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_GetLastRedeemEntitlementsResultCountOptions)) -> c_uint32
+        return EOS_Ecom_GetLastRedeemEntitlementsResultCount(self, Options)
+    def CopyLastRedeemEntitlementsResultByIndex(self, Options, OutEntitlementId, InOutEntitlementIdLength):
+        # type: (EOS_HEcom, POINTER(EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexOptions), c_char_p, POINTER(c_int32)) -> EOS_EResult
+        return EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex(self, Options, OutEntitlementId, InOutEntitlementIdLength)
     def GetEntitlementsCount(self, Options):
         # type: (EOS_HEcom, POINTER(EOS_Ecom_GetEntitlementsCountOptions)) -> c_uint32
         return EOS_Ecom_GetEntitlementsCount(self, Options)
@@ -4393,15 +4481,21 @@ class EOS_HRTC(c_void_p):
     def RemoveNotifyParticipantStatusChanged(self, NotificationId):
         # type: (EOS_HRTC, EOS_NotificationId) -> None
         return EOS_RTC_RemoveNotifyParticipantStatusChanged(self, NotificationId)
+    def AddNotifyRoomBeforeJoin(self, Options, ClientData, CompletionDelegate):
+        # type: (EOS_HRTC, POINTER(EOS_RTC_AddNotifyRoomBeforeJoinOptions), c_void_p, EOS_RTC_OnRoomBeforeJoinCallback) -> EOS_NotificationId
+        return EOS_RTC_AddNotifyRoomBeforeJoin(self, Options, ClientData, CompletionDelegate)
+    def RemoveNotifyRoomBeforeJoin(self, NotificationId):
+        # type: (EOS_HRTC, EOS_NotificationId) -> None
+        return EOS_RTC_RemoveNotifyRoomBeforeJoin(self, NotificationId)
     def SetSetting(self, Options):
         # type: (EOS_HRTC, POINTER(EOS_RTC_SetSettingOptions)) -> EOS_EResult
         return EOS_RTC_SetSetting(self, Options)
     def SetRoomSetting(self, Options):
         # type: (EOS_HRTC, POINTER(EOS_RTC_SetRoomSettingOptions)) -> EOS_EResult
         return EOS_RTC_SetRoomSetting(self, Options)
-    def AddNotifyRoomStatisticsUpdated(self, Options, ClientData, StatisticsUpdateHandler):
+    def AddNotifyRoomStatisticsUpdated(self, Options, ClientData, CompletionDelegate):
         # type: (EOS_HRTC, POINTER(EOS_RTC_AddNotifyRoomStatisticsUpdatedOptions), c_void_p, EOS_RTC_OnRoomStatisticsUpdatedCallback) -> EOS_NotificationId
-        return EOS_RTC_AddNotifyRoomStatisticsUpdated(self, Options, ClientData, StatisticsUpdateHandler)
+        return EOS_RTC_AddNotifyRoomStatisticsUpdated(self, Options, ClientData, CompletionDelegate)
     def RemoveNotifyRoomStatisticsUpdated(self, NotificationId):
         # type: (EOS_HRTC, EOS_NotificationId) -> None
         return EOS_RTC_RemoveNotifyRoomStatisticsUpdated(self, NotificationId)
@@ -4671,6 +4765,15 @@ class EOS_HUI(c_void_p):
     def ShowNativeProfile(self, Options, ClientData, CompletionDelegate):
         # type: (EOS_HUI, POINTER(EOS_UI_ShowNativeProfileOptions), c_void_p, EOS_UI_OnShowNativeProfileCallback) -> None
         return EOS_UI_ShowNativeProfile(self, Options, ClientData, CompletionDelegate)
+    def ConfigureOnScreenKeyboard(self, Options):
+        # type: (EOS_HUI, POINTER(EOS_UI_ConfigureOnScreenKeyboardOptions)) -> EOS_EResult
+        return EOS_UI_ConfigureOnScreenKeyboard(self, Options)
+    def AddNotifyOnScreenKeyboardRequested(self, Options, ClientData, NotificationFn):
+        # type: (EOS_HUI, POINTER(EOS_UI_AddNotifyOnScreenKeyboardRequestedOptions), c_void_p, EOS_UI_OnScreenKeyboardRequestedCallback) -> EOS_NotificationId
+        return EOS_UI_AddNotifyOnScreenKeyboardRequested(self, Options, ClientData, NotificationFn)
+    def RemoveNotifyOnScreenKeyboardRequested(self, Id):
+        # type: (EOS_HUI, EOS_NotificationId) -> None
+        return EOS_UI_RemoveNotifyOnScreenKeyboardRequested(self, Id)
 class EOS_UI_EventId(c_uint64):
     pass
 class EOS_HUserInfo(c_void_p):
@@ -5554,6 +5657,12 @@ class EOS_HAntiCheatClient(c_void_p):
     def Reserved01(self, Options, OutValue):
         # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_Reserved01Options), POINTER(c_int32)) -> EOS_EResult
         return EOS_AntiCheatClient_Reserved01(self, Options, OutValue)
+    def Reserved02(self, Options):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_Reserved02Options)) -> EOS_EResult
+        return EOS_AntiCheatClient_Reserved02(self, Options)
+    def GetModuleBuildId(self, Options, OutModuleBuildId):
+        # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_GetModuleBuildIdOptions), POINTER(c_uint32)) -> EOS_EResult
+        return EOS_AntiCheatClient_GetModuleBuildId(self, Options, OutModuleBuildId)
     def AddExternalIntegrityCatalog(self, Options):
         # type: (EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_AddExternalIntegrityCatalogOptions)) -> EOS_EResult
         return EOS_AntiCheatClient_AddExternalIntegrityCatalog(self, Options)
@@ -6266,9 +6375,11 @@ class EOS_Ecom_RedeemEntitlementsCallbackInfo(Structure):
         ('ClientData', c_void_p),
         ('LocalUserId', EOS_EpicAccountId),
         ('RedeemedEntitlementIdsCount', c_uint32),
+        ('PreviouslyRedeemedEntitlementIdsCount', c_uint32),
+        ('InvalidEntitlementIdsCount', c_uint32),
     ]
-    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, RedeemedEntitlementIdsCount = 0):
-        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, RedeemedEntitlementIdsCount = RedeemedEntitlementIdsCount)
+    def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, RedeemedEntitlementIdsCount = 0, PreviouslyRedeemedEntitlementIdsCount = 0, InvalidEntitlementIdsCount = 0):
+        Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, RedeemedEntitlementIdsCount = RedeemedEntitlementIdsCount, PreviouslyRedeemedEntitlementIdsCount = PreviouslyRedeemedEntitlementIdsCount, InvalidEntitlementIdsCount = InvalidEntitlementIdsCount)
 class EOS_Ecom_GetLastRedeemedEntitlementsCountOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -6286,6 +6397,25 @@ class EOS_Ecom_CopyLastRedeemedEntitlementByIndexOptions(Structure):
     ]
     def __init__(self, ApiVersion = EOS_ECOM_COPYLASTREDEEMEDENTITLEMENTBYINDEX_API_LATEST, LocalUserId = None, RedeemedEntitlementIndex = 0):
         Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, RedeemedEntitlementIndex = RedeemedEntitlementIndex)
+class EOS_Ecom_GetLastRedeemEntitlementsResultCountOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('ResultType', EOS_ERedeemEntitlementsResultListType),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_GETLASTREDEEMENTITLEMENTSRESULTCOUNT_API_LATEST, LocalUserId = None, ResultType = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, ResultType = ResultType)
+class EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_EpicAccountId),
+        ('EntitlementIndex', c_uint32),
+        ('ResultType', EOS_ERedeemEntitlementsResultListType),
+    ]
+    def __init__(self, ApiVersion = EOS_ECOM_COPYLASTREDEEMENTITLEMENTSRESULTBYINDEX_API_LATEST, LocalUserId = None, EntitlementIndex = 0, ResultType = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId, EntitlementIndex = EntitlementIndex, ResultType = ResultType)
 class EOS_Ecom_GetEntitlementsCountOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -7972,6 +8102,23 @@ class EOS_RTC_ParticipantStatusChangedCallbackInfo(Structure):
     ]
     def __init__(self, ClientData = None, LocalUserId = None, RoomName = None, ParticipantId = None, ParticipantStatus = 0, ParticipantMetadataCount = 0, ParticipantMetadata = None, bParticipantInBlocklist = 0):
         Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName, ParticipantId = ParticipantId, ParticipantStatus = ParticipantStatus, ParticipantMetadataCount = ParticipantMetadataCount, ParticipantMetadata = ParticipantMetadata, bParticipantInBlocklist = bParticipantInBlocklist)
+class EOS_RTC_AddNotifyRoomBeforeJoinOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('LocalUserId', EOS_ProductUserId),
+    ]
+    def __init__(self, ApiVersion = EOS_RTC_ADDNOTIFYROOMBEFOREJOIN_API_LATEST, LocalUserId = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, LocalUserId = LocalUserId)
+class EOS_RTC_RoomBeforeJoinCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('LocalUserId', EOS_ProductUserId),
+        ('RoomName', c_char_p),
+    ]
+    def __init__(self, ClientData = None, LocalUserId = None, RoomName = None):
+        Structure.__init__(self, ClientData = ClientData, LocalUserId = LocalUserId, RoomName = RoomName)
 class EOS_RTC_SetSettingOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -8596,6 +8743,30 @@ class EOS_UI_AddNotifyMemoryMonitorOptions(Structure):
     ]
     def __init__(self, ApiVersion = EOS_UI_ADDNOTIFYMEMORYMONITOR_API_LATEST):
         Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_UI_ConfigureOnScreenKeyboardOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Behavior', EOS_UI_EOnScreenKeyboardBehavior),
+        ('bIsDeviceChecksEnabled', EOS_Bool),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_CONFIGUREONSCREENKEYBOARD_API_LATEST, Behavior = 0, bIsDeviceChecksEnabled = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, Behavior = Behavior, bIsDeviceChecksEnabled = bIsDeviceChecksEnabled)
+class EOS_UI_AddNotifyOnScreenKeyboardRequestedOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_UI_ADDNOTIFYONSCREENKEYBOARDREQUESTED_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_UI_OnScreenKeyboardRequestedCallbackInfo(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ClientData', c_void_p),
+        ('Type', EOS_UI_EOnScreenKeyboardType),
+    ]
+    def __init__(self, ClientData = None, Type = 0):
+        Structure.__init__(self, ClientData = ClientData, Type = Type)
 class EOS_UserInfo_QueryUserInfoOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -9499,9 +9670,10 @@ class EOS_Initialize_ThreadAffinity(Structure):
         ('RTCIo', c_uint64),
         ('EmbeddedOverlayMainThread', c_uint64),
         ('EmbeddedOverlayWorkerThreads', c_uint64),
+        ('CryptographyWork', c_uint64),
     ]
-    def __init__(self, ApiVersion = EOS_INITIALIZE_THREADAFFINITY_API_LATEST, NetworkWork = 0, StorageIo = 0, WebSocketIo = 0, P2PIo = 0, HttpRequestIo = 0, RTCIo = 0, EmbeddedOverlayMainThread = 0, EmbeddedOverlayWorkerThreads = 0):
-        Structure.__init__(self, ApiVersion = ApiVersion, NetworkWork = NetworkWork, StorageIo = StorageIo, WebSocketIo = WebSocketIo, P2PIo = P2PIo, HttpRequestIo = HttpRequestIo, RTCIo = RTCIo, EmbeddedOverlayMainThread = EmbeddedOverlayMainThread, EmbeddedOverlayWorkerThreads = EmbeddedOverlayWorkerThreads)
+    def __init__(self, ApiVersion = EOS_INITIALIZE_THREADAFFINITY_API_LATEST, NetworkWork = 0, StorageIo = 0, WebSocketIo = 0, P2PIo = 0, HttpRequestIo = 0, RTCIo = 0, EmbeddedOverlayMainThread = 0, EmbeddedOverlayWorkerThreads = 0, CryptographyWork = 0):
+        Structure.__init__(self, ApiVersion = ApiVersion, NetworkWork = NetworkWork, StorageIo = StorageIo, WebSocketIo = WebSocketIo, P2PIo = P2PIo, HttpRequestIo = HttpRequestIo, RTCIo = RTCIo, EmbeddedOverlayMainThread = EmbeddedOverlayMainThread, EmbeddedOverlayWorkerThreads = EmbeddedOverlayWorkerThreads, CryptographyWork = CryptographyWork)
 class EOS_InitializeOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -12057,6 +12229,24 @@ class EOS_AntiCheatClient_Reserved01Options(Structure):
     ]
     def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_RESERVED01_API_LATEST):
         Structure.__init__(self, ApiVersion = ApiVersion)
+class EOS_AntiCheatClient_Reserved02Options(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+        ('Reserved1', c_int64),
+        ('Reserved2', c_uint32),
+        ('Reserved3', c_uint32),
+        ('Reserved4', c_void_p),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_RESERVED02_API_LATEST, Reserved1 = 0, Reserved2 = 0, Reserved3 = 0, Reserved4 = None):
+        Structure.__init__(self, ApiVersion = ApiVersion, Reserved1 = Reserved1, Reserved2 = Reserved2, Reserved3 = Reserved3, Reserved4 = Reserved4)
+class EOS_AntiCheatClient_GetModuleBuildIdOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_ANTICHEATCLIENT_GETMODULEBUILDID_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
 class EOS_AntiCheatClient_AddExternalIntegrityCatalogOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -12474,6 +12664,7 @@ EOS_RTC_OnLeaveRoomCallback = CFUNCTYPE(None, POINTER(EOS_RTC_LeaveRoomCallbackI
 EOS_RTC_OnBlockParticipantCallback = CFUNCTYPE(None, POINTER(EOS_RTC_BlockParticipantCallbackInfo))
 EOS_RTC_OnDisconnectedCallback = CFUNCTYPE(None, POINTER(EOS_RTC_DisconnectedCallbackInfo))
 EOS_RTC_OnParticipantStatusChangedCallback = CFUNCTYPE(None, POINTER(EOS_RTC_ParticipantStatusChangedCallbackInfo))
+EOS_RTC_OnRoomBeforeJoinCallback = CFUNCTYPE(None, POINTER(EOS_RTC_RoomBeforeJoinCallbackInfo))
 EOS_RTC_OnRoomStatisticsUpdatedCallback = CFUNCTYPE(None, POINTER(EOS_RTC_RoomStatisticsUpdatedInfo))
 EOS_Sanctions_OnQueryActivePlayerSanctionsCallback = CFUNCTYPE(None, POINTER(EOS_Sanctions_QueryActivePlayerSanctionsCallbackInfo))
 EOS_Sanctions_CreatePlayerSanctionAppealCallback = CFUNCTYPE(None, POINTER(EOS_Sanctions_CreatePlayerSanctionAppealCallbackInfo))
@@ -12492,6 +12683,7 @@ EOS_UI_OnShowBlockPlayerCallback = CFUNCTYPE(None, POINTER(EOS_UI_OnShowBlockPla
 EOS_UI_OnShowReportPlayerCallback = CFUNCTYPE(None, POINTER(EOS_UI_OnShowReportPlayerCallbackInfo))
 EOS_UI_OnShowNativeProfileCallback = CFUNCTYPE(None, POINTER(EOS_UI_ShowNativeProfileCallbackInfo))
 EOS_UI_OnMemoryMonitorCallback = CFUNCTYPE(None, POINTER(EOS_UI_MemoryMonitorCallbackInfo))
+EOS_UI_OnScreenKeyboardRequestedCallback = CFUNCTYPE(None, POINTER(EOS_UI_OnScreenKeyboardRequestedCallbackInfo))
 EOS_UserInfo_OnQueryUserInfoCallback = CFUNCTYPE(None, POINTER(EOS_UserInfo_QueryUserInfoCallbackInfo))
 EOS_UserInfo_OnQueryUserInfoByDisplayNameCallback = CFUNCTYPE(None, POINTER(EOS_UserInfo_QueryUserInfoByDisplayNameCallbackInfo))
 EOS_UserInfo_OnQueryUserInfoByExternalAccountCallback = CFUNCTYPE(None, POINTER(EOS_UserInfo_QueryUserInfoByExternalAccountCallbackInfo))
@@ -12917,6 +13109,16 @@ def load(dll):
     EOS_Ecom_CopyLastRedeemedEntitlementByIndex = dll.EOS_Ecom_CopyLastRedeemedEntitlementByIndex
     EOS_Ecom_CopyLastRedeemedEntitlementByIndex.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_CopyLastRedeemedEntitlementByIndexOptions), c_char_p, POINTER(c_int32)]
     EOS_Ecom_CopyLastRedeemedEntitlementByIndex.restype = EOS_EResult
+
+    global EOS_Ecom_GetLastRedeemEntitlementsResultCount
+    EOS_Ecom_GetLastRedeemEntitlementsResultCount = dll.EOS_Ecom_GetLastRedeemEntitlementsResultCount
+    EOS_Ecom_GetLastRedeemEntitlementsResultCount.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_GetLastRedeemEntitlementsResultCountOptions)]
+    EOS_Ecom_GetLastRedeemEntitlementsResultCount.restype = c_uint32
+
+    global EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex
+    EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex = dll.EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex
+    EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex.argtypes = [EOS_HEcom, POINTER(EOS_Ecom_CopyLastRedeemEntitlementsResultByIndexOptions), c_char_p, POINTER(c_int32)]
+    EOS_Ecom_CopyLastRedeemEntitlementsResultByIndex.restype = EOS_EResult
 
     global EOS_Ecom_GetEntitlementsCount
     EOS_Ecom_GetEntitlementsCount = dll.EOS_Ecom_GetEntitlementsCount
@@ -13553,6 +13755,16 @@ def load(dll):
     EOS_UI_RemoveNotifyMemoryMonitor.argtypes = [EOS_HUI, EOS_NotificationId]
     EOS_UI_RemoveNotifyMemoryMonitor.restype = None
 
+    global EOS_UI_ConfigureOnScreenKeyboard
+    EOS_UI_ConfigureOnScreenKeyboard = dll.EOS_UI_ConfigureOnScreenKeyboard
+    EOS_UI_ConfigureOnScreenKeyboard.argtypes = [EOS_HUI, POINTER(EOS_UI_ConfigureOnScreenKeyboardOptions)]
+    EOS_UI_ConfigureOnScreenKeyboard.restype = EOS_EResult
+
+    global EOS_UI_RemoveNotifyOnScreenKeyboardRequested
+    EOS_UI_RemoveNotifyOnScreenKeyboardRequested = dll.EOS_UI_RemoveNotifyOnScreenKeyboardRequested
+    EOS_UI_RemoveNotifyOnScreenKeyboardRequested.argtypes = [EOS_HUI, EOS_NotificationId]
+    EOS_UI_RemoveNotifyOnScreenKeyboardRequested.restype = None
+
     global EOS_UserInfo_CopyUserInfo
     EOS_UserInfo_CopyUserInfo = dll.EOS_UserInfo_CopyUserInfo
     EOS_UserInfo_CopyUserInfo.argtypes = [EOS_HUserInfo, POINTER(EOS_UserInfo_CopyUserInfoOptions), POINTER(POINTER(EOS_UserInfo))]
@@ -14092,6 +14304,11 @@ def load(dll):
     EOS_RTC_RemoveNotifyParticipantStatusChanged = dll.EOS_RTC_RemoveNotifyParticipantStatusChanged
     EOS_RTC_RemoveNotifyParticipantStatusChanged.argtypes = [EOS_HRTC, EOS_NotificationId]
     EOS_RTC_RemoveNotifyParticipantStatusChanged.restype = None
+
+    global EOS_RTC_RemoveNotifyRoomBeforeJoin
+    EOS_RTC_RemoveNotifyRoomBeforeJoin = dll.EOS_RTC_RemoveNotifyRoomBeforeJoin
+    EOS_RTC_RemoveNotifyRoomBeforeJoin.argtypes = [EOS_HRTC, EOS_NotificationId]
+    EOS_RTC_RemoveNotifyRoomBeforeJoin.restype = None
 
     global EOS_RTC_SetSetting
     EOS_RTC_SetSetting = dll.EOS_RTC_SetSetting
@@ -14698,6 +14915,16 @@ def load(dll):
     EOS_AntiCheatClient_Reserved01.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_Reserved01Options), POINTER(c_int32)]
     EOS_AntiCheatClient_Reserved01.restype = EOS_EResult
 
+    global EOS_AntiCheatClient_Reserved02
+    EOS_AntiCheatClient_Reserved02 = dll.EOS_AntiCheatClient_Reserved02
+    EOS_AntiCheatClient_Reserved02.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_Reserved02Options)]
+    EOS_AntiCheatClient_Reserved02.restype = EOS_EResult
+
+    global EOS_AntiCheatClient_GetModuleBuildId
+    EOS_AntiCheatClient_GetModuleBuildId = dll.EOS_AntiCheatClient_GetModuleBuildId
+    EOS_AntiCheatClient_GetModuleBuildId.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_GetModuleBuildIdOptions), POINTER(c_uint32)]
+    EOS_AntiCheatClient_GetModuleBuildId.restype = EOS_EResult
+
     global EOS_AntiCheatClient_AddExternalIntegrityCatalog
     EOS_AntiCheatClient_AddExternalIntegrityCatalog = dll.EOS_AntiCheatClient_AddExternalIntegrityCatalog
     EOS_AntiCheatClient_AddExternalIntegrityCatalog.argtypes = [EOS_HAntiCheatClient, POINTER(EOS_AntiCheatClient_AddExternalIntegrityCatalogOptions)]
@@ -15243,6 +15470,11 @@ def load(dll):
     EOS_UI_ShowNativeProfile.argtypes = [EOS_HUI, POINTER(EOS_UI_ShowNativeProfileOptions), c_void_p, EOS_UI_OnShowNativeProfileCallback]
     EOS_UI_ShowNativeProfile.restype = None
 
+    global EOS_UI_AddNotifyOnScreenKeyboardRequested
+    EOS_UI_AddNotifyOnScreenKeyboardRequested = dll.EOS_UI_AddNotifyOnScreenKeyboardRequested
+    EOS_UI_AddNotifyOnScreenKeyboardRequested.argtypes = [EOS_HUI, POINTER(EOS_UI_AddNotifyOnScreenKeyboardRequestedOptions), c_void_p, EOS_UI_OnScreenKeyboardRequestedCallback]
+    EOS_UI_AddNotifyOnScreenKeyboardRequested.restype = EOS_NotificationId
+
     global EOS_UserInfo_QueryUserInfo
     EOS_UserInfo_QueryUserInfo = dll.EOS_UserInfo_QueryUserInfo
     EOS_UserInfo_QueryUserInfo.argtypes = [EOS_HUserInfo, POINTER(EOS_UserInfo_QueryUserInfoOptions), c_void_p, EOS_UserInfo_OnQueryUserInfoCallback]
@@ -15497,6 +15729,11 @@ def load(dll):
     EOS_RTC_AddNotifyParticipantStatusChanged = dll.EOS_RTC_AddNotifyParticipantStatusChanged
     EOS_RTC_AddNotifyParticipantStatusChanged.argtypes = [EOS_HRTC, POINTER(EOS_RTC_AddNotifyParticipantStatusChangedOptions), c_void_p, EOS_RTC_OnParticipantStatusChangedCallback]
     EOS_RTC_AddNotifyParticipantStatusChanged.restype = EOS_NotificationId
+
+    global EOS_RTC_AddNotifyRoomBeforeJoin
+    EOS_RTC_AddNotifyRoomBeforeJoin = dll.EOS_RTC_AddNotifyRoomBeforeJoin
+    EOS_RTC_AddNotifyRoomBeforeJoin.argtypes = [EOS_HRTC, POINTER(EOS_RTC_AddNotifyRoomBeforeJoinOptions), c_void_p, EOS_RTC_OnRoomBeforeJoinCallback]
+    EOS_RTC_AddNotifyRoomBeforeJoin.restype = EOS_NotificationId
 
     global EOS_RTC_AddNotifyRoomStatisticsUpdated
     EOS_RTC_AddNotifyRoomStatisticsUpdated = dll.EOS_RTC_AddNotifyRoomStatisticsUpdated
