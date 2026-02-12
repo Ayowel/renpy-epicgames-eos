@@ -70,3 +70,7 @@ When updating the SDK:
 * Re-download the SDK: `python3 scripts/get_sdk.py`
 
 Note that the `epic_api_generator` module will output a list of functions that could not be associated to a class object. If you do not expect one of the displayed functions to be part of a class, this should be fine.
+
+Once the update is tested:
+
+* Update the README's shield text to match the SDK version
