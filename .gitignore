@@ -36,3 +36,4 @@ __pycache__
 /libs/*
 /.tmpdir
 /spec
+/eos-sdk-spec.zip

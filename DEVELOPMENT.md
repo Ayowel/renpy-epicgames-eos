@@ -63,7 +63,8 @@ renpy . run
 
 When updating the SDK:
 
-* Get a new EOS SDK spec file from https://github.com/Ayowel/eos-sdk-json/releases and unzip it.
+* Get a new EOS SDK spec file from https://github.com/Ayowel/eos-sdk-json/releases: `wget https://github.com/Ayowel/eos-sdk-json/releases/latest/download/eos-sdk-spec.zip`
+* Unzip the downloaded archive: `unzip eos-sdk-spec.zip`
 * Update the sdk version json with jq: `jq .metadata -c  < spec/EOS_SDK-*.json > .sdk_version.json`
 * Rebuild the c definitions file: `python3 -m epic_api_generator spec/EOS_SDK-*.json -o extensions/epic_eos/epic_eos/cdefs.py`
 * Re-download the SDK: `python3 scripts/get_sdk.py`
