@@ -88,22 +88,13 @@ jobs:
           epic_eos.zip
           README.html
 
-    - uses: Ayowel/butler-publish-itchio-action@v2
+    - uses: Ayowel/butler-to-itch@v1
       if: ${{ github.event_name == 'push' || github.event.inputs.push_itch == 'true' }}
       env:
-        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-        CHANNEL: pc
-        ITCH_GAME: renpy-epic-integration
-        ITCH_USER: ayowel
-        PACKAGE: epic_eos.zip
-        VERSION: ${{ steps.release-info.outputs.VERSION }}
-
-    - uses: Ayowel/butler-publish-itchio-action@v2
-      if: ${{ github.event_name == 'push' || github.event.inputs.push_itch_doc == 'true' }}
-      env:
-        BUTLER_CREDENTIALS: ${{ secrets.BUTLER_CREDENTIALS }}
-        CHANNEL: doc
-        ITCH_GAME: renpy-epic-integration
-        ITCH_USER: ayowel
-        PACKAGE: README.html
-        VERSION: ${{ steps.release-info.outputs.VERSION }}
+        butler_key: ${{ secrets.BUTLER_CREDENTIALS }}
+        itch_user: Ayowel
+        itch_game: renpy-epic-integration
+        version: ${{ steps.release-info.outputs.VERSION }}
+        files: |
+          pc  epic_eos.zip
+          doc README.html
