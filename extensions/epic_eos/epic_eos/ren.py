@@ -64,7 +64,7 @@ def get_epic_args():
                 argset.locale = arg.split('=')[1]
             elif arg.startswith('-epicsandboxid='):
                 argset.sandbox = arg.split('=')[1]
-            elif arg.startswith('-epicdeployment='): # Not an officially-supported arg
+            elif arg.startswith('-epicdeploymentid='):
                 argset.deployment = arg.split('=')[1]
     return argset
 
