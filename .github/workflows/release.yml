@@ -90,7 +90,7 @@ jobs:
 
     - uses: Ayowel/butler-to-itch@v1
       if: ${{ github.event_name == 'push' || github.event.inputs.push_itch == 'true' }}
-      env:
+      with:
         butler_key: ${{ secrets.BUTLER_CREDENTIALS }}
         itch_user: Ayowel
         itch_game: renpy-epic-integration
