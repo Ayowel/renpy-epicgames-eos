@@ -166,8 +166,10 @@ def epic_init():
     else:
         epic_eos.ren.log(300, epic_eos.renpy_category, "Skipped platform creation and login because Epic Online Services v{} is already started (status: {})".format(bytes_to_str(cdefs.EOS_GetVersion()), epic_eos.eos_platform.GetApplicationStatus().value))
 
-    if hasattr(config, 'at_exit_callbacks') and epic_shutdown not in config.at_exit_callbacks:
-        config.at_exit_callbacks.append(epic_shutdown)
+    if hasattr(config, 'python_exit_callbacks') and epic_shutdown not in config.python_exit_callbacks:
+        config.python_exit_callbacks.append(epic_shutdown)
+    elif hasattr(config, 'quit_callbacks') and epic_shutdown not in config.quit_callbacks:
+        config.quit_callbacks.append(epic_shutdown)
 
     return True
 
