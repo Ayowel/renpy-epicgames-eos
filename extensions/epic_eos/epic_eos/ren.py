@@ -126,9 +126,6 @@ class EpicBackend(obj): # TODO: migrate to rpy file to inherit Backend
         self.names = { }
         self.stats = { }
 
-        renpy.store.epicapi.retrieve_stats()
-        # renpy.maximum_framerate(steam_maximum_framerate)
-
     def register(self, name, epic=None, epic_stat=None, stat_max=None, stat_modulo=1, **kwargs):
         if epic is not None:
             self.names[name] = epic
