@@ -9,7 +9,7 @@ import os
 import sys
 
 try:
-    from typing import List
+    from typing import List, Optional
 except:
     pass
 
@@ -182,8 +182,47 @@ def is_logged_in(): # type: () -> None
     else:
         return False
 
-def retrieve_stats(): # type: () -> None
-    """Schedule a cached stats update."""
+def retrieve_stats(names=[]): # type: (Optional[List[str]]) -> None
+    """Schedule a player stats update."""
+    if epic_eos.eos_platform is None:
+        epic_eos.ren.log(500, epic_eos.renpy_category, "Can't retrieve user stats as epic is not available")
+        return
+    if not (user := get_local_user_id()):
+        return
+    #EOS_Stats_QueryStats
+    eos_stats = epic_eos.eos_platform.GetStatsInterface()
+    opts = cdefs.EOS_Stats_QueryStatsOptions(
+        LocalUserId = user,
+        TargetUserId = user,
+        StartTime = cdefs.EOS_STATS_TIME_UNDEFINED,
+        EndTime = cdefs.EOS_STATS_TIME_UNDEFINED,
+    )
+    if names:
+        names_list = (c_char_p*len(names))()
+        for i, n in enumerate(names):
+            names_list[i] = str_to_bytes(n)
+        opts.StatNames = names_list
+        opts.StatNamesCount = len(names)
+    eos_stats.QueryStats(opts, None, stats_queryplayer_callback)
+
+def retrieve_achievements(): # type: () -> None
+    """Schedule a player achievements update"""
+    if epic_eos.eos_platform is None:
+        epic_eos.ren.log(500, epic_eos.renpy_category, "Can't retrieve user achievements as epic is not available")
+        return
+    if not (user := get_local_user_id()):
+        return
+    eos_achievements = epic_eos.eos_platform.GetAchievementsInterface()
+    opts = cdefs.EOS_Achievements_QueryPlayerAchievementsOptions(
+        TargetUserId = user,
+        LocalUserId = user,
+    )
+    eos_achievements.QueryPlayerAchievements(
+        opts, None, achievements_queryplayer_callback,
+    )
+
+def load_achievements(): # type: () -> None
+    """Load the list of available achievements for later use."""
     if epic_eos.eos_platform is not None:
         # FIXME: this should retrieve stats, not achievements
         eos_achievements = epic_eos.eos_platform.GetAchievementsInterface()
@@ -399,6 +438,8 @@ def connect_login_callback(login_info):
             epic_account_id_string = ctypes.cast(info.ClientData, ctypes.c_char_p)
             global account_id_map
             account_id_map[product_user_id.value] = epic_account_id_string.value
+        load_achievements()
+        retrieve_achievements()
         retrieve_stats()
     elif info.ResultCode.value == cdefs.EOS_InvalidUser.value:
         opts = cdefs.EOS_Connect_CreateUserOptions()
@@ -425,7 +466,9 @@ def connect_create_callback(create_info):
             epic_account_id_string = ctypes.cast(info.ClientData, ctypes.c_char_p)
             global account_id_map
             account_id_map[product_user_id.value] = epic_account_id_string.value
+        load_achievements()
         retrieve_stats()
+        retrieve_achievements()
     else:
         epic_eos.ren.log(500, epic_eos.renpy_category, "Failed to created new EOS user")
 
@@ -440,6 +483,22 @@ def achievements_unlocked_callback(data):
     result = data[0]
     if result.ResultCode.value != cdefs.EOS_Success.value:
         epic_eos.ren.log(400, epic_eos.renpy_category, "Achievements unlock callback received error: {} - {}".format(data[0].ResultCode.value, bytes_to_str(data[0].ResultCode.ToString())))
+
+@cdefs.EOS_Stats_OnQueryStatsCompleteCallback
+def stats_queryplayer_callback(data):
+    if not data:
+        epic_eos.ren.log(500, epic_eos.renpy_category, "Player stats query callback did not receive data")
+        return
+    info = data.contents
+    epic_eos.ren.log(300, epic_eos.renpy_category, "Updated stats for user")
+
+@cdefs.EOS_Achievements_OnQueryPlayerAchievementsCompleteCallback
+def achievements_queryplayer_callback(data):
+    if not data:
+        epic_eos.ren.log(500, epic_eos.renpy_category, "Player achievements query callback did not receive data")
+        return
+    info = data.contents
+    epic_eos.ren.log(300, epic_eos.renpy_category, "Updated achievements for user")
 
 @cdefs.EOS_Achievements_OnAchievementsUnlockedCallbackV2
 def achievements_unlocknotify_callback(data):
@@ -480,6 +539,8 @@ def stats_ingest_callback(data):
     else:
         if data.contents.ResultCode.value == cdefs.EOS_Success.value:
             epic_eos.ren.log(100, epic_eos.renpy_category, "Done ingesting stats")
+             # The ingested stat's change is not reflected in locally-available stat data and needs to be reloaded
+            retrieve_stats()
         else:
             epic_eos.ren.log(400, epic_eos.renpy_category, "Failed to ingest stats: {} - {}".format(data.contents.ResultCode.value, bytes_to_str(data.contents.ResultCode.ToString())))
 
