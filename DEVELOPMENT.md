@@ -16,7 +16,11 @@ terminal is in this repository's directory.
 ## Environment preparation
 
 * Follow the Epic Games Setup instructions in the README
+* Configure the "game" in Epic Games' web interface with:
+  * 1 regular achievement with the id `simple`
+  * 1 stat-based achievement with the id `button` and a max stat value of `3`
 * Create new `game/epic.rpy` and `game/01epic_dev.rpy` files (see instructions in README)
+  * Edit `game/epic.rpy` to only use Epic achievements: `achievement.backends = [epicapi.EpicBackend()]`
 * Install extension build requirements
 
 ```sh
