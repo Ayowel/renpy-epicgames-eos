@@ -33,15 +33,13 @@ define config.epic_deployment = '456789abcdef0123456789abcdef0123'
 
 # The client's policy should have the following Achievements features:
 # findAchievementsForLocalUser, unlockAchievementForLocalUser,
-# findAchievementDefinitions, readAchievementDefinition
 #
 # The client's policy should have the following Stats features to use stats:
 # findStatsForLocalUser, ingestForLocalUser,
-# findStats, readStats
 define config.enable_epic_achievements = True
 
 # The requested permissions. See EOS_EAuthScopeFlags for potential value
-define config.epic_scopes = epicapi.native.EOS_AS_NoFlags
+define config.epic_scopes = epicapi.native.EOS_AS_FriendsList
 
 init -1499 python:
     achievement.backends.insert(0, epicapi.EpicBackend())
