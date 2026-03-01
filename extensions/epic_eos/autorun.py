@@ -47,6 +47,7 @@ renpy.store.epicapi.__dict__.setdefault('shutdown', epic_eos.epic_shutdown)
 
 renpy.store.epicapi.__dict__.setdefault('EpicBackend', epic_eos.ren.EpicBackend)
 renpy.store.epicapi.__dict__.setdefault('is_logged_in', epic_eos.compat.is_logged_in)
+renpy.store.epicapi.__dict__.setdefault('get_stat_value', epic_eos.ren.get_stat_value)
 renpy.store.epicapi.__dict__.setdefault('retrieve_stats', epic_eos.compat.retrieve_stats)
 renpy.store.epicapi.__dict__.setdefault('load_achievements', epic_eos.compat.load_achievements)
 renpy.store.epicapi.__dict__.setdefault('retrieve_achievements', epic_eos.compat.retrieve_achievements)

@@ -68,6 +68,13 @@ def get_epic_args():
                 argset.deployment = arg.split('=')[1]
     return argset
 
+def get_stat_value(name):
+    stat = epic_eos.compat.get_stat(name)
+    if stat:
+        return stat.value
+    else:
+        return 0
+
 def is_epic_available():
     # type: () -> bool
     """Check whether the epic SDK is loaded."""
@@ -140,6 +147,17 @@ class EpicBackend(obj): # TODO: migrate to rpy file to inherit Backend
 
     def clear_all(self):
         pass # Clearing achievements is not supported by Epic at the moment
+
+    def get_progress(self, name):
+        # This is not used by Ren'py at the moment and is only provided in case it is later
+        if name not in self.stats:
+            if config.developer:
+                raise Exception("To report progress, you must register the stat {} first.".format(name))
+            else:
+                return 0
+
+        epic_stat, stat_max, stat_modulo = self.stats[name]
+        return get_stat_value(name)
 
     def progress(self, name, completed):
         # Epic games only support integer stat variations
