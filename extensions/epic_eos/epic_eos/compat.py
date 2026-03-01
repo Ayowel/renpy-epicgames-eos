@@ -518,8 +518,13 @@ def stats_queryplayer_callback(data):
     if not data:
         epic_eos.ren.log(500, epic_eos.renpy_category, "Player stats query callback did not receive data")
         return
-    info = data.contents
-    epic_eos.ren.log(300, epic_eos.renpy_category, "Updated stats for user")
+    if epic_eos.eos_platform is None:
+        return
+    if not (user := get_local_user_id()):
+        return
+    eos_stats = epic_eos.eos_platform.GetStatsInterface()
+    stats_count = eos_stats.GetStatsCount(cdefs.EOS_Stats_GetStatCountOptions(TargetUserId=user))
+    epic_eos.ren.log(200, epic_eos.renpy_category, f"Done loading {stats_count} stat(s) for user")
 
 @cdefs.EOS_Achievements_OnQueryPlayerAchievementsCompleteCallback
 def achievements_queryplayer_callback(data):
@@ -527,7 +532,7 @@ def achievements_queryplayer_callback(data):
         epic_eos.ren.log(500, epic_eos.renpy_category, "Player achievements query callback did not receive data")
         return
     info = data.contents
-    epic_eos.ren.log(300, epic_eos.renpy_category, "Updated achievements for user")
+    epic_eos.ren.log(300, epic_eos.renpy_category, "Done loading achievements for user")
 
 @cdefs.EOS_Achievements_OnAchievementsUnlockedCallbackV2
 def achievements_unlocknotify_callback(data):
