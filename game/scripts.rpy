@@ -1,12 +1,12 @@
 label start():
     "Hello"
     menu:
+        "Achievements":
+            call achievements
         "Back to main menu":
             $ renpy.run(MainMenu(confirm=False))
         "Quit":
             $ renpy.quit()
-        "Continue":
-            "Restarting"
     jump start
 
 screen yesno_prompt(message='Are you sure?', yes_action = [], no_action = []):
