@@ -171,5 +171,4 @@ class EpicBackend(obj): # TODO: migrate to rpy file to inherit Backend
 
     def has(self, name):
         name = self.names.get(name, name)
-
         return renpy.store.config.epic_report_achievements_status and renpy.store.epicapi.get_achievement(name)

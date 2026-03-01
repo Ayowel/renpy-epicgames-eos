@@ -198,7 +198,10 @@ def get_stat(name): # type: (str) -> SimpleNamespace|None
     stat = ctypes.POINTER(cdefs.EOS_Stats_Stat)()
     result = eos_stats.CopyStatByName(opts, ctypes.byref(stat))
     if result.value != cdefs.EOS_Success.value:
-        epic_eos.ren.log(500, epic_eos.renpy_category, f"Failed to get user stat {name}: Error code {result.value}")
+        if result.value == cdefs.EOS_NotFound.value:
+            epic_eos.ren.log(200, epic_eos.renpy_category, f"No value found for user stat {name}.")
+        else:
+            epic_eos.ren.log(500, epic_eos.renpy_category, f"Failed to get user stat {name}: Error code {result.value}")
         return None
     retstat = SimpleNamespace(
         name = stat.contents.Name,
@@ -216,7 +219,6 @@ def retrieve_stats(names=[]): # type: (Optional[List[str]]) -> None
         return
     if not (user := get_local_user_id()):
         return
-    #EOS_Stats_QueryStats
     eos_stats = epic_eos.eos_platform.GetStatsInterface()
     opts = cdefs.EOS_Stats_QueryStatsOptions(
         LocalUserId = user,
