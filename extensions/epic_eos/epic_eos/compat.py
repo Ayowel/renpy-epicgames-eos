@@ -1,6 +1,7 @@
 from builtins import str
 import ctypes
 from datetime import datetime
+from types import SimpleNamespace
 import epic_eos
 from . import cdefs
 import renpy as r
@@ -181,6 +182,32 @@ def is_logged_in(): # type: () -> None
         return 0 < epic_eos.eos_platform.GetConnectInterface().GetLoggedInUsersCount()
     else:
         return False
+
+def get_stat(name): # type: (str) -> SimpleNamespace|None
+    """Get the last seen value of a player stat."""
+    if epic_eos.eos_platform is None:
+        epic_eos.ren.log(500, epic_eos.renpy_category, "Can't retrieve user stats as epic is not available")
+        return None
+    if not (user := get_local_user_id()):
+        return None
+    eos_stats = epic_eos.eos_platform.GetStatsInterface()
+    opts = cdefs.EOS_Stats_CopyStatByNameOptions(
+        TargetUserId = user,
+        Name = str_to_bytes(name),
+    )
+    stat = ctypes.POINTER(cdefs.EOS_Stats_Stat)()
+    result = eos_stats.CopyStatByName(opts, ctypes.byref(stat))
+    if result.value != cdefs.EOS_Success.value:
+        epic_eos.ren.log(500, epic_eos.renpy_category, f"Failed to get user stat {name}: Error code {result.value}")
+        return None
+    retstat = SimpleNamespace(
+        name = stat.contents.Name,
+        start_time = stat.contents.StartTime,
+        end_time = stat.contents.EndTime,
+        value = stat.contents.Value,
+    )
+    stat.contents.Release()
+    return retstat
 
 def retrieve_stats(names=[]): # type: (Optional[List[str]]) -> None
     """Schedule a player stats update."""
