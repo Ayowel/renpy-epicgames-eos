@@ -29,7 +29,7 @@ sdk_path = os.path.join(tmp_dir, 'SDK.zip')
 
 print('Downloading SDK zip file to', sdk_path)
 # For some reason, epic blocks the urllib python agent
-req = request.Request(SDK_URL, headers={'user-agent': 'curl/7.81.0'})
+req = request.Request(SDK_URL, headers={'user-agent': 'curl/8.15.0', 'Accept': '*/*'})
 with open(sdk_path, 'wb') as out_file:
     with request.urlopen(req) as datastream:
         databuffer = datastream.read()
