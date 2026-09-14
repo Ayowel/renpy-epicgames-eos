@@ -167,10 +167,17 @@ def epic_init():
     else:
         epic_eos.ren.log(300, epic_eos.renpy_category, "Skipped platform creation and login because Epic Online Services v{} is already started (status: {})".format(bytes_to_str(cdefs.EOS_GetVersion()), epic_eos.eos_platform.GetApplicationStatus().value))
 
-    if hasattr(config, 'python_exit_callbacks') and epic_shutdown not in config.python_exit_callbacks:
-        config.python_exit_callbacks.append(epic_shutdown)
-    elif hasattr(config, 'quit_callbacks') and epic_shutdown not in config.quit_callbacks:
-        config.quit_callbacks.append(epic_shutdown)
+    # python_exit_callbacks introduced in Ren'Py 8.3.0 
+    for exit_callback_handler in ('python_exit_callbacks', 'quit_callbacks'):
+        # hasattr/getattr fail with a raw Exception if the attribute does not
+        # exist, so we have to wrap the existence check in a try/except
+        try:
+            is_valid = hasattr(config, exit_callback_handler) 
+        except Exception:
+            is_valid = False
+        if is_valid and epic_shutdown not in getattr(config, exit_callback_handler):
+            getattr(config, exit_callback_handler).append(epic_shutdown)
+            break
 
     return True
 
