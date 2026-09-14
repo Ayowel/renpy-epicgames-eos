@@ -250,6 +250,7 @@ EOS_CustomInvites_RemoveNotifyRequestToJoinReceived = not_ready
 EOS_CustomInvites_RemoveNotifySendCustomNativeInviteRequested = not_ready
 EOS_CustomInvites_RemoveNotifyRequestToJoinAccepted = not_ready
 EOS_CustomInvites_RemoveNotifyRequestToJoinRejected = not_ready
+EOS_CustomInvites_DisableRequestToJoin = not_ready
 EOS_Leaderboards_GetLeaderboardDefinitionCount = not_ready
 EOS_Leaderboards_CopyLeaderboardDefinitionByIndex = not_ready
 EOS_Leaderboards_CopyLeaderboardDefinitionByLeaderboardId = not_ready
@@ -658,8 +659,8 @@ EOS_Presence_AddNotifyOnPresenceChanged = not_ready
 EOS_Presence_AddNotifyJoinGameAccepted = not_ready
 EOS_MAJOR_VERSION = 1
 EOS_MINOR_VERSION = 19
-EOS_PATCH_VERSION = 0
-EOS_HOTFIX_VERSION = 3
+EOS_PATCH_VERSION = 1
+EOS_HOTFIX_VERSION = 2
 EOS_COMPANY_NAME = "Epic Games, Inc."
 EOS_COPYRIGHT_STRING = "Copyright Epic Games, Inc. All Rights Reserved."
 EOS_PRODUCT_NAME = "Epic Online Services SDK"
@@ -1052,6 +1053,7 @@ EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINRESPONSERECEIVED_API_LATEST = 1
 EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINRECEIVED_API_LATEST = 1
 EOS_CUSTOMINVITES_ACCEPTREQUESTTOJOIN_API_LATEST = 1
 EOS_CUSTOMINVITES_REJECTREQUESTTOJOIN_API_LATEST = 1
+EOS_CUSTOMINVITES_DISABLEREQUESTTOJOIN_API_LATEST = 1
 EOS_CUSTOMINVITES_ADDNOTIFYSENDCUSTOMNATIVEINVITEREQUESTED_API_LATEST = 1
 EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINACCEPTED_API_LATEST = 1
 EOS_CUSTOMINVITES_ADDNOTIFYREQUESTTOJOINREJECTED_API_LATEST = 1
@@ -1475,6 +1477,7 @@ EOS_Ecom_CatalogItemStale = EOS_EResult(4002)
 EOS_Ecom_CatalogOfferPriceInvalid = EOS_EResult(4003)
 EOS_Ecom_CheckoutLoadError = EOS_EResult(4004)
 EOS_Ecom_PurchaseProcessing = EOS_EResult(4005)
+EOS_Ecom_CatalogOfferInvalid = EOS_EResult(4006)
 EOS_Sessions_SessionInProgress = EOS_EResult(5000)
 EOS_Sessions_TooManyPlayers = EOS_EResult(5001)
 EOS_Sessions_NoPermission = EOS_EResult(5002)
@@ -4932,6 +4935,9 @@ class EOS_HCustomInvites(c_void_p):
     def RejectRequestToJoin(self, Options, ClientData, CompletionDelegate):
         # type: (EOS_HCustomInvites, POINTER(EOS_CustomInvites_RejectRequestToJoinOptions), c_void_p, EOS_CustomInvites_OnRejectRequestToJoinCallback) -> None
         return EOS_CustomInvites_RejectRequestToJoin(self, Options, ClientData, CompletionDelegate)
+    def DisableRequestToJoin(self, Options):
+        # type: (EOS_HCustomInvites, POINTER(EOS_CustomInvites_DisableRequestToJoinOptions)) -> EOS_EResult
+        return EOS_CustomInvites_DisableRequestToJoin(self, Options)
 EOS_AllocateMemoryFunc = CFUNCTYPE(c_void_p, c_size_t, c_size_t)
 EOS_ReallocateMemoryFunc = CFUNCTYPE(c_void_p, c_void_p, c_size_t, c_size_t)
 EOS_ReleaseMemoryFunc = CFUNCTYPE(None, c_void_p)
@@ -9607,6 +9613,13 @@ class EOS_CustomInvites_RejectRequestToJoinCallbackInfo(Structure):
     ]
     def __init__(self, ResultCode = 0, ClientData = None, LocalUserId = None, TargetUserId = None):
         Structure.__init__(self, ResultCode = ResultCode, ClientData = ClientData, LocalUserId = LocalUserId, TargetUserId = TargetUserId)
+class EOS_CustomInvites_DisableRequestToJoinOptions(Structure):
+    _pack_ = PACK
+    _fields_ = [
+        ('ApiVersion', c_int32),
+    ]
+    def __init__(self, ApiVersion = EOS_CUSTOMINVITES_DISABLEREQUESTTOJOIN_API_LATEST):
+        Structure.__init__(self, ApiVersion = ApiVersion)
 class EOS_CustomInvites_AddNotifySendCustomNativeInviteRequestedOptions(Structure):
     _pack_ = PACK
     _fields_ = [
@@ -13999,6 +14012,11 @@ def load(dll):
     EOS_CustomInvites_RemoveNotifyRequestToJoinRejected = dll.EOS_CustomInvites_RemoveNotifyRequestToJoinRejected
     EOS_CustomInvites_RemoveNotifyRequestToJoinRejected.argtypes = [EOS_HCustomInvites, EOS_NotificationId]
     EOS_CustomInvites_RemoveNotifyRequestToJoinRejected.restype = None
+
+    global EOS_CustomInvites_DisableRequestToJoin
+    EOS_CustomInvites_DisableRequestToJoin = dll.EOS_CustomInvites_DisableRequestToJoin
+    EOS_CustomInvites_DisableRequestToJoin.argtypes = [EOS_HCustomInvites, POINTER(EOS_CustomInvites_DisableRequestToJoinOptions)]
+    EOS_CustomInvites_DisableRequestToJoin.restype = EOS_EResult
 
     global EOS_Leaderboards_GetLeaderboardDefinitionCount
     EOS_Leaderboards_GetLeaderboardDefinitionCount = dll.EOS_Leaderboards_GetLeaderboardDefinitionCount
