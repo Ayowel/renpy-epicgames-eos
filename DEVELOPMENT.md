@@ -77,4 +77,5 @@ Note that the `epic_api_generator` module will output a list of functions that c
 
 Once the update is tested:
 
+* Clean-up intermediate spec files: `rm -rf eos-sdk-spec.zip spec/`
 * Update the README's shield text to match the SDK version
